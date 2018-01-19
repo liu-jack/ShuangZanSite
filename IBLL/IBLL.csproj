@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F5F15E8D-8048-47BE-AD15-E6468DD7CCC7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>IBLL</RootNamespace>
+    <AssemblyName>IBLL</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="IActionInfoBll.cs" />
+    <Compile Include="IAdvertisementBll.cs" />
+    <Compile Include="IAuditLogBll.cs" />
+    <Compile Include="IBaseBll.cs" />
+    <Compile Include="IBeautifulGirlsBll.cs" />
+    <Compile Include="IBlackListIPBll.cs" />
+    <Compile Include="ICompanyBll.cs" />
+    <Compile Include="ICompanyGameBll.cs" />
+    <Compile Include="IDemoUserBll.cs" />
+    <Compile Include="IFeedbackBll.cs" />
+    <Compile Include="IForbiddenListBll.cs" />
+    <Compile Include="IGameBll.cs" />
+    <Compile Include="IGameDemoAccountsBll.cs" />
+    <Compile Include="IGameDemoBll.cs" />
+    <Compile Include="IGameDemoRechargeBll.cs" />
+    <Compile Include="IGameDemoRequiresBll.cs" />
+    <Compile Include="IGiftBll.cs" />
+    <Compile Include="IHomePageBll.cs" />
+    <Compile Include="IKeyWordsBll.cs" />
+    <Compile Include="ILeaveMsgBll.cs" />
+    <Compile Include="INewsBll.cs" />
+    <Compile Include="IOpenServiceBll.cs" />
+    <Compile Include="IPackageBll.cs" />
+    <Compile Include="IPackageCardBll.cs" />
+    <Compile Include="IPersonalUserBll.cs" />
+    <Compile Include="IPersonalUserSignBll.cs" />
+    <Compile Include="IPersonalUserSignDetailBll.cs" />
+    <Compile Include="IRechargeBll.cs" />
+    <Compile Include="IRechargedUsedBll.cs" />
+    <Compile Include="IRoleInfoBll.cs" />
+    <Compile Include="IR_UserInfo_ActionInfoBll.cs" />
+    <Compile Include="ISeeNewsBll.cs" />
+    <Compile Include="ISeoBll.cs" />
+    <Compile Include="ITestBll.cs" />
+    <Compile Include="IUserAdressBll.cs" />
+    <Compile Include="IUserInfoBll.cs" />
+    <Compile Include="IUserMessageBll.cs" />
+    <Compile Include="IUserRaidersBll.cs" />
+    <Compile Include="IOrderBll.cs" />
+    <Compile Include="IVerificationCodeBll.cs" />
+    <Compile Include="IWonderfulTxtImgBll.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Model\Models.csproj">
+      <Project>{ca209487-fa56-413d-9fe8-bce472b45b00}</Project>
+      <Name>Models</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\IBLL.dll" />
+    <Content Include="obj\Debug\IBLL.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Debug\IBLL.dll" />
+    <Content Include="obj\Debug\IBLL.pdb" />
+    <Content Include="obj\Debug\TempPE\bin.Debug.ShuangZanModelDB.Context1.cs.dll" />
+    <Content Include="obj\Debug\TempPE\bin.Debug.ShuangZanModelDB1.cs.dll" />
+    <Content Include="obj\Debug\TempPE\bin.Release.ShuangZanModelDB.Context1.cs.dll" />
+    <Content Include="obj\Debug\TempPE\bin.Release.ShuangZanModelDB1.cs.dll" />
+    <Content Include="obj\Release\IBLL.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Release\IBLL.dll" />
+    <Content Include="obj\Release\IBLL.pdb" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <None Include="obj\Debug\IBLL.csprojResolveAssemblyReference.cache" />
+    <None Include="obj\Release\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <None Include="obj\Release\IBLL.csprojResolveAssemblyReference.cache" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="obj\Release\TempPE\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

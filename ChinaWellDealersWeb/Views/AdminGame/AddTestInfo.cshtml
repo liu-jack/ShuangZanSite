@@ -1,0 +1,136 @@
+﻿@{
+    ViewBag.Title = "AddTestInfo";
+    Layout = "~/Views/Shared/_LayoutAdminData.cshtml";
+}
+<link href="~/Content/style/tableStyle.css" rel="stylesheet" />
+<script src="~/Content/My97DatePicker/WdatePicker.js"></script>
+<script src="~/Scripts/MyAjaxForm.js"></script>
+<link href="~/Content/layui-v1.0.9_rls/layui/css/modules/layer/default/layer.css" rel="stylesheet" />
+<script src="~/Content/layui-v1.0.9_rls/layui/lay/modules/layer.js"></script>
+<script type="text/javascript">
+    function submitForm() {
+       
+        if ($('#gamename').val() == "") {
+            layer.msg("提示：请输入游戏名称!");
+            return;
+        }
+        if ($('#state').val() == "") {
+            layer.msg("提示：请输入游戏状态!");
+            return;
+        }
+        if ($('#url').val() == "" || $('#url').val() == "http://") {
+            layer.msg("提示：请输入游戏网址!");
+            return;
+        }
+        //if ($('#packageUrl').val() == "" || $('#packageUrl').val() == "http://") {
+        //    layer.msg("提示：请输入礼包链接!");
+        //    return;
+        //}
+        layer.confirm('提示：您是否已确认输入无误？', {
+           skin: 'layui-layer-lan',
+            btn: ['是的', '没有呀'] //按钮
+        }, function () {
+            $.ajax({
+                url: '/AdminGame/AddTest',
+                type: "post",
+                data: {                    
+                    gamename: $('#gamename').val(),
+                    startday: $("#startday").val() + " " + $("#time").val() + ":0:0",
+                    state: $('#state').val(),
+                    url: $('#url').val(),
+                    packageUrl: $('#packageUrl').val(),                   
+                },
+                success: function (data) {
+                    if (data == "ok") {
+                        layer.msg("恭喜：添加成功!");
+                        window.setTimeout(function () {
+                            window.location.href = "/AdminGame/Test";
+                        }, 1300);
+                    } else if (data == "no") {
+                        layer.msg("提示：添加失败！");
+                    }  else {
+                        layer.msg("提示：系统异常请稍候再试！");
+                    }
+                },
+            });
+        });
+    }
+</script>
+<style type="text/css">
+    .easyui-textbox {
+        width:370px;
+        height: 25px;      
+    }
+</style>
+
+    <form id="ff" class="easyui-form" method="post" data-options="novalidate:true">
+        <table width="80%" border="0" cellpadding="0" cellspacing="0" class="form_tb">
+            <thead>
+                <tr>
+                    <th colspan="2" > 添加开测表</th>
+                </tr>
+               
+            </thead>
+            <tr>
+                <td width="100" align="right">游戏名</td>
+                <td><input name="gamename" type="text" id="gamename" list="gamelist" /></td>
+            </tr>
+            <tr>
+                <td align="right">开测时间</td>
+                <td>
+                    <input name="startday" type="text" id="startday" onfocus="WdatePicker()" style="width: 120px;" value="@DateTime.Now.ToString("yyyy-MM-dd")"/>
+      
+                                  <select name="time" id="time">
+                        <option value="0">00</option>
+                        <option value="1">01</option>
+                        <option value="2">02</option>
+                        <option value="3">03</option>
+                        <option value="4">04</option>
+                        <option value="5">05</option>
+                        <option value="6">06</option>
+                        <option value="7">07</option>
+                        <option value="8">08</option>
+                        <option value="9">09</option>
+                        <option  value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="17">17</option>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                        <option value="20">20</option>
+                        <option value="21">21</option>
+                        <option value="22">22</option>
+                        <option value="23">23</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td align="right">状态</td>
+                <td><input name="state" type="text" id="state" class="easyui-textbox" value="留档二次封测" /></td>
+            </tr>
+            <tr>
+                <td align="right">游戏网址</td>
+                <td><input name="url" type="text" id="url" class="easyui-textbox" value="http://" /></td>
+            </tr>
+            <tr>
+                <td align="right">礼包链接</td>
+                <td><input name="packageUrl" type="text" id="packageUrl" class="easyui-textbox" value="http://" /></td>
+            </tr>
+            <tr>
+                <td align="right"></td>
+                <td style="padding-top: 15px;">
+                    <a href="javascript:void(0)" class="easyui-linkbutton c6" style="width:80px;height:25px;" onclick="submitForm()">添&nbsp;加</a>
+                    <a class="easyui-linkbutton c3" style="width:80px;height:25px;" onclick="history.go(-1)">返&nbsp;回</a>
+                </td>
+            </tr>
+        </table>
+        </form>
+       @Html.Action("GameNameListPartial", "Game")
+       
+
+
+

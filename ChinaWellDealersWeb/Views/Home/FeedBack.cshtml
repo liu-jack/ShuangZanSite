@@ -1,0 +1,118 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="keywords" content="爽赞网,爽赞网平台,爽赞,游戏平台,网页游戏开服表,游戏攻略">
+    <meta name="description" content="爽赞网（shuangzan.com）隶属于杭州风特网络科技有限公司，致力于打造中国最炫最酷的网页游戏门户社区，以专注的态度为游戏用户及游戏企业提供全方位多元化的内容资讯、互动娱乐及增值服务。">
+    <title>关于爽赞_爽赞网简介_爽赞网</title>
+    <meta name="viewport" content="width=1120">   
+    <link href="/Content/Img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+    <link href="~/Content/Css/about.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="dttop">
+
+        <p><img src="/Content/Img/Logo.png" /><a href="/">爽赞首页</a></p>
+
+    </div>
+    <div id="container">
+        <p class="wzdt01"><i></i><b>意见反馈</b></p>
+        <div id="wrong">
+            <p style="font-size:18px;font-weight: bold;color: #7bab14;margin:30px 0;">Hi，欢迎提交任何关于爽赞网的问题和建议，我们将尽快回复您。感谢您对爽赞网的帮助。</p>
+            <p style="font-size:16px;color:#4c4c4c">问题与建议描述：</p>
+            <div>
+                <div class="lf">
+
+                    <textarea name="" rows="" cols="" id="opinion" placeholder="请详细描述您遇到的问题，有助于我们快速分析并定位原因，帮您解决问题~"></textarea>
+                </div>
+                <div class="rf">
+                    <p>如果提交有关浏览速度、系统BUG、视觉显示等问题，请注明您使用的操作系统、浏览器，以便我们尽快对应查找问题并解决。</p>
+                    <p class="texterr" style="display: none;">请输入问题与建议描述</p>
+                </div>
+            </div>
+            <div>
+                <div class="lf">
+                    <p style="font-size:16px;color:#4c4c4c;margin-top: 30px;">请留下您的联系方式：</p>
+                    <p class="p1"><input type="text" placeholder="请输入 QQ/邮箱/联系电话" class="contact" /></p>
+                    <p class="p2"><input type="button" value="提交反馈" id="submitbtn" /></p>
+                </div>
+                <div class="rf">
+                    <p class="callerr" style="display: none;">请输入联系方式</p>
+                </div>
+            </div>
+        </div>
+        <div id="wrongsucc" style="display: none;">
+            <p style="margin-top: 80px;font-size: 24px;color: #4C4C4C;text-align: center;font-weight: bold;">提交成功！</p>
+            <p style="margin-top: 20px;color: #808080;font-size: 16px;text-align: center;">感谢您对我们工作的支持，我们会尽快给您答复，请耐心等待。</p>
+            <p style="text-align: center;"><a href="/"><input type="button" id="Gohome" value="返回爽赞首页" /></a></p>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="footernr">
+            <p class="footp1"><a href="/Home/About" rel="nofollow" target="_blank">关于爽赞</a>|<a href="/Home/Contact" rel="nofollow" target="_blank">联系我们</a>|<a href="/Home/SiteMap" rel="nofollow" target="_blank">网站地图</a>|<a href="/Home/FeedBack" rel="nofollow" target="_blank">意见反馈</a></p>
+            <p class="footp2"><span>网站备案：皖ICP备15025599号-2</span><span>网络文化经营许可证编号：皖网文[2016]0965-020号</span></p>
+        </div>
+    </div>
+    <script src="~/Content/js/jquery-1.11.1.min.js"></script>
+    <script src="~/Content/js/myExtend.js"></script>
+    <script type="text/javascript">
+        $("#opinion").blur(function () {
+            var texts = $("#opinion").val();
+            if (texts == "") {
+                $(".texterr").show();
+            } else {
+                $(".texterr").hide();
+            }
+        })
+        $("#opinion").focus(function () {
+            $(".texterr").hide();
+        })
+
+        $(".contact").blur(function () {
+            var calls = $(".contact").val();
+            if (calls == "") {
+                $(".callerr").show();
+            } else {
+                $(".callerr").hide();
+            }
+        })
+        $(".contact").focus(function () {
+            $(".callerr").hide();
+        })
+
+        //提交
+        $("#submitbtn").click(function () {
+            var texts = $("#opinion").val().trim();
+            var calls = $(".contact").val().trim();
+            console.log(texts, calls)
+            if (texts == "") {
+                $(".texterr").show()
+            } else if (calls == "") {
+                $(".callerr").show()
+            } else {
+                $.ajax({
+                    type: "Post",
+                    url: "/Home/FeedBack",
+                    data: {
+                        msg: texts,
+                        mobile: calls,
+                    },
+                    success: function (data) {
+
+                        if (data == "ok") {
+                            $("#wrong").hide();
+                            $("#wrongsucc").show();
+                        } else {
+                            alert("提交失败！");
+                        }
+                    }
+                   
+                });
+            }
+        })
+    </script>
+</body>
+</html>

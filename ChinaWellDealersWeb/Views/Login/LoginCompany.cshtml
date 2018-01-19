@@ -1,0 +1,209 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>爽赞-厂商登录</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="~/Scripts/jquery-1.11.1.min.js"></script>
+    <script src="~/Content/js/jquery.cookie.js"></script>
+    <link href="~/Content/Css/RegHead.css" rel="stylesheet" />
+    <link href="/Content/Img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+    <link href="~/Content/layui-v1.0.9_rls/layui/css/modules/layer/default/layer.css" rel="stylesheet" />
+    <script src="~/Content/layui-v1.0.9_rls/layui/lay/modules/layer.js"></script>
+    <script src="~/Scripts/MyAjaxForm.js"></script>
+    <style type="text/css">
+        #main {
+            width: 1012px;
+            margin: 0 auto;
+            background-image: url(/Content/Img/106.jpg);
+            font-family: 'Microsoft YaHei';
+        }
+
+            #main > div > div {
+                clear: both;
+                height: 80px;
+                position: relative;
+            }
+
+            #main span#bottom label {
+            }
+
+            #main > div > div > span {
+                position: absolute;
+                text-align: right;
+                display: block;
+                float: left;
+                width: 300px;
+                padding: 10px 10px 0 0;
+                font-size: 16px;
+            }
+
+            #main > div > div > input {
+                position: absolute;
+                left: 310px;
+                width: 350px;
+                padding-left: 10px;
+                height: 40px;
+                font-size: 14px;
+            }
+
+                #main > div > div > input.s {
+                    color: #2B2B2B !important;
+                }
+
+            #main > div > div .alt {
+                position: absolute;
+                left: 310px;
+                top: 50px;
+                color: #FF0000;
+                font-size: 13px;
+            }
+
+            #main > div > div a {
+                position: absolute;
+                text-align: right;
+                left: 600px;
+                top: 50px;
+                width: 70px;
+                color: #999999;
+                font-size: 14px;
+                text-decoration: none;
+            }
+
+                #main > div > div a:hover {
+                    color: #7BAB14;
+                }
+
+                #main > div > div a#reg {
+                    top: 0;
+                    color: #309CEF;
+                }
+
+                    #main > div > div a#reg:hover {
+                        color: #0083E7;
+                    }
+
+            #main > div > div > label#save {
+                position: absolute;
+                cursor: pointer;
+                left: 310px;
+                width: 360px;
+                font-size: 16px;
+            }
+
+            #main > div > div > label {
+                position: absolute;
+                left: 310px;
+                font-size: 14px;
+            }
+
+                #main > div > div > label * {
+                    display: block;
+                    float: left;
+                    color: #ABABAB;
+                }
+
+                #main > div > div > label input {
+                    margin-left: 0;
+                }
+    </style>
+</head>
+<body>
+    <div id="reg_head">
+        <div>
+            <a href="/Home/Index"></Img src="/Content/Img/Logo.png" alt="" /></a>
+            <img src="/Content/Img/102.jpg" alt="" />
+        </div>
+        <span>
+            <!-- <font>已有帐号，<a href="/Login.aspx">马上登录</a></font> -->
+            <a href="/Home/Index">爽赞首页</a>
+        </span>
+    </div>
+    <form id="form1" enctype="multipart/form-data" method="post" data-options="novalidate:true ">
+        <div id="main">
+            <img src="/Content/Img/104.jpg" alt="" />
+            <div style="width: 960px; margin: 0 auto;">
+                <img src="/Content/Img/116.jpg" alt="" />
+                <img src="/Content/Img/112.jpg" alt="" style="margin-bottom: 40px;" usemap="#Map" />
+                <map name="Map" id="Map">
+                    <area shape="rect" alt="" coords="320,0,425,36" href="/Login/PersonalLogin" style="outline: none;" />
+                </map>
+                <div>
+                    <span><img src="/Content/Img/118.jpg" alt="" /></span>
+                    <input type="text" id="uname" name="uname" class="inputtext" placeholder="用户名" />
+                    <samp class="alt"></samp>
+                </div>
+                <div>
+                    <span><img src="/Content/Img/117.jpg" alt="" /></span>
+                    <input type="password" id="pass" name="pass" class="inputtext" placeholder="密码" />
+                    <samp class="alt"></samp>
+                    <a href="/Login/CpyFindPwd">忘记密码?</a>
+                </div>
+                <div style="height: 50px;">
+                    <label id="save" class="btn" style="line-height: 40px;">登录</label>
+                </div>
+                <div>
+                    <label>
+                        <input type="checkbox" id="agree" />
+                        <span>下次自动登录（使用公共电脑勿勾选）</span>
+                    </label>
+                    <a href="/Login/RegCompany" id="reg">立即注册</a>
+                </div>
+            </div>
+            <img src="/Content/Img/105.jpg" alt="" />
+
+        </div>
+    </form>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if (window.top.location.pathname != "/Login/LoginCompany")
+                window.top.location.href = "/Login/LoginCompany";
+            if ($("#agree").is(":checked")) {
+                //自动登录
+                var exdate=new Date();
+                exdate.setDate(exdate.getDate() + expiredays);
+                document.cookie=c_name+ "=" + escape(value) + ((expiredays==null) ? "" : ";expires="+exdate.toGMTString());
+            }
+            $("#save").click(function () {
+                var uname = $("#uname"), pass = $("#pass");
+                if (uname.val().trim() == "") {
+                    uname.parent("div").find(".alt").html("请输入用户名！");
+                    uname.focus();
+                    return;
+                }
+                uname.parent("div").find(".alt").html("");
+                if (pass.val().trim() == "") {
+                    pass.parent("div").find(".alt").html("请输入密码！");
+                    pass.focus();
+                    return;
+                }              
+                $.ajax({
+                    url: "/Login/LoginCpy",
+                    type: "Post",
+                    data: {
+                        uname: uname.val().trim(),
+                        pass: pass.val().trim(),
+                        check: $("#agree").is(":checked")?'true':'false',
+                    },
+                    success: function (data) {
+                        var msgData = data.split(":");
+                        if (msgData[0] == "ok") {
+                         
+                           // layer.msg(msgData[1]);
+                            top.location.href = "/FrontCompany/Index";
+                        }
+                        else if (msgData[0] == "errorState") {
+                            layer.msg(msgData[1]);
+                        } else if (msgData[0] == "no"){
+
+                            layer.msg(msgData[1]);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html>
+<head >
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="~/Content/style/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/style/fileinput.css" rel="stylesheet" />
+    <link href="~/Content/style/custom/fileupload.css" rel="stylesheet" />  
+    <script src="~/Content/js/jquery-1.10.2.js"></script>
+    <script src="~/Content/js/bootstrap.js"></script>
+    <script src="~/Content/js/respond.js"></script>
+    <script src="~/Content/js/fileinput.js"></script>
+    <script src="~/Content/js/fileinput_locale_zh.js"></script>
+
+    <link href="~/Content/layui-v1.0.9_rls/layui/css/modules/layer/default/layer.css" rel="stylesheet" />
+    <script src="~/Content/layui-v1.0.9_rls/layui/lay/modules/layer.js"></script>
+</head>
+<body >
+    <form id="frm" >
+        <div class="container">
+            <div class="row">
+                <div>
+                    <span class="label label-success" id="title" style="height: 30px; display: block; font-size: 24px;">信谊资质图片上传</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <!--data-upload-url="/AdminData/ImgUpload"-->
+                    <input id="fileInput"  name="file" type="file" multiple="multiple" >
+                </div>
+                <hr>
+                <div class="form-group" style="display: none;">
+                    <button class="btn btn-primary">提交</button>
+                    <button class="btn btn-primary">返回</button>
+                </div>
+                <hr>
+            </div>
+            <div class="row"></div>
+        </div>
+    </form> 
+    <script type="text/javascript">
+        $('#fileInput').fileinput({
+            language: 'zh', //设置语言
+           uploadUrl: "/AdminData/ImgUpload", //上传的地址www.ggfenxiang8.com
+            autoReplace: true,
+             maxFileCount: 100,
+            enctype: 'multipart/form-data',
+            showUpload: true, //是否显示上传按钮
+            showCaption: true,//是否显示标题         
+            allowedFileExtensions: ["jpg", "png", "gif", "docx", "txt"],
+            browseClass: "btn btn-primary", //按钮样式
+            previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+            msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",   
+        }); 
+        $("#fileInput").on("fileuploaded", function (event, data, previewId, MoreImgUpload) {
+            var res = data.response;
+            if (res.State == 1) {
+                layer.msg("恭喜：图片上传成功");                                       
+            }
+            else {
+                layer.msg('提示：图片上传失败')
+            }
+        })    
+    </script>
+</body>
+</html>
+

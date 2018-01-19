@@ -1,0 +1,169 @@
+﻿@{
+    Layout = null;
+    List<CompanyViewModel> recCpy = (List<CompanyViewModel>)ViewBag.RecCompany;
+}
+@using Models.MapModel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>好玩又赚钱的页游_好玩的页游平台推荐_爽赞网</title>
+    <meta name="keywords" content="哪个平台的页游好玩，好玩的页游平台，赚钱页游平台，页游试玩平台，游戏厂商">
+    <meta name="description" content="爽赞网推荐好玩又能赚钱的页游平台，提供各大游戏厂商的试玩体验，在游戏中赚钱，换取各种精美礼品，找页游，就上爽赞网">
+    <link href="~/Content/Css/index.css" rel="stylesheet" />
+    <link href="~/Content/Css/reset.css" rel="stylesheet" />
+    <link href="~/Content/Css/amoywel.css" rel="stylesheet" />
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="~/Content/Css/lunbo.css" rel="stylesheet" />
+    <link href="~/Content/Css/news.css" rel="stylesheet" />
+    <link href="~/Content/Css/commercial.css" rel="stylesheet" />
+    <link href="~/Content/Css/manufacturer.css" rel="stylesheet" />
+    <link href="~/Content/Css/usename.css" rel="stylesheet" />
+    <link href="~/Content/style/NavPager.css" rel="stylesheet" />
+    <link href="/Content/Img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+</head>
+<body>
+   @Html.Action("_TwoShuangzanHeader", "Home")
+   
+    <div class="commercial wide">
+        @foreach (var item in (List<Models.Advertisement>)ViewData["advert"])
+        {
+
+            <a href="@item.Url" class="banner_one">
+                <embed src="@item.Path" wmode="transparent" type="application/x-shockwave-flash" wmode="transparent" pluginspage="http://www.macromedia.com/go/getflashplayer" width="540" height="100">
+            </a>
+        }   
+    </div>
+ 
+    <div class="wide details">当前位置：<a href="/">爽赞网</a> > <a href="/Home/Manufacturer">厂商大全</a></div>
+    <div class="info wide clearfix">
+        <div id="factorys">
+            <img src="/Content/Img/title.png" alt="" />
+            <ul id="tjfactorys">
+               @for (int i = 0; i < recCpy.Count; i++)
+              
+                {
+                    if (i<=7)
+                    {
+                        <li><a href="/Home/CpyDetails/@recCpy[i].Id" target="_blank"><img src="/Content/CompanyImg/@recCpy[i].Logo" alt="@recCpy[i].Systemname"><p>@recCpy[i].Systemname</p></a></li> 
+                    }                   
+                }
+            </ul>
+        </div>
+        <div id="factorylist">
+            <p>
+                <i>厂商大全</i><span class="sousou sousou1">
+                    <s></s><input type="text" placeholder="平台名" class="sotxt">
+                               <input type="button" id="companyName" name="companyName" value="搜厂商" class="Searstrate">
+                </span>
+                <span class="cslink">
+                    @foreach (var item in (List<Models.Seo>)ViewBag.SeoCpy)
+                    {                                         
+                <a href="@item.Url" target="_blank">@item.Name</a>@Html.Raw('|')
+                    }                
+                </span>
+            </p>
+            <ul class="listtop">
+                <li class="allcompany">全部</li>
+                <li class="num9">0-9</li>
+                <li class="A">A</li>
+                <li class="B">B</li>
+                <li class="C">C</li>
+                <li class="D">D</li>
+                <li class="E">E</li>
+                <li class="F">F</li>
+                <li class="G">G</li>
+                <li class="H">H</li>
+                <li class="I">I</li>
+                <li class="J">J</li>
+                <li class="K">K</li>
+                <li class="L">L</li>
+                <li class="M">M</li>
+                <li class="N">N</li>
+                <li class="O">O</li>
+                <li class="P">P</li>
+                <li class="Q">Q</li>
+                <li class="R">R</li>
+                <li class="S">S</li>
+                <li class="T">T</li>
+                <li class="U">U</li>
+                <li class="V">V</li>
+                <li class="W">W</li>
+                <li class="X">X</li>
+                <li class="Y">Y</li>
+                <li class="Z">Z</li>
+            </ul>
+            <div class="factorylist-company"></div>
+        </div>
+    </div>
+    @Html.Partial("_HotGame")
+    @Html.Partial("_ShuangZanFooter")
+    <script src="~/Content/js/jquery-1.11.1.min.js"></script>
+    <script src="~/Content/js/jquery.SuperSlide.2.1.1.js"></script>
+    <script src="~/Content/js/personal_use.js"></script>
+    <script src="~/Content/js/Public.js"></script>
+    <script src="~/Content/js/manufacturer.js"></script>
+    <script>
+    $(function () {
+        function getUrlParam(name) {
+            var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)');
+            var result = window.location.search.substr(1).match(reg);
+            return result ? decodeURIComponent(result[2]) : null;
+        }
+        var type = "empty";
+        var key = getUrlParam('companyName') == 'null' ? 'null' : getUrlParam('companyName');
+        var pageIndex = 1;
+        var py = '';
+        loadMsg();
+        $('#factorylist').on('click', '.page ul a', function (event) {
+            event.preventDefault();
+            var href = $(this).attr("href").split('&');
+            href = href[0].split('=');
+            pageIndex = href[1];
+            loadMsg();
+        });
+        $('.listtop li').click(function () {
+            key = '';
+            py = $(this).text();
+            if (py=='全部') {
+                py = '';
+            }
+            pageIndex = 1;
+            loadMsg();
+        })
+        $('.Searstrate').click(function () {
+            key = $('.sotxt').val();
+            pageIndex = 1;
+            loadMsg();
+        })
+
+    
+
+        function loadMsg() {
+            $.ajax({
+                datatype: 'JSON',
+                type: 'POST',
+                url: '/Home/GetCompanyList',
+                data: {
+                    pageIndex: pageIndex,
+                    key: key,
+                    py: py
+                },
+                success: function (data) {
+                    $('.factorylist-company').empty();
+                    var ul = $('<ul id="lists"></ul>');
+                    for (var i in data.Data) {
+                        var str = '<li><a href="/Home/CpyDetails/' + data.Data[i].Id + '"><div><img src="/Content/CompanyImg/' + data.Data[i].Logo + '" alt="' + data.Data[i].Systemname + '"></div><div class="listsmg"><p><b class="csname">' + data.Data[i].Systemname + '</b></p><s></s><p class="csmsg">' + data.Data[i].CopanyMsg + '</p></div></a></li>';
+                        ul.append(str);
+                    }
+                    $('.factorylist-company').append(ul);
+                    $('.factorylist-company').append('<div class="page"><ul id="paginator">' + data.NavStr + '</ul></div>');
+                }
+            })
+        }
+
+    })
+    </script>
+
+</body>
+</html>

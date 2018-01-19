@@ -1,0 +1,98 @@
+﻿@{
+    Layout = null;
+ 
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=1124">
+    <title>个人中心</title>
+    <link href="~/Content/Css/index.css" rel="stylesheet" />
+    <link href="~/Content/Css/reset.css" rel="stylesheet" />
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="~/Content/Css/personal.css" rel="stylesheet" />
+    <link href="~/Content/Css/sign.css" rel="stylesheet" />
+    <link href="~/Content/Css/calendar.css" rel="stylesheet" />
+    <link href="~/Content/style/NavPager.css" rel="stylesheet" />
+    <link href="/Content/Img/favicon.ico" type="image/x-icon" rel="shortcut icon" /> 
+ 
+</head>
+<body>
+    <div>
+        @Html.Action("UserTop", "PersonalUser")
+        <!--消息中心-->
+        <div class="Messagecenter">
+                 
+        </div>
+    </div>
+    <!-- 消息删除确认弹框 -->
+    <div class="modal2 display">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <p>确定要删除该信息吗？</p>
+                <p>
+                    <input type="button" value="确定" id="confirm2" />
+                    <input type="button" value="取消" id="delcancel2" />
+                </p>
+            </div>
+        </div>
+    </div>
+    <!--尾部开始-->
+    @Html.Action("_SignInDiv", "PersonalUser")
+    <!--尾部结束-->
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260848027&web_id=1260848027" language="JavaScript"></script>
+    <script src="~/Content/js/jquery-1.11.1.min.js"></script>
+    <script src="~/Content/js/Public.js"></script>
+    <script src="~/Content/js/calendar.js"></script>
+    <script src="~/Content/js/myExtend.js"></script>
+    <script src="~/Content/js/personal_use.js"></script>
+    <script src="~/Content/js/calendar1.js"></script>
+    <script src="~/Scripts/datapattern.js"></script>
+    <script>
+        $(function () {
+            var pageIndex = 1;
+            loadGift();
+            $('.Messagecenter').on('click', '.page ul a', function (event) {
+                event.preventDefault();
+                var href = $(this).attr("href").split('&');
+                href = href[0].split('=');
+                pageIndex = href[1];
+                loadGift();
+            });
+            function loadGift() {
+                $.ajax({
+                    datatype: 'json',
+                    type: 'post',
+                    data: {
+                        pageIndex: pageIndex
+                    },
+                    url: '/PersonalUser/MyMsgCenter',
+                    success: function (data) {
+                        $('.Messagecenter').empty();
+                        var str, state;
+                        var old = $('<ul><li class="actives">全部信息</li><span>(共<i class="not-read"></i><i class="all-message">' + data.allCount + '</i>条)</span></ul><div class="fri"><label><input type="checkbox" name="" id="" class="checkboxs" value=""/><span>全选</span></label><button class="btn5 hasread">标记为已读</button><button class="btn5 delcheckbox">删除所选</button></div>');
+                        var all = $('<div class="fri"><label><input type="checkbox" name="" id="" class="checkboxs" value=""/><span>全选</span></label><button class="btn5 hasread">标记为已读</button><button class="btn5 delcheckbox">删除所选</button></div>');
+                        var div = $('<div id="Mess"></div>');
+                        for (var i in data.Data) {
+                            if (data.Data[i].State == 0) {
+                                state = 'a0';
+                            } else if (data.Data[i].State == 1) {
+                                state = 'a1';
+                            }
+                            var InTime = (eval(data.Data[i].InTime.replace(/\/Date\((\d+)\)\//gi, "new Date($1)"))).pattern("yyyy-M-d");
+                            str = '<div><input type="checkbox" name="key" class="checkbox" value="' + data.Data[i].Id + '"/><i class="' + state + '"></i><span class="Messtile">' + data.Data[i].Title + '</span><span class="msgbtn"><b>' + InTime + '</b><a style="display:none;">&times;</a></span><div class="emailmsg"><h3>' + data.Data[i].Title + '</h3><h6>' + data.Data[i].Msg + '</h6></div></div>';
+                            div.append(str);
+                        }
+                        $('.Messagecenter').append(old);
+                        $('.Messagecenter').append(div);
+                        $('.Messagecenter').append(all);
+                        $('.Messagecenter').append('<div class="page"><ul id="paginator">' + data.NavStr + '</ul></div>');
+                    }
+                })
+            }
+        })
+    </script>
+
+</body>
+</html>

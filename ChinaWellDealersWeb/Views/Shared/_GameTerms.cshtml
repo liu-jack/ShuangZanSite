@@ -1,0 +1,7 @@
+﻿
+<datalist id="gameTermslist">
+    @foreach (var item in (List<Models.KeyWords>)ViewBag.GameTerms)
+    {
+        <option value="@item.Key" termsId="@item.Id"/>
+    }
+</datalist>

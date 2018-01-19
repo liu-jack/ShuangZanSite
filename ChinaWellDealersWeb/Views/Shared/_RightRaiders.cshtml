@@ -1,0 +1,83 @@
+﻿@{
+    List<Models.MapModel.FrontNews> topNews = (List<Models.MapModel.FrontNews>)ViewData["ViewTopNews"];
+    List<Models.MapModel.RaidersViewModel> CurrentMonthTopTen = (List<Models.MapModel.RaidersViewModel>)ViewData["CurrentMonthTopTen"];
+   
+}
+<aside>
+    <div class="extendstrate extendstrate1">
+        <h5><span>攻略排行</span></h5>
+        @for (int i = 0; i < CurrentMonthTopTen.Count; i++)
+        {
+
+            if (CurrentMonthTopTen[i].EditTitle != null && CurrentMonthTopTen[i].EditTitle != "")
+            {
+                <p><i class="@Html.Raw('i')@(i+0)"></i><a target="_blank" href="/Raiders/RaidersDetail/@CurrentMonthTopTen[i].Id" title="@CurrentMonthTopTen[i].EditTitle">@CurrentMonthTopTen[i].EditTitle</a></p>
+            }
+            else
+            {
+                <p><i class="@Html.Raw('i')@(i+0)"></i><a target="_blank" href="/Raiders/RaidersDetail/@CurrentMonthTopTen[i].Id" title="@CurrentMonthTopTen[i].Title">@CurrentMonthTopTen[i].Title</a></p>
+            }
+        }
+    </div>
+
+    <div class="kfkckuai">
+        <div class="homekf2">
+            <h5><span>最新开服</span><a href="/OPenServices/ServiceIndex">更多>></a></h5>
+            <p class="kfkckuaiP">
+                <span class="intime">时间</span>
+                <span class="gamename">游戏名称</span>
+                <span class="linesys">运营商</span>
+                <span class="caozuo">操作</span>
+            </p>
+            <ul class="homekc2Ul">
+               
+            </ul>
+        </div>
+    </div>
+    <div class="welfare">
+        <h5><span>最强福利</span><a href="/Home/DemoList">更多>></a></h5>
+        <ul>
+            @foreach (var item in (List<Models.SqlMapModel.Sql_GameDemo>)ViewBag.NewsetGameDemo)
+            {
+                <li>
+                    <a href="/Home/DemoDetails/@item.Id">
+                        <img src="/Content/GameImg/@item.Img" alt="">
+                        <p>@item.GameName</p>
+                        <p>奖励<b>@item.PaySum</b>爽币</p>
+                        <span>立即试玩</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+    <div class="rank">
+        <h5><span>资讯排行</span></h5>
+        <ul>
+            @for (int i = 0; i < topNews.Count; i++)
+            {
+                if (i < 3)
+                {
+                    if (topNews[i].EditTitle != null && topNews[i].EditTitle != "")
+                    {
+                        <li><a href="/NewsInfo/NewsDetail/@topNews[i].Id"><span class="hot">@(i + 1)</span>@topNews[i].EditTitle</a></li>
+                    }
+                    else
+                    {
+                        <li><a href=""><span class="hot">@(i + 1)</span>@topNews[i].Title</a></li>
+                    }
+                }
+                else { 
+                
+                     if (topNews[i].EditTitle != null && topNews[i].EditTitle != "")
+                    {
+                        <li><a href="/NewsInfo/NewsDetail/@topNews[i].Id"><span >@(i+1)</span>@topNews[i].EditTitle</a></li>
+                    }
+                    else
+                    {
+                        <li><a href=""><span >@(i + 1)</span>@topNews[i].Title</a></li>
+                    }
+                }               
+            }           
+        </ul>
+    </div>
+</aside>

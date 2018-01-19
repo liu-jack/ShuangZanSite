@@ -1,0 +1,262 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=1124">
+    <link href="~/Content/Css/index.css" rel="stylesheet" />
+    <link href="~/Content/Css/reset.css" rel="stylesheet" />
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="~/Content/Css/usename.css" rel="stylesheet" />
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="/Content/Img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+    <title>爽币活动_爽赞网</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: "Microsoft YaHei";
+            color: #4C4C4C;
+            font-size: 14px;
+            border: 0;
+            box-sizing: border-box;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        body > img {
+            width: 100%;
+            height: 3775px;
+            position: absolute;
+            z-index: -1;
+            top: 0;
+            margin-top: 80px;
+        }
+
+        body > a {
+            display: none;
+        }
+
+        #container {
+            text-align: center;
+            background: url("/Content/Img/szhdbg.jpg") no-repeat center 0;
+        }
+
+        .hd-swyx {
+            /* width: 1100px; */
+            width: 10px;
+            position: relative;
+            margin: 0 auto;
+            height: 525px;
+        }
+
+            .hd-swyx b {
+                margin: 0 3px;
+            }
+
+        #hd-sw {
+            height: 833px;
+            background: url(/Content/Img/szhd003.png)no-repeat top center;
+        }
+
+        .hd-swyx img {
+            width: 200px;
+            height: 150px;
+        }
+
+        .hd-swyx li p input {
+            width: 100px;
+            height: 30px;
+            border-radius: 4px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #FFF;
+            background: #752f15;
+            cursor: pointer;
+        }
+
+        .sw-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #323232;
+            margin: 5px 0;
+        }
+
+        #hd-zsb {
+            height: 987px;
+            background: url(/Content/Img/szhd002.png) no-repeat top center;
+        }
+
+            #hd-zsb p {
+                width: 1100px;
+                margin: 0 auto;
+                height: 40px;
+                position: relative;
+            }
+
+        .gocz {
+            display: block;
+            width: 180px;
+            height: 50px;
+            position: absolute;
+            top: 797px;
+            left: 458px;
+        }
+
+        #hd-dh {
+            height: 833px;
+            background: url(/Content/Img/szhd004.png) no-repeat top center;
+        }
+
+        .hd-dh {
+            /* width: 1100px; */
+            width: 10px;
+            position: relative;
+            margin: 0 auto;
+            height: 525px;
+        }
+
+        .giftimg img {
+            width: 200px;
+            height: 200px;
+        }
+
+        .giftname {
+            text-align: left;
+            height: 55px;
+            width: 200px;
+            overflow: hidden;
+        }
+
+        .giftjg {
+            text-align: left;
+            line-height: 30px;
+        }
+
+            .giftjg input {
+                width: 70px;
+                height: 30px;
+                border-radius: 4px;
+                font-size: 18px;
+                background: #731200;
+                color: #fff;
+                font-weight: bold;
+                float: right;
+                cursor: pointer;
+            }
+
+            .giftjg span {
+                font-size: 30px;
+                font-weight: bold;
+                color: #ff5068;
+            }
+
+        .godemo {
+            display: block;
+            width: 180px;
+            height: 50px;
+            position: absolute;
+            top: 601px;
+            left: -87px;
+        }
+
+        .gogifts {
+            display: block;
+            width: 180px;
+            height: 50px;
+            position: absolute;
+            top: 578px;
+            left: -87px;
+        }
+    </style>
+</head>
+<body>
+    @Html.Action("_TwoShuangzanHeader", "Home")
+    <div id="container">
+        <div id="">
+            <img src="/Content/Img/szhd001.png" style="margin-bottom: 65px;" />
+        </div>
+        <div id="hd-zsb">
+            <p><a href="/Amoywel/cz.html" class="gocz" target="_blank"></a></p>
+        </div>
+        <div id="hd-sw">
+            <ul class="hd-swyx">
+                <li style="position: absolute;top: 210px;left: -454px;">
+                    <a href="/Amoywel/demo/detail_53.html" target="_blank"><img src="/Content/Img/hd11.jpg" /></a>
+                    <p class="sw-name">蓝月传奇</p>
+                    <p style="margin: 30px 0 10px 0;font-size: 18px;color: #323232;">奖励<b style="color: #ff4f69;font-size: 18px;">240</b>爽币</p>
+                    <p><a href="/Amoywel/demo/detail_53.html" target="_blank"><input type="button" id="" value="立即试玩" style="width: 100px;height: 30px;" /></a></p>
+                </li>
+                <li style="position: absolute;top: 210px;left: -216px;">
+                    <a href="/Amoywel/demo/detail_55.html" target="_blank"><img src="/Content/Img/hd11.jpg" /></a>
+                    <p class="sw-name">大青云</p>
+                    <p style="margin: 30px 0 10px 0;font-size: 18px;color: #323232;">奖励<b style="color: #ff4f69;font-size: 18px;">320</b>爽币</p>
+                    <p><a href="/Amoywel/demo/detail_55.html" target="_blank"><input type="button" id="" value="立即试玩" style="width: 100px;height: 30px;" /></a></p>
+                </li>
+                <li style="position: absolute;top: 210px;left: 22px;">
+                    <a href="/Amoywel/demo/detail_50.html" target="_blank"><img src="/Content/Img/hd11.jpg" /></a>
+                    <p class="sw-name">完美红颜</p>
+                    <p style="margin: 30px 0 10px 0;font-size: 18px;color: #323232;">奖励<b style="color: #ff4f69;font-size: 18px;">300</b>爽币</p>
+                    <p><a href="/Amoywel/demo/detail_50.html" target="_blank"><input type="button" id="" value="立即试玩" style="width: 100px;height: 30px;" /></a></p>
+                </li>
+                <li style="position: absolute;top: 210px;left: 260px;">
+                    <a href="/Amoywel/demo/detail_54.html" target="_blank"><img src="/Content/Img/hd11.jpg" /></a>
+                    <p class="sw-name">少年群侠传</p>
+                    <p style="margin: 30px 0 10px 0;font-size: 18px;color: #323232;">奖励<b style="color: #ff4f69;font-size: 18px;">200</b>爽币</p>
+                    <p><a href="/Amoywel/demo/detail_54.html" target="_blank"><input type="button" id="" value="立即试玩" style="width: 100px;height: 30px;" /></a></p>
+                </li>
+                <a href="/Amoywel/demo.html" class="godemo" target="_blank"></a>
+            </ul>
+        </div>
+        <div id="hd-dh">
+            <ul class="hd-dh">
+                <li style="position: absolute;top: 182px;left: -454px;">
+                    <p class="giftimg">
+                        <a href="/Amoywel/gifts_32.html" target="_blank"><img src="/Content/Img/hd0001.jpg" alt=""></a>
+                    </p>
+                    <p class="giftname">自拍神器:线控自拍杆一键自拍__手机通用</p>
+                    <p class="giftjg"><span>18</span>爽币<a href="/Amoywel/gifts_32.html" target="_blank"><input type="button" value="兑换"></a></p>
+                </li>
+                <li style="position: absolute;top: 182px;left: -216px;">
+                    <p class="giftimg">
+                        <a href="/Amoywel/gifts_33.html" target="_blank"><img src="/Content/Img/hd0001.jpg" alt=""></a>
+                    </p>
+                    <p class="giftname">二合一充电伴侣__多功能伸缩数据线</p>
+                    <p class="giftjg"><span>19</span>爽币<a href="/Amoywel/gifts_33.html" target="_blank"><input type="button" value="兑换"></a></p>
+                </li>
+                <li style="position: absolute;top: 182px;left: 22px;">
+                    <p class="giftimg">
+                        <a href="/Amoywel/gifts_34.html" target="_blank"><img src="/Content/Img/hd0001.jpg" alt=""></a>
+                    </p>
+                    <p class="giftname">超声波香薰机加湿器__香薰灯空气净化</p>
+                    <p class="giftjg"><span>109</span>爽币<a href="/Amoywel/gifts_34.html" target="_blank"><input type="button" value="兑换"></a></p>
+                </li>
+                <li style="position: absolute;top: 182px;left: 260px;">
+                    <p class="giftimg">
+                        <a href="/Amoywel/gifts_35.html" target="_blank"><img src="/Content/Img/hd0001.jpg" alt=""></a>
+                    </p>
+                    <p class="giftname">蓝牙耳机无线插卡__重低音游戏音乐无线耳机</p>
+                    <p class="giftjg"><span>119</span>爽币<a href="/Amoywel/gifts_35.html" target="_blank"><input type="button" value="兑换"></a></p>
+                </li>
+                <a href="/Amoywel/gifts.html" class="gogifts" target="_blank"></a>
+            </ul>
+        </div>
+        <div id="">
+            <img src="/Content/Img/szhd005.png" />
+        </div>
+    </div>
+    @Html.Partial("_ShuangZanFooter")
+</body>
+</html>
+<script src="~/Content/js/jquery-1.11.1.min.js"></script>
+<script src="~/Content/js/amoywel.js"></script>
+<script src="~/Content/js/personal_use.js"></script>
+<script src="~/Content/js/Public.js"></script>

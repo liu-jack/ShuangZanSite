@@ -1,0 +1,244 @@
+﻿@model Models.UserInfo
+@{
+    Layout = null;
+    Layout = "~/Views/Shared/_LayoutAdminData.cshtml";
+}
+
+
+<body>
+
+    @*----------------搜索开始----------------*@
+    <div id="searchDiv" style="margin:5px 0;font-size:14px;">
+        <label for="searchName" style="font-size:14px;">礼包名称：</label> <input class="easyui-textbox" id="giftName" name="giftName" />
+        <label for="searchName" style="font-size:14px;">厂商平台名：</label> <input class="easyui-textbox" id="cpyName" name="cpyName" />
+        <label for="searchName" style="font-size:14px;">游戏名称：</label> <input class="easyui-textbox" id="gameName" name="cpyName" />
+        <label for="searchName" style="font-size:14px;">礼包类型:</label>
+        <select class="easyui-combobox" id="giftType" name="giftType" style="width:120px; " panelheight="auto">
+            <option value="" selected="selected">全部</option>
+            <option value="1">开服礼包</option>
+            <option value="2">激活码</option>
+            <option value="3">独家礼包</option>
+        </select>          
+        普通推荐:
+        <select name="rec" id="rec" class="easyui-combobox" style="width:100px; " panelheight="auto">
+            <option value="" selected="selected">全部</option>
+            <option value="1">是</option>
+            <option value="0">否</option>
+        </select>
+        热门推荐:
+        <select name="rec_hot" id="rec_hot" class="easyui-combobox" style="width:100px; " panelheight="auto">
+            <option value="" selected="selected">全部</option>
+            <option value="1">是</option>
+            <option value="0">否</option>
+        </select>
+        首页推荐:
+        <select name="rec_index" id="rec_index" class="easyui-combobox" style="width:100px; " panelheight="auto">
+            <option value="" selected="selected">全部</option>
+            <option value="1">是</option>
+            <option value="0">否</option>
+        </select>
+
+        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-search'" id="btnSearch">查询</a>
+    </div>
+    @*----------------搜索结束----------------*@
+    <table id="UsersInfo"></table>
+  
+
+</body>
+
+<script type="text/javascript">
+    $(function () {
+        initTb();
+        //搜索后台的数据。
+        $("#btnSearch").click(function () {
+            //搜索后台的数据。
+            $('#UsersInfo').datagrid('load', {
+                giftName: $("#giftName").val().trim(),
+                cpyName: $("#cpyName").val(),
+                gameName: $("#gameName").val(),
+                giftType: $("#giftType").combobox('getValue'),
+                rec: $("#rec").combobox('getValue'),
+                rec_hot: $("#rec_hot").combobox('getValue'),
+                rec_index: $("#rec_index").combobox('getValue'),
+            });
+        });
+    });
+    //读取基本信息的表
+    function initTb() {
+        $('#UsersInfo').datagrid({
+            title: '礼包信息列表展示',
+            idField: 'Id',
+            fitColumns: true,//列自适应。
+            collapsible: false,
+            minimizable: false,
+            maximizable: false,
+            resizable: true,
+            fit: true,
+            loadMsg: '正在加载，请稍稍候...',
+            striped: true,
+            url: '/AdminGame/Rec_GetPackage',
+            nowrap: true,
+            singleSelect: false,//单行选中
+            rownumbers: true,  //显示行号
+            pagination: true,
+            pageSize: 20,
+            pageList: [20, 40, 60, 80, 100],
+            toolbar: '#tb',
+            columns: [[
+                //{ field: 'ck', checkbox: true },
+
+                { field: 'SystemName', title: '所属厂商', width: 200 },
+                { field: 'ServerName', title: '服务器名称', width: 150 },
+                  {
+                      field: 'GameName', title: '游戏名称', width: 150
+                  },
+                   {
+                       field: 'Type', title: '礼包类型', width: 150,
+                       formatter: function (value, row, Index) {
+
+                           if (value == "1") {
+                               return "开服礼包";
+                           } else if (value == "2") {
+                               return "激活码";
+                           } else if (value = "3") {
+                               return "独家礼包";
+                           }
+                       }
+                   },
+                       {
+                           field: 'GiftName', title: '礼包名称', width: 200
+                       },
+                        {
+                            field: 'StartDate', title: '有效期开始', width: 250,
+                            formatter: function (value, row, Index) {//  /Date(1377327062000)/
+                                return (eval(value.replace(/\/Date\((\d+)\)\//gi, "new Date($1)")))
+                                    .pattern("yyyy-M-d");
+                            },
+                        },
+                         {
+                             field: 'EndDate', title: '有效期结束', width: 250,
+                             formatter: function (value, row, Index) {//  /Date(1377327062000)/
+                                 return (eval(value.replace(/\/Date\((\d+)\)\//gi, "new Date($1)")))
+                                     .pattern("yyyy-M-d");
+                             }
+                         },
+                         {
+                             field: 'Msg', title: '礼包内容', width: 650
+                         },
+                           {
+                               field: 'InTime', title: '发布时间', width: 250,
+                               formatter: function (value, row, Index) {//  /Date(1377327062000)/
+                                   return (eval(value.replace(/\/Date\((\d+)\)\//gi, "new Date($1)")))
+                                       .pattern("yyyy-M-d H:m:s");
+                               }
+                           },
+                     {
+                         field: 'Rec', title: '普通推荐', width: 120,
+                         formatter: function (value, row, Index) {
+                             if (value == "0") {
+                                 return "<a  class='rec_State' href='javascript:;' uId='" + row.Id + "' style='color:#703243;font-size: 14px' >否</a>";
+                             } else if (value == "1") {
+                                 return "<a  class='rec_State' href='javascript:void(0)' uId='" + row.Id + "' style='color:#13629D;font-size: 14px' >是</a>";
+                             } 
+                         }
+                     },
+                      {
+                          field: 'Rec_Index', title: '首页推荐', width: 120,
+                          formatter: function (value, row, Index) {
+                              if (value == "0") {
+                                  return "<a  class='recIndex_State' href='javascript:;' uId='" + row.Id + "' style='color:#703243;font-size: 14px' >否</a>";
+                              } else if (value == "1") {
+                                  return "<a class='recIndex_State' href='javascript:void(0)' uId='" + row.Id + "' style='color:#13629D;font-size: 14px' >是</a>";
+                              }
+                          }
+                      },
+                       {
+                           field: 'Rec_Hot', title: '热门推荐', width: 120,
+                           formatter: function (value, row, Index) {
+                               if (value == "0") {
+                                   return "<a  class='recHot_State' href='javascript:;' uId='" + row.Id + "' style='color:#703243;font-size: 14px' >否</a>";
+                               } else if (value == "1") {
+                                   return "<a  class='recHot_State' href='javascript:void(0)' uId='" + row.Id + "' style='color:#13629D;font-size: 14px' >是</a>";
+                               }
+                           }
+                       },                                
+            ]],          
+            onHeaderContextMenu: function (e, field) {
+            },
+            onLoadSuccess: onGridLoadSuccess//表格加载完成之后，调用此事件响应方法。
+        });
+        // 设置页脚
+        var p = $('#UsersInfo').datagrid('getPager')
+        $(p).pagination({
+            beforePageText: '第',
+            afterPageText: '页  共{pages} 页',
+            displayMsg: '当前显示 {from}-{to} 条记录   共 {total} 条记录'
+        });
+    }
+    //表格加载完成之后，调用此事件响应方法。
+    function onGridLoadSuccess(data) {
+        $(".rec_State").click(function () {
+            var strId = $(this).attr("uId");
+            $.messager.confirm("温馨提示", "您确认要执行<span style ='color:red'>或</span>取消普通推荐？", function (r) {
+                if (r) {
+                    changeRecState(strId);
+                } $('#UsersInfo').datagrid("clearSelections");
+            });
+        });
+      
+        $(".recHot_State").click(function () {
+            var strId = $(this).attr("uId");
+            $.messager.confirm("温馨提示", "您确认要执行<span style ='color:red'>或</span>取消热门推荐？", function (r) {
+                if (r) {
+                    changeHotState(strId);
+                } $('#UsersInfo').datagrid("clearSelections");
+            });
+        });
+     
+        $(".recIndex_State").click(function () {
+            var strId = $(this).attr("uId");
+            $.messager.confirm("温馨提示", "您确认要推荐<span style ='color:red'>或</span>取消到首页吗？", function (r) {
+                if (r) {
+                    changeIndexState(strId);
+                } $('#UsersInfo').datagrid("clearSelections");
+            });
+        });
+    }
+    function changeRecState(strId) {
+        $.post("/AdminGame/Rec_Packagestate", { id: strId, recParam: "rec" }, function (data) {
+            if (data == "ok") {
+                $('#UsersInfo').datagrid("reload");//代用表格的重新加载的方法。
+            } else if (data == "fail") {
+                $.messager.show("提示", "失败了！");
+            }
+            else {
+                $.messager.alert("温馨提示", "系统异常请稍候再试！");
+            }
+        });
+    };
+    function changeHotState(strId) {
+        $.post("/AdminGame/Rec_Packagestate", { id: strId, recParam: "recHot" }, function (data) {
+            if (data == "ok") {
+
+                $('#UsersInfo').datagrid("reload");//代用表格的重新加载的方法。
+            } else if (data == "fail") {
+                $.messager.show("提示", "推荐或取消到热门失败了！");
+            }
+            else {
+                $.messager.alert("温馨提示", "系统异常请稍候再试！");
+            }
+        });
+    };
+    function changeIndexState(strId) {
+        $.post("/AdminGame/Rec_Packagestate", { id: strId, recParam: "recIndex" }, function (data2) {
+            if (data2 == "ok") {
+                $('#UsersInfo').datagrid("reload");//代用表格的重新加载的方法。
+            } else if (data2 == "fail") {
+                $.messager.show("提示", "推荐或取消到首页失败了！");
+            }
+            else {
+                $.messager.alert("温馨提示", "系统异常请稍候再试！");
+            }
+        });
+    };  
+</script>

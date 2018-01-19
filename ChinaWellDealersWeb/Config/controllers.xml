@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net">
+<!--控制器注入--> 
+  <object type="ShuangZan.Web.Controllers.LoginController,ShuangZan.Web" singleton="false" >  
+    <property name="UserInfoBll" ref="UserInfoBll" />
+    <property name="CompanyBll" ref="CompanyBll" />
+    <property name="PersonalUserBll" ref="PersonalUserBll" />
+    <property name="LeaveMsgBll" ref="LeaveMsgBll" />
+    <property name="OrderBll" ref="OrderBll" />
+    <property name="FeedbackBll" ref="FeedbackBll" />
+  </object>
+  <object type="ShuangZan.Web.Controllers.ManageUsersController,ShuangZan.Web" singleton="false" > 
+    <property name="UserInfoBll" ref="UserInfoBll" />
+    <property name="RoleInfoBll" ref="RoleInfoBll" />
+    <property name="ActionInfoBll" ref="ActionInfoBll" />
+    <property name="R_UserInfo_ActionInfoBll" ref="R_UserInfo_ActionInfoBll" />
+  </object>
+  <object type="ShuangZan.Web.Controllers.RoleInfoController,ShuangZan.Web" singleton="false" >
+    <property name="RoleInfoBll" ref="RoleInfoBll" />  
+  </object>
+  <object type="ShuangZan.Web.Controllers.ActionInfoController,ShuangZan.Web" singleton="false" >
+    <property name="ActionInfoBll" ref="ActionInfoBll" />
+  </object>
+  <object type="ShuangZan.Web.Controllers.AdminDataController,ShuangZan.Web" singleton="false" >
+    <property name="UserInfoBll" ref="UserInfoBll" />
+    <property name="NewsBll" ref="NewsBll" />
+    <property name="CompanyBll" ref="CompanyBll" />
+    <property name="PackageBll" ref="PackageBll" />
+    <property name="PackageCardBll" ref="PackageCardBll" />
+    <property name="RechargeBll" ref="RechargeBll" />
+    <property name="LeaveMsgBll" ref="LeaveMsgBll" />
+    <property name="PersonalUserBll" ref="PersonalUserBll" />
+    <property name="UserMessageBll" ref="UserMessageBll" />
+    <property name="OpenServiceBll" ref="OpenServiceBll" />
+    <property name="UserRaidersBll" ref="UserRaidersBll" />
+    <property name="SeeNewsBll" ref="SeeNewsBll" />
+    <property name="HomePageBll" ref="HomePageBll" />
+    <property name="BlackListIPBll" ref="BlackListIPBll" />
+    <property name=" WonderfulTxtImgBll" ref="WonderfulTxtImgBll" />
+    <property name="SeoBll" ref="SeoBll" />
+    <property name="AdvertisementBll" ref="AdvertisementBll" />
+    <property name="DemoUserBll" ref="DemoUserBll" />
+    <property name="GameDemoRechargeBll" ref="GameDemoRechargeBll" />
+    <property name="AuditLogBll" ref="AuditLogBll" />
+   
+  </object>
+  <object type="ShuangZan.Web.Controllers.CompanyController,ShuangZan.Web" singleton="false" >
+    <property name="CompanyBll" ref="CompanyBll" />
+    <property name="CompanyGameBll" ref="CompanyGameBll" />
+    <property name="RechargeBll" ref="RechargeBll" />
+  </object>
+  <object type="ShuangZan.Web.Controllers.FrontCompanyController,ShuangZan.Web" singleton="false" >
+    <property name="CompanyBll" ref="CompanyBll" />
+    <property name="RechargedUsedBll" ref="RechargedUsedBll" />
+    <property name="RechargeBll" ref="RechargeBll" />
+    <property name="OpenServiceBll" ref="OpenServiceBll" />
+    <property name="GameBll" ref="GameBll" />
+    <property name="NewsBll" ref="NewsBll" />
+    <property name="PackageBll" ref="PackageBll" />
+    <property name="PackageCardBll" ref="PackageCardBll" />
+    <property name="AuditLogBll" ref="AuditLogBll" />
+  </object>
+  <object type="ShuangZan.Web.Controllers.AdminGameController,ShuangZan.Web" singleton="false" >
+    <property name="GameBll" ref="GameBll" />
+    <property name="KeyWordsBll " ref="KeyWordsBll" />
+    <property name="NewsBll " ref="NewsBll" />
+    <property name="LeaveMsgBll " ref="LeaveMsgBll" />
+    <property name="TestBll" ref="TestBll" />
+    <property name="BeautifulGirlsBll" ref="BeautifulGirlsBll" />
+    <property name="OrderBll" ref="OrderBll" />
+    <property name="PersonalUserBll" ref="PersonalUserBll" />
+    <property name="FeedbackBll" ref="FeedbackBll" />
+    <property name="GiftBll" ref="GiftBll" />
+    <property name="GameDemoBll" ref="GameDemoBll" />
+    <property name="GameDemoRechargeBll" ref="GameDemoRechargeBll" />
+    <property name="GameDemoAccountsBll" ref="GameDemoAccountsBll" />
+    <property name="GameDemoRequiresBll" ref="GameDemoRequiresBll" />
+    <property name="CompanyBll" ref="CompanyBll" />
+    <property name="PackageBll" ref="PackageBll" />
+    <property name="UserRaidersBll" ref="UserRaidersBll" />
+    <property name="UserMessageBll" ref="UserMessageBll" />
+ 
+  </object>
+  <object type="ShuangZan.Web.Controllers.PersonalUserController,ShuangZan.Web" singleton="false" >
+    <property name="PersonalUserBll" ref="PersonalUserBll" />
+    <property name="PackageBll" ref="PackageBll" />
+    <property name="PackageCardBll" ref="PackageCardBll" />
+    <property name="GameDemoBll" ref="GameDemoBll" />
+    <property name="UserMessageBll" ref="UserMessageBll" />
+    <property name="UserRaidersBll" ref="UserRaidersBll" />
+    <property name="OrderBll" ref="OrderBll" />
+    <property name="PersonalUserSignBll" ref="PersonalUserSignBll" />
+    <property name="PersonalUserSignDetailBll" ref="PersonalUserSignDetailBll" />
+  </object>
+  <object type="ShuangZan.Web.Controllers.GiftController,ShuangZan.Web" singleton="false" >
+    <property name="GiftBll" ref="GiftBll" />
+   <property name="UserMessageBll" ref="UserMessageBll" />
+    <property name="UserAdressBll" ref="UserAdressBll" />
+    <!--<property name="PersonalUserBll" ref="PersonalUserBll" />-->  
+  </object>
+  <object type="ShuangZan.Web.Controllers.NewsInfoController,ShuangZan.Web" singleton="false" >
+    <property name="SeeNewsBll" ref="SeeNewsBll" />
+    <property name="NewsBll " ref="NewsBll" />
+    <property name="UserRaidersBll" ref="UserRaidersBll" />
+    <property name="GameDemoBll" ref="GameDemoBll" />
+    <property name="ForbiddenListBll" ref="ForbiddenListBll" />
+    <property name="LeaveMsgBll " ref="LeaveMsgBll" />
+    <property name="PersonalUserBll" ref="PersonalUserBll" />
+    <property name="BlackListIPBll" ref="BlackListIPBll" />
+    <property name="AdvertisementBll" ref="AdvertisementBll" />
+    <property name="WonderfulTxtImgBll" ref="WonderfulTxtImgBll" />
+  </object>
+  
+  <object type="ShuangZan.Web.Controllers.ForbiddenListController,ShuangZan.Web" singleton="false" >
+    <property name="ForbiddenListBll" ref="ForbiddenListBll" />
+    <property name="BlackListIPBll" ref="BlackListIPBll" />    
+  </object>
+  <object type="ShuangZan.Web.Controllers.RaidersController,ShuangZan.Web" singleton="false" >
+    <property name="UserRaidersBll" ref="UserRaidersBll" />
+    <property name="GameDemoBll" ref="GameDemoBll" />
+    <property name="LeaveMsgBll " ref="LeaveMsgBll" />
+    <property name="PersonalUserBll" ref="PersonalUserBll" />
+    <property name="ForbiddenListBll" ref="ForbiddenListBll" />
+    <property name="BlackListIPBll" ref="BlackListIPBll" />
+    <property name="NewsBll" ref="NewsBll" />
+    <property name="SeoBll" ref="SeoBll" />
+  </object>
+  <object type="ShuangZan.Web.Controllers.OPenServicesController,ShuangZan.Web" singleton="false" >
+    <property name="OpenServiceBll" ref="OpenServiceBll" />
+    <property name="TestBll" ref="TestBll" />
+  </object>
+  <object type="ShuangZan.Web.Controllers.GameController,ShuangZan.Web" singleton="false" >
+    <property name="GameBll" ref="GameBll" />
+    <property name="SeoBll" ref="SeoBll" />
+    <property name="KeyWordsBll" ref="KeyWordsBll" />
+    
+  </object>
+  <object type="ShuangZan.Web.Controllers.PackageController,ShuangZan.Web" singleton="false" >
+    <property name="PackageBll" ref="PackageBll" />
+    <property name="GameDemoBll" ref="GameDemoBll" />
+    <property name="UserRaidersBll" ref="UserRaidersBll" />
+    <property name="OpenServiceBll" ref="OpenServiceBll" />
+  </object>
+  <object type="ShuangZan.Web.Controllers.BeautyGirlController,ShuangZan.Web" singleton="false" >
+    <property name="BeautifulGirlsBll" ref="BeautifulGirlsBll" />
+    <property name="LeaveMsgBll " ref="LeaveMsgBll" />
+    <property name="PersonalUserBll" ref="PersonalUserBll" />
+    <property name="ForbiddenListBll" ref="ForbiddenListBll" />
+    <property name="BlackListIPBll" ref="BlackListIPBll" />
+    <property name="AdvertisementBll" ref="AdvertisementBll" />
+  </object>
+ 
+  <object type="ShuangZan.Web.Controllers.HomeController ,ShuangZan.Web" singleton="false" >
+    <property name="AdvertisementBll" ref="AdvertisementBll" />
+    <property name="HomePageBll" ref="HomePageBll" />
+    <property name="NewsBll" ref="NewsBll" />
+    <property name="PackageBll" ref="PackageBll" />
+    <property name="UserRaidersBll" ref="UserRaidersBll"/>
+    <property name="GameDemoBll" ref="GameDemoBll" />
+    <property name="TestBll" ref="TestBll" />
+    <property name="BeautifulGirlsBll" ref="BeautifulGirlsBll" />
+    <property name="GameBll" ref="GameBll"/>
+    <property name="OpenServiceBll" ref="OpenServiceBll"/>
+    <property name="CompanyBll" ref="CompanyBll" />
+    <property name="SeoBll" ref="SeoBll" />
+    <property name="GiftBll" ref="GiftBll" />
+    <property name="GameDemoRequiresBll" ref="GameDemoRequiresBll" />
+    <property name="PersonalUserSignBll" ref="PersonalUserSignBll" />
+    <property name="PersonalUserSignDetailBll" ref="PersonalUserSignDetailBll" />
+   <property name="DemoUserBll" ref="DemoUserBll" />
+    <property name="UserMessageBll" ref="UserMessageBll" />
+    <property name="FeedbackBll" ref="FeedbackBll" />
+  </object>
+</objects>

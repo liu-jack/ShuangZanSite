@@ -1,0 +1,121 @@
+﻿@{
+    Layout = null;
+  
+}
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Cpy_Recharge</title>
+    <link href="~/Content/EasyUi/themes/default/easyui.css" rel="stylesheet" />   
+    <link href="~/Content/EasyUi/themes/icon.css" rel="stylesheet" />
+    <link href="~/Content/EasyUi/themes/color.css" rel="stylesheet" />
+    <script src="~/Content/EasyUi/jquery.min.js"></script>
+    <script src="~/Content/EasyUi/jquery.easyui.min.js"></script>
+    <script src="~/Content/EasyUi/easyui-lang-zh_CN.js"></script>
+    <script src="~/Scripts/datapattern.js"></script>
+    <script src="/Content/My97DatePicker/WdatePicker.js"></script>
+    <style type="text/css">
+        td {
+            padding-top: 6px;
+            font: larger bold 10px "Trebuchet MS" Verdana, Arial, Helvetica, sans-serif;
+            color: #4f6b72;
+            height: 35px;
+            letter-spacing: 0px;
+        }
+    </style>
+</head>
+<body>
+    @*----------------搜索开始----------------*@
+    <div id="searchDiv" style="margin:5px 0;">     
+        <label for="cpyName" style="font-size:14px;">厂商平台名：</label> <input  class="easyui-textbox" id="cpyName" name="cpyName" />
+        <label for="comboName" style="font-size:14px;">套餐名称：</label>  <select class="easyui-combobox" id="comboName" name="comboName" style="width:120px; " panelheight="auto">
+        <option value="">全部</option>
+        <option value="K1套餐">K1套餐</option>
+        <option value="K2套餐">K2套餐</option>
+        <option value="K3套餐">K3套餐</option>
+        <option value="K4套餐">K4套餐</option>
+        <option value="K5套餐">K5套餐</option>
+        <option value="K6套餐">K6套餐</option>
+        <option value="K7套餐">K7套餐</option>
+        <option value="K8套餐">K8套餐</option>
+        <option value="K9套餐">K9套餐</option>
+        <option value="K10套餐">K10套餐</option>
+        <option value="K11套餐">K11套餐</option>
+        <option value="K12套餐">K12套餐</option>
+        <option value="全天置顶">全天置顶</option>
+        </select>     
+        <label for="timeSlot" style="font-size:14px;">充值时间：</label>      
+        <input type="text" id="startDate" name="startDate" onfocus="WdatePicker()" value="@DateTime.Now.ToString("yyyy-MM-dd")" style=" border: solid 1px #95B8E7; border-radius: 5px; padding: 3px;"/>-<input type="text" onfocus="WdatePicker()" id="endDate" name="endDate" value="@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")" style=" border: solid 1px #95B8E7; border-radius: 5px; padding: 3px;" />
+        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-search'" id="btnSearch">查询</a>  
+        <a download="somedata.xls" href="#" onclick="return ExcellentExport.excel(this, 'tableidd', 'tabletitle', 'Sheet Name Here');" style="background: url(/Content/Img/download-e.png) left center no-repeat; padding-left:20px;margin-left:10px;color:#000;text-decoration:none;font-size:14px;">导出</a>       
+</div>
+    @*----------------搜索结束----------------*@
+    <table id="msgInfo"></table>  
+</body>
+</html>
+<script type="text/javascript">
+    $(function () {
+        initTb();
+        //绑定搜索的点击事件
+        $("#btnSearch").click(function () {
+            //搜索后台的数据。
+            var queryData = {
+                cpyName: $("#cpyName").val(),
+                comboName: $("#comboName").combobox('getValue'),
+                startDate: $("#startDate").val(),
+                endDate: $("#endDate").val(),
+            };
+            initTb(queryData);
+        });      
+    }); 
+    //读取基本信息的表
+    function initTb(queryParam) {
+        $('#msgInfo').datagrid({
+            title: '信息列表展示',
+            idField: 'Id',
+            fitColumns: true,//列自适应。
+            collapsible: false,
+            minimizable: false,
+            maximizable: false,
+            resizable: true,
+            fit: true,
+            loadMsg: '正在加载，请稍稍候...',
+            striped: true,
+            url: '/AdminData/GerRechargeInfos',
+            nowrap: true,
+            singleSelect: true,//单行选中
+            rownumbers: false,  //显示行号
+            pagination: true,
+            pageSize: 20,
+            pageList: [20, 40, 60, 80, 100],
+           queryParams: queryParam,//请求的额外的参数。
+            toolbar: '#tb',
+            columns: [[              
+                {
+                     field: 'InTime', title: '充值时间', width: 250,
+                     formatter: function (value, row, Index) {//  /Date(1377327062000)/
+                         return (eval(value.replace(/\/Date\((\d+)\)\//gi, "new Date($1)")))
+                             .pattern("yyyy-M-d HH:mm");
+                     }
+                },
+                { field: 'SystemName', title: '平台名', width: 250 },
+                { field: 'ComboName', title: '套餐名称', width: 350 },
+                { field: 'Money', title: '金额', width: 350 },
+                { field: 'Num', title: '总条数', width: 350 },//Used
+                   { field: 'Used', title: '已使用条数', width: 350 },//Used           
+                { field: 'LeftNum', title: '剩余条数', width: 350 },
+                  { field: 'Remark', title: '备注', width: 350 },
+            ]],
+            onHeaderContextMenu: function (e, field) {
+            },
+           // onLoadSuccess: onGridLoadSuccess//表格加载完成之后，调用此事件响应方法。
+        });
+        //var p = $('#msgInfo').datagrid('getPager')
+        //$(p).pagination({
+        //    beforePageText: '第',
+        //    afterPageText: '页  共{pages} 页',
+        //    displayMsg: '当前显示 {from}-{to} 条记录   共 {total} 条记录'
+        //});
+    }
+</script>
+<script src="~/Content/js/excellentexport.js"></script>

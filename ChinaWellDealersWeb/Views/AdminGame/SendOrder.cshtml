@@ -1,0 +1,65 @@
+﻿@model Models.Order
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>SendOrder</title>
+    <link href="~/Content/style/tableStyle.css" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/jquery-1.8.2.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script type="text/javascript">
+        function afterEdit(data) {
+            //关闭对话框，刷新表格
+            if (data == "ok") {
+                window.parent.window.afterEdit();
+            }
+        }
+        function submitFrm() {
+            if ($('#order_Num').val()=="") {
+                alert("请输入快递单号");
+                return;
+            }
+            $("form").submit();
+        }
+    </script>
+</head>
+<body>  
+        @using (Ajax.BeginForm("SendOrder", new AjaxOptions() { OnSuccess = "afterEdit" }))
+        {
+            @*<input type="hidden"  id="@Model.Id" name="id"/>*@          
+            <table style="margin-top:28px;margin-left:26px;" cellspacing="10">
+                <tr>
+                    <th colspan="2" style="text-align:center">关于订单发货</th>
+                </tr>
+                <tr>
+                    <td>快递公司</td>
+                    <td>
+                        <select id="orderType" name="orderType" style="width:350px;">
+                            <option value="百世汇通">百世汇通</option>
+                            <option value="德邦物流">德邦物流</option>
+                            <option value="EMS">	EMS</option>
+                            <option value="申通">申通</option>
+                            <option value="顺丰">顺丰</option>
+                            <option value="天天快递">天天快递</option>
+                            <option value="圆通">圆通</option>
+                            <option value="韵达">韵达</option>
+                            <option value="中通">中通</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>快递单号</td>
+                    <td>
+                        <input type="text" id="order_Num" name="order_Num" style="width:350px;" />
+                    </td>
+                </tr>
+            </table>
+        }  
+</body>
+</html>

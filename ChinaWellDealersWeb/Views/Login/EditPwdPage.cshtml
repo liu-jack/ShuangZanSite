@@ -1,0 +1,97 @@
+﻿@model Models.UserInfo
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>密码修改</title>
+    <script src="~/Content/bootstrap/js/jquery/2.0.0/jquery.min.js"></script>
+    <link href="~/Content/bootstrap/css/bootstrap/3.3.6/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Content/bootstrap/js/bootstrap/3.3.6/bootstrap.min.js"></script>
+
+    <link href="~/Content/layui-v1.0.9_rls/layui/css/modules/layer/default/layer.css" rel="stylesheet" />
+    <script src="~/Content/layui-v1.0.9_rls/layui/lay/modules/layer.js"></script>
+</head>
+<body>
+    <div id="editPwdDiv" style="position:absolute;margin-top:40px;margin-left:25%;">
+        <form class="form-horizontal" role="form" id="EditPwdfrm">
+            <div class="form-group">
+                <label class="col-lg-4 control-label">旧密码</label>
+                <div class="col-lg-8">
+                    <input type="password" class="form-control" placeholder="旧密码" id="oldPwd" name="oldPwd">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-lg-4 control-label">新密码</label>
+                <div class="col-lg-8">
+                    <input type="password" class="form-control" placeholder="新密码" id="newPwd" name="newPwd">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-4 control-label">确认密码</label>
+                <div class="col-lg-8">
+                    <input type="password" class="form-control" placeholder="确认密码" id="confirmPwd" name="confirmPwd">
+                </div>
+            </div>
+            <div class="form-group" style="padding-left:47px;">
+                <div class="col-lg-offset-1 col-lg-9">
+                    <button type="button" class="btn btn-success" id="btnEdit" style="width:90px;">修改</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+            $('#btnEdit').click(function () {
+
+                if ($('#oldPwd').val() == "") {
+                    layer.msg("提示：旧密码不能为空！");
+                    return;
+                }
+                if ($('#newPwd').val() == "") {
+                    layer.msg("提示：请输入新密码！");
+                    return;
+                }
+                if ($('#confirmPwd').val() == "") {
+                    layer.msg("提示：请再次输入新密码！");
+                    return;
+                }
+                $.ajax({
+                    url: '/Login/EditPwd',
+                    type: 'post',
+                    data: {
+                        oldPwd: $('#oldPwd').val(),
+                        newPwd: $('#newPwd').val(),
+                        confirmPwd: $('#confirmPwd').val(),
+                    },
+                    success: function (data) {
+                        if (data == "different") {
+                            layer.msg("提示：两次输入的密码不一致！")
+                        }
+                        else if (data == "oldPwdError") {
+                            layer.msg("提示：旧密码输入错误！")
+                        } else if (data == "ok") {
+                            layer.msg("恭喜：密码修改成功！您将暂时退出系统,然后重新登录！");                           
+                            window.setTimeout(function () {
+                                top.location.href = "/Command/LogOut.ashx";
+                            }, 1500);                                                     
+                        } else if (data == "fail") {
+                            layer.msg("提示：密码修改失败！");
+                        } else {
+                            layer.msg("提示：系统异常请稍候再试！");
+                        }
+                    }
+                });
+            });
+        });
+      
+    </script>
+</body>
+</html>

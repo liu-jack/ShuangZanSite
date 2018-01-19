@@ -1,0 +1,78 @@
+﻿@{
+    Layout = null;
+    List<Models.AuditLog> logInfo = (List<Models.AuditLog>)ViewData["listLog"];
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>爽赞</title>
+    <link href="~/Content/Css/Company_Index.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="time">
+        <span style="margin-left: 773px;">@DateTime.Now.Year</span>
+        <span style="margin-left: 20px;">@DateTime.Now.ToString("MM")</span>
+        <span style="margin-left: 26px;">@DateTime.Now.ToString("dd")</span>
+    </div>
+    <a href="javascript:void(0)">
+        <img src="/Content/Img/135.jpg" alt="">
+    </a>
+    <div class="xxtz">
+        <p>
+            <img src="/Content/Img/welcome_icon1.png" alt="">
+            <span>消息通知</span>
+        </p>
+        <ul class="xxtzList">
+            @foreach (var item in logInfo)
+            {                          
+            <li>
+                <img src="/Content/Img/point.png" alt="">
+                <span class="mes">@Html.Raw(item.Title) @item.Reason</span>
+               @if (item.Type == 2)
+              {
+
+               <a href="/FrontCompany/CpyNewsEdit?id=@item.TableId">查看修改</a><span>@item.InTime.ToString("M月dd日")</span>
+                }
+                else if (item.Type==0)
+                {
+                    <a href="/FrontCompany/ServiceEdit?id=@item.TableId" >查看修改</a>
+                }
+                else if (item.Type == 1)
+                {
+                    <a href="/FrontCompany/PackageEdit?id=@item.TableId">查看修改</a> <span>@item.InTime.ToString("M月dd日")</span>
+                }
+                 
+               
+            </li> 
+            }          
+        </ul>
+    </div>
+    <div class="wxts">
+        <p>
+            <img src="/Content/Img/welcome_icon2.png" alt="">
+            <span>温馨提示</span>
+        </p>
+        <ul class="wxtsList">
+            <li>
+                <img src="/Content/Img/point.gif" alt="">
+                <span class="mes">请勿添加虚假的信息，所有数据记录备份，有工作人员定期审核，如有发现填写虚假信息的运营平台，为我们将停止与其相关业务的合作。</span>
+            </li>
+            <li>
+                <img src="/Content/Img/point.gif" alt="">
+                <span class="mes">开服表在开服前一个小时不能修改了。</span>
+            </li>
+            <li>
+                <img src="/Content/Img/point.gif" alt="">
+                <span class="mes">新游戏入库，请联系入库人员，QQ:<a class="qq" href="tencent://message/?uin=2885630190&Site=爽赞游戏网&Menu=yes">2885630190</a></span>
+            </li>
+            <li>
+                <img src="/Content/Img/point.gif" alt="">
+                <span class="mes">修改平台信息后，将需要重新审核后才能登录系统，如情况紧急，可联系QQ:<a class="qq" href="tencent://message/?uin=2885630190&Site=爽赞游戏网&Menu=yes">2885630190</a>审核。</span>
+            </li>
+        </ul>
+    </div>
+   
+</body>
+</html>

@@ -1,0 +1,186 @@
+﻿@{
+    Layout = null;
+}
+@model Models.MapModel.UserRaidersViewModel
+@using Models.SqlMapModel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>@Model.Title  _游戏新闻中心_爽赞网</title>
+    <meta name="keywords" content="@Model.KeyWords">
+    <meta name="description" content="@Model.Memo">
+    <link href="~/Content/Css/index.css" rel="stylesheet" />
+    <link href="~/Content/Css/reset.css" rel="stylesheet" />
+    <link href="~/Content/Css/amoywel.css" rel="stylesheet" />
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="~/Content/Css/lunbo.css" rel="stylesheet" />
+    <link href="~/Content/Css/news.css" rel="stylesheet" />
+    <link href="~/Content/Css/commercial.css" rel="stylesheet" />
+    <link href="~/Content/Css/usename.css" rel="stylesheet" />
+    <link href="~/Content/Css/new_games-1.css" rel="stylesheet" />
+    <link href="~/Content/style/NavPager.css" rel="stylesheet" />
+    <link href="/Content/Img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+    <script src="~/Content/js/jquery-1.11.1.min.js"></script>
+    <script src="~/Content/js/doT.js"></script>
+</head>
+<body>
+    @Html.Action("_TwoShuangzanHeader", "Home")
+    @Html.Action("ShuangzanHeader", "NewsInfo")
+    <!-- 面包屑导航 -->
+    <div class="wide details">
+        当前位置：<a href="/">爽赞网</a> >
+        <a href="/Raiders/RaidersIndex">页游攻略</a>> <span>@Model.Title</span>
+    </div>
+    <div class="info wide clearfix">
+        <!-- 新闻标题 -->
+        <div class="title-1">
+
+            <p class="title-p">@Model.Title</p>
+
+            <div class="title-text">
+                <ul class="left-text fl">
+                    <li>发布时间：<span id="time">@Model.InTime.Value.ToString("yyyy-MM-dd")</span></li>
+                    <li>来源：@Model.Source</li>
+                    <li>编辑：@Model.Editor</li>
+                    <li>浏览：<span id="number">@Model.ViewsNum</span></li>
+                    <li>留言：<span id="message">@Model.MsgNum</span></li>
+                </ul>
+                <ul class="right-text fr">
+                    <li><img src="/Content/Img/1.png"><a href="#comment">留下一脚</a></li>
+                    <li><img src="/Content/Img/2.png"></li>
+                    <div class="bdsharebuttonbox">
+                        <a href="#" class="qqkj" data-cmd="qzone" title="分享到QQ空间"></a>
+                        <a href="#" class="weibo" data-cmd="tsina" title="分享到新浪微博"></a>
+                        <a href="#" class="qqweibo" data-cmd="tqq" title="分享到腾讯微博"></a>
+                        <a href="#" class="weixin" data-cmd="weixin" title="分享到微信"></a>
+                    </div>
+                </ul>
+            </div>
+        </div>
+        <div class="text-content">
+            <!-- 新闻主体开始 -->
+            <div class="text-content-1 clearfix">
+                <img src="/Content/Img/11.png">
+                <p>@Html.Raw(Model.Memo)</p>
+                <img src="/Content/Img/12.png">
+            </div>
+            <div class="text-content-2">
+                @Html.Raw(Model.Msg)
+            </div>
+            <!-- 新闻结束 -->
+            <!-- 分页新闻 -->
+            <div class="next-prev-page">
+                <div class="fl">
+                    <p>上一篇：<a href="/Raiders/RaidersDetail/@ViewBag.pre">@ViewBag.preTitle</a></p>
+                    <p>下一篇：<a href="/Raiders/RaidersDetail/@ViewBag.next">@ViewBag.nextTitle</a></p>
+                </div>
+                <!-- 分享按钮 -->
+                <div class="fr fans fans1">
+                    <ul>
+                        <li class="bd2"><img src="/Content/Img/13.png" /></li>
+                        <div class="bdsharebuttonbox bd1">
+                            <a href="#" class="qzone1" data-cmd="qzone" title="分享到QQ空间"></a>
+                            <a href="#" class="tsina1" data-cmd="tsina" title="分享到新浪微博"></a>
+                            <a href="#" class="tqq1" data-cmd="tqq" title="分享到腾讯微博"></a>
+                            <a href="#" class="weixin1" data-cmd="weixin" title="分享到微信"></a>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+            <!-- 推荐新闻 -->
+            <div class="title-title">
+                <p>相关推荐</p>
+                <div class="title-title-1 fl"> </div>
+                <div class="title-title-2 fr fans fans1"></div>
+            </div>
+            <!-- 推荐新闻主体开始 -->
+            <div class="recommend recommend1">
+
+                <div class="fl">
+                    @foreach (var item in (List<Sql_RecRaidersModel>)ViewBag.RelatedRaiders)
+                    {
+                        if (item.EditTitle != "" && item.EditTitle != null)
+                        {
+                            <p><a href="/Raiders/RaidersDetail/@item.Id">@item.EditTitle</a></p>
+                        }
+                        else
+                        {
+                            <p><a href="/Raiders/RaidersDetail/@item.Id">@item.Title</a></p>
+                        }
+                    }
+                </div>
+            </div>
+            <!-- 推荐新闻结束 -->
+            <!--评论模块-->
+            <!--评论模块-->
+            @Html.Action("_RaidersLeaveMsg", "Raiders")
+        </div>
+        <!--右侧攻略-->
+        @Html.Action("_RightRaiders", "Raiders")
+    </div>
+    <!-- 底部 -->
+    @Html.Partial("_ShuangZanFooter")
+    <!-- 回到顶部 -->
+
+    <script src="~/Content/js/jquery.SuperSlide.2.1.1.js"></script>
+    <script src="~/Content/js/personal_use.js"></script>
+    <script src="~/Content/js/Public.js"></script>
+    <script src="~/Content/js/new_games.js"></script>
+    <script src="~/Content/js/bdshare.js"></script>
+    <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+    <link href="~/Content/layui-v1.0.9_rls/layui/css/modules/layer/default/layer.css" rel="stylesheet" />
+    <script src="~/Content/layui-v1.0.9_rls/layui/lay/modules/layer.js"></script>
+    <script src="~/Content/layui-v1.0.9_rls/layui/layui.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            pageviews();
+            $('#btnAdd').click(function () {
+                addComment();//添加评论
+            });
+        });
+        function addComment() {
+            var raidersId = '@Model.Id';
+            if ($('#msgTxt').val() == "") {
+                layer.msg('<span style="color:white">提示：请输入评论信息</span>')
+                return;
+            }
+            $.post("/Raiders/AddRaiderContent", { raidersId: '@Model.Id', msg: $('#msgTxt').val(), ip: returnCitySN["cip"], city: returnCitySN["cname"] }, function (data) {
+                //去后台判断是否含有禁用词
+                var msgData = data.split(",");
+                if (msgData[0] == "banned") {
+                    layer.msg('<span style="color:white">' + msgData[1] + '</span>');
+                    return;
+                } else if (msgData[0] == "ok") {
+                    layer.msg('<span style="color:white">' + msgData[1] + '</span>');
+                    setTimeout(function () {
+                        $('#msgTxt').val("");
+                    }, 2000);
+                    initTable(raidersId);
+                } else if (msgData[0] == "no") {
+                    layer.msg('<span style="color:white">' + msgData[1] + '</span>');
+                }
+            });
+        }
+        function pageviews() {
+            $.ajax({
+                data: {
+                    id: '@Model.Id'
+                },
+                type: 'post',
+                url: '/Raiders/Views',
+                success: function (data) {
+                    if (data == 'ok') {
+                        $('#number').text(parseInt($('#number').text()) + 1);
+                    } else if (data == "no") {
+                        alert("系统繁忙，请稍候再试！")
+                    } else {
+                        alert("该攻略不存在！")
+                    }
+                }
+            })
+        }
+    </script>
+
+</body>
+</html>

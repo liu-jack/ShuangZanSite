@@ -1,0 +1,178 @@
+﻿@model Models.PersonalUser
+
+<div>
+    <div class="top">
+        <a href="/PersonalUser/Recharge" target="_blank">充值中心</a> |
+        <a href="/Home/Manufacturer" target="_blank">厂商大全</a>     
+    </div>
+    <div class="nav">
+        <div class="w">
+            <span><a href="/"><img src="/Content/Img/logo.png" alt="页游开服表" title="爽赞网" /></a></span>
+            <a href="/Home/Index">首页</a>
+            <a href="/NewsInfo/News">看新闻</a>
+            <a href="/Game/GameIndex">找游戏</a>
+            <a href="/OPenServices/ServiceIndex">开服表</a>
+            <a href="/Raiders/RaidersIndex">查攻略</a>
+            <a href="/Package/PackageIndex">寻礼包</a>
+            <a href="/Home/AmoyWelFare">淘福利</a>
+            <div class="searchcon">
+                <input type="text" placeholder="输入关键字" class="searchtxt" />
+                <a href=""><img src="/Content/Img/search.png" alt="" class="searchbtn" /></a>
+                <div class="searchall" style="display:none;">
+                    <label><input type="radio" value="11" name="searchtab" checked="checked" />新闻</label>
+                    <label><input type="radio" value="12" name="searchtab" />攻略</label>
+                    <label><input type="radio" value="13" name="searchtab" />游戏</label>
+                    <label><input type="radio" value="14" name="searchtab" />礼包</label>
+                    <label><input type="radio" value="15" name="searchtab" />厂商</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="personmsg">
+        <div class="personmsg_top">
+            <div class="lf">
+                <div>
+                    <img src="/Content/UserImg/@Model.Head" alt="" style="width:100px;" class="myheadimg" />
+                </div>
+                <span class="usern">@Model.UName</span>
+            </div>
+            <div class="lf">
+                <p>
+                    <span class="timeday"></span>
+                    <!--变化点-->
+                    <span><button class="btn1 Attend">签到有奖</button></span>
+                    <span>您已经连续签到&nbsp;<b class="qiandao1">0</b>&nbsp;天</span>
+                </p>
+                <p>
+                    <!--变化点-->
+                    爽币余额: <s class="sbsum">@ViewBag.CoinsUsed</s>爽币<a href="@Url.Action("Recharge", "PersonalUser")" target="_blank"><button class="btn2 percz">充值</button></a>
+                </p>
+                <p style="position:relative;">
+                    <!--变化点-->
+                    资料完善度: <span class="degreebg"><span class="degreenow"></span></span><span class="wsdtxt"></span><a href="@Url.Action("Index", "PersonalUser")"><button class="btn3 Perinfo">完善资料</button></a>
+                    <a style="display:none;" class="mymsgjdt"></a>
+                </p>
+            </div>
+            <div class="lf s_i">
+                <p class="news"><b>最新消息</b><a href="/PersonalUser/MsgCenter">更多>></a></p>
+                <ul id="newlist">
+                    <!--变化点-->
+                    @foreach (var item in (List<Models.UserMessage>)ViewBag.TopFiveMsg)
+                    {                                           
+                    <li><i></i><span>@item.Title</span><b>@item.InTime.ToString("yyyy-MM-dd")</b></li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="per_img">
+        <a href="/Home/Sbsm" target="_blank"><img src="/Content/Img/sbsm.jpg" alt="" /></a>
+        <a href="/Home/Sbhd" target="_blank"><img src="/Content/Img/sbfl.jpg" alt="" class="img1" /></a>
+        <a href="/Home/DemoList" target="_blank"><img src="/Content/Img/sbsw.jpg" alt="" /></a>
+    </div>
+<div>
+    <div class="giftmsg">
+        <ul>
+            <a href="/PersonalUser/GiftBox"><li class="">我的礼包箱</li></a>
+            <a href="/PersonalUser/GameDemo"><li class="">我的试玩</li></a>
+            <a href="/PersonalUser/CoolCoins"><li class="">我的爽币</li></a>
+            <a href="/PersonalUser/OrderList"><li class="">我的礼品</li></a>
+            <a href="/PersonalUser/Submission"><li class="">攻略投稿</li></a>
+            <a href="/PersonalUser/ExtenLinks"><li class="">推广链接</li></a>
+            <a href="/PersonalUser/Index"><li class="">账号信息</li></a>
+            <a href="/PersonalUser/MsgCenter"><li class="">消息中心</li></a>
+        </ul>
+    </div>
+</div>
+  <script src="~/Content/js/jquery-1.11.1.min.js"></script>
+  <script type="text/javascript">
+      
+      $('.giftmsg ul a').each(function () {
+          if ($(this).attr('href') == window.location.pathname) {
+              $(this).find('li').addClass('actives');
+          } 
+      })
+      $(document).scroll(function(){ 
+          var  scrollTop =  $(document).scrollTop(),bodyHeight = $(window).height(); 
+          if(scrollTop > bodyHeight){ 
+              $('#gotop').css('display','block');
+          }else{
+              $('#gotop').css('display','none');
+          } 
+      });
+      $("#gotop").click(function () {
+          $('html,body').stop().animate({
+              scrollTop: '0px'
+          },800);
+      });
+      //首页日期显示
+      $(document).ready(function () {
+          var userid = $('.usename1').attr('value');
+          var aab=$(".myheadimg").attr("src");
+          if(aab=="/UserImg/"){
+              $(".myheadimg").attr("src","/UserImg/2.jpg");
+              $(".myheadimg1").attr("src","/UserImg/2.jpg");
+              $(".myheadimg2").attr("src","/UserImg/2.jpg");
+          }else{
+          }
+          var d, s = "";
+          var x = new Array("星期日", "星期一", "星期二","星期三","星期四", "星期五","星期六");
+          d = new Date();
+          s+=(d.getMonth() + 1)+"月"+d.getDate()+"日 | ";
+          s+=x[d.getDay()];
+          $(".timeday").html(s);						
+      });
+      $(function () {
+          var img;
+          $.ajax({
+              datatype: 'JSON',
+              type: 'POST',
+              data: {
+              },
+              url: '/Home/GetCurrentUserInfo',
+              success: function (data) {
+                  if (data.NoReadMsg != 0) {
+                      img = 'message-on.png';
+                  } else {
+                      img = 'message.png';
+                  }
+                  data.User.Head = localStorage.PersonalUserIMg == null ? data.User.Head : localStorage.PersonalUserIMg;
+                  data.User.Head = data.User.Head == null ? 'myImg.jpg' : data.User.Head;
+                  $('.myheadimg').attr('src', '/Content/UserImg/' + data.User.Head);
+                  $('.myheadimg1').attr('src', '/Content/UserImg/' + data.User.Head);
+                  $('.myheadimg2').attr('src', '/Content/UserImg/' + data.User.Head);
+                  if (data.User != null) {
+                      $('.top').append('<div class="usena-box"><ul class="use-nav"><li class="usename-box"><a href="/PersonalUser/Index" class="usename1" value=' + data.User.Id + '>' + data.User.UName + '</a><div class="use-pic"><img src="/Content/UserImg/' + data.User.Head + '" /></div><ul class="use-nav-list"><li><a href="/PersonalUser/GiftBox">我的礼包箱</a></li><li><a href="/PersonalUser/GameDemo">我的试玩</a></li> <li><a href="/PersonalUser/CoolCoins">我的爽币</a></li><li><a href="/PersonalUser/OrderList">我的礼品</a></li><li><a href="/PersonalUser/Index">账号信息</a></li><li><a href="/Command/PersonalUserLogOut.ashx">退出登录</a></li></ul></li><li><a href="/PersonalUser/MsgCenter"><img src="/Content/Img/' + img + '" class="meaasge-status" /></a></li></ul></div> ')
+                  } else {
+                      $('.top').append('<p class="top2"><a href="/Login/PersonalLogin" class="dl">登录</a><a href="/Login/RegPersonalUser" class="zc">注册</a></p>')
+                  }
+              }
+          })
+          $('.searchbtn').click(function (e) {
+              e.preventDefault();
+              var txt = $('.searchtxt').val();
+              var type = $('.searchall input:checked').attr('value');
+              if (type == 11) {
+                  window.open("/NewsInfo/NewsSearchResult?key=" + encodeURIComponent(txt));
+              } else if (type == 12) {
+                  window.open("/Raiders/RaidersSearch?key=" + encodeURIComponent(txt));
+              } else if (type == 13) {
+                  //局部刷新搜索
+                  window.open("/Game/GameIndex?gameName=" + encodeURIComponent(txt));
+              } else if (type == 14) {
+                  //局部刷新搜索
+                  window.open("/Package/PackageSearch?packageName=" + encodeURIComponent(txt));
+              } else if (type == 15) {
+                  window.open("/Home/Manufacturer?companyName=" + encodeURIComponent(txt));
+              }
+          })
+          $('.searchtxt').keyup(function (e) {
+              // keyCode == 13 表示回车键
+              if (e.keyCode === 13) {
+                  $('.searchbtn').click();
+              }
+          });
+      })
+  </script> 

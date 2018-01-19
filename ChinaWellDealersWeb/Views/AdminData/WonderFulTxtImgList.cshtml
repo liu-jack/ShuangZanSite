@@ -1,0 +1,269 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>精彩图文</title>
+    <link href="~/Content/EasyUi/themes/default/easyui.css" rel="stylesheet" />
+    <link href="~/Content/EasyUi/themes/icon.css" rel="stylesheet" />
+    <link href="~/Content/EasyUi/themes/color.css" rel="stylesheet" />
+    <script src="~/Content/EasyUi/jquery.min.js"></script>
+    <script src="~/Content/EasyUi/jquery.easyui.min.js"></script>
+    <script src="~/Content/EasyUi/easyui-lang-zh_CN.js"></script>
+    <script src="~/Scripts/datapattern.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+    <script src="~/Scripts/jquery-form.js"></script>
+    
+
+    <style type="text/css">
+        td {
+            padding-top: 6px;
+            font: larger bold 10px "Trebuchet MS" Verdana, Arial, Helvetica, sans-serif;
+            color: #4f6b72;
+            height: 35px;
+            letter-spacing: 0px;
+        }
+    </style>
+</head>
+<body>
+    @*----------------搜索开始----------------*@
+    <div id="searchDiv" style="margin:5px 0;">
+        <label for="searchName" style="font-size:14px;">标题：</label> <input class="easyui-textbox" id="searchName" name="searchName" />
+        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-search'" id="btnSearch">查询</a>
+    </div>
+    @*----------------搜索结束----------------*@
+    <table id="UsersInfo"></table>
+    <!----------------------------添加用户的Div-------------------------->
+    <div id="addDiv" style="display:none">
+       @using(Ajax.BeginForm("AddTxtImg", new { plugin = "Wisdo.Demon" }, new AjaxOptions() { HttpMethod = "post", OnSuccess = "afterAdded", OnFailure = "onFailure", OnComplete = "onComplete" }, new { enctype = "multipart/form-data", id = "myForm" }))           
+        {
+            <table style="margin-top:28px;margin-left:26px;" cellspacing="10">
+                <tr>
+                    <td>标题</td>
+                    <td style="padding-right:20px;">
+                        <input class="easyui-textbox" name="title" id="title" style="width:210px;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>跳转链接</td>
+                    <td style="padding-right:20px;">
+                        <input class="easyui-textbox" name="url" id="url" style="width:210px;" value="http://"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>封面图片</td>
+                    <td style="padding-right:20px;">
+                        <span style="color:#ff0000;">图片大小：170*120</span>
+                        <input type="file" name="logoImgs" />
+                        <input type="button" id="Upload" value="上传" style="background-color:#1AA094;color:#ffffff" />
+                        <input type="hidden" name="image" id="image" />
+                        <br />
+                        <span id="tdLoGo"></span>
+                    </td>
+                </tr>
+            </table>
+        }
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+    $(function () {
+        initTb();
+       
+    });
+    //读取基本信息的表
+    function initTb(queryParam) {
+        $('#UsersInfo').datagrid({
+            title: '信息列表展示',
+            idField: 'Id',
+            fitColumns: true,//列自适应。
+            collapsible: false,
+            minimizable: false,
+            maximizable: false,
+            resizable: true,
+            fit: true,
+            loadMsg: '正在加载，请稍稍候...',
+            striped: true,
+            url: '/AdminData/GetWonderFulTxtImgList',
+            nowrap: true,
+            singleSelect: true,//单行选中
+            rownumbers: true,  //显示行号
+            pagination: true,
+            pageSize: 20,
+            pageList: [20, 40, 60, 80, 100],
+           queryParams: queryParam,//请求的额外的参数。
+            toolbar: '#tb',
+            columns: [[
+                //{ field: 'ck', checkbox: true },
+                {
+                    field: 'Title', title: '标题', width: 300
+                },
+                 {
+                     field: 'Image', title: '封面图片', width: 120,
+                     formatter: function (value, row, Index) {
+                         if (value!=null) {
+                             return "<a  href=" + row.Image + " target='_blank'><img src=" + row.Image + " style='height:60px;width:110px;'></a>"
+                         }                      
+                     }
+                 },                                
+                 {
+                     field: 'Url', title: '跳转链接', width: 120,
+                     formatter: function (value, row, Index) {
+                         if (value != null) {
+                             return "<a href='" + row.Url + "'style='color:#3732e4;font-size: 14px' target=_blank>" + row.Url + "</a>"
+                         }
+                     }
+                 },                 
+                     {
+                         field: 'InTime', title: '发布时间', width: 130,
+                         formatter: function (value, row, Index) {//  /Date(1377327062000)/
+                             return (eval(value.replace(/\/Date\((\d+)\)\//gi, "new Date($1)")))
+                                 .pattern("yyyy-M-d H:m:s");
+                         }
+                     },
+                {
+                    field: 'Edit', title: '操作', width: 120,
+                    formatter: function (value, row, Index) {
+                        return "<a class='delLink' href='javascript:void(0)' uId='" + row.Id + "' style='color:red'>删除</a> <a class='editLink' href='/AdminData/TxtImgEdit?id=" + row.Id + "' style='color:#13629D'>修改</a>";
+                    }
+                }
+            ]],
+            toolbar: [{
+                id: 'btnAdd',
+                text: '添加',
+                iconCls: 'icon-add',
+                handler: addEvent
+            }],
+            onHeaderContextMenu: function (e, field) {
+            },
+            onLoadSuccess: onGridLoadSuccess//表格加载完成之后，调用此事件响应方法。
+        });
+        // 设置页脚
+        var p = $('#UsersInfo').datagrid('getPager')
+        $(p).pagination({
+            beforePageText: '第',
+            afterPageText: '页  共{pages} 页',
+            displayMsg: '当前显示 {from}-{to} 条记录   共 {total} 条记录'
+        });
+    }
+
+    //表格加载完成之后，调用此事件响应方法。
+    function onGridLoadSuccess(data) {
+        //绑定表格里面的所有的修改和删除按钮的点击事件
+        $(".delLink").click(function () {
+            var strID = $(this).attr("uId");
+            $.messager.confirm("温馨提示", "您确认要删除该数据？", function (r) {
+                if (r) {
+                    postDeleteData(strID);
+                }
+            });
+        });
+    }
+    //添加被点击的时候执行的代码
+    function addEvent() {
+        //添加的表单出来。
+        $("#addDiv").css("display", "block");
+        $("#addDiv").dialog({
+            width: 450,
+            height: 400,
+            modal: true,
+            title: "精彩图文信息添加",
+            collapsible: true,
+            minimizable: true,
+            maximizable: true,
+            resizable: true,
+            buttons: [{
+                id: 'btnAddSbu',
+                text: '添加',
+                iconCls: 'icon-add',
+                handler: function () {
+                    if ($('#title').val() == "" && $('#url').val() == "") {
+                        $.messager.alert("提示", "信息必须全部必须输入哦！");
+                        return;
+                    }
+                    //定位到表单然后  submit
+                    $("#addDiv form").submit();
+                    $('#title').val('');
+                    $('#url').val('');
+                }
+            }, {
+                id: 'btnCancelAdd',
+                text: '取消',
+                iconCls: 'icon-cancel',
+                handler: function () {
+                    $("#addDiv").dialog("close");
+                }
+            }]
+        });
+    }
+
+    //添加成功之后执行的 事件响应方法    方法与方法之间用空行隔开。
+    function afterAdded(data) {
+        if (data == "ok") {
+            //关闭对话框，刷新表格
+            $("#addDiv").dialog("close");
+            $('#UsersInfo').datagrid("reload");//代用表格的重新加载的方法。
+        } else {
+            //alert(data);
+            $.messager.alert("错误信息", "添加失败！");
+        }
+    }
+    //处理删除的表单提交
+    function postDeleteData(strIds) {
+        $.post("/AdminData/TxtImgDel", { id: strIds }, function (data) {
+            if (data == "ok") {
+                //清除之前的选中的行。
+                $('#UsersInfo').datagrid("clearSelections");
+                //刷新表格
+                $('#UsersInfo').datagrid("reload");//代用表格的重新加载的方法。
+            } else if (data == "empty") {
+                $.messager.alert("提示", "请先选中一条数据");
+            } else {
+                $.messager.alert("温馨提示", "系统异常请稍候再试！");
+            }
+        });
+    }
+   
+</script>
+<script src="~/Scripts/MyAjaxForm.js"></script>
+<link href="~/Content/layui-v1.0.9_rls/layui/css/modules/layer/default/layer.css" rel="stylesheet" />
+<script src="~/Content/layui-v1.0.9_rls/layui/lay/modules/layer.js"></script>
+<script type="text/javascript">
+
+    $(function () {
+        $("#Upload").click(function () {
+            $("form").ajaxSubmit({
+                url: "/AdminData/UploadTxtImg",
+                type: "Post",
+                success: function (data) {
+                    var msgdata = data.split(',');
+                    //返回后台保存图片的服务器地址就可以了。
+                    if (msgdata[0] == "empty") {
+                        layer.msg(msgdata[1]);
+                    } else if (msgdata[0]=="typeError") {
+                        layer.msg(msgdata[1]);
+                    }
+                    else {
+                        var str = "/Content/PublicImg/" + data;
+                        $("#tdLoGo").html("<img src='" + str + "' />");
+                        $("#image").val(str);
+                    }
+                }
+            });
+        });
+    });
+</script>
+
+
+
+
+
+
+
+
+
+

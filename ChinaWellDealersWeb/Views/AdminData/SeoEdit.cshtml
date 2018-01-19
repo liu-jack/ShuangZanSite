@@ -1,0 +1,152 @@
+﻿@{
+    Layout = null;
+}
+@model Models.Seo
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AddGift</title>
+    <link href="~/Content/style/tableStyle.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.8.2.js"></script>
+    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+    <script src="~/Scripts/MyAjaxForm.js"></script>
+    <link href="~/Content/layui-v1.0.9_rls/layui/css/modules/layer/default/layer.css" rel="stylesheet" />
+    <script src="~/Content/layui-v1.0.9_rls/layui/lay/modules/layer.js"></script>
+    <style>
+        #btnEdit {
+            width: 78px;
+            height: 23px;
+            line-height: 23px;
+            color: #fff;
+            border: solid 1px #1f637b;
+            font-size: 12px;
+            background: #2984a4;
+            display: inline-block;
+            text-decoration: none;
+            text-align: center;
+            border-radius: 5px;
+        }
+
+        #btnEdit:hover {
+            background: #24748f;
+        }
+
+        .btn-back {
+            width: 78px;
+            height: 23px;
+            line-height: 23px;
+            color: #000;
+            border: solid 1px #ff8080;
+            font-size: 12px;
+            background: #ffb3b3;
+            display: inline-block;
+            text-decoration: none;
+            text-align: center;
+            border-radius: 5px;
+        }
+
+        .btn-back:hover {
+            background: #ff9999;
+        }
+    </style>
+    <script type="text/javascript">
+        function submitForm() {
+            if ($('#title').val() == "") {
+                layer.msg("提示：请输入标题名称!");
+                return;
+            }
+            if ($('#url').val() == "") {
+                layer.msg("提示：请输入链接!");
+                return;
+            }
+
+            layer.confirm('提示：您是否已确认输入无误？', {
+                skin: 'layui-layer-lan',
+                btn: ['是的', '没有呀'] //按钮
+            }, function () {
+                $("#ff").ajaxSubmit({
+                    url: '/AdminData/SeoEdit',
+                    type: "post",
+                    success: function (data) {
+                        if (data == "ok") {
+                            layer.msg("恭喜：更新成功!");
+                            window.setTimeout(function () {
+                                window.location.href = "/AdminData/SeoList";
+                            }, 1500);
+                        } else if (data == "no") {
+                            layer.msg("提示：修改失败！");
+                        } else if (data == "empty") {
+                            layer.msg("提示：请选择要添加的数据！");
+
+                        } else {
+                            layer.msg("提示：系统异常请稍候再试！");
+                        }
+                    },
+                });
+            });
+        }      
+    </script>
+
+</head>
+<body>
+    <form id="ff" enctype="multipart/form-data" method="post" data-options="novalidate:true ">
+        <input type="hidden" id="id" name="id" value="@Model.Id" />
+        <table style="width:100%;">
+            <tr>
+                <th colspan="2">Seo数据编辑</th>
+            </tr>
+            <tr>
+                <td align="right">
+                    标题名称
+                </td>
+                <td>
+                    <input class=".addText" type="text" id="name" name="name" placeholder="请输入标题名称" style=" width:370px;" value="@Model.Name" />
+                </td>
+            </tr>
+            <tr>
+                <td align="right">
+                    链接
+                </td>
+                <td>
+                    <input id="url" name="url" value="@Model.Url" style=" width:370px;" />
+                </td>
+            </tr>           
+            <tr>
+                <td align="right">
+                  类型
+                </td>
+                <td>
+                   <select style="width:200px;">
+                       @if (Model.Type=="1")
+                       {
+                         <option value="1" selected>厂商</option>
+                       <option value="2">游戏</option>
+                            <option value="3">攻略</option> 
+                       }
+                       else if(Model.Type=="2")
+                       {
+                        <option value="1" >厂商</option>
+                         <option value="2" selected>游戏</option>
+                            <option value="3">攻略</option>
+                       }
+                       else if (Model.Type == "3")
+                       {
+                        <option value="1">厂商</option>
+                        <option value="2" >游戏</option>
+                         <option value="3" selected>攻略</option>
+                       }                    
+                   </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="padding-left:17%;padding-top:13px">
+                    <a href="javascript:void(0)" id="btnEdit" onclick="submitForm()">提交</a>&nbsp;&nbsp;
+                    <a href="javascript:;" onclick="history.go(-1)" class="btn-back">返回</a>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+</body>
+</html>

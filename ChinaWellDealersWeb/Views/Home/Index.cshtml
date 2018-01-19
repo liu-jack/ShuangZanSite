@@ -1,0 +1,792 @@
+﻿@{
+    Layout = null;
+    List<Models.MapModel.PackageViewModel> newEstCoolPackage = (List<Models.MapModel.PackageViewModel>)ViewData["NewestCoolPackage"];
+    List<Models.MapModel.UserRaidersViewModel> GreatRaiders = (List<Models.MapModel.UserRaidersViewModel>)ViewData["MostGreatRaiders"];
+    List<Models.Enum.FrontGame> HotGame = (List<Models.Enum.FrontGame>)ViewBag.InLikeNumHotGame;
+    List<ServiceViewModel> sevenData = (List<ServiceViewModel>)ViewBag.sevenData;
+    List<NewsViewModel> LikeNumNews = (List<NewsViewModel>)ViewBag.LikeNumNews;
+  
+}
+@using Models
+@using Models.MapModel
+@using Models.SqlMapModel
+@model Models.Advertisement
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>页游开服表N0 1_最新游戏福利_最新游戏礼包_爽赞网</title>
+    <meta name="keywords" content="网页游戏开服表，页游开服表，淘福利，游戏礼包，神龙战士，神仙劫，西游之路，神印王座，网页游戏攻略，福利美图，爽赞网，游戏试玩领爽币">
+    <meta name="description" content="爽赞网为玩家朋友提供最新网页游戏、页游开服表、激活码、游戏礼包、游戏资讯、游戏攻略等多个频道，是游戏玩家和厂商首选的最佳服务平台">
+    <link href="~/Content/Css/reset.css" rel="stylesheet" />
+    <link href="~/Content/Css/index.css" rel="stylesheet" />
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="~/Content/Css/usename.css" rel="stylesheet" />
+    <link href="/Content/Img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+</head>
+<body>
+    @Html.Action("_TwoShuangzanHeader", "Home")
+
+    <div class="bigpic">
+       @foreach (var item in (List< Advertisement>)ViewBag.IndexBigImg)
+       {
+          <a href="@item.Url" target="_blank" style="background:url(@item.Path) center top no-repeat;"></a>  
+       }   
+    </div>
+    <!-- 广告位 -->
+    <div class="wrap">
+        <div class="commercial">
+            <!-- 小图标 -->
+            <div class="advert_one">
+                <img src="/Content/Img/icon0.png" class="syftp"/>
+                <ul>
+                    @foreach (var item in (List<Models.Advertisement>)ViewData["smallImg"])
+                    {
+                        <li>
+                            <a href="@item.Url" target="_blank" rel="nofollow">
+                                <img src="@item.Path" alt="@item.Title" />
+                                <p>@item.Title</p>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <!-- 推荐游戏 -->
+            <div class="advert_two">
+                <img src="/Content/Img/recommend.png" />
+                <ul>
+                    @foreach (var item in (List<Models.HomePage>)ViewData["recGame"])
+                    {
+                        <li><a href="@item.Url" target="_blank">@item.Name</a>|</li>
+                    }
+                </ul>
+            </div>
+            <!-- 合作厂商 -->
+            <div class="advert_three">
+                <img src="/Content/Img/cooperation.png" />
+                <ul>
+                    @foreach (var item in (List<Models.HomePage>)ViewData["joinCpy"])
+                    {
+                        <li><a href="@item.Url" target="_blank">@item.Name</a>|</li>
+                    }
+                </ul>
+            </div>
+            <!-- 通栏 -->
+            <div class="advert_four">
+                @foreach (var item in (List<Models.Advertisement>)ViewData["advert"])
+                {
+                    <a href="@item.Url" class="banner_one" target="_blank">
+                        <img src="/Content/Img/tl.png" alt="查攻略">
+
+                        <embed src="@item.Path" wmode="transparent" type="application/x-shockwave-flash" wmode="transparent" pluginspage="http://www.macromedia.com/go/getflashplayer" width="540" height="100">
+                    </a>
+                }
+            </div>
+            <!-- 弹窗广告 -->
+            @if (ViewBag.SiYe.Count!=0)
+            {
+               <div id="banner-sy">
+                <div>
+            @foreach (var item in (List<Models.Advertisement>)ViewBag.SiYe)
+                    {
+                    <div class="banner-gif">
+                        <i class="closebtn01"><img src="/Content/Img/close01.png" alt=""></i>
+                        <a href="@item.Url" target="_blank"><img src="/Content/Img/banersy.png" alt="蓝月传奇" width="640" height="280"></a>
+                    </div>
+                   
+                        <embed menu="false" wmode="transparent" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" quality="high" src="@item.Path" type="" width="640" height="280">
+                    }
+                </div>
+            </div>  
+            }
+            else { 
+            
+            }         
+        </div>
+        <!-- 主要内容 -->
+        <div class="content content-index" style="margin-top: 16px;">
+            <!-- 焦点新闻 -->
+            <div class="jdnew">
+                <!-- 轮播 -->
+                <div class="lunbobox">
+                    <div class="picScroll-left">
+                        <div class="bd">
+                            <ul class="picList">
+                                @foreach (var item in (List<Models.HomePage>)ViewData["SlideShow"])
+                                {
+                                    <li>
+                                        <div class="pic">
+                                            <a href="@item.Url" target="_blank">
+                                                <img src="@item.Img" />
+                                            </a>
+                                        </div>
+                                        <div class="title">
+                                            <a href="@item.Url" target="_blank">@item.Name</a>
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                        <div class="hd">
+                            <a class="next"></a>
+                            <ul></ul>
+                            <a class="prev"></a>
+                        </div>
+                    </div>
+                </div>
+                <!-- 重要焦点新闻 -->
+                <div class="jdnewco">
+                    <div class="h1a"></div>
+                    <div class="multipleLine">
+                        <div class="bd">
+                            <div class="ulWrap">
+                                <ul>
+                                    @foreach (var item in (List<Models.HomePage>)ViewData["FiveTopArea"])
+                                    {
+                                        <li>
+                                            <img src="/Content/Img/jx.png" alt="">
+                                            <a href="@item.Url" target="_blank">@item.Name</a>
+                                            <span>@item.InTime.ToString("yyyy-MM-dd")</span>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 游戏动态 -->
+            <div class="yxdtkuai">
+                <ul>
+                    @foreach (var item in (List<FrontNews>)ViewData["allTypeNews"])
+                    {
+                        if (item.Type == "1" || item.Type == "2" || item.Type == "3")
+                        {
+                            <li>
+                                <img src="/Content/Img/yy.png" alt="">
+                                <a href="/NewsInfo/NewsDetail/@item.Id" target="_blank">
+                                    @if (item.EditTitle != "" && item.EditTitle != null)
+                                    {
+                                        @item.EditTitle
+                                    }
+                                    else
+                                    {
+                                        @item.Title
+                                    }
+                                </a>
+                                <span> @item.InTime.Value.ToString("MM-dd")</span>
+                            </li>
+                        }
+                        if (item.Type == "0")
+                        {
+                            <li>
+                                <img src="/Content/Img/bg.jpg" alt="">
+                                <a href="/NewsInfo/NewsDetail/@item.Id" target="_blank">
+                                    @if (item.EditTitle != "" && item.EditTitle != null)
+                                    {
+                                        @item.EditTitle
+                                    }
+                                    else
+                                    {
+                                        @item.Title
+                                    }
+                                </a>
+                                <span>@item.InTime.Value.ToString("MM-dd")</span>
+                            </li>
+                        }
+                        if (item.Type == "6")
+                        {
+                            <li>
+                                <img src="/Content/Img/sy.jpg" alt="">
+                                <a href="/NewsInfo/NewsDetail/@item.Id" target="_blank">
+                                    @if (item.EditTitle != "" && item.EditTitle != null)
+                                    {
+                                        @item.EditTitle
+                                    }
+                                    else
+                                    {
+                                        @item.Title
+                                    }
+                                </a>
+                                <span>@item.InTime.Value.ToString("MM-dd")</span>
+                            </li>
+                        }
+                        if (item.Type == "5")
+                        {
+                            <li>
+                                <img src="/Content/Img/zb.jpg" alt="">
+                                <a href="/NewsInfo/NewsDetail/@item.Id" target="_blank">
+                                    @if (item.EditTitle != "" && item.EditTitle != null)
+                                    {
+                                        @item.EditTitle
+                                    }
+                                    else
+                                    {
+                                        @item.Title
+                                    }
+                                </a>
+                                <span>@item.InTime.Value.ToString("MM-dd")</span>
+                            </li>
+                        }
+                        if (item.Type == "4")
+                        {
+                            <li>
+                                <img src="~/Content/Img/dj.jpg" alt="">
+                                <a href="/NewsInfo/NewsDetail/@item.Id" target="_blank">
+                                    @if (item.EditTitle != "" && item.EditTitle != null)
+                                    {
+                                        @item.EditTitle
+                                    }
+                                    else
+                                    {
+                                        @item.Title
+                                    }
+                                </a>
+                                <span>@item.InTime.Value.ToString("MM-dd")</span>
+                            </li>
+                        }
+                    }
+
+                </ul>
+            </div>
+            <!-- 爽赞礼包 -->
+            <div class="yxlbkuai">
+                <p>
+                    <img src="/Content/Img/libao.png" alt="">
+                    <a class="left" href="/Package/PackageIndex" target="_blank">最爽礼包&nbsp;</a>
+                    <a class="right" id="moremsgbtn" href="/Package/PackageIndex" target="_blank">更多>></a>
+                </p>
+
+                <ul class="bhomezsl clearfix">
+                    @for (int i = 0; i < (int)newEstCoolPackage.Count; i++)
+                    {
+                        if (i <= 1)
+                        {
+                            <li class="biglbleft">
+                                <a href="/Package/PackageDetails/@newEstCoolPackage[i].Id" target="_blank">
+                                    <div class="biglbleft-box">
+                                        <img src="/Content/GameImg/@newEstCoolPackage[i].DescImg" alt="" style="display:block">
+                                    </div>
+                                    <p class="bhomezsl_gamesname">@newEstCoolPackage[i].SystemName《@newEstCoolPackage[i].GameName》</p>
+                                    <p>
+                                        <span>@newEstCoolPackage[i].GiftName</span>
+                                    </p>
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a href="/Package/PackageDetails/@newEstCoolPackage[i].Id" target="_blank">
+                                    <img src="/Content/GameImg/@newEstCoolPackage[i].SmallImg" class="homezslbImg">
+                                    <p class="homezslbP">@newEstCoolPackage[i].SystemName 《@newEstCoolPackage[i].GameName》</p>
+                                    <p class="homezslbP">
+                                        <span>@newEstCoolPackage[i].GiftName</span>
+                                    </p>
+                                </a>
+                            </li>
+                        }
+
+                    }
+                </ul>
+            </div>
+            <!-- 开服开测 -->
+            <div class="kfkckuai">
+                <ul>
+                    <li class="homekf active"><img src="/Content/Img/kfb.png" alt="">开服表</li>
+                    <li class="homekc">开测表</li>
+                </ul>
+                <!-- 开服表 -->
+                <div class="homekf2">
+                    <p class="kfkckuaiP">
+                        <span class="intime">时间</span>
+                        <span class="gamename">游戏名称</span>
+                        <span class="linesys">运营商</span>
+                        <span class="caozuo">操作</span>
+                    </p>
+                    <ul class="homekc2Ul">
+                      
+                    </ul>
+                    <p class="kfcp1">
+                        <a href="/OPenServices/ServiceIndex" target="_blank">
+                            <img src="/Content/Img/homemore.png" alt="">
+                        </a>
+                    </p>
+                </div>
+                <!-- 开测表 -->
+                <div class="homekc1 display">
+                    <p class="kfkckuaiP">
+                        <span class="intime">时间</span>
+                        <span class="gamename">游戏名称</span>
+                        <span class="linesys">状态</span>
+                        <span class="caozuo">操作</span>
+                    </p>
+                    <ul class="homekc1Ul">
+                        @foreach (var item in (List<Models.MapModel.TestViewModel>)ViewData["TestInfo"])
+                        {
+                            <li>
+                                <span class="intime2">@item.StartTime.Value.ToString("MM-dd")</span>
+                                <span class="gamename2" title="@item.GameName">@item.GameName</span>
+                                <span class="linesys2">@item.State</span>
+                                <span class="caozuo2"><a href="@item.Url" target="_blank" rel=" external nofollow">开始</a></span>
+                            </li>
+                        }
+                    </ul>
+                    <p class="kfcp1">
+                        <a href="/OPenServices/TestIndex" target="_blank">
+                            <img src="/Content/Img/homemore.png" alt="">
+                        </a>
+                    </p>
+                </div>
+            </div>
+            <!-- 最新热游 -->
+            <div class="zryx">
+                <p>
+                    <img src="/Content/Img/reyou.png" alt="">
+                    <a class="left" href="/Game/GameIndex" target="_blank">最热游戏&nbsp;</a>
+                    <a class="right" id="moremsgbtn" href="/Game/GameIndex" target="_blank">更多>></a>
+                </p>
+                <div class="container-3 clearfix">
+                    <div class="pic-box1">
+                        @foreach (var item in (List<Models.HomePage>)ViewData["NewestHotGame"])
+                        {
+                            <div class="pic-box-content">
+                                <a href="@item.Url" target="_blank"><img src="@item.Img" class="pigpic" /></a>
+                                <img src="@item.SmallImg" class="spic" />
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+            <!-- 爽赞攻略 -->
+            <div class="zzglkuai">
+                <p>
+                    <img src="/Content/Img/gl.png" alt="">
+                    <a class="left" href="/Raiders/RaidersIndex" target="_blank">最赞攻略&nbsp;</a>
+                    <a class="right" id="moremsgbtn" href="/Raiders/RaidersIndex" target="_blank">更多>></a>
+                </p>
+                <ul class="gltop">
+                    @for (int i = 0; i < GreatRaiders.Count; i++)
+                    {
+                        if (i <= 2)
+                        {
+                            <li>
+                                <a href="/Raiders/RaidersDetail/@GreatRaiders[i].Id" target="_blank">
+                                    <img src="/Content/GameImg/@GreatRaiders[i].Logo" alt="">
+                                    @if (GreatRaiders[i].EditTitle != "" && GreatRaiders[i].EditTitle != null)
+                                    {
+                                        <span>@GreatRaiders[i].EditTitle</span>
+                                    }
+                                    else
+                                    {
+                                        <span>@GreatRaiders[i].Title</span>
+                                    }
+
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            if (GreatRaiders[i].EditTitle != "" && GreatRaiders[i].EditTitle != null)
+                            {
+                                <li>
+                                    <img src="/Content/Img/s@(i+1).png" alt="">
+
+                                    <a href="/Raiders/RaidersDetail/@GreatRaiders[i].Id" target="_blank">@GreatRaiders[i].EditTitle</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li>
+                                    <img src="/Content/Img/s@(i+1).png" alt="">
+                                    <a href="/Raiders/RaidersDetail/@GreatRaiders[i].Id" target="_blank">@GreatRaiders[i].Title</a>
+                                </li>
+                            }
+
+                        }
+                    }
+                </ul>
+            </div>
+            <!-- 最强福利 -->
+            <div class="zqflkuai">
+                <p>
+                    <img src="/Content/Img/fl.png" alt="">
+                    <a class="left" href="/Home/DemoList" target="_blank">最强福利&nbsp;</a>
+                    <a class="right" id="moremsgbtn" href="/Home/DemoList" target="_blank">更多>></a>
+                </p>
+                <ul class="homezqfl">
+                    @foreach (var item in (List<Models.SqlMapModel.Sql_GameDemo>)ViewBag.NewsetGameDemo)
+                    {
+                        <li>
+                            <div>
+                                <a href="/Home/DemoDetails/@item.Id" target="_blank">
+                                    <p class="imgname">@item.GameName</p>
+                                    <img src="/Content/GameImg/@item.Img" alt="">
+                                </a>
+                            </div>
+                            <p>奖励<b>@item.PaySum</b>爽币</p>
+                            <p><a href="/Home/DemoDetails/@item.Id" target="_blank"><input type="button" value="立即试玩"></a></p>
+                        </li>
+                    }
+
+                </ul>
+            </div>
+            <!-- 直播 -->
+            <div class="zbkuai">
+                <p>
+                    <img src="/Content/Img/zb.png" alt="">
+                    <a class="left" href="/NewsInfo/MoreDirectHotNews" target="_blank">直播热点&nbsp;</a>
+                    <a class="right" id="moremsgbtn" href="/NewsInfo/MoreDirectHotNews" target="_blank">更多>></a>
+                </p>
+                <div>
+                    @foreach (var item in (List<Models.HomePage>)ViewData["DirectHot"])
+                    {
+                        <a href="@item.Url" target="_blank" style="display:block">
+                            <p class="imgname">
+                                @item.Name
+                            </p>
+                            <img src="@item.Img" alt="" />
+                        </a>
+                    }
+                </div>
+                <ul class="homezb">
+                    @foreach (var item in (List<FrontNews>)ViewData["threeDirectHot"])
+                    {
+                        if (item.EditTitle != null && item.EditTitle != "")
+                        {
+                            <li><a href="/NewsInfo/NewsDetail/@item.Id" target="_blank">@item.EditTitle</a><span> @item.InTime.Value.ToString("MM-dd")</span></li>
+                        }
+                        else
+                        {
+                            <li><a href="/NewsInfo/NewsDetail/@item.Id" target="_blank">@item.Title</a><span> @item.InTime.Value.ToString("MM-dd")</span></li>
+                        }
+
+                    }
+                </ul>
+            </div>
+            <!-- 手游资讯 -->
+            <div class="sykuai">
+                <p>
+                    <img src="/Content/Img/sy.png" alt="">
+                    <a class="left" href="/NewsInfo/MoreMobileGameNews" target="_blank">手游资讯&nbsp;</a>
+                    <a class="right" id="moremsgbtn" href="/NewsInfo/MoreMobileGameNews" target="_blank">更多>></a>
+                </p>
+                <div>
+                    @foreach (var item in (List<Models.HomePage>)ViewData["MobileGame"])
+                    {
+                        <a href="@item.Url" target="_blank" style="display:block">
+                            <p class="imgname">
+                                @item.Name
+                            </p>
+                            <img src="@item.Img" alt="" />
+                        </a>
+                    }
+                </div>
+                <ul class="homezb">
+                    @foreach (var item in (List<FrontNews>)ViewData["threeMobileGame"])
+                    {
+                        if (item.EditTitle != null && item.EditTitle != "")
+                        {
+                            <li><a href="/NewsInfo/NewsDetail/@item.Id" target="_blank">@item.EditTitle</a><span> @item.InTime.Value.ToString("MM-dd")</span></li>
+                        }
+                        else
+                        {
+                            <li><a href="/NewsInfo/NewsDetail/@item.Id" target="_blank">@item.Title</a><span> @item.InTime.Value.ToString("MM-dd")</span></li>
+                        }
+
+                    }
+                </ul>
+            </div>
+            <!-- 福利美图 -->
+            <div class="flmtkuai">
+                <p>
+                    <img src="/Content/Img/mt.png" alt="">
+                    <a class="left" href="/BeautyGirl/GirlIndex" target="_blank">福利美图&nbsp;</a>
+                    <a class="right" id="moremsgbtn" href="/BeautyGirl/GirlIndex" target="_blank">更多>></a>
+                </p>
+                <ul class="picL">
+                    @foreach (var item in (List<Models.BeautifulGirls>)ViewData["NewestIndexRecGirls"])
+                    {
+                        <li>
+                            <a href="/BeautyGirl/GirlDetails/@item.Id" target="_blank">
+                                <div class="div1">
+                                    <div class="div1-box">
+                                        <img src="/Content/GirlImg/@item.Imgs" alt="">
+                                    </div>
+                                    <p>@item.Title</p>
+                                </div>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <!-- 排行榜 -->
+            <div class="phbkuai">
+                <p>
+                    <img src="/Content/Img/phb.png" alt="">
+                    <a class="left" href="javascript:void(0)" target="_blank">排行榜&nbsp;</a>
+                </p>
+                <div class="phbleft">
+                    <p>热游排行</p>
+                    <ul class="phblist">
+                        @for (int i = 0; i < HotGame.Count; i++)
+                        {
+                            <li class="">
+                                <span>
+                                    <p class="numb">@(i + 1)</p>
+                                    <a href="/Game/GameDetail/@HotGame[i].Id" target="_blank">
+                                        <img src="/Content/GameImg/@HotGame[i].SmallImg" alt="" class="dis homeryphImg">
+                                        <p class="homeryphP">
+                                            @HotGame[i].Name
+                                        </p>
+                                    </a>
+                                    <p class="lbP">
+                                        @if (HotGame[i].Type == "1")
+                                        {
+                                            <span class="lbname">角色扮演</span>
+                                        }
+                                        else if (HotGame[i].Type == "2")
+                                        {
+                                            <span class="lbname">战争策略</span>
+                                        }
+                                        else if (HotGame[i].Type == "3")
+                                        {
+                                            <span class="lbname">模拟经营</span>
+                                        }
+                                        else if (HotGame[i].Type == "4")
+                                        {
+                                            <span class="lbname">休闲竞技</span>
+                                        }
+                                        else if (HotGame[i].Type == "5")
+                                        {
+                                            <span class="lbname">社区养成</span>
+                                        }
+                                        else if (HotGame[i].Type == "6")
+                                        {
+                                            <span class="lbname">儿童游戏</span>
+                                        }
+                                        <span class="r">@HotGame[i].LikeNum</span>
+                                        <img src="/Content/Img/rm.png" alt="">
+                                    </p>
+                                </span>
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <div class="phbcenter">
+                    <p>开服排行</p>
+                    <ul class="phblist">
+                        @for (int i = 0; i < sevenData.Count; i++)
+                        {
+                            <li class="">
+                                <span>
+                                    <p class="numb">@(i + 1)</p>
+                                   <a href="@Url.Action("ServiceSearch", "OPenServices", new { key =sevenData[i].GameName })"target="_blank">
+                                        <img src="/Content/GameImg/@sevenData[i].SmallImg" alt="" class="dis homeryphImg">
+                                        <p class="homeryphP">
+                                            @sevenData[i].GameName<br>
+                                        </p>
+                                    </a>
+                                    <p class="lbP">
+                                        @if (sevenData[i].Type == "1")
+                                        {
+                                            <span class="lbname">角色扮演</span>
+                                        }
+                                        else if (sevenData[i].Type == "2")
+                                        {
+                                            <span class="lbname">战争策略</span>
+                                        }
+                                        else if (sevenData[i].Type == "3")
+                                        {
+                                            <span class="lbname">模拟经营</span>
+                                        }
+                                        else if (sevenData[i].Type == "4")
+                                        {
+                                            <span class="lbname">休闲竞技</span>
+                                        }
+                                        else if (sevenData[i].Type == "5")
+                                        {
+                                            <span class="lbname">社区养成</span>
+                                        }
+                                        else if (sevenData[i].Type == "6")
+                                        {
+                                            <span class="lbname">儿童游戏</span>
+                                        }                                      
+                                        <span class="r">@sevenData[i].LikeNum</span>
+                                        <img src="/Content/Img/rm.png" alt="">
+                                    </p>
+                                </span>
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <div class="phbright">
+                    <p>资讯排行</p>
+                    <ul class="phblist">
+                        @for (int i = 0; i < LikeNumNews.Count; i++)
+                        {
+                            <li class="">
+                                @if (LikeNumNews[i].Type == "0")
+                                {
+
+                                    <span>
+                                        <p class="numb">@(i + 1)</p>
+                                        <a href="/NewsInfo/FunNewsDetail/@LikeNumNews[i].Id" target="_blank">
+                                            <img src="@Common.WebHelper.PickupImgUrl(LikeNumNews[i].Msg)" alt="" class="dis homeryphImg">
+                                            @if (LikeNumNews[i].EditTitle != "" && LikeNumNews[i].EditTitle != null)
+                                            {
+                                                <p class="homeryphP">@LikeNumNews[i].EditTitle</p>
+                                            }
+                                            else
+                                            {
+                                                <p class="homeryphP">@LikeNumNews[i].Title</p>
+                                            }
+                                        </a>
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span>
+                                        <p class="numb">@(i + 1)</p>
+                                        <a href="/NewsInfo/NewsDetail/@LikeNumNews[i].Id" target="_blank">
+                                            <img src="@Common.WebHelper.PickupImgUrl(LikeNumNews[i].Msg)" alt="" class="dis homeryphImg">
+                                            @if (LikeNumNews[i].EditTitle != "" && LikeNumNews[i].EditTitle != null)
+                                            {
+                                                <p class="homeryphP">@LikeNumNews[i].EditTitle</p>
+                                            }
+                                            else
+                                            {
+                                                <p class="homeryphP">@LikeNumNews[i].Title</p>
+                                            }
+                                        </a>
+                                    </span>
+                                }
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            <!-- 推荐厂商 -->
+            <div class="tjcsbox">
+                <p>
+                    <img src="/Content/Img/tjcs.png" alt="">
+                    <a class="left" href="/Home/Manufacturer" target="_blank">推荐厂商&nbsp;</a>
+                    <a class="right" id="moremsgbtn" href="/Home/Manufacturer" target="_blank">更多>></a>
+                </p>
+                <div class="tjcsco">
+                    <div class="hd">
+                        <a class="next"></a>
+                        <a class="prev"></a>
+                    </div>
+                    <div class="picScroll-left2">
+                        <div class="bd">
+                            <ul class="picList">
+                                @foreach (var item in (List<CompanyViewModel>)ViewBag.RecCpy)
+                                {
+                                    <li>
+                                        <a class="pic" href="/Home/CpyDetails/@item.Id" target="_blank">
+                                            <img src="/Content/CompanyImg/@item.Logo" />
+                                            <p>@item.Systemname</p>
+                                        </a>
+                                    </li>
+                                }
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 友情链接 -->
+            <div class="yqljbox">
+                <p>
+                    <img src="/Content/Img/yqlj.png" alt="">
+                    <a class="left" href="javascript:void(0)" target="_blank">友情链接&nbsp;</a>
+                </p>
+                <ul>
+                    <li><a href="http://www.51wan.com" target="_blank">51wan网页游戏</a></li>
+                    <li><a href="http://www.a37.cn/" target="_blank" rel="external nofollow">a37游戏</a></li>
+                    <li><a href="http://www.aotian.com" target="_blank">傲天游戏</a></li>
+                    <li><a href="http://www.wanjizhijia.com" target="_blank">玩机之家页游平台</a></li>
+                    <li><a href="http://www.3737.com" target="_blank">3737游戏平台</a></li>
+                    <li><a href="http://www.dahei.com" target="_blank">大黑游戏</a></li>
+                    <li><a href="http://www.43u.com" target="_blank">43u</a></li>
+                    <li><a href="http://www.58wan.com" target="_blank">58wan</a></li>
+                    <li><a href="http://www.2217.com" target="_blank">2217</a></li>
+                    <li><a href="http://web.gamersky.com" target="_blank">游民星空</a></li>
+                    <li><a href="http://www.ufojoy.com" target="_blank" rel="external nofollow">星碟游戏</a></li>
+                    <li><a href="http://www.9game.cn/zyzz2/" target="_blank">自由之战2</a></li>
+                    <li><a href="http://www.780g.com" target="_blank" rel="external nofollow">趣吧游戏</a></li>
+                    <li><a href="http://www.aiwan91.com/" target="_blank">火爆网页游戏</a></li>
+                    <li><a href="http://www.ledu.com" target="_blank" rel="external nofollow">最火的网页游戏 </a></li>
+                    <li><a href="http://game.stargame.com/" target="_blank">星游传媒游戏</a></li>
+                    <li><a href="http://www.chinagames.net/" target="_blank" rel="external nofollow">中国游戏中心</a></li>
+                    <li><a href="http://www.ypvp.com/" target="_blank">大神游戏平台</a></li>
+                    <div class="sharelink">
+                        <li><a href="http://www.346yx.com/" target="_blank">346yx</a></li>  
+                        
+                    </div>
+                </ul>
+                <span class="morelink"></span>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("_ShuangZanFooter")
+    <script src="~/Content/js/jquery-1.11.1.min.js"></script>
+    <script src="~/Content/js/jquery.SuperSlide.2.1.1.js"></script>
+    <script src="~/Content/js/personal_use.js"></script>
+    <script src="~/Content/js/Public.js"></script>
+    <script src="~/Content/js/index.js"></script>
+    <script src="~/Content/js/SuperSlide.connected-slides.js"></script>
+    <script>
+        $(function () {
+            $.ajax({
+                datatype: 'json',
+                type: 'post',
+                url: '/Home/RedAndGrayHomePage',
+                success: function (data) {
+                    var p = $('<p></p>');
+                    var p1 = $('<p></p>');
+                    for (var i = 0; i < 8; i++) {
+                        if (i == 0 || i == 4) {
+                            var j = i == 0 ? 0 : 1;
+                            $('.h1a').append('<h6><a href="' + data.redData[j].Url + '" target="_blank">' + data.redData[j].Name + '</a></h6>');
+                        } else {
+                            var k;
+                            if (i < 4) {
+                                k = i - 1;
+                            } else if (i > 4) {
+                                k = i - 2;
+                            }
+                            if (i == 3) {
+                                p.append('<a href="' + data.grayData[k].Url + '" target="_blank">' + data.grayData[k].Name + '</a>');
+                                $('.h1a').append(p);
+                            } else if (i == 7) {
+                                p1.append('<a href="' + data.grayData[k].Url + '" target="_blank">' + data.grayData[k].Name + '</a>');
+                                $('.h1a').append(p1);
+                            } else if (i < 4 && i != 3) {
+                                p.append('<a href="' + data.grayData[k].Url + '" target="_blank">' + data.grayData[k].Name + '</a>|');
+                            } else if (i > 4 && i != 7) {
+                                p1.append('<a href="' + data.grayData[k].Url + '" target="_blank">' + data.grayData[k].Name + '</a>|');
+                            }
+                        }
+                    }
+                }
+            });            
+        });
+        $(".advert_one>ul>li").each(function () {
+            if (parseInt(Math.random() * 2) == 0) {
+                $(this).prependTo($(this).parent());
+            }
+        });
+        $(".advert_four>a").each(function () {
+            if (parseInt(Math.random() * 2) == 0) {
+                $(this).prependTo($(this).parent());
+            }
+        });
+       
+
+    </script>
+
+</body>
+</html>

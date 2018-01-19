@@ -1,0 +1,100 @@
+﻿@model Models.CompanyGame
+
+@{
+    ViewBag.Title = "CpyNameEdit";
+    Layout = "~/Views/Shared/_LayoutAdminData.cshtml";
+}
+<link href="~/Content/style/tableStyle.css" rel="stylesheet" />
+<link href="~/Content/style/NavPager.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-1.8.2.min.js"></script>
+<link href="~/Content/layui-v1.0.9_rls/layui/css/modules/layer/default/layer.css" rel="stylesheet" />
+<script src="~/Content/layui-v1.0.9_rls/layui/lay/modules/layer.js"></script>
+<script src="~/Scripts/MyAjaxForm.js"></script>
+<script type="text/javascript"> 
+    function submitForm() {
+        if ($('#gameName').val() == "") {
+            layer.msg("提示：请输入游戏名称!");
+
+            return;
+        }
+        if ($('#url').val() == "" || $('#url').val() == "http://") {
+            layer.msg("提示：请输入链接地址!");
+
+            return;
+        }
+        layer.confirm('提示：您是否已确认输入无误？', {
+            skin: 'layui-layer-lan',
+            btn: ['是的', '没有呀'] //按钮
+        }, function () {
+            $("#editForm").ajaxSubmit({
+                url: '/Company/EditcpyNames',
+                type: "post",
+                success: function (data) {
+                    if (data == "ok") {
+                        layer.msg("恭喜：修改成功!");
+                        window.setTimeout(function () {
+                            window.location.href = "/Company/CompanyGameNum?id=@Model.CompanyId";
+                        }, 2000);
+                    } else if (data == "no") {
+                        layer.msg("提示：修改失败！");
+                    } else {
+                        layer.msg("提示：系统异常请稍候再试！");
+                    }
+                },
+            });
+        });
+    }
+</script> 
+        <form id="editForm" enctype="multipart/form-data" method="post" data-options="novalidate:true ">
+            <input type="hidden" id="id" name="id" value="@Model.Id" />@*当前厂商的id*@
+            <table width="100%" >
+                <tr><th colspan="2" style="text-align:center">修改运营游戏</th></tr>
+                <tr>
+                    <td style="text-align:right">游戏名称:</td>
+                    <td><input type="text" id="gameName" name="gameName" list="gamelist" value="@Model.GameName" style="width:300px;" /></td>
+                </tr>
+                <tr>
+                    <td style="text-align:right">运营类型:</td>
+                    <td>
+                        <select name="type" id="type" style="width:300px;">
+                            @if (Model.Type == "1")
+                            {
+                                <option value="1" selected="selected">联运</option>
+                                  <option value="2" >研发</option>
+                                 <option value="3" >独代</option>
+                            }
+                            else if (Model.Type == "2")
+                            {
+                                <option value="2" selected="selected">研发</option>
+                                 <option value="3" >独代</option>
+                                  <option value="1" >联运</option>
+                            }
+                            else if (Model.Type == "3")
+                            {
+                                <option value="3" selected>独代</option>
+                                <option value="1" >联运</option>
+                                <option value="2">研发</option>
+                            }
+                            else
+                            {
+                                <option value="" selected>出异常了</option>
+                            }
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align:right">链接地址:</td>
+                    <td><input class="easyui-textbox" id="url" name="url" style="width:300px;" value="@Model.Url" /></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="padding-left:22%;" >
+                        <a href="javascript:;" class="easyui-linkbutton c6" id="btnAdd" style="width:80px;height:25px;" onclick="submitForm()">提&nbsp;交</a>
+                        <a href="#" onclick="history.go(-1)" class="easyui-linkbutton c8" id="btnAdd" style="width:80px;height:25px;">返&nbsp;回</a>
+                    </td>
+                </tr>
+            </table>
+        </form>
+ @Html.Action("GameNameListPartial", "Game")
+
+  
+

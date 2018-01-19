@@ -1,0 +1,192 @@
+﻿@{
+    Layout = null;
+    List<Models.Order> allOrder = (List<Models.Order>)ViewData["allOrder"];
+}
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=1124">
+    <link href="~/Content/Css/index.css" rel="stylesheet" />
+    <link href="~/Content/Css/reset.css" rel="stylesheet" />
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="~/Content/Css/personal.css" rel="stylesheet" />
+    <link href="~/Content/Css/sign.css" rel="stylesheet" />
+    <link href="~/Content/Css/calendar.css" rel="stylesheet" />
+    <link href="~/Content/style/NavPager.css" rel="stylesheet" />
+    <link href="/Content/Img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+    <title>个人中心</title>
+</head>
+<body>
+    @Html.Action("UserTop", "PersonalUser")
+    <!--我的礼品-->
+    <div class="myGift">
+        <ul>
+            <li class="active actives qbdd" value="">全部订单</li>
+            <li class="dddfh" value="0">待发货<span>@ViewBag.WaitOrder </span></li>
+            <li class="dddsh" value="1">待收货<span>@ViewBag.WaitAcceptOrder</span></li>
+        </ul>
+        <!--全部订单开始-->
+        <div class="allddmsg">
+            <div class="fri">
+                <label><input type="checkbox" name="" id="" value="" class="ddcheckboxs" /><span>全选</span></label><button class="btn5 delgiftdd">删除所选</button>
+            </div>
+            <div class="record qbddmsg">
+                <table border="0" cellspacing="0" cellpadding="0" id="syddlp">
+                    <tr><th width="120">兑换时间</th><th width="400">礼品</th><th width="120">单价(爽币)</th><th width="80">数<th><thwidth ="120" 实付款(爽币)</th><th width="130">交易状态</th><th width="130">操作</th></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- 订单删除确认弹框 -->
+    <div class="modal3 display">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <p>确定要删除该订单吗？</p>
+                <p>
+                    <input type="button" value="确定" id="confirm3" />
+                    <input type="button" value="取消" id="delcancel3" />
+                </p>
+            </div>
+        </div>
+    </div>
+    <!--尾部开始-->
+    @Html.Action("_SignInDiv", "PersonalUser")
+    <!--尾部结束-->
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260848027&web_id=1260848027" language="JavaScript"></script>
+    <script src="~/Content/js/jquery-1.11.1.min.js"></script>
+    <script src="~/Content/js/jquery.SuperSlide.2.1.1.js"></script>
+    <script src="~/Content/js/Public.js"></script>
+    <script src="~/Content/js/calendar.js"></script>
+    <script src="~/Content/js/myExtend.js"></script>
+    <script src="~/Content/js/personal_use.js"></script>
+    <script src="~/Content/js/calendar1.js"></script>
+    <link href="~/Content/layui-v1.0.9_rls/layui/css/modules/layer/default/layer.css" rel="stylesheet" />
+    <script src="~/Content/layui-v1.0.9_rls/layui/lay/modules/layer.js"></script>
+    <script src="~/Scripts/datapattern.js"></script>
+    <script type="text/javascript">
+        //删除订单
+        $(".delgiftdd").click(function () {
+            var str = "";
+            $("#syddlp input[type='checkbox']:checked").each(function () {
+                str += $(this).val() + ",";
+            });
+            if (str != "") {
+                $(".modal3").show();
+                $("#delcancel3").click(function () {
+                    $(".modal3").hide();
+                });
+                $("#confirm3").click(function () {
+                    $.ajax({
+                        type: "Post",
+                        url: "/PersonalUser/OrderMoreDel",
+                        data: {
+                            ids: str
+                        },
+                        success: function (data) {
+                            var msgData = data.split(",");
+                            if (msgData[0] == "ok") {
+                                $(".qbdd").click();
+                                $(".modal3").hide();
+                            } else if (msgData[0] == "no") {
+                                layer.msg(msgData[1]);
+                            }
+                        },
+                    });
+                })
+            }
+        })
+        function OrderDetailUrl(time, id) {
+            $.post("/PersonalUser/OrderDetailUrl", { time: time, id: id }, function (data) {
+                if (data != null) {
+                    window.location.href = "" + data + "";
+                }
+            })
+        };
+        $(function () {
+            var pageIndex = 1;
+            var state = '';
+            $('.myGift ul li').click(function () {
+                state = $(this).attr('value');
+                pageIndex = 1;
+                loadGift();
+            })
+
+            loadGift();
+
+            $('.record.qbddmsg').on('click', '.page ul a', function (event) {
+                event.preventDefault();
+                var href = $(this).attr("href").split('&');
+                href = href[0].split('=');
+                pageIndex = href[1];
+                loadGift();
+            });
+
+            function loadGift() {
+                $.ajax({
+                    datatype: 'json',
+                    type: 'post',
+                    data: {
+                        pageIndex: pageIndex,
+                        state:state
+                    },
+                    url: '/PersonalUser/MyOrderList',
+                    success: function (data) {
+                        $('.record.qbddmsg').empty();
+                        var str, state1, state2;
+                        if (data.Data.length == 0) {
+                            var table = $('<table border="0" cellspacing="0" cellpadding="0" id="syddlp"></table>');
+                            var tr = $('<tr><th width="120">兑换时间</th><th width="400">礼品</th><th width="120">单价(爽币)</th><th width="80">数量</th><th width="120">实付款(爽币)</th><th width="130">交易状态</th><th width="130">操作</th></tr>');
+                            table.append(tr);
+                            str = '<div class="nomsg"><p style="margin-top:80px;">一键下单，礼品到家。赶紧去兑换吧~</p><p><a href="/Gift/GiftList" target="_blank"><button class="btn">我要去兑换</button></a></p></div>';
+                            $('.record.qbddmsg').append(table);
+                            $('.record.qbddmsg').append(str);
+                        } else {
+                            var all = $('<div class="fri checkdel"><label><input type="checkbox" name="" id="" value="" class="ddcheckboxs" /><span>全选</span></label><button class="btn5 delgiftdd" >删除所选</button></div>');
+                            var table = $('<table border="0" cellspacing="0" cellpadding="0" id="syddlp"></table>');
+                            var tr = $('<tr><th width="120">兑换时间</th><th width="400">礼品</th><th width="120">单价(爽币)</th><th width="80">数量</th><th width="120">实付款(爽币)</th><th width="130">交易状态</th><th width="130">操作</th></tr>');
+                            table.append(tr);
+                            for (var i in data.Data) {
+                                if (data.Data[i].state == 0) {
+                                    state1 = '已付款';
+                                    state2 = '待发货';
+                                } else if (data.Data[i].state == 1) {
+                                    state1 = '已付款';
+                                    state2 = '已发货';
+                                } else if (data.Data[i].state == 2) {
+                                    state1 = '已付款';
+                                    state2 = '已收货';
+                                }
+
+                                var InTime = (eval(data.Data[i].InTime.replace(/\/Date\((\d+)\)\//gi, "new Date($1)"))).pattern("yyyy-MM-dd");
+                                
+                                    str = '<tr><td><input type="checkbox" value="' + data.Data[i].Id + '"/>' + InTime + '</td><td><div class="lf"><img src="/Content/GiftImg/' + data.Data[i].Logo + '"/></div><div class="lf msgtxt"><p>' + data.Data[i].Name + '</p><p>款式：' + decodeURIComponent(data.Data[i].color) + '</p></div></td><td>' + data.Data[i].Price + '</td><td>' + data.Data[i].Num + '</td><td>' + data.Data[i].Price * data.Data[i].Num + '</td><td><ul><li>' + state1 + '</li><li>' + state2 + '</li><li><a href="/PersonalUser/OrderDetail/' + data.Data[i].Id + '" target="_blank">订单详细</a></li></ul></td><td>';
+                                    if (state2 == '已收货' || state2 == '待发货') {
+                                        str = str + '<button class="btn1 checkgift01" style="background: #b3b3b3;pointer-events:none;" onclick="AcceptOrderInfo(' + data.Data[i].Id + ')">确认收货</button><br /><a href="/Gift/GiftList">继续兑换</a></td></tr>';
+                                    } else {
+                                        str = str + '<button class="btn1 checkgift01" onclick="AcceptOrderInfo('+data.Data[i].Id+')">确认收货</button><br /><a href="/Gift/GiftList">继续兑换</a></td></tr>';
+                                    }
+
+                                    table.append(str);
+                                
+                               
+                            }
+                            $('.record.qbddmsg').append(table);
+                            $('.record.qbddmsg').append(all);
+                            $('.record.qbddmsg').append('<div class="page"><ul id="paginator">' + data.NavStr + '</ul></div>');
+                        }
+                    }
+                })
+            }
+        })
+        function AcceptOrderInfo(id) {
+            $.get('/PersonalUser/AcceptOrderInfo', { id: id }, function (data) {
+                if (data == "ok") {
+                    window.location.href = '';
+                } else {
+                    alert('系统异常,确认收货失败！请稍候再试！');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

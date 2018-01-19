@@ -1,0 +1,92 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>游戏产业资讯_游戏新闻中心_新游资讯_热游动态_爽赞网</title>
+    <meta name="keywords" content="最新游戏资讯,游戏动态,游戏更新动态,新游动态,最新游戏报道,中国游戏产业,爽赞网">
+    <meta name="description" content="游戏新闻频道为玩家朋友提供最新的游戏更新动态和游戏行业报道，最有意思游戏趣闻及图片等内容">
+    <link href="~/Content/Css/index.css" rel="stylesheet" />
+    <link href="~/Content/Css/reset.css" rel="stylesheet" />
+    <link href="~/Content/Css/amoywel.css" rel="stylesheet" />
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="~/Content/Css/lunbo.css" rel="stylesheet" />
+    <link href="~/Content/Css/news.css" rel="stylesheet" />
+    <link href="~/Content/Css/commercial.css" rel="stylesheet" />
+    <link href="~/Content/Css/usename.css" rel="stylesheet" />
+    <link href="~/Content/style/NavPager.css" rel="stylesheet" />
+    <link href="/Content/Img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+</head>
+<body>
+    @Html.Action("_TwoShuangzanHeader", "Home")
+    <!-- 顶部导航 -->
+    @Html.Action("ShuangzanHeader", "NewsInfo")
+    <div class="wide details">当前位置：<a href="/Home/Index">爽赞网</a> > <a href="/NewsInfo/News">看新闻</a> > <a >@TempData["SearchTitle"]</a></div>
+    <div class="info wide clearfix">        
+        <form action="/NewsInfo/NewsSearchResult" method="get">
+            <h6>
+                <em>【<b>@TempData["SearchTitle"] </b>】相关新闻</em>
+                <span>
+                    <input type="text" name="key" id="key" placeholder="输入关键词"><button>搜新闻</button>
+                </span>
+            </h6>
+        </form>
+            <div class="gamelist-xy">
+                <img src="/Content/Img/nonews.png" style="margin-top:20px; margin-left:130px;">
+                @if (ViewData["SearchResult"] != null && ViewData["SearchResult"]!="")
+                {
+                    foreach (var item in (List<Models.MapModel.NewsViewModel>)ViewData["SearchResult"])
+                    {
+                        <div>
+                            <div class="game">
+                                <a href="/NewsInfo/NewsDetail/@item.Id"><img src="@MvcHtmlString.Create(Common.WebHelper.PickupImgUrl(item.Msg))" alt=""></a>
+                                <div>
+                                    @if (item.EditTitle != "" && item.EditTitle != null)
+                                    {
+                                        <h5><a href="/NewsInfo/NewsDetail/@item.Id">@item.EditTitle</a></h5>
+                                    }
+                                    else
+                                    {
+                                        <h5><a href="/NewsInfo/NewsDetail/@item.Id">@item.Title</a></h5>
+                                    }
+                                    <section>@item.Memo</section>
+                                    <p>
+                                        <a href="javascript:void(0)"><img src="/Content/Img/时间.png" alt=""><time class="year">@item.InTime.ToString("yyyy")</time>-<time class="month">@item.InTime.ToString("MM")</time>-<time class="date">@item.InTime.ToString("dd")</time></a>
+                                        <a href="javascript:void(0)"><img src="/Content/Img/查看.png" alt=""><i class="readers">@item.ViewNum</i>浏览</a>
+                                        <a href="javascript:void(0)"><img src="/Content/Img/留言.png" alt=""><i class="replies">@item.MsgNum</i>留言</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }              
+                <div class="page">
+                    <ul id="paginator">
+                        @MvcHtmlString.Create(Common.LaomaPager.ShowPageNavigate((int)ViewData["pageSize"], (int)ViewData["pageIndex"], (int)ViewData["Total"], (string)TempData["SearchTitle"]))
+                    </ul>
+                </div>
+            </div>
+            @Html.Action("_RightNews", "NewsInfo")
+</div>
+    <!-- 底部 -->
+    @Html.Partial("_ShuangZanFooter")
+    <script src="~/Content/js/jquery-1.11.1.min.js"></script>
+    <script src="~/Content/js/new_games.js"></script>
+    <script src="~/Content/js/jquery.SuperSlide.2.1.1.js"></script>
+    <script src="~/Content/js/personal_use.js"></script>
+    <script src="~/Content/js/Public.js"></script>
+    <script src="~/Content/js/amoywel.js"></script>
+    <script>
+        $(function () {
+            if ($('.gamelist-xy .game').length == 0) {
+                $('.gamelist-xy>img').show();
+                $('.gamelist-xy>.page').hide();
+            } else {
+                $('.gamelist-xy>img').hide();
+                $('.gamelist-xy>.page').show();
+            }
+        })
+    </script>
+</body>
+

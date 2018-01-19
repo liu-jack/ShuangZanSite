@@ -1,0 +1,29 @@
+﻿
+<!-- 顶部导航 -->
+<div class="commercial wide">
+    <div class="advert_top01">
+        @foreach (var item in (List<Models.Advertisement>)ViewData["advert"])
+        {         
+            <a href="@item.Url" class="banner_one" target="_blank">
+                <img src="/Content/Img/tl.png" alt="查攻略">
+                <embed src="@item.Path" wmode="transparent" type="application/x-shockwave-flash" wmode="transparent" pluginspage="http://www.macromedia.com/go/getflashplayer" width="540" height="100">
+            </a>
+        }       
+    </div>
+    <!-- 小图标 -->
+
+    <div class="advert_imgs_news">
+        <img src="/Content/Img/001.png" class="syftp" />
+        <ul>
+            @foreach (var item in (List<Models.Advertisement>)ViewData["smallImg"])
+            {
+                <li>
+                    <a href="@item.Url" target="_blank" rel="nofollow">
+                        <img src="@item.Path" alt="@item.Title" />
+                        <p>@item.Title</p>
+                    </a>
+                </li>
+            }            
+        </ul>
+    </div>
+</div>

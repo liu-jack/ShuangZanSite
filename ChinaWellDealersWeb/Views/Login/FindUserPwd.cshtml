@@ -1,0 +1,370 @@
+﻿@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>找回密码</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #f0f0f0;
+            font-family: "microsoft yahei";
+            color: #4c4c4c;
+        }
+
+        * {
+            font-family: "microsoft yahei";
+        }
+
+        input {
+            outline: none;
+        }
+
+        a {
+            color: #90C41F;
+        }
+
+            a:hover {
+                color: #7bab14;
+            }
+
+        .container {
+            width: 1000px;
+            margin: 0 auto;
+            background: #F0F0F0;
+            /*overflow: hidden;*/
+        }
+
+            .container .tittop {
+                background: #F0F0F0;
+                color: #90c41f;
+                font-size: 30px;
+                font-weight: bold;
+                line-height: 120px;
+                margin: 0;
+            }
+
+                .container .tittop img {
+                    vertical-align: middle;
+                    margin-right: 10px;
+                }
+
+                .container .tittop span {
+                    float: right;
+                    display: block;
+                    font-size: 14px;
+                    color: #808080;
+                }
+
+                    .container .tittop span > a {
+                        color: #767676;
+                        text-decoration: none;
+                        background-image: url(/Content/Img/103.jpg);
+                        background-repeat: no-repeat;
+                        background-position: left;
+                        height: 30px;
+                        line-height: 30px;
+                        padding-left: 30px;
+                        margin-left: 10px;
+                        font-weight: normal;
+                    }
+
+                    .container .tittop span b {
+                        font-weight: normal;
+                    }
+
+        input {
+            border-radius: 4px;
+            border: 0;
+            outline: none;
+        }
+
+        i {
+            font-style: normal;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        .show {
+            display: block;
+        }
+
+        .zhmm01 {
+            background: #fff;
+            width: 960px;
+            -webkit-box-shadow: 0 0 10px rgba(0,0,0,.18);
+            -moz-box-shadow: 0 0 10px rgba(0,0,0,.18);
+            box-shadow: 0 0 10px rgba(0,0,0,.18);
+            padding: 20px;
+            /*text-align: center;*/
+        }
+
+            .zhmm01 .top01 {
+                margin: 0;
+                margin-bottom: 34px;
+            }
+
+                .zhmm01 .top01 b {
+                    font-size: 24px;
+                    color: #808080;
+                }
+
+            .zhmm01 .zcsj {
+                width: 350px;
+                height: 40px;
+                padding-left: 10px;
+                background: #fafafa;
+                border: 1px solid #e5e5e5;
+                font-size: 16px;
+                color: #b3b3b3;
+            }
+
+                .zhmm01 .zcsj:focus {
+                    background: #fff;
+                    border: 1px solid #90C41F;
+                }
+
+            .zhmm01 .dxyz {
+                width: 239px;
+                height: 40px;
+                padding-left: 10px;
+                background: #fafafa;
+                border: 1px solid #e5e5e5;
+                font-size: 16px;
+                color: #b3b3b3;
+            }
+
+                .zhmm01 .dxyz:focus {
+                    background: #fff;
+                    border: 1px solid #90C41F;
+                }
+
+            .zhmm01 #hqyzm {
+                width: 100px;
+                height: 40px;
+                margin-left: 10px;
+                background: #666;
+                color: #fff;
+                font-size: 16px;
+                cursor: pointer;
+            }
+
+            .zhmm01 #pwdnext {
+                width: 360px;
+                height: 40px;
+                padding-left: 10px;
+                background: #90C41F;
+                border: 1px solid #90C41F;
+                font-size: 16px;
+                color: #fff;
+                cursor: pointer;
+                margin-bottom: 24px;
+            }
+
+                .zhmm01 #pwdnext:hover {
+                    background: #7bab14;
+                }
+
+            .zhmm01 .t1 {
+                display: inline-block;
+                width: 282px;
+                text-align: right;
+                padding-right: 10px;
+            }
+            /*.zhmm01 div{
+                text-align: center;
+            }*/
+            .zhmm01 .tp1 {
+                margin-bottom: 6px;
+            }
+
+            .zhmm01 .errmsg {
+                font-family: "宋体";
+                font-size: 12px;
+                text-align: left;
+                color: #f43838;
+                height: 12px;
+                margin: 10px 0 20px 292px;
+            }
+
+            .zhmm01 .phonerr {
+                font-family: "宋体";
+                font-size: 12px;
+                margin-left: 10px;
+            }
+
+                .zhmm01 .phonerr s, .zhmm01 .yzmsg s {
+                    display: inline-block;
+                    width: 15px;
+                    height: 17px;
+                    background: url(/Content/Img/icon.png) -60px -75px no-repeat;
+                    vertical-align: middle;
+                    margin-right: 4px;
+                }
+
+            .zhmm01 .yzmsg {
+                font-family: "宋体";
+                font-size: 12px;
+                margin-left: 10px;
+            }
+
+        .zhmm02 {
+            background: #fff;
+            width: 960px;
+            -webkit-box-shadow: 0 0 10px rgba(0,0,0,.18);
+            -moz-box-shadow: 0 0 10px rgba(0,0,0,.18);
+            box-shadow: 0 0 10px rgba(0,0,0,.18);
+            padding: 20px;
+            /*text-align: center;*/
+        }
+
+            .zhmm02 .top02 {
+                font-size: 24px;
+                color: #808080;
+                margin: 0;
+                margin-bottom: 80px;
+            }
+
+            .zhmm02 div {
+                text-align: center;
+            }
+
+                .zhmm02 div p b {
+                    font-size: 18px;
+                    color: #999;
+                }
+
+            .zhmm02 #yzsucc {
+                width: 360px;
+                height: 40px;
+                padding-left: 10px;
+                background: #90C41F;
+                border: 1px solid #90C41F;
+                font-size: 16px;
+                color: #fff;
+                cursor: pointer;
+                font-weight: bold;
+                margin-top: 20px;
+                margin-bottom: 74px;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="tittop"><img src="/Content/Img/Logo.png" alt="" />爽赞通行证<span><b>已有账号，<a href="/Login/PersonalLogin">马上登录</a></b><a href="/Home/Index">爽赞首页</a></span></div>
+        <div class="zhmm01">
+            <p class="top01"><b>找回密码</b></p>
+            <div>
+                <p><span class="t1"></span><input type="text" placeholder="请输入您注册时填写的手机号" class="zcsj" /><i class="phonerr"></i></p>
+                <p class="tp1"><span class="t1"></span><input type="password" placeholder="短信验证码" class="dxyz" /><input type="button" id="hqyzm" value="获取验证码" /><i class="yzmsg"></i></p>
+                <p class="errmsg"></p>
+                <p><span class="t1"></span><input type="button" id="pwdnext" value="下一步，安全验证" /></p>
+            </div>
+        </div>
+        <div class="zhmm02" style="display: none;">
+            <p class="top02"><b>修改密码</b></p>
+
+            <div>
+                <p><b>验证成功，新密码已发送至手机，请注意查收！</b></p>
+                <p><a href="/Login/PersonalLogin"><input type="button" id="yzsucc" value="立即登录"></a></p>
+            </div>
+        </div>
+    </div>
+    <script src="Js/jquery-1.11.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+
+        //$("#pwdnext").click(function(){
+        //	$(".zhmm01").hide();
+        //	$(".zhmm02").show();
+        //})
+        //$("#hqyzm").click(function(){
+        //			for (var i=0;i.length<70;i++) {
+        //				setTimeout(function(){
+        //
+        //					$(this).val("");
+        //				},1000)
+        //			}
+        //})
+        //验证手机
+        $("#hqyzm").click(function () {
+            var mobile = $(".zcsj").val();
+            $.ajax({
+                type: "Post",
+                url: "/PersonalUser/CheckMobile",
+                data: {
+                    mobile: mobile
+                },
+                success: function (data) {
+                    if (data == 'ok') {
+                        GetCode();
+                        $(".phonerr").html("")
+                    } else {
+                        $(".phonerr").html("<s></s>手机号不存在").css("color", "#f43838")
+                    }
+                },               
+            });
+        })
+
+
+        //获取
+        function GetCode() {
+            var mobile = $(".zcsj").val();
+            $.ajax({
+                type: "Post",
+                url: "/Login/GetCode",
+                data: {
+                    mobile: mobile
+                },
+                dataType: "json",
+                success: function (data) {
+                    var p = data;
+                    if (p.success == "true") {
+                        $(".errmsg").html("验证码已发送").css("color", "#808080")
+                    } else {
+                        $(".errmsg").html("您的验证码短信仍在30分钟有效期内").css("color", "#f43838")
+                    }
+                },
+                error: function (err) { }
+            });
+        }
+
+        //验证
+        $("#pwdnext").click(function () {
+            var mobile = $(".zcsj").val();
+            var code = $(".dxyz").val();
+            $.ajax({
+                type: "Post",
+                url: "/Login/UserGetPass",
+                data: {
+                    mobile: mobile,
+                    code: code
+                },              
+                dataType: "json",
+                success: function (data) {
+                    console.log(data.d);
+                    if (data.d == "验证码错误") {
+                        $(".yzmsg").html("<s></s>验证码错误").css("color", "#f43838")
+                    } else if (data.d == "该手机号不存在") {
+                        $(".phonerr").html("<s></s>该手机号不存在").css("color", "#f43838")
+                    } else {
+                        var p = JSON.parse(data.d);
+                        if (p.success == "true") {
+                            console.log("a");
+                            $(".zhmm01").hide();
+                            $(".zhmm02").show();
+                        }
+                    }
+                },               
+            });
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,85 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>搜开服</title>
+    <meta name="viewport" content="width=1124">
+    <link href="~/Content/Css/index.css" rel="stylesheet" />
+    <link href="~/Content/Css/reset.css" rel="stylesheet" />
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="~/Content/Css/commercial.css" rel="stylesheet" />
+    <link href="~/Content/Css/amoywel.css" rel="stylesheet" />
+    <link href="~/Content/Css/Openservice.css" rel="stylesheet" />
+    <link href="~/Content/Css/usename.css" rel="stylesheet" />
+    <link href="/Content/Img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+</head>
+<body>
+    @Html.Action("_TwoShuangzanHeader", "Home")
+    @Html.Action("ShuangzanHeader", "NewsInfo")
+    <div class="wide details">当前位置：<a href="/">爽赞网</a> > <a href="/OPenServices/ServiceSearch">开服表</a> > <a href="">搜索结果</a></div>
+    <div class="opentest wide">
+        <form action="/OPenServices/ServiceSearch" method="get">
+            <h6>
+                <em>【<b>@TempData["Key"]</b>】今日开服（@DateTime.Now.ToString("yyyy-MM-dd")）</em>
+                <span class="sousou soso2"><s></s><input type="text" id="key" name="key" placeholder="游戏名、平台名" class="sotxt2" onkeypress="if (event.keyCode == 13)_search();" /><input type="submit" value="搜开服" class="Searstrate2" /></span>
+            </h6>
+        </form>
+        <div class="kcb">
+            <div class="jrkf jrkf1">
+                <p><span>游戏名称</span><span>开服时间</span><span>服务器名</span><span>运营商</span><span>礼包</span><span>操作</span><span>开服状态</span></p>
+                <img src="/Content/Img/noserver.png" style="margin-top:20px; margin-left:300px;" class="display">
+                <ul id="kfhottop">
+                    @foreach (var item in (List<Models.MapModel.ServiceViewModel>)ViewBag.ServiceFind)
+                    {
+                        <li class="on1 add" name="16">
+                            <span>@item.GameName<i></i></span>
+                            @if (item.Type == "2")
+                            {
+                                <span><a name="allday" class="nohover">全天</a></span>
+                            }
+                            else { 
+                             <span><a name="@item.StartTime.Value.ToString("HH")" class="nohover">@item.StartTime.Value.ToString("HH:mm")</a></span>
+                            }                           
+                            <span>双线 @item.ServerName 服</span>
+                            <span>@item.SystemName</span>
+                            @if (item.GiftName != "" && item.GiftName != null)  
+                            {
+                                <span class="packagename"> <a value="@item.PackageCardCount"><b></b>@item.GiftName</a></span>
+                            }
+                            else
+                            {
+                                <span class="packagename">--</span>
+                            }
+                            <span> <a href="@item.Url" target="_blank" class="start" rel="nofollow">开始游戏</a></span>
+                            <span></span>
+                        </li>
+                    }                   
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--弹出框-->
+    <div class="gifboxmodel display">
+        <div class="gifbox">
+            <p class="boxname"><span>爽赞礼包</span><a></a></p>
+            <div class="gifboxcon">
+                <p class="boxkm"><input type="text" value="" id="packagekm" /></p>
+                <p class="boxbtn"><input type="button" value="复制卡密" id="copy" /><a href="#" target="_blank" class="stractive" rel="nofollow"><input type="button" value="开始游戏" class="active" /></a></p>
+                <p class="boxsm">礼包内容：</p>
+                <p class="boxnr box1"></p>
+                <p class="boxsm">使用说明：</p>
+                <p class="boxnr box2"></p>
+            </div>
+        </div>
+    </div>
+    <!-- 底部 -->
+    @Html.Partial("_ShuangZanFooter")  
+    <script src="~/Content/js/jquery-1.11.1.min.js"></script>
+    <script src="~/Content/js/Public.js"></script>
+    <script src="~/Content/js/personal_use.js"></script>
+    <script src="~/Content/js/openservice.js"></script>
+</body>
+</html>

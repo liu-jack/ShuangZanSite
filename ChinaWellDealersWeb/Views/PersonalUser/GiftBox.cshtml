@@ -1,0 +1,142 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=1124">
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="~/Content/Css/personal.css" rel="stylesheet" />
+    <link href="~/Content/Css/sign.css" rel="stylesheet" />
+    <link href="~/Content/Css/calendar.css" rel="stylesheet" />
+    <link href="~/Content/Css/index.css" rel="stylesheet" />
+    <link href="~/Content/Css/reset.css" rel="stylesheet" />
+    <link href="/Content/Img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+    <link href="~/Content/style/NavPager.css" rel="stylesheet" />
+    <title>个人中心</title>
+</head>
+<body>
+    @Html.Action("UserTop", "PersonalUser")
+    <div>        
+        <!--我的礼包箱-->
+        <div class="Giftbox" id="">
+            <ul>
+                <li class="myqblb active actives" value="">全部礼包</li>
+                <li class="mydjlb" value="3">独家礼包</li>
+                <li class="mykflb" value="1" >开服礼包</li>
+                <li class="myjhm" value="2">激活码</li>
+            </ul>
+            <div class="myqblb01">
+                </div>
+         </div>
+    </div>
+        <!-- 投稿删除确认弹框 -->
+        <div class="modal display">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <p>确定要删除该攻略投稿吗？</p>
+                    <p>
+                        <input type="button" value="确定" id="confirm" />
+                        <input type="button" value="取消" id="delcancel" />
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- 消息删除确认弹框 -->
+        <div class="modal2 display">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <p>确定要删除该信息吗？</p>
+                    <p>
+                        <input type="button" value="确定" id="confirm2" />
+                        <input type="button" value="取消" id="delcancel2" />
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- 订单删除确认弹框 -->
+        <div class="modal3 display">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <p>确定要删除该订单吗？</p>
+                    <p>
+                        <input type="button" value="确定" id="confirm3" />
+                        <input type="button" value="取消" id="delcancel3" />
+                    </p>
+                </div>
+            </div>
+        </div>
+    <!--尾部开始-->
+    @Html.Action("_SignInDiv", "PersonalUser")
+    <!--尾部结束-->
+        <script src="https://s95.cnzz.com/z_stat.php?id=1260848027&web_id=1260848027" language="JavaScript"></script>
+        <script src="~/Content/js/jquery-1.11.1.min.js"></script>
+        <script src="~/Content/js/Public.js"></script>
+        <script src="~/Content/js/calendar.js"></script>
+        <script src="~/Content/js/zh_CN.js"></script>
+        <script src="~/Content/js/myExtend.js"></script>
+        <script src="~/Content/js/personal_use.js"></script>
+        <script src="~/Content/js/calendar1.js"></script>
+    <script src="~/Scripts/datapattern.js"></script>
+    <script>
+        $(function () {
+            var type = '', pageIndex = 1;
+            loadGift();
+            $('.myqblb01').on('click', '.page ul a', function (event) {
+                event.preventDefault();
+                var href = $(this).attr("href").split('&');
+                href = href[0].split('=');
+                pageIndex = href[1];
+                loadGift();
+            });
+            $('.Giftbox>ul>li').click(function () {
+                pageIndex = 1;
+                type = $(this).attr('value');
+                loadGift();
+            })
+            function loadGift() {
+                $.ajax({
+                    datatype: 'json',
+                    type: 'post',
+                    data: {
+                        type: type,
+                        pageIndex: pageIndex
+                    },
+                    url: '/PersonalUser/GetGiftBox',
+                    success: function (data) {
+                        $('.myqblb01').empty();
+                        var str, state = '';
+                        var time = new Date();
+                        if (data.Data.length == 0) {
+                            str = '<div class="nomsg qbnomsg"><table border="0" cellspacing="0" cellpadding="0"><tr><th width="321">名称</th><th width="371" colspan="2">卡号</th><th width="101">有效期</th><th width="86">状态</th><th width="101">领取时间</th><th width="121">操作</th></tr></table><p style="margin-top:80px;">大礼不拿，是不是傻？赶紧去领取吧~</p><p><a href="/Package/PackageIndex" target="_blank"><button class="btn">我要领礼包</button></a></p></div>';
+                            $('.myqblb01').append(str);
+                        } else {
+                            var div = $('<div class="packdiv1"></div>');
+                            var table = $('<table border="0" cellspacing="0" cellpadding="0" id="packqb"><tr><th width="321">名称</th><th width="371" colspan="2">卡号</th><th width="101">有效期</th><th width="86">状态</th><th width="101">领取时间</th><th width="121">操作</th></tr></table>');
+                            var tbody = $('<tbody></tbody>')
+                            for (var i in data.Data) {
+                                var StartDate = (eval(data.Data[i].StartDate.replace(/\/Date\((\d+)\)\//gi, "new Date($1)"))).pattern("yyyy-MM-dd");
+                                var InTime = (eval(data.Data[i].InTime.replace(/\/Date\((\d+)\)\//gi, "new Date($1)"))).pattern("yyyy-MM-dd");
+                                var EndDate = (eval(data.Data[i].EndDate.replace(/\/Date\((\d+)\)\//gi, "new Date($1)"))).pattern("yyyy-MM-dd");
+                                if (data.Data[i].EndDate.substring(6, data.Data[i].EndDate.length - 2) < time.getTime()) {
+                                    state = '已过期';
+                                } else {
+                                    state = '';
+                                }
+                                str = '<tr class="odd"><td>《' + data.Data[i].GameName + '》' + data.Data[i].GiftName + '</td><td><input type="text" value="' + data.Data[i].Card + '" style="background:#fafafa;width:280px;"></td><td><button class="btncopy">复制</button></td><td>' + StartDate + '<br>' + EndDate + '</td><td>' + state + '</td><td>' + InTime + '</td><td><a href="' + data.Data[i].Url + '" target="_blank"><button class="btn">开始游戏</button></a></td></tr>';
+                                tbody.append(str);
+                            }
+                            table.append(tbody);
+                            div.append(table);
+                            $('.myqblb01').append(div);
+                            $('.myqblb01').append('<div class="page"><ul id="paginator">' + data.NavStr + '</ul></div>');
+                        }
+                    }
+                })
+            }
+        })
+    </script>
+    </body>
+</html>

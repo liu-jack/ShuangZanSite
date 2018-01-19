@@ -1,0 +1,120 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>爽赞网后台登录</title>
+    <meta name="author" content="DeathGhost" />
+    <link href="~/Content/style/style.css" rel="stylesheet" />
+    <link href="~/Content/layui-v1.0.9_rls/layui/css/modules/layer/default/layer.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.8.2.js"></script>
+    <style>
+        body {
+            height: 100%;
+            background: #195135;
+            overflow: hidden;
+        }
+        canvas {
+            z-index: -1;
+            position: absolute;
+        }
+    </style>
+    <script src="~/Content/js/jquery.js"></script>
+    <script src="~/Content/js/verificationNumbers.js"></script>
+    <script src="~/Content/js/Particleground.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Content/layui-v1.0.9_rls/layui/lay/modules/layer.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#btnLogin').click(function () {
+                $('#btnLogin').val('loading···');
+            });
+        });
+        //点击验证码变换事件
+        function changeSrcCode() {
+            $("#img").attr("src", $("#img").attr("src") + 1);// 取得img属性 得到src地址给它+1 是为了每次变换验证码
+        }
+        function afterLogin(data) {
+            var msgData = data.split(":");
+            if (msgData[0] == "errorCode") {
+                layer.msg(msgData[1]);
+                $('#btnLogin').val('立即登录');
+                changeSrcCode();//验证码错误之后重新调动验证码的这个方法重新加载
+                var code = document.getElementById("code").value = "";
+            } else if (msgData[0] == "no") {
+                layer.msg(msgData[1]);
+                var name = document.getElementById("LoginCode").value = "";
+                var pwd = document.getElementById("LoginPwd").value = "";
+                var code = document.getElementById("code").value = "";
+                changeSrcCode();
+            }
+            else if (msgData[0] == "ok") {               
+                setTimeout(function () {
+                    $('#btnLogin').val('登录成功,正在跳转···');
+                    var taskurl = $("#taskurl").val();
+                    if (taskurl == "" || taskurl == "/") {
+                        top.location.href = "/AdminData/Default";
+                    } else {
+                        window.location.href = taskurl;
+                    }                   
+                }, 500);
+                
+            } else if (msgData[0] == "fail") {               
+                layer.msg(msgData[1]);
+                $('#btnLogin').val('立即登录');
+                changeSrcCode();
+            }        
+            else {
+                layer.msg("系统繁忙，请稍候再试！")
+            }
+        }
+               
+    </script>
+    <script>
+        $(document).ready(function () {
+            //粒子背景特效
+            $('body').particleground({
+                dotColor: '#5cbdaa',
+                lineColor: '#5cbdaa'
+            });
+        });
+    </script>
+</head>
+<body>
+    @Html.Hidden("taskurl", ViewBag.TaskUrl as string);
+    @using (Ajax.BeginForm("login", new { }, new AjaxOptions() { HttpMethod = "post", OnSuccess = "afterLogin" }, new { id = "loginForm" }))
+    {
+        <dl class="admin_login">
+            <dt>
+                <strong>爽赞网后台管理系统</strong>
+                <em>ShuangZan Network Management System</em>
+            </dt>
+            <dd class="user_icon">
+                <input type="text" placeholder="账号" class="login_txtbx" name="LoginCode" id="LoginCode" />
+            </dd>
+            <dd class="pwd_icon">
+                <input type="password" placeholder="密码" class="login_txtbx" name="LoginPwd" id="LoginPwd" />
+            </dd>
+            <dd class="val_icon">
+                <input type="text" placeholder="验证码" class="login_txtbx" id="code" name="vCode" />
+            </dd>
+            <dd style="text-align:right">
+                <img id="img" src="/Login/GetValidateCode/?id=1" style="float: left; height: 28px;width:65px;" />
+                <div style="float: left; margin-right: 5px; margin-top: 10px;">
+                    <a href="javascript:void(0)" onclick="changeSrcCode(); return false;"><span style="font-size:18px;color:white">看不清，换一张</span></a>
+                </div>
+            </dd>
+
+            <dd>
+                <input type="submit" value="立即登录" id="btnLogin" class="submit_btn" />
+            </dd>
+            <dd>
+                <p>© 2016-2017 爽赞网 版权所有</p>
+                <p>B2-20080224-1</p>
+            </dd>
+        </dl>
+    }
+</body>
+</html>

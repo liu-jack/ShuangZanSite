@@ -1,0 +1,381 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>爽赞-厂商注册</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="~/Content/Css/RegHead.css" rel="stylesheet" />
+    <link href="~/Content/Css/CpyReg.css" rel="stylesheet" />
+    <link href="/Content/Img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+    <style type="text/css">
+        .error {
+            color: red;
+            /*font-weight: bold;*/
+            font-size: 14px;
+            white-space: nowrap;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div id="reg_head">
+        <div>
+            <a href="/Home/Index"><img src="/Content/Img/Logo.png" alt="" /></a>
+            <img src="/Content/Img/102.jpg" alt="" />
+        </div>
+        <span>
+            <font>已有帐号，<a href="/Login/LoginCompany">马上登录</a></font>
+            <a href="/Home/Index">爽赞首页</a>
+        </span>
+    </div>
+    <div id="main">
+        <img src="/Content/Img/104.jpg" alt="" />
+        <div style="width: 960px; margin: 0 auto;">
+            <img src="/Content/Img/107.jpg" alt="" />
+            <img src="/Content/Img/1112.jpg" alt="" usemap="#Map" />
+            <map name="Map" id="Map">
+                <area shape="rect" alt="" coords="320,0,425,36" href="/Login/RegPersonalUser" style="outline: none;" />
+            </map>
+            <span style="line-height: 40px; color: red;">温馨提示：以下信息是需审核信息，请真实完整填写，审核通过后即可入驻厂商自助系统。（审核时间：法定工作日9:00-18:00）</span>
+            <div class="regblock">
+                <div>
+                    <span>用户名</span>
+                    <input type="text" id="uname" maxlength="16" class="inputtext" />
+                    <samp class="alt"><span style="color: red;">注册后无法修改</span>，4-16个字符，字母/中文/数字/下划线</samp>
+                </div>
+                <div>
+                    <span>邮箱</span>
+                    <input type="text" id="email" class="inputtext" />
+                    <samp class="alt">找回密码唯一凭证，请输入常用邮箱地址</samp>
+                </div>
+                <div>
+                    <span>密码</span>
+                    <input type="password" id="pass" maxlength="16" class="inputtext" />
+                    <samp class="alt">6-16个字符，安全起见请使用：数字+字母或符号组合</samp>
+                </div>
+                <div>
+                    <span>确认密码</span>
+                    <input type="password" id="pass1" maxlength="16" class="inputtext" />
+                    <samp class="alt">再次输入密码，保持一致</samp>
+                </div>
+            </div>
+            <div class="regblock" style="background-image: url(/Content/Img/114.jpg);">
+                <div>
+                    <span>平台名称</span>
+                    <input type="text" id="systemname" maxlength="10" class="inputtext" />
+                    <samp class="alt">运营平台简称，10个字符以内</samp>
+                </div>
+                <div>
+                    <span>平台网址</span>
+                    <input type="text" id="website" class="inputtext" value="http://" />
+                    <samp class="alt">运营平台官网地址</samp>
+                </div>
+                <div>
+                    <span>公司名称</span>
+                    <input type="text" id="companyname" class="inputtext" />
+                    <samp class="alt">平台所属公司全称</samp>
+                </div>
+                <div>
+                    <span>联系座机</span>
+                    <input type="text" id="phone" class="inputtext" />
+                    <samp class="alt">公司联系电话，“区号-座机号”</samp>
+                </div>
+                <div>
+                    <span>公司地址</span>
+                    <input type="text" id="address" class="inputtext" />
+                    <samp class="alt">公司详细地址</samp>
+                </div>
+            </div>
+            <div class="regblock" style="background-image: url(/Content/Img/115.jpg);">
+                <div>
+                    <span>联系人</span>
+                    <input type="text" id="contacts" class="inputtext" />
+                    <samp class="alt"></samp>
+                </div>
+                <div>
+                    <span>职务</span>
+                    <input type="text" id="office" class="inputtext" />
+                    <samp class="alt"></samp>
+                </div>
+                <div>
+                    <span>联系电话</span>
+                    <input type="text" id="mobile" maxlength="11" class="inputtext" />
+                    <samp class="alt">填写手机号</samp>
+                </div>
+                <div>
+                    <span>QQ</span>
+                    <input type="text" id="qq" class="inputtext" />
+                    <samp class="alt"></samp>
+                </div>
+                <div>
+                    <span>性别</span>
+                    <kbd>
+                        <label>
+                            <input type="radio" name="sex" checked="checked" id="sex1" /><span>男</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="sex" /><span>女</span>
+                        </label>
+                    </kbd>
+                    <samp class="alt"></samp>
+                </div>
+            </div>
+            <div class="btns">
+                <label>
+                    <input type="checkbox" id="agree" checked="checked" />
+                    <span>我已阅读并接受</span><a href="/Login/TermsService" target="_blank">《爽赞服务条款》</a>
+                </label>
+                <kbd id="save" class="btn">提交注册</kbd>
+            </div>
+        </div>
+        <img src="/Content/Img/105.jpg" alt=""/>
+    </div>
+    <div class="modal8" style="display:none">
+        <div class="modal-dialog">
+            <p>恭喜您，注册信息提交成功</p>
+            <p>客服将在1个小时内（工作日<span>9:00-18:00</span>）处理</p>
+            <button id="check8">确定</button>          
+        </div>
+    </div>
+</body>
+</html>
+<script src="~/Content/js/jquery-1.11.1.min.js"></script>
+<script src="~/Scripts/jquery-1.8.2.js"></script>
+<script src="~/Content/js/myExtend.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var uname = $("#uname"), pass = $("#pass"), pass1 = $("#pass1"), email = $("#email"),
+            systemname = $("#systemname"), website = $("#website"), companyname = $("#companyname"), phone = $("#phone"), address = $("#address"),
+            contacts = $("#contacts"), office = $("#office"), mobile = $("#mobile"), qq = $("#qq"), sex = $("#sex1"),
+            agree = $("#agree");
+        $("#uname").blur(function () {
+            if (!$.check({
+                el: uname, nothing: "请填写登录名",
+                min: { num: 4, alt: "登录名必须大于4个字符" },
+                max: { num: 16, alt: "登录名不能超过16个字符" }
+            })) return;
+            $.ajax({
+                type: "Post",
+                url: "/Login/CheckUName",
+                data: { uname: $('#uname').val() },
+                success: function (data) {
+                    if (data == '') {
+                        uname.parent("div").find(".alt").html("").addClass("err errok");
+                        //uname.focus();
+                        return;
+                    }
+                    else {
+                        uname.parent("div").find(".alt").removeClass("errok").addClass("err").html("该用户名已存在");
+                    }
+                }
+            });
+        });
+        $("#email").blur(function () {
+            if (!$.check({
+                el: email, nothing: "请输入邮箱地址",
+                contain: { str: ["@@", "."], alt: "请输入正确的邮箱地址" }
+            })) return;
+            $.ajax({
+                type: "Post",
+                url: "/Login/checkEmail",
+                data: { email: $('#email').val() },
+                success: function (data) {
+                    if (data == '') {
+                        email.parent("div").find(".alt").html("").addClass("err errok");
+                        //uname.focus();
+                        return;
+                    }
+                    else {
+                        email.parent("div").find(".alt").removeClass("errok").addClass("err").html("该邮箱已存在");
+                    }
+                }
+            });
+        });
+        $("#pass").blur(function () {
+            $.check({
+                el: pass, nothing: "请输入密码",
+                min: { num: 6, alt: "密码必须大于6个字符" },
+                max: { num: 17, alt: "密码不能超过16个字符" }
+            });
+        });
+        $("#pass1").blur(function () {
+            if (!$.check({
+                el: pass1, nothing: "请再输入一次密码"
+            })) return;
+            if (pass.val().trim() != pass1.val().trim()) {
+                pass1.parent("div").find(".alt").removeClass("errok").addClass("err").html("两次输入的密码不一致");
+                //pass1.focus();
+                return;
+            }
+        });
+        //平台信息
+        $("#systemname").blur(function () {
+            $.check({
+                el: systemname, nothing: "请填写运营平台简称",
+                max: { num: 11, alt: "10个字符以内" }
+            });
+        });
+        $("#website").blur(function () {
+            $.check({
+                el: website, nothing: "请填写平台网址"
+            });
+        });
+        $("#companyname").blur(function () {;
+            $.check({
+                el: companyname, nothing: "请填写平台所属公司全称"
+            });
+        });
+        $("#phone").blur(function () {
+            $.check({
+                el: phone, nothing: "请填写联系座机",
+                contain: { str: ["-"], alt: "格式错误，区号-座机号" }
+            });
+        });
+        $("#address").blur(function () {
+            $.check({
+                el: address, nothing: "请填写公司详细地址"
+            });
+        });
+        //个人信息
+        $("#contacts").blur(function () {
+            $.check({
+                el: contacts, nothing: "请填写联系人"
+            });
+        });
+        $("#office").blur(function () {
+            $.check({
+                el: office, nothing: "请填写联系人职务"
+            });
+        });
+        $("#mobile").blur(function () {
+            $.check({
+                el: mobile, nothing: "请填写联系人电话",
+                min: { num: 11, alt: "联系人电话长度不正确" }
+            });
+        });
+        $("#qq").blur(function () {
+            $.check({
+                el: qq, nothing: "请填写联系人QQ"
+            });
+        });
+        $("#save").click(function () {
+
+            if (!agree.is(":checked")) {
+                alert("请先阅读并接受《爽赞服务条款》");
+                return;
+            }
+            if (!$.check({
+                el: uname, nothing: "请填写登录名", focus: true,
+                min: { num: 4, alt: "登录名必须大于4个字符" },
+                max: { num: 17, alt: "登录名不能超过16个字符" }
+            })) return;
+
+            $.ajax({
+                type: "Post",
+                url: "/Login/CheckUName",
+                data: { uname: $('#uname').val() },
+                success: function (data) {
+                    if (data != '') {
+                        uname.parent("div").find(".alt").removeClass("errok").addClass("err").html("该用户名已存在");
+                        uname.focus();
+                        return;
+                    }
+                    else {
+                        uname.parent("div").find(".alt").html("").addClass("errok");
+                        if (!$.check({
+                            el: email, nothing: "请输入邮箱地址", focus: true,
+                            contain: { str: ["@@", "."], alt: "请输入正确的邮箱地址" }
+                        })) return;
+                        $.ajax({
+                            type: "Post",
+                            url: "/Login/checkEmail",
+                            data: { email: $('#email').val() },
+                            success: function (data) {
+                                if (data != '') {
+                                    email.parent("div").find(".alt").removeClass("errok").addClass("err").html("该邮箱已存在");
+                                    email.focus();
+                                    return;
+                                }
+                                else {
+                                    email.parent("div").find(".alt").html("").addClass("err errok");
+                                    if (!$.check({
+                                        el: pass, nothing: "请输入密码", focus: true,
+                                        min: { num: 6, alt: "密码必须大于6个字符" },
+                                        max: { num: 17, alt: "密码不能超过16个字符" }
+                                    })) return;
+                                    if (!$.check({
+                                        el: pass1, nothing: "请再输入一次密码", focus: true
+                                    })) return;
+                                    if (pass.val().trim() != pass1.val().trim()) {
+                                        pass1.parent("div").find(".alt").removeClass("errok").addClass("err").html("两次输入的密码不一致");
+                                        pass1.focus();
+                                        return;
+                                    }
+                                    pass1.parent("div").find(".err").html("").addClass("errok");
+
+                                    //平台信息
+                                    if (!$.check({
+                                        el: systemname, nothing: "请填写运营平台简称", focus: true,
+                                        max: { num: 11, alt: "10个字符以内" }
+                                    })) return;
+                                    if (!$.check({
+                                        el: website, nothing: "请填写平台网址", focus: true
+                                    })) return;
+                                    if (!$.check({
+                                        el: companyname, nothing: "请填写平台所属公司全称", focus: true
+                                    })) return;
+                                    if (!$.check({
+                                        el: phone, nothing: "请填写联系座机", focus: true,
+                                        contain: { str: ["-"], alt: "格式错误，区号-座机号" }
+                                    })) return;
+                                    if (!$.check({
+                                        el: address, nothing: "请填写公司详细地址", focus: true
+                                    })) return;
+
+                                    //个人信息
+                                    if (!$.check({
+                                        el: contacts, nothing: "请填写联系人", focus: true
+                                    })) return;
+                                    if (!$.check({
+                                        el: office, nothing: "请填写联系人职务", focus: true
+                                    })) return;
+                                    if (!$.check({
+                                        el: mobile, nothing: "请填写联系人电话", focus: true,
+                                        min: { num: 11, alt: "联系人电话长度不正确" }
+                                    })) return;
+                                    if (!$.check({
+                                        el: qq, nothing: "请填写联系人QQ", focus: true
+                                    })) return;
+
+                                    $.ajax({
+                                        type: "Post",
+                                        url: "/Login/SignIn",
+                                        data: {
+                                            uname: uname.val().trim(), pass: pass.val().trim(), email: email.val().trim(),
+                                            systemname: systemname.val().trim(), website: website.val().trim(), companyname: companyname.val().trim(), phone: phone.val().trim(), address: address.val().trim(),
+                                            contacts: contacts.val().trim(), office: office.val().trim(), mobile: mobile.val().trim(), qq: qq.val().trim(), sex: sex.is(":checked") ? 1 : 2
+                                        },
+                                        success: function (data) {
+                                            if (data == 'ok') {
+                                                $(".modal8").show();
+                                            } else {
+                                                alert("注册失败，请重试")
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+        });
+        //
+        $("#check8").click(function () {
+            $(".modal8").hide();
+            location.href = "/Home/Index";
+        })
+    });
+</script>

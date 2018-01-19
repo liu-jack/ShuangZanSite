@@ -1,0 +1,40 @@
+﻿     #v_container, #v_container1 {
+            width: 100px;
+            height: 26px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        #bannerfmt {
+            width: 1124px;
+        }
+
+            #bannerfmt > div {
+                position: fixed;
+                bottom: 0;
+                right: 0;
+                height: 200px;
+                z-index: 100;
+            }
+
+        .banner-swf {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+        }
+
+            .banner-swf p {
+                padding-left: 5px;
+                height: 20px;
+                color: #fff;
+                background: #252525;
+            }
+
+        i.closebtn02 img {
+            float: right;
+            cursor: pointer;
+        }
+
+        .hide {
+            display: none;
+        }

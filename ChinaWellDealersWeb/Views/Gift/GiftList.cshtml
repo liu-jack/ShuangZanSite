@@ -1,0 +1,59 @@
+﻿@{
+    Layout = null;
+    List<Models.Gift> allGift = (List<Models.Gift>)ViewBag.AllGift;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>淘福利</title>
+    <link href="~/Content/Css/index.css" rel="stylesheet" />
+    <link href="~/Content/Css/reset.css" rel="stylesheet" />
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="~/Content/Css/lunbo.css" rel="stylesheet" />
+    <link href="~/Content/Css/commercial.css" rel="stylesheet" />
+    <link href="~/Content/Css/amoywel.css" rel="stylesheet" />
+    <link href="/Content/Img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+    <link href="~/Content/Css/usename.css" rel="stylesheet" />
+    <link href="~/Content/style/NavPager.css" rel="stylesheet" />
+</head>
+<body>
+    @Html.Action("_TwoShuangzanHeader", "Home")
+    @Html.Action("ShuangzanHeader", "NewsInfo")
+    <div class="wide details">当前位置：<a href="/">爽赞网</a> > <a href="@Url.Action("AmoyWelFare", "Home")">淘福利</a> > <span>爽币换礼品</span></div>
+    <div class="giftdh wide">
+        <h6>
+            <em>全部礼品</em>
+            <span><a href="/PersonalUser/OrderList">我的兑换记录</a></span>
+        </h6>
+        <ul id="giftdh">
+            @foreach (var item in allGift)
+            {                        
+            <li>
+                <p class="giftimg">
+                    <a href="/Gift/GiftDetails/@item.Id" ><img src="/Content/GiftImg/@item.Logo" alt=""></a>
+                </p>
+                <p class="giftname">@item.Name</p>
+                <p class="giftjg">
+                    <span>@item.Price</span>爽币<a href="/Gift/GiftDetails/@item.Id" ><input type="button" value="兑换"></a>
+                </p>
+            </li>
+            }
+        </ul>
+        <div class="page">
+            <ul id="paginator">
+                @MvcHtmlString.Create(Common.LaomaPager.ShowPageNavigate((int)ViewData["pageSize"], (int)ViewData["pageIndex"], (int)ViewData["totalCount"]))
+            </ul>
+        </div>
+    </div>
+    @Html.Partial("_ShuangZanFooter")
+    <script src="~/Content/js/jquery-1.11.1.min.js"></script>
+    <script src="~/Content/js/jquery.SuperSlide.2.1.1.js"></script>
+    <script src="~/Content/js/Public.js"></script>
+    <script>
+        $(".loginbox p .cel").click(function () {
+            $(".loginbox").hide();
+        })
+    </script>
+</body>
+</html>

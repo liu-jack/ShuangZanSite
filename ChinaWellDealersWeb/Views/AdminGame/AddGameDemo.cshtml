@@ -1,0 +1,175 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/style/tableStyle.css" rel="stylesheet" />
+    <title>AddGameDemo</title>
+    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+    <link href="~/Content/layui-v1.0.9_rls/layui/css/modules/layer/default/layer.css" rel="stylesheet" />
+    <script src="~/Content/layui-v1.0.9_rls/layui/lay/modules/layer.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/MyAjaxForm.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {       
+            $("#btn_accounts").click(function () {
+                $(this).before('<div>' +
+                                '    <input type="text" class="systemname" name="SystemName" placeholder="填写运营商名称" />' +
+                                '    <input type="text" class="url" name="Url" placeholder="填写游戏登录网址" />' +
+                                '    <input type="text" class="uname" name="UName" placeholder="游戏帐号" />' +
+                                '    <input type="text" class="pass" name="Pwd" placeholder="登录密码" />' +
+                                '    <input type="text" class="city" name="City" list="citylist" />' +
+                                '    <input type="button" value="删除" class="title_6 del" style="color:white;background:red;font-weight:600;font-size: 14px" />' +
+                                '</div>');
+                                            });
+                                            $("#btn_requires").click(function () {
+                                                $(this).before('<div>' +
+                                '    <input type="text" class="p1" name="Demand"  placeholder="填写试玩要求" />' +
+                                '    <input type="text" class="p2" name="AwardCoins"  placeholder="填写奖励金额" />' +
+                                '    <input type="text" class="p3" name="CoinsEquity"  placeholder="填写爽币权益" />' +
+                                '    <input type="button" value="删除" class="title_6 del" style="color:white;background:red;font-weight:600;font-size: 14px"/>' +
+                                '</div>');
+            });
+            $("#accounts,#requires").delegate(".del", 'click', function () {
+                $(this).parent().remove();
+            });
+            $("#save").click(function () {
+                var name = $("#name");
+                if ($.trim(name.val()) == "") {
+                    layer.msg("请输入游戏名称");                  
+                    name.focus();
+                    return;
+                }
+                var accounts = [];
+                var arr1 = {};
+                $("#accounts>div").each(function () {
+                    var arr = {};
+                    arr.SystemName = $(this).find('.systemname').val();
+                    arr.Url = $(this).find('.url').val();
+                    arr.Uname = $(this).find('.uname').val();
+                    arr.Pwd = $(this).find('.pass').val();
+                    arr.City = $(this).find('.city').val();
+                    arr1 = arr;
+                    arr1 = JSON.stringify(arr1);
+                    accounts.push(arr1);                  
+                });
+                var requires = [];
+                var arr2 = {};
+                $("#requires>div").each(function () {
+                    var arr3 = {};
+                    arr3.Demand = $(this).find('.p1').val();
+                    arr3.AwardCoins = $(this).find('.p2').val();
+                    arr3.CoinsEquity = $(this).find('.p3').val();
+                    arr2 = arr3;
+                    arr2 = JSON.stringify(arr2);
+                    requires.push(arr2);
+                });                 
+                $.ajax({
+                    type: "Post",
+                    url: '/AdminGame/AddGameDemos',
+                   traditional: true,//布尔值，规定是否使用参数序列化的传统样式。这样后台数组变量才能接受到值
+                    data:{
+                        name: $.trim(name.val()),
+                        img: $("#logoImg").val(),
+                        type:$("#type").val(),
+                        accounts: accounts,
+                        requires: requires
+                    },                                
+                    success: function (data) {
+                        if (data.success == "true") {
+                            layer.msg("恭喜：添加成功！");
+                            setTimeout(function () {
+                                window.location = "/AdminGame/GameDemoList";
+                            },1000);
+                        }
+                        else {
+                            layer.msg("提示：添加失败！");
+                        }                           
+                    },                 
+                });
+            });
+        });
+        $(function () {
+            $("#logoUpload").click(function () {
+                $("#ff").ajaxSubmit({
+                    url: "/AdminGame/LogoImgUpload",
+                    type: "Post",
+                    success: function (logo) {
+                        //返回后台保存图片的服务器地址就可以了。
+                        if (logo == "typeError") {
+                            layer.msg("请选择正确的图片格式！");
+                        } else if (logo == "empty") {
+                            layer.msg("您懂上传吗？");
+                        }
+                        else {
+                            $("#tdLoGo").html("<img src='/Content/GameImg/" + logo + "' />");
+                            $("#logoImg").val(logo);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <form id="ff" enctype="multipart/form-data" method="post" data-options="novalidate:true ">
+        <table width="80%" border="0" cellpadding="0" cellspacing="0" class="form_tb">
+            <tr>
+                <th colspan="2" style="text-align:center;font-size:14px;color:white">
+                    游戏试玩添加页面
+                </th>
+            </tr>
+            <tr>
+                <td width="100" align="right">游戏名称</td>
+                <td><input type="text" id="name" style="width:30%" list="gamelist" /></td>
+            </tr>
+            <tr>
+                <td width="100" align="right">试玩类型</td>
+                <td>
+                    <select id="type" name="type" style="width:30%">
+                        <option value="0">最强王者</option>
+                        <option value="1">超凡大师</option>
+                        <option value="2">璀璨钻石</option>
+                        <option value="3">华贵铂金</option>
+                        <option value="4">荣耀黄金</option>
+                        <option value="5">不屈白银</option>
+                        <option value="6">英勇黄铜</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td align="right">LOGO图</td>
+                <td>
+                    <input type="file" name="logoImgs" value="请选择要上传的logo图" />
+                    <input type="button" id="logoUpload" value="上传"/>
+                    <input type="hidden" name="logoImg" id="logoImg" /><br />
+                    <span id="tdLoGo"></span>
+                </td>
+            </tr>
+            <tr>
+                <td align="right" valign="top" style="padding-top:5px;">帐号信息</td>
+                <td id="accounts">
+                    <input type="button" value="添加" class="title_6" id="btn_accounts" style="color:white;background:#ff6a00" />
+                </td>
+            </tr>
+            <tr>
+                <td align="right" valign="top" style="padding-top:5px;">试玩要求</td>
+                <td id="requires">
+                    <input type="button" value="添加" class="title_6" id="btn_requires" style="color:white;background:#ff6a00" />
+                </td>
+            </tr>
+            <tr>
+                <td align="right"></td>
+                <td style="padding-top: 15px; ">
+                    <input type="button" value="提交" class="title_6" id="save" style="color:white;background:#ff6a00" />
+                    <input type="button" value="返回" class="title_6" onclick="history.go(-1)" style="color:white;background:#ff6a00" />
+                </td>
+            </tr>
+        </table>
+    </form>
+    @Html.Action("GameNameListPartial", "Game")
+    @Html.Action("_CityDataList", "Game")
+</body>
+</html>

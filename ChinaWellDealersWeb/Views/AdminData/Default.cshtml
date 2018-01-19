@@ -1,0 +1,340 @@
+﻿@{
+    Layout = null;
+    Response.Expires = -1;
+    Response.AddHeader("pragma", "no-cache");
+    Response.AddHeader("cache-control", "no-cache");
+    Response.CacheControl = "no-cache";
+    Response.Cache.SetNoStore();
+}
+@model Models.UserInfo
+<!DOCTYPE html>
+<html>
+<head>
+    <title>爽赞后台管理</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link href="/Content/img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+    <!-- layui 1.0.9 -->
+    <link href="~/Content/LayUi/plugins/layui/css/layui.css" rel="stylesheet" />
+    <link href="~/Content/LayUi/plugins/layui/css/global.css" rel="stylesheet" />
+    <!-- 字体图标 http://www.bootcss.com/p/font-awesome/ -->
+    <link href="~/Content/LayUi/plugins/Font-Awesome-3.2.1/css/font-awesome.css" rel="stylesheet" />
+    <link rel="~/Content/LayUi/stylesheet" href="plugins/Font-Awesome-3.2.1/css/font-awesome.css">
+    <!-- Tab -->
+    <link rel="stylesheet" href="~/Content/LayUi/plugins/bootstrap-multitabs/css/style.css">
+    <!-- 自写 -->
+    <link rel="stylesheet" href="~/Content/LayUi/css/css.css">
+    <script src="~/Scripts/jquery-1.11.1.min.js"></script>
+</head>
+<body>
+    <div class="loading_div" style="width: 100%; height: 100%; background: #fff url(/Content/Img/szloading.gif) center center no-repeat; position: fixed; z-index: 99999;"></div>
+
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header header header-demo">
+            <!--头部区域-->
+            <div class="layui-main">
+                <div class="admin-login-box">
+                    <a class="logo" style="left: 0;" href="javascript:void(0)">
+                        <span style="font-size: 19px;">欢迎您：@Model.Name</span>
+                    </a>
+                    <div class="admin-side-toggle">
+                        <i class="icon-reorder"></i>
+                    </div>
+                    <div class="admin-side-full">
+                        <i class="icon-laptop"></i>
+                    </div>
+                </div>
+                <ul class="layui-nav admin-header-item">
+                    <li class="layui-nav-item">
+                        <a href="javascript:;layer.msg('该功能暂未开发')">清除缓存</a>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="/Home/Index">浏览首页</a>
+                    </li>
+                    <li class="layui-nav-item refresh">
+                        <a href="javascript:; ">刷新</a>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;" class="admin-header-user">
+                            <img src="/Content/LayUi/images/0.jpg" />
+                            <span>@Model.Name</span>
+                        </a>
+                        <dl class="layui-nav-child">
+                           
+                            <dd>
+                                <a href="javascript:;" id="EditPwd"><i class="icon-cog" style="padding-right: 1px;"></i>修改密码</a>
+                            </dd>
+                            <dd id="lock">
+                                <a href="javascript:;">
+                                    <i class="icon-lock" style="padding-right: 3px; padding-left:1px;"></i> 锁屏 (Alt+L)
+                                </a>
+                            </dd>
+                            <dd>
+                                <a href="/Command/LogOut.ashx"><i class="icon-reply"></i> 安全退出</a>
+                            </dd>
+                        </dl>
+                    </li>
+                </ul>
+                <ul class="layui-nav admin-header-item-mobile">
+                    <li class="layui-nav-item">
+                        <a href="/Command/LogOut.ashx" id="btnCancel"><i class="fa fa-sign-out" aria-hidden="true"></i> 注销</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="layui-side layui-bg-black">
+            <div class="layui-side-scroll">
+                <ul class="layui-nav layui-nav-tree" lay-filter="ce" id="FM">
+                    <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+                    <li style="padding-left:20px;padding-top:12px;">
+                        <span style="text-align:center;font-size:18px;color:white;">  功能菜单</span>
+                    </li>
+                    <br />
+                </ul>
+            </div>
+        </div>
+     
+        <div class="layui-body">
+            <!-- 内容主体区域 -->
+            <div id="content_wrapper" class="content-wrapper">
+            </div>
+        </div>
+        <div class="layui-footer footer footer-demo" id="admin-footer" style="background-color:#f4f4f4">
+            <!-- 底部固定区域 -->
+            <div class="layui-main">
+                <p style="    color:#4f6b72;
+            font-size: large">
+                    Copyright ? 版权所有 杭州风特网络科技有限公司 © 2017 LightMagic,Inc
+                </p>
+            </div>
+        </div>
+        <div class="site-tree-mobile layui-hide">
+            <i class="layui-icon">&#xe602;</i>
+        </div>
+        <div class="site-mobile-shade"></div>
+    </div>
+    <script src="~/Content/LayUi/plugins/layui/layui.js"></script>
+    <!-- jQuery 2.2.0 -->
+    <script src="~/Content/LayUi/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <!-- Multi Tabs -->
+    <script src="~/Content/LayUi/plugins/bootstrap-multitabs/js/multitabs.js"></script>
+    <script>
+        // javascript: window.history.forward(1);
+        //注意：导航 依赖 element 模块，否则无法进行功能性操作
+        layui.use(['element', 'layer'], function () {
+            var element = layui.element();
+
+
+            //定义侧边栏
+            $('.admin-side-toggle').on('click', function () {
+                var sideWidth = $('.layui-side').width();
+                if (sideWidth === 200) {
+                    $('.layui-body').animate({
+                        left: '0'
+                    }); //admin-footer
+                    $('.layui-footer').animate({
+                        left: '0'
+                    });
+                    $('.layui-side').animate({
+                        width: '0'
+                    });
+                } else {
+                    $('.layui-body').animate({
+                        left: '200'
+                    }); //admin-footer
+                    $('.layui-footer').animate({
+                        left: '200'
+                    });
+                    $('.layui-side').animate({
+                        width: '200'
+                    });
+                }
+            });
+            //定义侧边栏END
+            //定义全屏
+            $('.admin-side-full').on('click', function () {
+                var docElm = document.documentElement;
+                //W3C
+                if (docElm.requestFullscreen) {
+                    docElm.requestFullscreen();
+                }
+                    //FireFox
+                else if (docElm.mozRequestFullScreen) {
+                    docElm.mozRequestFullScreen();
+                }
+                    //Chrome等
+                else if (docElm.webkitRequestFullScreen) {
+                    docElm.webkitRequestFullScreen();
+                }
+                    //IE11
+                else if (elem.msRequestFullscreen) {
+                    elem.msRequestFullscreen();
+                }
+                layer.msg('按Esc即可退出全屏');
+            });
+            //全屏END
+            //密码修改
+            $('#EditPwd').on('click', function () {
+                layer.open({
+                    title: '@Model.Name———<span style="color:#009688">密码修改<span>',
+                    min: true,
+                    type: 2,
+                    content: '/Login/EditPwdPage',
+                    area: ['400px', '360px']
+                });
+            });
+          
+            //视频弹窗END
+            //锁屏
+            $(document).on('keydown', function () {
+                var e = window.event;
+                if (e.keyCode === 76 && e.altKey) {
+                    //alert("你按下了alt+l");
+                    lock($, layer);
+                }
+            });
+            $('#lock').on('click', function () {
+                lock($, layer);
+            });
+
+            //手机设备的简单适配
+            var treeMobile = $('.site-tree-mobile'),
+                shadeMobile = $('.site-mobile-shade');
+            treeMobile.on('click', function () {
+                $('body').addClass('site-mobile');
+            });
+            shadeMobile.on('click', function () {
+                $('body').removeClass('site-mobile');
+            });
+            //…
+        });
+
+        ////锁屏
+        var isShowLock = false;
+        function lock($, layer) {
+            if (isShowLock)
+                return;
+            //自定页
+            layer.open({
+                title: false,
+                type: 1,
+                closeBtn: 0,
+                anim: 4,
+                content: $('#lock-temp').html(),
+                shade: [0.9, '#393D49'],
+                success: function (layero, lockIndex) {
+                    isShowLock = true;
+                    //给显示用户名赋值
+                    layero.find('div#lockUserName').text('@Model.Name');
+                    layero.find('input[name=lockPwd]').on('focus', function () {
+                        var $this = $(this);
+                        if ($this.val() === '输入密码解锁..') {
+                            $this.val('').attr('type', 'password');
+                        }
+                    })
+                        .on('blur', function () {
+                            var $this = $(this);
+                            if ($this.val() === '' || $this.length === 0) {
+                                $this.attr('type', 'text').val('输入密码解锁..');
+                            }
+                        });
+                    //在此处可以写一个请求到服务端删除相关身份认证，因为考虑到如果浏览器被强制刷新的时候，身份验证还存在的情况
+                    //do something...
+                    //e.g.
+                    /*
+                     $.post(url,params,callback,'json');
+                     */
+                    //绑定解锁按钮的点击事件
+                    layero.find('button#unlock').on('click', function () {
+                        var $lockBox = $('div#lock-box');
+
+                        var userName = $lockBox.find('div#lockUserName').text();
+                        var pwd = $lockBox.find('input[name=lockPwd]').val();
+                        if (pwd === '输入密码解锁..' || pwd.length === 0) {
+                            layer.msg('请输入密码..', {
+                                icon: 2,
+                                time: 1000
+                            });
+                            return;
+                        }
+                        unlock(userName, pwd);
+                    });
+                   
+                    var unlock = function (un, pwd) {
+                      
+                        isShowLock = false;
+                        //演示：默认输入密码都算成功
+                        //关闭锁屏层
+                        layer.close(lockIndex);
+                    };
+                }
+            });
+        };
+    </script>
+    <!--锁屏模板 start-->
+    <script type="text/template" id="lock-temp">
+        <div class="admin-header-lock" id="lock-box">
+            <div class="admin-header-lock-img">
+                <img src="/Content/LayUi/images/0.jpg" />
+            </div>
+            <div class="admin-header-lock-name" id="lockUserName">@Model.Name</div>
+            <input type="text" class="admin-header-lock-input" value="输入密码解锁.." name="lockPwd" id="lockPwd" />
+            <button class="layui-btn layui-btn-small" id="unlock">解锁</button>
+
+        </div>
+    </script>
+    <!--锁屏模板 end -->
+    <script>
+        var multitabs = $('#content_wrapper').multitabs();
+    </script>
+</body>
+
+</html>
+<script type="text/javascript">
+    //刷新
+    $('.refresh').click(function () {
+        var url = $('.nav.nav-tabs>li.active>a').attr('data-url');
+        $('.tab-pane.active').attr("src", url).ready();
+        this.removeClass('layui-this');
+    })
+    //遮罩层
+    $(function () {
+        setTimeout(function () {
+            $('.loading_div').hide();
+        }, 4000)
+    })
+    $('.icon-reply').parent().click(function () {
+        $('.mt-close-all-tabs').trigger('click');
+    })
+    $('#FM').on('click', '.layui-nav-item>a', function () {
+        $(this).parent().toggleClass('layui-nav-itemed');
+    })
+    var menuArr = ['后台权限管理', '前台用户管理', '审核管理', '操作管理', '推荐管理'];
+    $(function () {
+        $.ajax({
+            url: '/AdminData/TestMenu',
+            type: 'post',
+            success: function (data) {
+                for (var i in menuArr) {
+                    var li = $('<li class="layui-nav-item layui-nav-itemed">');
+                    var menu = $('<a href="javascript:;" style="font-size :14px;font-weight:200"><i class="icon-align-left">' + menuArr[i] + '</i><span class="layui-nav-more"></span></a>');
+                    for (var j in data) {
+                        if (data[j].MenuName == menuArr[i]) {
+                            var str = '<dl class="layui-nav-child"><dd><a class="multitabs" href="' + data[j].Url + '" data-content="info" data-iframe="true"><i class="icon-map-marker"></i>' + data[j].ActionName + '</a></dd>';
+                            li.prepend(str);
+                        }
+                    }
+                    if (li.find('dl').length == 0) {
+                        continue;
+                    } else {
+                        li.prepend(menu);
+                        $('#FM').append(li);
+                    }
+                }
+            }
+        })
+    })
+</script>

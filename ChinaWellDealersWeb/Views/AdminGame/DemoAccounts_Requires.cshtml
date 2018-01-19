@@ -1,0 +1,121 @@
+﻿@model Models.GameDemoAccounts
+
+@{
+    Layout = null;
+}
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>DemoAccounts_Requires</title>
+    <link href="~/Content/style/tableStyle.css" rel="stylesheet" />  
+    <link href="~/Content/EasyUi/themes/default/easyui.css" rel="stylesheet" />
+    <link href="~/Content/EasyUi/themes/color.css" rel="stylesheet" />
+    <link href="~/Content/EasyUi/themes/icon.css" rel="stylesheet" />
+    <link href="~/Content/EasyUi/demo.css" rel="stylesheet" />
+    <script src="~/Content/EasyUi/jquery.min.js"></script>
+    <script src="~/Content/EasyUi/jquery.easyui.min.js"></script>
+    <script src="~/Content/EasyUi/easyui-lang-zh_CN.js"></script>
+    <link href="~/Content/layui-v1.0.9_rls/layui/css/modules/layer/default/layer.css" rel="stylesheet" />
+    <script src="~/Content/layui-v1.0.9_rls/layui/lay/modules/layer.js"></script>
+</head>
+<body>
+    <div style="height:40px;background-color:#F2F2F2;border:1px solid #BFBFBF">
+        <form action="/AdminGame/DemoAccounts_Requires" style=" margin-top: 6px; margin-bottom: 0;">
+            <label>运营商</label>
+            <input type="text" id="systemName" name="systemName" style=" border: solid 1px #95B8E7; border-radius: 5px; padding: 3px;" />
+            <label for="timeSlot" style="font-size:14px;">游戏账号：</label>
+            <input type="text" id="gameAccount" name="gameAccount" style=" border: solid 1px #95B8E7; border-radius: 5px; padding:3px;"/>
+            <label>地区</label>
+           @Html.Action("_City", "Game")
+            <input type="hidden" name="id" id="id" value="@ViewBag.CurrentId" />
+            <input type="submit" value="查询"  style="background-color:#1f637b;color:white;border-radius: 5px; padding: 3px;width:80px;"/>
+        </form>   
+    <div class="title_5" style="float:right;margin-right:4px;padding-top:10px;margin-top: -34px">
+        <a href="/AdminGame/AddDemoAccounts?id=@ViewBag.CurrentId" class="easyui-linkbutton c6" id="btnAdd" style="width:80px;height:25px;">添&nbsp;加</a>
+        <a href="javascript:void(0)" onclick="history.go(-1)" class="easyui-linkbutton c3" style="width:80px;height:25px;">返&nbsp;回</a>
+        </div>
+    </div>   
+    <table width="100%" class="table table-hover">      
+        <tr>
+            <th>试玩要求</th>
+            <th>奖励金额</th>
+            <th>爽币权益</th>
+        </tr>     
+        @foreach (var item in (List<Models.GameDemoRequires>)ViewData["requires"])
+        {                                    
+            <tr>
+                <td>@item.Demand</td>
+                <td>@item.AwardCoins</td>
+                <td>@item.CoinsEquity</td>
+            </tr>                     
+        }
+        
+      
+    </table>
+    <hr  style="color:#3c2f2f"/>
+    <table width="100%">
+        <tr>           
+            <th>运营商</th>
+            <th>帐号</th>
+            <th>密码</th>
+            <th>登录网址</th>   
+            <th>地区</th>
+            <th>领号玩家</th>
+            <th>领号时间</th>
+            <th>操作</th>
+        </tr>
+        @foreach (var item in (List<Models.MapModel.DemoAccountModel>)ViewData["accounts"])
+        {                     
+            <tr>
+               
+                <td>@item.SystemName</td>
+                <td>@item.UName</td>
+                <td>@item.Pwd</td>
+                <td><a href="@Html.Raw(item.Url)" target="_blank">@item.Url</a></td>
+                <td>@item.City</td>
+                <td>@item.State</td>
+                @if (item.GetAccountIntime.HasValue)
+                {
+                    <td>@item.GetAccountIntime.Value.ToString("yyyy-MM-dd")</td>
+                }
+                else
+                {
+                    <td></td>
+                }
+
+                @if (item.State==null||item.State=="")
+                {
+                   <td><a href="javascript:;" class="DelEvent" id=@item.Id demoId="@item.GameDemoId"><span style="color:red;font-weight:700;">删除</span></a></td>
+                }
+                else
+                {
+                    <td></td>
+                }
+               
+            </tr>
+        }
+    </table>
+    <script type="text/javascript">
+        $(function () {
+            $('.DelEvent').click(function (id,demoId, control) {
+                DelAccounts($(this).attr("id"), $(this).attr("demoId"), $(this));
+            });
+            
+        });
+        function DelAccounts(id, demoId, control) {
+            $.messager.confirm("温馨提示", "您确定要删除这条记录吗？", function (r) {
+                if (r) {
+                    $.post("/AdminGame/DelDemoAccount", { accountId: id, demoId: demoId}, function (data) {
+                        if (data == "ok") {
+                            $.messager.alert("提示", "删除成功!", "info");
+                            $(control).parent().parent().remove();
+                        } else {
+                            $.messager.alert("提示", "删除失败!", "info");
+                        }
+                    });
+                }
+            });
+        };
+    </script>
+</body>
+</html>

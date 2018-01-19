@@ -1,0 +1,154 @@
+﻿@model Models.UserRaiders
+
+@{
+    ViewBag.Title = "UserRaidersEdit";
+    Layout = "~/Views/Shared/_LayoutAdminData.cshtml";
+}
+<script src="~/Content/KinderEditor/kindeditor-min.js"></script>
+<link href="~/Content/KinderEditor/themes/default/default.css" rel="stylesheet" />
+<link href="~/Content/KinderEditor/plugins/code/prettify.css" rel="stylesheet" />
+<script src="~/Content/KinderEditor/kindeditor.js"></script>
+<script src="~/Content/KinderEditor/lang/zh_CN.js"></script>
+<script src="~/Content/KinderEditor/plugins/code/prettify.js"></script>
+<script src="~/Scripts/jquery-1.8.2.js"></script>
+<script src="~/Scripts/jquery-1.8.2.min.js"></script>
+<script src="~/Scripts/MyAjaxForm.js"></script>
+<link href="~/Content/layui-v1.0.9_rls/layui/css/modules/layer/default/layer.css" rel="stylesheet" />
+<script src="~/Content/layui-v1.0.9_rls/layui/lay/modules/layer.js"></script>
+<script type="text/javascript">
+        KindEditor.ready(function (K) {
+            var editor1 = K.create('#msg', {
+                cssPath: '/Content/KinderEditor/plugins/code/prettify.css',
+                uploadJson: '/Content/KinderEditor/asp.net/upload_json.ashx',
+                fileManagerJson: '/Content/KinderEditor/asp.net/file_manager_json.ashx',
+                allowFileManager: true,
+                afterBlur: function () { this.sync(); },//注意这里（异步提交时需要同步）
+                afterCreate: function () {
+                    var self = this;
+                    self.sync();//把富文本编辑器的内容放到  文本域里面去。
+                }
+            });
+            prettyPrint();//注意要调用该方法.
+        });
+    function submitForm() {
+        layer.confirm('提示：您是否已确认编辑完毕？', {
+            skin: 'layui-layer-lan',
+            btn: ['是的', '没有呀'] //按钮
+        }, function () {
+            $("#ff").ajaxSubmit({
+                url: '/AdminData/UserRaidersEdit',
+                type: "post",
+                success: function (data) {
+                    if (data == "ok") {
+                        layer.msg("恭喜：修改成功!");
+                        window.setTimeout(function () {
+                            
+                            window.location.href = "/AdminData/UserRaiders";
+                        }, 800);
+                    } else if (data == "no") {
+                        layer.msg("提示：修改失败！");
+                    } else if (data == "empty") {
+                        layer.msg("提示：请选择要修改的数据！");
+
+                    }else {
+                        layer.msg("提示：系统异常请稍候再试！");
+                    }
+                },
+            });
+        });
+    }      
+</script>
+<style type="text/css">
+    input[type="text"] 
+{
+    width: 800px;
+    height:25px;
+    border: 1px solid #CCC;
+}
+    textarea 
+    {
+       height:130px;
+       width:800px;
+    }
+     .editor-label {
+            line-height:25px;
+            color:#13629D;
+          
+        }
+</style>
+    
+    <fieldset>
+        <legend style="color:#13629D">攻略编辑</legend>
+        <form id="ff" class="easyui-form" method="post" data-options="novalidate:true">
+            <div style="margin-left:48px;">
+                @Html.HiddenFor(model => model.Id)
+
+                <div class="editor-label">
+                    标题
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Title)
+                    @Html.ValidationMessageFor(model => model.Title)
+                </div>
+
+                <div class="editor-label">
+                    编辑标题
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.EditTitle)
+                    @Html.ValidationMessageFor(model => model.EditTitle)
+                </div>
+                <div class="editor-label">
+                    来源
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Source)
+                    @Html.ValidationMessageFor(model => model.Source)
+                </div>
+                <div class="editor-label">
+                    关键字
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Key)
+                    @Html.ValidationMessageFor(model => model.Key)
+                </div>
+                <div class="editor-label">
+                    游戏名称
+                </div>
+                <div class="editor-field">
+                    <input name="gameName" type="text" id="GameName" list="gamelist" value="@Model.GameName" />
+
+                </div>
+                <div class="editor-label">
+                    编辑者
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Editor)
+                    @Html.ValidationMessageFor(model => model.Editor)
+                </div>
+                <div class="editor-label">
+                    内容摘要
+                </div>
+                <div class="editor-field">
+                    @Html.TextAreaFor(model => model.Memo)
+                    @Html.ValidationMessageFor(model => model.Memo)
+                </div>
+
+                <div class="editor-label">
+                    文章内容
+                </div>
+                <div class="editor-field">
+
+                    <textarea id="msg" name="msg" style="height:400px;">@Html.Raw(Model.Msg)</textarea>
+        </div>
+                <p>
+                    <a href="javascript:void(0)" id="btnEdit" class="easyui-linkbutton c6" style="width:80px;height:25px;" onclick="submitForm()">提交</a>&nbsp;&nbsp;<a href="/AdminData/UserRaiders" class="easyui-linkbutton c8" style="width:80px;height:25px;">返回</a>
+                </p>
+            </div>
+            </form>       
+</fieldset>
+@Html.Action("GameNameListPartial", "Game")
+
+ 
+
+

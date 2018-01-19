@@ -1,0 +1,137 @@
+﻿@{
+    Layout = null;
+    Layout = "~/Views/Shared/_LayoutAdminData.cshtml";
+}
+@model Models.Company
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>添加新闻信息</title> 
+    <script src="~/Content/KinderEditor/kindeditor-min.js"></script>
+    <link href="~/Content/KinderEditor/themes/default/default.css" rel="stylesheet" />
+    <link href="~/Content/KinderEditor/plugins/code/prettify.css" rel="stylesheet" />
+    <script src="~/Content/KinderEditor/kindeditor.js"></script>
+    <script src="~/Content/KinderEditor/lang/zh_CN.js"></script>
+    <script src="~/Content/KinderEditor/plugins/code/prettify.js"></script>
+    <script src="~/Scripts/jquery-1.8.2.js"></script>
+    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+    <script src="~/Scripts/MyAjaxForm.js"></script>
+    <link href="~/Content/layui-v1.0.9_rls/layui/css/modules/layer/default/layer.css" rel="stylesheet" />
+    <script src="~/Content/layui-v1.0.9_rls/layui/lay/modules/layer.js"></script>
+    <script type="text/javascript">
+        KindEditor.ready(function (K) {
+            var editor1 = K.create('#msg', {
+                cssPath: '/Content/KinderEditor/plugins/code/prettify.css',
+                uploadJson: '/Content/KinderEditor/asp.net/upload_json.ashx',
+                fileManagerJson: '/Content/KinderEditor/asp.net/file_manager_json.ashx',
+                allowFileManager: true,
+                afterBlur: function () { this.sync(); },//注意这里（异步提交时需要同步）
+                afterCreate: function () {
+                    var self = this;
+                    self.sync();//把富文本编辑器的内容放到  文本域里面去。
+                }
+            });
+            prettyPrint();//注意要调用该方法.
+        });
+        function submitForm() {
+            $("#ff").ajaxSubmit({
+                url: '/AdminData/NewsAdd',
+                type: "post",
+                success: function (data) {
+                    if (data == "ok") {
+                        layer.msg("恭喜：新闻添加成功!");
+                        window.setTimeout(function () {
+                            window.location.href = "/Company/Index";
+                        }, 1300);
+                      //  $("#ff").html();                      
+                    } else if (data == "no") {
+                        layer.msg("提示：添加新闻失败！");                     
+                    } else if (data == "empty") {
+                        layer.msg("提示：新闻内容，文章标题及编辑者必须输入！");                                          
+                    } else {
+                        layer.msg("提示：系统异常请稍候再试！");                        
+                    }
+                },
+            });
+        }
+        function CloseDiv() {
+            $("#addProDiv").css("display", "none");
+        }
+    </script>
+</head>
+<body>
+    <div id="addProDiv" style="width:100%;height:100%;padding-left:0%;padding-top:0%;">
+        <div class="easyui-panel" title="新闻信息添加" style="width:1200px; height:1000px;">
+            <div style="padding: 10px 50px 20px 60px;">
+                <form id="ff" class="easyui-form" method="post" data-options="novalidate:true" >
+                    <table cellpading="0" style="text-align:left">
+                        <input type="hidden" id="companyId" name="companyId" value="@Model.Id" />
+                        <tr>
+                            <td>文章标题</td>
+
+                            <td>
+                                <input class="easyui-textbox" type="text" id="title" name="title" style=" width:370px;height: 25px;" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>编辑标题</td>
+                            <td>
+                                <input class="easyui-textbox" type="text" id="editTitle" name="editTitle" style=" width:370px;height: 25px;" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>来源</td>
+                            <td>
+                                <input class="easyui-textbox" textbox" id="source" name="source" style="height: 25px; width: 370px;"></input>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>编辑者</td>
+                            <td>
+                                <input class="easyui-textbox" type="text" id="editor" name="editor" style=" width:370px;height: 25px;" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>游戏名称</td>
+                            <td>
+                                <input type="text" id="game" name="game" list="gamelist" style=" width:365px;height: 21px;" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>文章关键字</td>
+                            <td>
+                                <input class="easyui-textbox" type="text" id="kewords" name="kewords" style=" width:370px;height: 25px;" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>新闻类型</td>
+                            <td>
+                                <select id="type" name="type" style="height: 25px; width: 370px;">
+                                    <option value="1">新游在线</option>
+                                    <option value="2">热游动态</option>
+                                    <option value="3">产业资讯</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>内容摘要</td>
+                            <td><textarea  id="memo" name="memo" style="height: 200px; width: 800px;text-wrap:normal" ></textarea>  </td>
+                        </tr>
+                        <tr>
+                            <td>新闻内容</td>
+                            <td><textarea class="easyui-validatebox textbox" id="msg" name="msg" style="height: 450px; width: 800px;" data-options="required:true,missingMessage:'新闻内容必须输入'"></textarea>  </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="padding-left:37%;padding-top:13px">
+                                <a href="javascript:void(0)" class="easyui-linkbutton c6" style="width:80px;height:25px;" onclick="submitForm()">添&nbsp;加</a>
+                                <a href="javascript:void(0)" class="easyui-linkbutton c3" style="width:80px;height:25px;" onclick="history.go(-1)">返&nbsp;回</a>
+                            </td>
+                        </tr>
+                    </table>
+                </form>              
+            </div>
+        </div>
+    </div>
+    @Html.Action("GameNameListPartial", "Game")   
+</body>
+</html>

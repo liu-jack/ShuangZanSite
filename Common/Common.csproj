@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{98F88972-EC1A-4029-B338-E753BE8E7EA5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Common</RootNamespace>
+    <AssemblyName>Common</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Common.Logging, Version=2.1.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Spring.Net\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Commons">
+      <HintPath>..\packages\memcached\Commons.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\packages\memcached\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\packages\lib\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Memcached.ClientLibrary">
+      <HintPath>..\packages\memcached\Memcached.ClientLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>H:\程序员\Web\MVC\讲义\json解析dll\json解析dll\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Core">
+      <HintPath>..\packages\Spring.Net\Spring.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Web">
+      <HintPath>..\packages\Spring.Net\Spring.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Web.Mvc4">
+      <HintPath>..\packages\Spring.Net\Spring.Web.Mvc4.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="bin\Release\ShuangZanModelDB.Context1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ShuangZanModelDB.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="bin\Release\ShuangZanModelDB1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CacheHelper.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="HttpRuntimeCacheWriter.cs" />
+    <Compile Include="ICacheWriter.cs" />
+    <Compile Include="JsHelper.cs" />
+    <Compile Include="LaomaPager.cs" />
+    <Compile Include="LogHelper.cs" />
+    <Compile Include="Md5Helper.cs" />
+    <Compile Include="MemmcachedWriter.cs" />
+    <Compile Include="MobileVerifyCode.cs" />
+    <Compile Include="PinYinHelper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StaticPageHelper.cs" />
+    <Compile Include="UploadImgs.cs" />
+    <Compile Include="ValidateCodeHelper.cs" />
+    <Compile Include="VerifyCode.cs" />
+    <Compile Include="WatermarkedImage.cs" />
+    <Compile Include="WebHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Model\Models.csproj">
+      <Project>{ca209487-fa56-413d-9fe8-bce472b45b00}</Project>
+      <Name>Models</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Release\Common.dll" />
+    <Content Include="bin\Release\Common.Logging.dll" />
+    <Content Include="bin\Release\Common.pdb" />
+    <Content Include="bin\Release\Commons.dll" />
+    <Content Include="bin\Release\EntityFramework.dll" />
+    <Content Include="bin\Release\EntityFramework.xml" />
+    <Content Include="bin\Release\ICSharpCode.SharpZipLib.dll" />
+    <Content Include="bin\Release\log4net.dll" />
+    <Content Include="bin\Release\Memcached.ClientLibrary.dll" />
+    <Content Include="bin\Release\Models.dll" />
+    <Content Include="bin\Release\Models.pdb" />
+    <Content Include="bin\Release\Newtonsoft.Json.dll" />
+    <Content Include="bin\Release\ShuangZanModelDB.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ShuangZanModelDB.Context1.cs</LastGenOutput>
+    </Content>
+    <Content Include="bin\Release\ShuangZanModelDB.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ShuangZanModelDB1.cs</LastGenOutput>
+    </Content>
+    <Content Include="bin\Release\Spring.Core.dll" />
+    <Content Include="bin\Release\Spring.Core.xml" />
+    <Content Include="bin\Release\Spring.Web.dll" />
+    <Content Include="bin\Release\Spring.Web.Mvc4.dll" />
+    <Content Include="bin\Release\Spring.Web.Mvc4.xml" />
+    <Content Include="bin\Release\Spring.Web.xml" />
+    <Content Include="bin\Release\System.Net.Http.dll" />
+    <Content Include="bin\Release\System.Net.Http.Formatting.dll" />
+    <Content Include="bin\Release\System.Net.Http.Formatting.xml" />
+    <Content Include="bin\Release\System.Net.Http.xml" />
+    <Content Include="bin\Release\System.Web.Http.dll" />
+    <Content Include="bin\Release\System.Web.Http.WebHost.dll" />
+    <Content Include="bin\Release\System.Web.Http.WebHost.xml" />
+    <Content Include="bin\Release\System.Web.Http.xml" />
+    <Content Include="bin\Release\zh-Hans\EntityFramework.resources.dll" />
+    <Content Include="bin\Release\zh-Hans\System.Net.Http.Formatting.resources.dll" />
+    <Content Include="bin\Release\zh-Hans\System.Net.Http.resources.dll" />
+    <Content Include="bin\Release\zh-Hans\System.Web.Http.resources.dll" />
+    <Content Include="bin\Release\zh-Hans\System.Web.Http.WebHost.resources.dll" />
+    <Content Include="obj\Debug\Common.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Debug\TempPE\bin.Release.ShuangZanModelDB.Context1.cs.dll" />
+    <Content Include="obj\Debug\TempPE\bin.Release.ShuangZanModelDB1.cs.dll" />
+    <Content Include="obj\Release\Common.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Release\Common.dll" />
+    <Content Include="obj\Release\Common.pdb" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Release\ShuangZanModelDB.edmx.diagram" />
+    <None Include="obj\Debug\build.force" />
+    <None Include="obj\Debug\Common.csprojResolveAssemblyReference.cache" />
+    <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <None Include="obj\Release\Common.csprojResolveAssemblyReference.cache" />
+    <None Include="obj\Release\DesignTimeResolveAssemblyReferencesInput.cache" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Debug\zh-Hans\" />
+    <Folder Include="obj\Release\TempPE\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

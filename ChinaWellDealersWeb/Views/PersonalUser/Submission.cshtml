@@ -1,0 +1,313 @@
+﻿@{
+    Layout = null;
+
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=1124">
+    <link href="~/Content/Css/index.css" rel="stylesheet" />
+    <link href="~/Content/Css/reset.css" rel="stylesheet" />
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="~/Content/Css/personal.css" rel="stylesheet" />
+    <link href="~/Content/Css/default.css" rel="stylesheet" />
+    <link href="~/Content/Css/sign.css" rel="stylesheet" />
+    <link href="~/Content/Css/calendar.css" rel="stylesheet" />
+    <link href="~/Content/style/NavPager.css" rel="stylesheet" />
+    <link href="/Content/Img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+    <link href="~/Content/layui-v1.0.9_rls/layui/css/modules/layer/default/layer.css" rel="stylesheet" />
+    <script src="~/Content/KinderEditor/kindeditor-min.js"></script>
+    <link href="~/Content/KinderEditor/themes/default/default.css" rel="stylesheet" />
+    <link href="~/Content/style/NavPager.css" rel="stylesheet" />
+    <link href="~/Content/KinderEditor/plugins/code/prettify.css" rel="stylesheet" />
+    <script src="~/Content/KinderEditor/kindeditor.js"></script>
+    <script src="~/Content/KinderEditor/lang/zh_CN.js"></script>
+    <script src="~/Content/KinderEditor/plugins/code/prettify.js"></script>
+    <title>个人中心</title>
+    <style type="text/css">
+        .error {
+            color: red;
+            font-weight: normal;
+            font-size: 14px;
+            white-space: nowrap;
+            font-family: monospace;
+            padding-left:10px;
+        }      
+    </style>
+</head>
+<body>
+    @Html.Action("UserTop", "PersonalUser")
+    <div>
+        <!--攻略投稿-->
+        <div class="Submission">
+            <ul>
+                <li class="mycontribution actives">我要投稿</li>
+                <li class="contribution">我的投稿</li>
+            </ul>
+            <div class="change2 active mycontributioncon" id="showDiv">
+                <p>温馨提示:参与投稿就有机会赢取爽币。玩游戏、兑换礼品样样等你来拿~详情猛戳 <a href="/Amoywel.html#sbqy" target="_blank">"爽币权益"</a></p>
+                <div class="over">
+                    <div class="reward">
+                        <i></i>
+                        <ul>
+                            <li>+10爽币</li>
+                            <li>通过审核</li>
+                        </ul>
+                        <ul>
+                            <li>+10爽币</li>
+                            <li>首页推荐</li>
+                        </ul>
+                    </div>
+                    <div class="explain">
+                        <i></i>
+                        <span>1</span>投稿内容为原创
+                        <span>2</span>上传本地图片
+                        <span>3</span>通过审核后，爽币自动发送到账户(<b>工作日 9:00-18:00</b>)
+                    </div>
+                </div>
+                <div class="edit">
+                    @using (Ajax.BeginForm("Addmission", new { }, new AjaxOptions() { HttpMethod = "post", OnSuccess = "afterMsg" }, new { id = "frm" }))
+                    {
+                        <p>
+                            <span>文章标题：</span><input type="text" name="title" id="title" style="background-color:#ffffff" />
+
+                        </p>
+                        <p>
+                            <span>游戏名：</span><input type="text" id="gamename" name="gamename" style="background-color:#ffffff" />
+                        </p>
+                        <p>
+                            <span>关键词：</span><input type="text" id="keyword" name="keyword" style="background-color:#ffffff" />
+                        </p>
+                        <p>
+                            <span>文章内容：</span>
+                            <textarea name="area" id="area" style="width:810px;height:400px;"></textarea>
+                        </p>
+                        <p class="tip11">
+                            <span></span><input type="button" class="btn1 audit" onclick="submitform()" value="提交审核" />
+                        </p>
+                        <p class="display">
+                            <span></span><input type="button" class="btn1 auditsave" value="保存修改" /><input type="button" class="btn1 Cancelmod" value="取消" />
+                        </p>
+                    }
+                </div>
+            </div>
+            <div class="change2 contributioncon">
+            </div>
+            <!-- 投稿攻略提交成功-->
+            <div class="Subsuccess display" id="okDiv">
+                <p><i></i><span>恭喜您！投稿提交成功！</span></p>
+                <p>您的投稿正在审核中~可在“我的投稿”查看审核动态</p>
+                <p><input type="button" value="我的投稿" class="tg1" /><input type="button" value="继续投稿" class="tg2" /> </p>
+            </div>
+        </div>
+    </div>
+    <!-- 投稿删除确认弹框 -->
+    <div class="modal display">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <p>确定要删除该攻略投稿吗？</p>
+                <p>
+                    <input type="button" value="确定" id="confirm" />
+                    <input type="button" value="取消" id="delcancel" />
+                </p>
+            </div>
+        </div>
+    </div>
+    <!--尾部开始-->
+    @Html.Action("_SignInDiv", "PersonalUser")
+    <!--尾部结束-->
+    <script src="~/Content/js/jquery-1.11.1.min.js"></script>
+    <script src="~/Content/js/Public.js"></script>
+    <script src="~/Content/js/personal_use.js"></script>
+    <script src="~/Content/js/calendar.js"></script>
+    <script src="~/Content/js/myExtend.js"></script>
+    <script src="~/Content/js/calendar1.js"></script>
+    <script src="~/Content/js/jquery-1.11.1.min.js"></script>
+    <script src="~/Scripts/jquery-1.8.2.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/datapattern.js"></script>
+    <script src="~/Content/layui-v1.0.9_rls/layui/lay/modules/layer.js"></script>
+    <script type="text/javascript">
+        KindEditor.ready(function (K) {
+                editor1 = K.create('#area', {
+                cssPath: '/Content/KinderEditor/plugins/code/prettify.css',
+                uploadJson: '/Content/KinderEditor/asp.net/upload_json.ashx',
+                fileManagerJson: '/Content/KinderEditor/asp.net/file_manager_json.ashx',
+                allowFileManager: true,
+                afterBlur: function () { this.sync(); },//注意这里（异步提交时需要同步）
+                afterCreate: function () {
+                    var self = this;
+                    self.sync();//把富文本编辑器的内容放到  文本域里面去。
+                }
+            });
+            prettyPrint();//注意要调用该方法.
+        });
+        function submitform() {
+            if (JqValidate()) {
+                $('#frm').submit();
+            }
+        }
+        function JqValidate() {
+            return $('#frm').validate({
+                rules: {
+                    title: {
+                        required: true,
+                        maxlength: 26,
+                    },
+                    gamename: {
+                        required: true,
+                    },
+                    keyword: {
+                        required: true,
+                    },
+                    area: {
+                        required: true,
+                    },
+                },
+                messages: {
+                    title: {
+                        required: "请输入文章标题",
+                        maxlength: "文章标题在26个字符以内",
+                    },
+                    gamename: {
+                        required: "请输入游戏名称",
+                    },
+                    keyword: {
+                        required: "请输入关键字,多个关键字以逗号隔开",
+                    },
+                    area: {
+                        required: "请输入内容摘要",
+                    },
+                }
+            });
+        }
+        //表单提交执行的方法
+        function afterMsg(data) {
+            if (data == "ok") {
+                //showDiv
+                $('#showDiv').css("display", "none");
+                $('#okDiv').css("display", "block");
+                //layer.msg("恭喜:投稿提交成功!请等待审核！");
+            } else {
+                layer.msg("提示：提交失败、请稍候再试！");
+            }
+        };
+        
+        //修改按钮
+        $('.contributioncon').on('click', '.mod', function () {
+            var a = $(this).attr("name");
+            $.ajax({
+                type: "Post",
+                url: "/PersonalUser/MissionEdit",
+                data: {
+                    id: a
+                },
+                success: function (data) {
+                    $('.edit').show();
+                    $('.contributioncon').hide();
+                    $('.mycontributioncon .tip11').hide();
+                    $('.mycontributioncon .tip11').next().attr('name', data.Id).show();
+                    $('.mycontributioncon').show();
+                    $('#title').val(data.Title);
+                    $('#gamename').val(data.GameName);
+                    $('#keyword').val(data.Key);
+                    editor1.html(data.Msg);
+                }
+            });
+        })
+        //保存修改
+        $(".auditsave").click(function () {
+            editor1.sync();
+            var e = $("#title").val();
+            var f = $("#gamename").val();
+            var g = editor1.html();
+            var h = $("#keyword").val();
+            $.ajax({
+                type: "Post",
+                url: "/PersonalUser/RaidersEdit",
+                data: {
+                    id: $(this).parent().attr('name'),
+                    title: e,
+                    gamename: f,
+                    area: g,
+                    keyword: h
+                },
+                success: function (data) {
+                    var p = data.split(':')[0];
+                    if (p == 'ok') {
+                        $(".Subsuccess").show().prev().prev().hide();
+                        $(".edit").hide();
+                    }
+                }
+            });
+        });
+
+
+        $(function () {
+            var pageIndex = 1;
+            $('.contribution').click(function () {
+                loadGift();
+            });
+            $('.contributioncon').on('click', '.page ul a', function (event) {
+                event.preventDefault();
+                var href = $(this).attr("href").split('&');
+                href = href[0].split('=');
+                pageIndex = href[1];
+                loadGift();
+            });
+
+            function loadGift() {
+                $.ajax({
+                    datatype: 'json',
+                    type: 'post',
+                    data: {
+                        pageIndex: pageIndex
+                    },
+                    url: '/PersonalUser/GetMySubmission',
+                    success: function (data) {
+                        $('.contributioncon').empty();
+                        var str, str2;
+                        if (data.Data.length == 0) {
+                            var p = $('<p class="subtitl"><span>文章标题</span><span>游戏名</span><span>投稿时间</span><span>审核状态</span><span>首页推荐</span><span>操作</span></p>');
+                            str = '<div class="Subnomsg"><p style="margin-top:80px;">攻略不投，爽币木有。赶紧去投稿吧~</p><p><input class="mytg" type="button" value="我要投稿"/></p></div>';
+                            $('.contributioncon').append(p);
+                            $('.contributioncon').append(str);
+                        } else {
+                            var p = $('<p class="subtitl"><span>文章标题</span><span>游戏名</span><span>投稿时间</span><span>审核状态</span><span>首页推荐</span><span>操作</span></p>');
+                            var div = $('<div id="mySub"></div>');
+                            for (var i in data.Data) {
+                                if (data.Data[i].State == 0) {
+                                    data.Data[i].State = '未通过';
+                                    str2 = '<a class="mod" name="' + data.Data[i].Id + '">修改</a><a class="Subdel" name="' + data.Data[i].Id + '">删除</a></span></p>';
+                                } else if (data.Data[i].State == 1) {
+                                    data.Data[i].State = '已通过';
+                                    str2 = '<a href="/Raiders/RaidersDetail/' + data.Data[i].Id + '" target="_blank">查看</a></span></p>';
+                                } else if (data.Data[i].State == 2) {
+                                    data.Data[i].State = '待审核';
+                                    str2 = '<a class="mod" name="' + data.Data[i].Id + '">修改</a><a class="Subdel" name="' + data.Data[i].Id + '">删除</a></span></p>';
+                                }
+
+                                if (data.Data[i].Rec_Hot == 0) {
+                                    data.Data[i].Rec_Hot = '';
+                                } else if (data.Data[i].Rec_Hot == 1) {
+                                    data.Data[i].Rec_Hot = '是';
+                                }
+                                var InTime = (eval(data.Data[i].InTime.replace(/\/Date\((\d+)\)\//gi, "new Date($1)"))).pattern("yyyy-MM-dd");
+                                str = '<p><span>' + data.Data[i].Title + '</span><span>' + data.Data[i].GameName + '</span><span>' + InTime + '</span><span>' + data.Data[i].State + '</span><span>' + data.Data[i].Rec_Hot + '</span><span>';
+                                str += str2;
+                                div.append(str);
+                            }
+                            $('.contributioncon').append(p);
+                            $('.contributioncon').append(div);
+                            $('.contributioncon').append('<div class="page"><ul id="paginator">' + data.NavStr + '</ul></div>');
+                        }
+                    }
+                })
+            }
+        })
+    </script>
+</body>
+</html>

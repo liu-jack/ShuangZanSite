@@ -1,0 +1,96 @@
+﻿
+        #main {
+            width: 1012px;
+            margin: 0 auto;
+            background-image: url(/Content/Img/106.jpg);
+            font-family: 'Microsoft YaHei';
+        }
+
+            #main > div > div {
+                clear: both;
+                height: 80px;
+                position: relative;
+            }
+
+            #main span#bottom label {
+            }
+
+            #main > div > div > span {
+                position: absolute;
+                text-align: right;
+                display: block;
+                float: left;
+                width: 300px;
+                padding: 10px 10px 0 0;
+                font-size: 16px;
+            }
+
+            #main > div > div > input {
+                position: absolute;
+                left: 310px;
+                width: 350px;
+                padding-left: 10px;
+                height: 40px;
+                font-size: 14px;
+            }
+
+                #main > div > div > input.s {
+                    color: #2B2B2B !important;
+                }
+
+            #main > div > div .alt {
+                position: absolute;
+                left: 310px;
+                top: 50px;
+                color: #FF0000;
+                font-size: 13px;
+            }
+
+            #main > div > div a {
+                position: absolute;
+                text-align: right;
+                left: 600px;
+                top: 50px;
+                width: 70px;
+                color: #999999;
+                font-size: 14px;
+                text-decoration: none;
+            }
+
+                #main > div > div a:hover {
+                    color: #7BAB14;
+                }
+
+                #main > div > div a#reg {
+                    top: 0;
+                    color: #309CEF;
+                }
+
+                    #main > div > div a#reg:hover {
+                        color: #0083E7;
+                    }
+
+            #main > div > div > label#save {
+                position: absolute;
+                cursor: pointer;
+                left: 310px;
+                width: 360px;
+                font-size: 16px;
+            }
+
+            #main > div > div > label {
+                position: absolute;
+                left: 310px;
+                font-size: 14px;
+            }
+
+                #main > div > div > label * {
+                    display: block;
+                    float: left;
+                    color: #ABABAB;
+                }
+
+                #main > div > div > label input {
+                    margin-left: 0;
+                }
+ 

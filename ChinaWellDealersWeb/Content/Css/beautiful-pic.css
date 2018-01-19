@@ -1,0 +1,134 @@
+
+/*清除浮动*/  
+.clearfix:after {  
+    content:"";  
+    display:block;
+    clear:both;
+    height:0;  
+}  
+.clearfix{zoom:1;
+          display: table;
+}  
+
+.beautiful-title{
+	position: relative;
+	overflow: hidden;
+	margin-top:10px;
+}
+.beautiful-title h1{	color:#333;
+	line-height: 40px;
+	font-size:18px;
+	width:100px;
+	text-align:center;
+	border-bottom: #91c520 solid 2px;
+}
+.beautiful-title span{
+	position: absolute;
+	right:0;
+	bottom:10px;
+	width:1000px;
+	padding-bottom: 10px;
+	margin-bottom: -10px;
+	border-bottom: #e6e6e6 solid 2px;
+	text-align: right;
+}
+.beautiful-title span a{
+	margin:0 10px;
+	color:#999;
+}
+.beautiful-title span .on{
+	color:#7bab14;
+}
+.beautiful-box{
+	position: relative;
+	margin-bottom:200px;
+	/*min-height: 2000px;*/
+}
+.beautiful-box li{
+	width:210px;
+}
+
+.beautiful-box>div:not(.shadow){
+	box-shadow: 0px 3px 10px 1px rgba(0,0,0,.15);
+	/* position:absolute; */
+
+}
+.beautiful-nav{
+	background-color:#262626;
+	padding:10px 0;
+	
+}
+.beautiful-nav li{
+	display:block;
+	font-size:16px;
+	color:#808080;
+	line-height:30px;
+	background:url(/Content/Img/beautiful-list.jpg) left center no-repeat;
+	padding-left:16px; 
+	margin-left:14px;
+	cursor: pointer;
+}
+.beautiful-nav li a{
+	color:#808080;
+}
+.beautiful-nav li:hover{
+	padding-left:26px;
+}
+.beautiful-nav li:hover a{
+	color:#fff;
+}
+.beautiful-nav li.on{
+	padding-left:26px;
+}
+.beautiful-nav li.on a{
+	color:#fff;
+}
+.beautiful-pic-text{
+	padding:14px 6px;
+	border-top:#e6e6e7 solid 1px;
+	line-height: :18px;
+	color:#646464;
+}
+
+.box {
+  	margin-top:12px;
+  	margin-right: 12px;
+    float: left;
+    width: 210px;
+  }
+.box:nth-child(5n+5){
+	margin-right:0;
+}
+.box img {
+    max-width: 100%
+}
+.box:hover p{
+	color:#90c41f;
+}
+
+.box:hover img{
+	opacity:0.4;
+}
+.box-text{
+	color: #FFFFFF;
+	background: #90C41F;
+	padding-left: 10px;
+	padding-right: 20px;
+	border-top-right-radius: 15px;
+	border-bottom-right-radius: 15px;
+	position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    /*height:30px;*/
+    line-height:30px;
+    display: none;
+    width:158px;
+}
+
+.container-fluid{
+	position: relative;
+}
+.hide{
+	display:none;
+}

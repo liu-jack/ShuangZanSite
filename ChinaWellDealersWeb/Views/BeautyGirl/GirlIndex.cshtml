@@ -1,0 +1,83 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>福利美图_美女壁纸_二次元壁纸_淘福利_爽赞网</title>
+    <meta name="keywords" content="美女图片,性感美女,美女写真,高清壁纸,美女COS,游戏原画,同人美图，美女壁纸，福利美图，淘福利，二次元壁纸，cos壁纸">
+    <meta name="description" content="福利美图频道提供养眼福利的性感美女照片,高清福利壁纸,精美Cosplay照片及同人美图,欣赏各种养眼美图,尽在爽赞网福利美图频道">
+    <meta name="viewport" content="width=1124">
+    <link href="~/Content/Css/index.css" rel="stylesheet" />
+    <link href="~/Content/Css/reset.css" rel="stylesheet" />
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="~/Content/Css/commercial.css" rel="stylesheet" />
+    <link href="~/Content/Css/amoywel.css" rel="stylesheet" />
+    <link href="~/Content/Css/beautiful-pic.css" rel="stylesheet" />
+    <link href="~/Content/Css/usename.css" rel="stylesheet" />
+    <link href="/Content/Img/favicon.ico" type="image/x-icon" rel="shortcut icon" /> 
+    <link href="~/Content/Css/Openservice.css" rel="stylesheet" />
+</head>
+<body>
+    @Html.Action("_TwoShuangzanHeader", "Home")
+    <!-- 富媒体 -->
+    <div class="commercial wide">
+        <div class="advert_top01">
+            @foreach (var item in (List<Models.Advertisement>)ViewData["advert"])
+            {
+
+                <a href="@item.Url" class="banner_one" target="_blank">
+                    <img src="/Content/Img/tl.png" alt="查攻略">
+                    <embed src="@item.Path" wmode="transparent" type="application/x-shockwave-flash" wmode="transparent" pluginspage="http://www.macromedia.com/go/getflashplayer" width="540" height="100">
+                </a>
+            }
+            </div>
+        </div>
+    <!-- 面包屑导航 -->
+    <div class="wide details">当前位置：<a href="/">爽赞网</a> > <a href="/BeautyGirl/GirlIndex">福利美图</a></div>
+    <div class="opentest wide">
+        <div class="beautiful-title">
+            <h1>福利美图</h1>
+            <span><a class="on">最新福利</a><a>热门福利</a></span>
+        </div>
+        <div class="beautiful-news beautiful-container">
+            <div id="masonry" class="container-fluid beautiful-box clearfix">
+                <!-- 福利美图主体导航 -->
+                <div class="shadow box">
+                    <ul class="beautiful-nav">
+                        <li><a href="javascript:void(0)" value="COS">COS福利</a></li>
+                        <li><a href="javascript:void(0)" value="美腿">美腿福利</a></li>
+                        <li><a href="javascript:void(0)" value="二次元">二次元福利</a></li>
+                        <li><a href="javascript:void(0)" value="制服">制服诱惑</a></li>
+                        <li><a href="javascript:void(0)" value="爆乳">爆乳福利</a></li>
+                        <li><a href="javascript:void(0)" value="性感">性感福利</a></li>
+                        <li><a href="javascript:void(0)" value="自拍">自拍福利</a></li>
+                        <li><a href="javascript:void(0)" value="同人">同人美图</a></li>
+                        <li><a href="javascript:void(0)" value="可爱">可爱美图</a></li>
+                        <li><a href="javascript:void(0)" value="古典">古典美女</a></li>
+                        <li><a href="javascript:void(0)" value="清纯">清纯美图</a></li>
+                        <li><a href="javascript:void(0)" value="汽车">汽车美图</a></li>
+                        <li><a href="javascript:void(0)" value="明星">明星美图</a></li>
+                        <li><a href="javascript:void(0)" value="科幻">科幻美图</a></li>
+                        <li><a href="javascript:void(0)" value="唯美">唯美美图</a></li>
+                        <li><a href="javascript:void(0)" value="原画">原画美图</a></li>
+                        <li><a href="javascript:void(0)" value="风景">风景美图</a></li>
+                        <li><a href="javascript:void(0)" value="抽象">抽象美图</a></li>
+                        <li><a href="javascript:void(0)" value="体育">体育美图</a></li>
+                    </ul>
+                </div>
+                <!-- 福利美图 -->
+              
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部 -->
+    @Html.Partial("_ShuangZanFooter")
+    <script src="~/Content/js/jquery-1.11.1.min.js"></script>
+    <script src="~/Content/js/Public.js"></script>
+    <script src="~/Content/js/beautiful-pic.js"></script>
+    <script src="~/Content/js/personal_use.js"></script>
+</body>
+</html>

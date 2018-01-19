@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C3E19EEF-25FF-4841-B005-3E8DB479924D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DAL</RootNamespace>
+    <AssemblyName>DAL</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ActionInfoDal.cs" />
+    <Compile Include="AdvertisementDal.cs" />
+    <Compile Include="AuditLogDal.cs" />
+    <Compile Include="BaseDal.cs" />
+    <Compile Include="BeautifulGirlsDal.cs" />
+    <Compile Include="BlackListIPDal.cs" />
+    <Compile Include="CompanyDal.cs" />
+    <Compile Include="CompanyGameDal.cs" />
+    <Compile Include="DbContextFactory.cs" />
+    <Compile Include="DemoUserDal.cs" />
+    <Compile Include="FeedbackDal.cs" />
+    <Compile Include="ForbiddenListDal.cs" />
+    <Compile Include="GameDal.cs" />
+    <Compile Include="GameDemoAccountsDal.cs" />
+    <Compile Include="GameDemoDal.cs" />
+    <Compile Include="GameDemoRechargeDal.cs" />
+    <Compile Include="GameDemoRequiresDal.cs" />
+    <Compile Include="GiftDal.cs" />
+    <Compile Include="HomePageDal.cs" />
+    <Compile Include="KeyWordsDal.cs" />
+    <Compile Include="LeaveMsgDal.cs" />
+    <Compile Include="NewsDal.cs" />
+    <Compile Include="OpenServiceDal.cs" />
+    <Compile Include="OrderDal.cs" />
+    <Compile Include="PackageCardDal.cs" />
+    <Compile Include="PackageDal.cs" />
+    <Compile Include="PersonalUserDal.cs" />
+    <Compile Include="PersonalUserSignDal.cs" />
+    <Compile Include="PersonalUserSignDetailDal.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RechargeDal.cs" />
+    <Compile Include="RechargedUsedDal.cs" />
+    <Compile Include="RoleInfoDal.cs" />
+    <Compile Include="R_UserInfo_ActionInfoDal.cs" />
+    <Compile Include="SeeNewsDal.cs" />
+    <Compile Include="SeoDal.cs" />
+    <Compile Include="TestDal.cs" />
+    <Compile Include="UserAdressDal.cs" />
+    <Compile Include="UserInfoDal.cs" />
+    <Compile Include="UserMessageDal.cs" />
+    <Compile Include="UserRaidersDal.cs" />
+    <Compile Include="VerificationCodeDal.cs" />
+    <Compile Include="WonderfulTxtImgDal.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\IDAL\IDAL.csproj">
+      <Project>{cb4d6c89-6fb4-47d7-8ed8-e1481ebff794}</Project>
+      <Name>IDAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\Models.csproj">
+      <Project>{ca209487-fa56-413d-9fe8-bce472b45b00}</Project>
+      <Name>Models</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

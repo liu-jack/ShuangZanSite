@@ -1,0 +1,135 @@
+﻿@model Models.UserInfo
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>设置权限</title>
+    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+    <link href="~/Content/style/tableStyle.css" rel="stylesheet" />
+    <script type="text/javascript">
+        $(function ()       
+        {
+           
+            //为了只绑定一次事件。
+            //$(".passRb").unbind("click");
+            //$(".passRb").bind("click", function () {
+            //});
+            $(".passRb").click(function () {
+                //允许按钮被点击的时候
+                //把当前的行的权限  id拿到，然后拿到当前用户的id  发送异步请求到后台【允许】
+                //中间表如果有之前对应userId和actionid中间表数据，那么直接修改ispass为true
+                //如果没有insert，添加一条中间表数据，而且ispass=true
+                var userId = $("#hidUserId").val();
+
+                var actionId = $(this).attr("aId");
+
+                $.post("/ManageUsers/SetAction/" + userId, { isPass: "true", actionId: actionId }, function (data) { });
+            });
+
+
+            $(".nopassRb").click(function () {
+                //允许按钮被点击的时候
+                //把当前的行的权限  id拿到，然后拿到当前用户的id  发送异步请求到后台【允许】
+                //中间表如果有之前对应userId和actionid中间表数据，那么直接修改ispass为true
+                //如果没有insert，添加一条中间表数据，而且ispass=true
+                var userId = $("#hidUserId").val();
+
+                var actionId = $(this).attr("aId");
+
+                $.post("/ManageUsers/SetAction/" + userId, { isPass: "false", actionId: actionId }, function (data) { });
+            });
+            $(".btnDelete").click(function () {
+               
+                var userId = $("#hidUserId").val();
+                var actionId = $(this).attr("aId");
+                var btn = $(this);
+                $.post("/ManageUsers/SetAction/" + userId, { isPass: "delete", actionId: actionId }, function (data) {
+                    //清空 允许和拒绝
+                    btn.siblings("input[type='radio']").attr("checked", false);
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div>
+        <h3>给用户： @Model.UName 设置特殊权限</h3>
+
+        <input type="hidden" value="@Model.Id" id="hidUserId" />
+        <table>
+            <tr>
+                <th>权限Id</th>
+                <th>权限名</th>
+                <th>权限类型</th>
+                <th>权限的url地址</th>
+                <th>HttpMethod</th>
+                <th>操作</th>
+            </tr>
+            @{
+                List<Models.ActionInfo> allActions = ViewBag.AllActions;
+                List<Models.R_UserInfo_ActionInfo> allExist = ViewBag.AllExistActions;
+            }
+            @foreach (var item in allActions)
+            {
+                string name = "ckb_" + item.Id;
+                var currentRAU = allExist.Where(a => a.ActionInfoId == item.Id).FirstOrDefault();
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.ActionName</td>
+                    <td>
+                        @if (item.ActionType ==0)
+                        {
+                            <span>普通权限</span>
+                        }
+                        else
+                        {
+                            <span>菜单权限</span>
+                        }
+
+                    </td>
+                    <td>@item.Url</td>
+                    <td>@item.HttpMethod</td>
+                    <td>
+                        @if (currentRAU != null)
+                        {
+                            string strRadio;
+                            if (currentRAU.IsPass)
+                            {
+                                strRadio = "<input checked='checked' type='radio' aId='" + item.Id + "' class='passRb'"
+                                           + " name='" + name + "' value='true' />允许 &nbsp; &nbsp; <input aId='" + item.Id + "' type='radio' class='nopassRb' name='" + name + "' value='false' />拒绝"
+                                    ;
+
+                            }
+                            else
+                            {
+                                strRadio = "<input  type='radio' aId='" + item.Id + "' class='passRb'"
+                                           + " name='" + name + "' value='true' />允许 &nbsp; &nbsp; <input aId='" + item.Id + "' type='radio' checked='checked' class='nopassRb' name='" + name + "' value='false' />拒绝"
+                                    ;
+                            }
+                            @Html.Raw(strRadio)
+                        }
+                        else
+                        {
+                            <input aid="@item.Id" class="passRb" type="radio" name="@name" value="true" />
+                            <span>允许&nbsp; &nbsp;</span>
+                            <input aid='@item.Id' type='radio' class='nopassRb' name='@name' value='false' />
+                            <span>拒绝</span>
+                        }
+                        &nbsp;&nbsp;
+                        <input aid="@item.Id" type="button" value="删除" class="btnDelete"  style="background-color:#ff0000;color:white"/>
+                    </td>
+
+                </tr>
+            }
+        </table>
+
+
+    </div>
+</body>
+</html>

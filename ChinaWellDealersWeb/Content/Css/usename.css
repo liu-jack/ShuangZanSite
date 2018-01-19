@@ -1,0 +1,78 @@
+/*用户名*/
+.usena-box{
+	height:30px;
+	float:right;
+}
+.usena-box .usename-box{
+	width:140px;
+	position: relative;
+	box-sizing: border-box;
+}
+.usename1{
+	float:right;
+}
+.use-nav li{
+	float:left;
+}
+.usename-box{
+	background:url(/Content/Img/user-btn.png) 120px 15px no-repeat;
+	padding-right:20px;
+}
+.usename-box:hover{
+	background:url(/Content/Img/user-btn-on.png) 120px 15px no-repeat;
+}
+.use-pic{
+	width:28px;
+	height:28px;
+	float:right;
+	border:#93c626 solid 1px;
+	border-radius: 100%;
+	margin-top:1px;
+	overflow:hidden;
+	box-sizing: border-box;
+}
+.use-pic img{
+	width:100%;
+    height:100%;
+	vertical-align: top;
+}
+.usename1{
+	margin-left:5px;
+	font-size:14px;
+	color:#333;
+	max-width: 77px;
+	height:30px;
+	overflow:hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.use-nav-list{
+	padding-top:10px;
+	background-color:#fff;
+	position: absolute;
+	top:30px;
+	width:140px;
+	display:none;
+	z-index:99999;
+}
+.use-nav-list li{
+	float:none;
+	height:30px;
+	line-height:30px;
+	background-color:#fff;
+	display:block;
+	text-align:center;
+}
+.use-nav-list li:hover{
+	background-color:#e0e0e0;
+}
+.use-nav-list a{
+	color:#4c4c4c;
+	font-size:14px;
+}
+
+
+#packdjpage .on{
+	border-bottom: 5px solid #90C41F;
+}

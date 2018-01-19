@@ -1,0 +1,145 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+@model Models.MapModel.DemoCutImgCheckViewModel
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>CheckDemoDetails</title>
+    <link href="~/Content/style/tableStyle.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+    <link href="~/Content/layui-v1.0.9_rls/layui/css/modules/layer/default/layer.css" rel="stylesheet" />
+    <script src="~/Content/layui-v1.0.9_rls/layui/lay/modules/layer.js"></script>
+</head>
+<body>
+    <table width="100%">
+        <thead>
+            <tr>
+                <th colspan="6" style="font-size:15px;color:white">游戏审核试玩</th>
+            </tr>
+        </thead>                                
+            <tr>
+                <td colspan="2" style="text-align:center;">游戏名:<span id="gameName">@Model.GameName</span>               
+                  &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; 运营商:<span id="systemName">@Model.SystemName</span>
+                </td>
+                <td colspan="2" style="text-align:center">
+                    游戏账号:@Model.Account
+                
+                   </td>  
+                <td colspan="2" style="text-align:center">
+                    领号玩家:@Model.UName @Model.Demand
+                 </td>                           
+        </tr>        
+        <tr>
+            <td>试玩要求</td>
+            <td>奖励</td>
+            <td>爽币权益</td>
+            <td>图片</td>
+            <td>上传时间</td>
+            <td>状态</td>
+        </tr>
+        @foreach (var item in (List<Models.MapModel.DemoCutImgCheckViewModel>)ViewData["CheckDemoDetails"])
+       {
+
+            <tr value="@item.RequireId">
+                <td><span id="demand">@item.Demand</span></td>
+                <td><span id="awardCoins">@item.AwardCoins</span></td>
+                <td>@item.CoinsEquity</td>
+                <td style="display:none"><span id="type">@item.Type</span></td>
+
+                @if (item.Img != null)
+                {
+                    <td class="pic">
+                        <a href="/Content/UserImg/@item.Img" target="_blank">  <img src="/Content/UserImg/@item.Img" style="height:55px;width:100px;" /></a>
+                    </td>
+                }
+                else
+                {
+                    <td class="pic"></td>
+                }
+                <td>@item.InTime.Value.ToString("yyyy-MM-dd")</td>
+                @if (item.State == "2")
+            {
+                    <td><span style="color:#ff6666"></span>待审核</td>
+            }
+            else if (item.State=="1")
+
+            {
+                <td>已通过</td>
+            }
+            else
+            {
+                <td>未通过</td>
+            }
+            </tr>
+        }
+        <tr style="font-size:20px;">
+            <input type="hidden"  class="required" value="@ViewData["required"]" />
+            <td colspan="6"><input type="radio" id="pass" name="state" class="pass" value="1" />通过  
+                <input type="radio" id="nopass" name="state" class="noPass" value="0" /> 未通过
+            原因：<input type="text" id="reason" name="reason"  style="width:350px;"/>
+            <input  type="button" id="btnOk" value="提交" style="background-color:#1AA094;cursor:pointer;border-radius:5px;color:white" />
+                <input type="button" onclick="history.go(-1)" id="btnOk" value="返回" style="background-color:#1AA094;cursor:pointer;border-radius:5px;color:white" />
+            </td>                             
+        </tr>
+       
+    </table>
+    <script type="text/javascript">
+    $(function () {
+        var id = $('.required').val();
+        var awardCoins;
+        $('tr').each(function () {
+            if ($(this).attr('value') == id) {
+                $(this).find('td').css('backgroundColor', '#ccc');
+                awardCoins = $(this).find('td').eq(1).find('span').text();
+               // alert(awardCoins);
+            }
+        })
+        DemoCheckEvent(id,awardCoins);
+        function DemoCheckEvent() {
+            $('#btnOk').click(function () {
+                if (!$('.pass').is(':checked') && !$('.noPass').is(':checked')) {
+                    layer.msg("提示：请选择审核状态!");
+                    return;
+                }
+                if ($('.noPass').is(':checked')&&$('#reason').val() == "") {
+                    layer.msg("提示：请输入未通过的原因!");                   
+                    return;
+                }
+                $.ajax({
+                    url: '/AdminData/DemoCheckEvent',
+                    type: 'post',
+                    data: {
+                        reason: $('#reason').val(),
+                        state: $('.pass').is(':checked') ? "1" : $('.noPass').val(),
+                        demand: '@Model.Demand',
+                        gameName: '@Model.GameName',
+                        systemName: '@Model.SystemName',
+                        account: '@Model.Account',
+                        awardCoins: awardCoins,
+                        type: '@Model.Type',
+                        requireId: id,
+                        accountId: '@Model.AccountId',
+                        demoId: '@Model.DemoId',
+                        userId: '@Model.UserId'
+                    },
+                    success: function (data) {
+                        if (data = "ok") {
+                            layer.msg("恭喜：审核成功！");
+                            window.setTimeout(function () {
+                                window.location.href = "/AdminData/DemoCutImgList"
+                            }, 1500);
+                            //return history.go(-1);
+                        } else {
+                            layer.msg("提示：审核失败！");
+                        }
+                    }
+                });
+            });
+        };
+    });
+    
+    </script>
+</body>
+</html>

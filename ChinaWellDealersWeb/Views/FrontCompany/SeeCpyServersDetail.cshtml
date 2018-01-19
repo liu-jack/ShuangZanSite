@@ -1,0 +1,196 @@
+﻿@{
+    Layout = null;
+}
+@model Models.OpenService_Package
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>爽赞</title>
+    <meta charset="UTF-8">
+    <link href="~/Content/Css/Form.css" rel="stylesheet" />
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="~/Content/Css/ServiceDetail.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="title">
+        <span style="font-weight: bold;">开服表详情</span><strong>（开服时间点前1小时，将不支持修改）</strong>
+    </div>
+    <div class="main">
+        <div>
+            <span>游戏名称：</span>
+            <input type="text" class="inputtext" id="gamename" value="@Model.GameName" disabled="disabled" />
+            <div id="gamenamelist"></div>
+            <samp class="alt">输入游戏名根据下拉提示选择，新游戏入库联系QQ：<a href="tencent://message/?uin=2885630190&Site=爽赞游戏网&Menu=yes">2885630190</a></samp>
+        </div>
+
+        <div style="height: 65px;">
+            <span>开服时间：</span>
+            <p id="day">
+                <input type="text" class="inputtext" id="startday" disabled="disabled" value="@Model.StartDate.Value.ToString("yyyy-MM-dd")"  style="width: 120px;" />
+                <span class="inputtext">
+                    <span>
+
+                        <select name="time" id="time" disabled="disabled">
+                            @if (Model.StartDate.Value.ToString("HH") == "00")
+                            {
+                                <option value="00" selected="selected">00</option>
+                            }
+                            else if (Model.StartDate.Value.ToString("HH") == "01")
+                            {
+                                <option value="01" selected="selected">01</option>
+                            }
+                            else if (Model.StartDate.Value.ToString("HH") == "02")
+                            {
+                                <option value="02" selected="selected">02</option>
+                            }
+                            else if (Model.StartDate.Value.ToString("HH") == "03")
+                            {
+                                <option value="03" selected="selected">03</option>
+                            }
+                            else if (Model.StartDate.Value.ToString("HH") == "04")
+                            {
+                                <option value="04" selected="selected">04</option>
+                            }
+                            else if (Model.StartDate.Value.ToString("HH") == "05")
+                            {
+                                <option value="05" selected="selected">05</option>
+                            }
+                            else if (Model.StartDate.Value.ToString("HH") == "06")
+                            {
+                                <option value="06" selected="selected">06</option>
+                            }
+                            else if (Model.StartDate.Value.ToString("HH") == "07")
+                            {
+                                <option value="07" selected="selected">07</option>
+                            }
+                            else if (Model.StartDate.Value.ToString("HH") == "08")
+                            {
+                                <option value="08" selected="selected">08</option>
+                            }
+
+                            else if (Model.StartDate.Value.ToString("HH") == "09")
+                            {
+                                <option value="09" selected="selected">09</option>
+                            }
+                            else if (Model.StartDate.Value.ToString("HH") == "10")
+                            {
+                                <option value="10" selected="selected">10</option>
+                            }
+                            else if (Model.StartDate.Value.ToString("HH") == "11")
+                            {
+                                <option value="11" selected="selected">11</option>
+                            }
+                            else if (Model.StartDate.Value.ToString("HH") == "12")
+                            {
+                                <option value="12" selected="selected">12</option>
+                            }
+                            else if (Model.StartDate.Value.ToString("HH") == "13")
+                            {
+                                <option value="13" selected="selected">13</option>
+                            }
+                            else if (Model.StartDate.Value.ToString("HH") == "14")
+                            {
+                                <option value="14" selected="selected">14</option>
+                            }
+                            else if (Model.StartDate.Value.ToString("HH") == "15")
+                            {
+                                <option value="15" selected="selected">15</option>
+                            }
+                            else if (Model.StartDate.Value.ToString("HH") == "16")
+                            {
+                                <option value="16" selected="selected">16</option>
+                            }
+
+                            else if (Model.StartDate.Value.ToString("HH") == "17")
+                            {
+                                <option value="17" selected="selected">17</option>
+                            }
+                            else if (Model.StartDate.Value.ToString("HH") == "18")
+                            {
+                                <option value="18" selected="selected">18</option>
+                            }
+                            else if (Model.StartDate.Value.ToString("HH") == "19")
+                            {
+                                <option value="19" selected="selected">19</option>
+                            }
+                            else if (Model.StartDate.Value.ToString("HH") == "20")
+                            {
+                                <option value="20" selected="selected">20</option>
+                            }
+                            else if (Model.StartDate.Value.ToString("HH") == "21")
+                            {
+                                <option value="21" selected="selected">21</option>
+                            }
+                            else if (Model.StartDate.Value.ToString("HH") == "22")
+                            {
+                                <option value="22" selected="selected">22</option>
+                            }
+                            else if (Model.StartDate.Value.ToString("HH") == "23")
+                            {
+                                <option value="23" selected="selected">23</option>
+                            }
+
+                        </select>
+                    </span>
+                </span>
+            </p>
+            <samp class="alt" style="left: 355px;"></samp>
+        </div>
+        <div>
+            <span>服务器名：</span>
+
+            <p id="servers">
+                <font>双线</font>
+                <input type="text" disabled="disabled" class="inputtext" value="@Model.ServerName" maxlength="4" style="width: 50px; padding-left: 10px; margin: 0 10px;" id="serversname" />
+                <font>服</font>
+            </p>
+            <samp class="alt" style="top: 10px; left: 270px;">填写阿拉伯数字，最多4个数字</samp>
+        </div>
+        <div>
+            <span>游戏网址：</span>
+            <input type="text" disabled="disabled" class="inputtext" id="url" value="@Model.Url" style="width: 300px;" />
+            <samp class="alt" style="left: 450px;">游戏登录地址</samp>
+        </div>
+        <div style="height: 180px;">
+            <span>选择礼包：</span>
+
+            <div id="packageList" class="tb List ">
+                @if (Model.GiftName != null)
+                {
+                    <div style="width: 100%;">@Model.GiftName</div>
+                }
+                else
+                {
+                    <div style="width: 100%;">暂无礼包</div>
+                }
+            </div>
+            <samp class="alt"></samp>
+        </div>
+        <div style="height:80px; border-bottom: 1px solid #E3E3E3;">
+            <span>开服类型：</span>
+            @if (Model.Rec_Hot == "1")
+            {
+                <p id="totop">
+                    <label style="margin-top: 16px;">
+                        <input type="radio" name="type" id="type" value="@Model.Rec_Hot" checked /><font>全天置顶</font>
+                    </label>
+                </p>
+            }
+            else if (Model.Rec_Hot == "0") 
+            {
+                <p id="totop">
+                    <label style="margin-top: 16px;">
+                        <input type="radio" name="type" id="type" value="@Model.Rec_Hot" checked /><font>普通开服</font>
+                    </label>
+                </p>
+            }
+        </div>
+    </div>
+    <div>
+        <input class="btn" id="save" type="button" onclick="history.go(-1)" value="返回" style="height:40px;margin-top:10px;margin-left: 130px;width:150px;border:none;" />
+        
+
+    </div>
+   
+</body>
+</html>

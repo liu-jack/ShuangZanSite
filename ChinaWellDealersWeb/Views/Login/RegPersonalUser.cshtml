@@ -1,0 +1,354 @@
+﻿@{
+    Layout = null;
+}
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>爽赞-玩家注册</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="~/Content/Css/RegHead.css" rel="stylesheet" />
+    <link href="/Content/Img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+    <link href="~/Content/Css/RegPersonalUser.css" rel="stylesheet" />
+    <script src="~/Content/js/jquery-1.11.1.min.js"></script>
+    <script src="~/Content/js/myExtend.js"></script>
+</head>
+<body>
+    <div id="reg_head">
+        <div>
+            <a href="/Home/Index"><img src="/Content/Img/Logo.png" alt="" /></a>
+            <img src="/Content/Img/102.jpg" alt="" />
+        </div>
+        <span>
+            <font>已有帐号，<a href="/Login/PersonalLogin">马上登录</a></font>
+            <a href="/Home/Index">爽赞首页</a>
+        </span>
+    </div>
+
+    <div id="main">
+        <img src="/Content/Img/104.jpg" alt="" />
+        <div style="width:960px; margin:0 auto;">
+            <img src="/Content/Img/107.jpg" alt="" />
+            <img src="/Content/Img/1108.jpg" alt="" style="margin-bottom:40px;" usemap="#Map" />
+            <map name="Map" id="Map">
+                <area shape="rect" alt="" coords="540,0,645,36" href="/Login/RegCompany" style="outline:none;" />
+            </map>
+            <div>
+                <span>用户名</span>
+                <input type="text" id="uname" class="inputtext" />
+                <samp class="err">注册后无法修改，请谨慎填写</samp>
+                <samp class="alt">4-16个字符，字母/中文/数字/下划线</samp>
+            </div>
+            <div>
+                <span>手机号</span>
+                <input type="text" id="mobile" class="inputtext" maxlength="11" />
+                <samp class="err"></samp>
+                <samp class="alt">用作登录及找回密码操作，请输入常用手机号</samp>
+            </div>
+            <div style="height:50px;">
+                <span>验证码</span>
+                <input type="text" id="code_input" class="inputtext" placeholder="请输入右侧内容" style="width:170px;" />
+                <img id="v_container" src="/Login/GetValidateCode/?id=1" align="absmiddle" alt="如果看不清楚,请点击重新获取" />
+                <samp class="err"></samp>
+            </div>
+            <div>
+                <input type="text" id="code" class="inputtext" maxlength="6" placeholder="输入收到的短信验证码" style="width:200px;" />
+
+                <p id="getcode">获取短信验证码</p>
+                <samp class="err"></samp>
+                <samp class="alt">输入收到的短信验证码</samp>
+            </div>
+            <div>
+                <span>密码</span>
+                <input type="password" id="pass" class="inputtext" />
+                <samp class="err"></samp>
+                <samp class="alt">6-16个字符，安全起见请使用：数字+字母或符号组合</samp>
+            </div>
+            <div>
+                <span>确认密码</span>
+                <input type="password" id="pass1" class="inputtext" />
+                <samp class="err"></samp>
+                <samp class="alt">再次输入密码，保持一致</samp>
+            </div>
+            <div style="height:30px;">
+                <label>
+                    <input type="checkbox" id="agree" checked="checked" />
+                    <span>我已阅读并接受</span><a href="/Login/TermsService" target="_blank">《爽赞服务条款》</a>
+                </label>
+            </div>
+            <div>
+                <kbd id="save" class="btn" style="line-height:40px;">提交注册</kbd>
+            </div>
+        </div>
+        <img src="/Content/Img/105.jpg" alt="" />
+    </div>
+    <div class="modal8" style="display:none">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <span></span>
+                <p style="margin-bottom:20px;"><b style="font-size:22px;color:#7bab14;margin-bottom:6px;">恭喜您注册成功！</b></p>
+                <p>即可开启你的爽赞之旅！</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script type="text/javascript">
+    //------------------点击验证码变换事件------------------
+    $("#v_container").click(function () {
+        $(this).attr("src", $(this).attr("src") + 1);// 取得img属性 得到src地址给它+1 是为了每次变换验证码
+    });
+    //--------------------检验用户名是否存在---------------
+    function IsExistsUname() {
+        $.ajax({
+            type: "Post",
+            url: "/PersonalUser/CheckUName",
+            data: { uname: $("#uname").val().trim() },
+            success: function (data) {
+                if (data == "ok") {
+                    $("#uname").parent("div").find(".err").removeClass("errok").html("该用户名已存在");
+                    return;
+                }
+                else
+                    $("#uname").parent("div").find(".err").html("").addClass("errok");
+            },
+        });
+    }
+    //---------------检验手机号是否存在--------------------
+    function IsExistsMobile() {
+        $.ajax({
+            type: "Post",
+            url: "/PersonalUser/CheckMobile",
+            data: { mobile: $("#mobile").val().trim() },
+            success: function (data) {
+                if (data == "ok") {
+                    $("#mobile").parent("div").find(".err").removeClass("errok").html("该手机号已被注册");
+                    return;
+                }
+                else
+                    $("#mobile").parent("div").find(".err").html("").addClass("errok");
+            },
+        });
+    }
+    $(document).ready(function () {
+        var uname = $("#uname"), pass = $("#pass"), pass1 = $("#pass1"), mobile = $("#mobile"), code = $("#code"), agree = $("#agree"), vcode = $("#code_input");
+        var countDown = null, cou = 49;
+
+        $.cd = function () {
+            if (countDown != null && cou > 0) {
+                $("#getcode").html(cou + "S后重新获取");
+                cou--;
+            } else {
+                clearInterval(countDown);
+                countDown = null;
+                $("#getcode").css({
+                    "font-size": "14px",
+                    "cursor": "pointer"
+                }).html("获取短信验证码");
+                cou = 49;
+            }
+        }
+        $("#uname").blur(function () {
+            if (uname.val().trim() == "") {
+                uname.parent("div").find(".err").removeClass("errok").html("请填写登录名");
+                return;
+            }
+            if (uname.val().trim().length < 4) {
+                uname.parent("div").find(".err").removeClass("errok").html("登录名必须大于4个字符");
+                return;
+            }
+            if (uname.val().trim().length > 16) {
+                uname.parent("div").find(".err").removeClass("errok").html("登录名不能超过16个字符");
+                return;
+            }
+            IsExistsUname();
+        });
+        $("#mobile").blur(function () {
+            if (mobile.val().trim() == "") {
+                mobile.parent("div").find(".err").removeClass("errok").html("请输入手机号码");
+                return;
+            }
+            if (mobile.val().trim().length != 11) {
+                mobile.parent("div").find(".err").removeClass("errok").html("格式错误，请输入正确的手机号码");
+                return;
+            }
+            IsExistsMobile();
+
+        });
+        $("#pass").blur(function () {
+            if (pass.val().trim() == "") {
+                pass.parent("div").find(".err").removeClass("errok").html("请输入密码");
+                return;
+            }
+            if (pass.val().trim().length < 6) {
+                pass.parent("div").find(".err").removeClass("errok").html("密码必须大于6个字符");
+                return;
+            }
+            if (pass.val().trim().length > 16) {
+                pass.parent("div").find(".err").removeClass("errok").html("密码不能超过16个字符");
+                return;
+            }
+            pass.parent("div").find(".err").html("").addClass("errok");
+            
+        });
+        $("#pass1").blur(function () {
+            if (pass1.val().trim() == "") {
+                pass1.parent("div").find(".err").removeClass("errok").html("请再输入一次密码");
+                return;
+            }
+            if (pass.val().trim() != pass1.val().trim()) {
+                pass1.parent("div").find(".err").removeClass("errok").addClass("err").html("两次输入的密码不一致");
+                return;
+            }
+            pass1.parent("div").find(".err").html("").addClass("errok");
+        });
+        $("#code_input").blur(function () {
+            if ($("#code_input").val().trim() == "") {
+                $("#code_input").parent("div").find(".err").removeClass("errok").html("请输入验证码");
+                return;
+            }
+            vcode.parent("div").find(".err").html("").addClass("errok");
+        });
+        $("#getcode").click(function () {
+            if ($(this).html() == "获取短信验证码") {
+                if (mobile.val().trim() == "") {
+                    mobile.parent("div").find(".err").removeClass("errok").html("请输入手机号码");
+                    return;
+                }
+                if (mobile.val().trim().length != 11) {
+                    mobile.parent("div").find(".err").removeClass("errok").html("格式错误，请输入正确的手机号");
+                    return;
+                }
+                if (vcode.val().trim() == "") {
+                    vcode.parent("div").find(".err").removeClass("errok").html("请输入验证码");
+                    return;
+                }
+                $.ajax({
+                    type: "Post",
+                    url: "/PersonalUser/CheckMobile",
+                    data: { mobile: mobile.val().trim() },
+                    success: function (data) {
+                        if (data == "ok") {
+                            mobile.parent("div").find(".err").removeClass("errok").html("该手机号已被注册");
+                            return;
+                        }
+                        else
+                            $.ajax({
+                                type: "Post",
+                                url: "/Login/GetMobileVerifyCode",
+                                data: { mobile: mobile.val().trim(), vcode: vcode.val().trim() },                            
+                                success: function (data) {
+                                    var p = data;
+                                    console.log(p);
+                                    console.log(p.success);
+                                    if (p.success == "false") {
+                                        code.parent("div").find(".err").removeClass("errok").html(p.str);
+                                    } else if (p.success == "true") {
+                                        $("#getcode").css({
+                                            "font-size": "12px",
+                                            "cursor": "initial"
+                                        }).html("50S后重新获取");
+                                        code.parent("div").find(".alt").css("color", "#78A402").html("验证码已发送，30分钟内输入有效");
+                                        countDown = setInterval($.cd, 1000);
+                                    
+                                    }
+                                    else
+                                       code.parent("div").find(".err").removeClass("errok").html("验证码发送失败，请重试");
+                                },
+                            });
+                    },
+                });
+            }
+        });
+        //-----------------------------点击提交按钮事件-----------------------------------
+        $("#save").click(function () {
+            if (!agree.is(":checked")) {
+                alert("请先阅读并接受《爽赞服务条款》");
+                return;
+            }
+            if (uname.val().trim() == "") {
+                uname.parent("div").find(".err").removeClass("errok").html("请填写登录名");
+                uname.focus();
+                return;
+            }
+            if (uname.val().trim().length < 4) {
+                uname.parent("div").find(".err").removeClass("errok").html("登录名必须大于4个字符");
+                uname.focus();
+                return;
+            }
+            if (uname.val().trim().length > 16) {
+                uname.parent("div").find(".err").removeClass("errok").html("登录名不能超过16个字符");
+                uname.focus();
+                return;
+            }
+            IsExistsUname();
+            if (mobile.val().trim() == "") {
+                mobile.parent("div").find(".err").removeClass("errok").html("请输入手机号码");
+                return;
+            }
+            if (mobile.val().trim().length != 11) {
+                mobile.parent("div").find(".err").removeClass("errok").html("格式错误，请输入正确的手机号码");
+                return;
+            }
+            IsExistsMobile();
+            if (pass.val().trim() == "") {
+                pass.parent("div").find(".err").removeClass("errok").html("请输入密码");
+                return;
+            }
+            if (pass.val().trim().length < 6) {
+                pass.parent("div").find(".err").removeClass("errok").html("密码必须大于6个字符");
+                return;
+            }
+            if (pass.val().trim().length > 16) {
+                pass.parent("div").find(".err").removeClass("errok").html("密码不能超过16个字符");
+                return;
+            }
+            if (pass1.val().trim() == "") {
+                pass1.parent("div").find(".err").removeClass("errok").html("请再输入一次密码");
+                return;
+            }
+            if (pass.val().trim() != pass1.val().trim()) {
+                pass1.parent("div").find(".err").removeClass("errok").addClass("err").html("两次输入的密码不一致");
+                return;
+            }
+
+            if (vcode.val().trim() == "") {
+                vcode.parent("div").find(".err").removeClass("errok").html("请输入验证码");
+                return;
+            }
+            var tjid = window.location.search.split('=')[1];
+            $.ajax({
+                type: "Post",
+                url: "/Login/SignInPersonalUser",
+                data: { uname: uname.val().trim(), 
+                    pass: pass.val().trim(), 
+                    mobile: mobile.val().trim(), 
+                    code: code.val().trim(),
+                    tjid: tjid==null?0:tjid},         
+                success: function (data) {                
+                    if (data.Err == "") {
+                        $(".modal8").show();
+                        setTimeout(function () {
+                            $.ajax({
+                                type: "Post",
+                                url: "/Login/GetPersonUserLogin",
+                                data: {
+                                    uname: uname.val().trim(),
+                                    pass: pass.val().trim()
+                                },
+                                success: function (data) {                                  
+                                    var msg = data.split(':');
+                                    if (msg[0] == "ok") {
+                                        window.location.href = "/PersonalUser/Index";//跳转到玩家中心
+                                    }
+                                },
+                            })
+                        }, 1000);
+                    } else {
+                        alert(data.Err);
+                    }
+                },
+            });
+        });
+    });
+</script>

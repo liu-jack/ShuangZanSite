@@ -1,0 +1,65 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=1124">
+    <link href="~/Content/Css/index.css" rel="stylesheet" />
+    <link href="~/Content/Css/reset.css" rel="stylesheet" />
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="~/Content/Css/usename.css" rel="stylesheet" />
+    <link href="/Content/Img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+    <title>爽币说明_爽赞网</title>
+    <style>
+        .sbsm {
+            border-top: 2px solid #fff;
+        }
+
+            .sbsm img {
+                min-width: 1100px;
+                width: 100%;
+            }
+
+        .bgcolor {
+            background-color: #262626;
+            border-bottom: 2px solid #fff;
+        }
+
+        .sbsm1 {
+            width: 1100px;
+            margin: 0 auto;
+        }
+
+        .sbsm2 img {
+            min-width: 1100px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    @Html.Action("_TwoShuangzanHeader", "Home")
+    <div class="sbsm">
+        <img src="/Content/Img/sbsm01.png" />
+    </div>
+    <div class="bgcolor">
+        <div class="sbsm1">
+            <img src="/Content/Img/sbsm02.png" />
+        </div>
+        <div class="sbsm2">
+            <img src="/Content/Img/sbsmhh01.png" />
+        </div>
+        <div class="sbsm1">
+            <img src="/Content/Img/sbsm03.png" />
+            <img src="/Content/Img/sbsm04.png" />
+            <img src="/Content/Img/sbsm05.png" />
+        </div>
+    </div>
+    @Html.Partial("_ShuangZanFooter")
+</body>
+</html>
+<script src="~/Content/js/jquery-1.11.1.min.js"></script>
+<script src="~/Content/js/amoywel.js"></script>
+<script src="~/Content/js/personal_use.js"></script>
+<script src="~/Content/js/Public.js"></script>

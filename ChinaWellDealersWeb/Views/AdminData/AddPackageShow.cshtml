@@ -1,0 +1,181 @@
+﻿@model Models.Company
+
+@{
+    Layout = null;
+    Layout = "~/Views/Shared/_LayoutAdminData.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AddPackageShow</title>
+    <script src="~/Scripts/MyAjaxForm.js"></script>
+    <link href="~/Content/layui-v1.0.9_rls/layui/css/modules/layer/default/layer.css" rel="stylesheet" />
+    <script src="~/Content/layui-v1.0.9_rls/layui/lay/modules/layer.js"></script>
+    <script src="~/Content/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript"> 
+    function CloseDiv() {
+        $("#addProDiv").css("display", "none");
+    }
+    $(function () {
+        $("#cards").blur(function () {
+           
+              $("#cou").html("总数：0");
+           
+                var cou = $(this).val().trim().split('\n');
+            var len = cou.length;
+            for (var i = 0; i < cou.length; i++) {
+                if (cou[i] == '') {
+                    len--;
+                }
+            }
+            $("#cou").html("总数：" + len);
+        });
+        $('#btnAdd').click(function () {
+            var game = $("#game"), serversname = $("#serversname"), publicserver = $("#publicserver"),
+                  giftName = $("#giftName"), startday = $("#startday"), endday = $("#endday"),
+                  url = $("#url"), cards = $("#cards"), msg = $("#msg"), memo = $("#memo");
+            if ($.trim(game.val()) == "") {
+                layer.msg("提示：请输入游戏名称!");            
+                gamename.focus();
+                return;
+            }
+            if ($.trim(giftName.val()) == "") {
+                layer.msg("提示：请输入礼包名称!");              
+                giftName.focus();
+                return;
+            }
+            if ($.trim(cards.val()) == "") {
+                layer.msg("提示：请输入礼包卡号!");
+               
+                cards.focus();
+                return;
+            }
+            if ($.trim(msg.val()) == "") {
+                layer.msg("提示：请输入礼包内容!");                
+                msg.focus();
+                return;
+            }
+            if ($.trim(memo.val()) == "") {
+                layer.msg("提示：请输入礼包说明!");               
+                memo.focus();
+                return;
+            }
+            $.ajax({
+                url: '/AdminData/AddPackage',
+                type: 'post',
+                data: {
+                    companyId:$('#companyId').val(),
+                    game: game.val().trim(),
+                    servername: publicserver.is(":checked") ? "通服" : serversname.val().trim(),
+                    type: $("#type").val(),
+                    giftName: giftName.val().trim(),
+                    startDay: startday.val(),
+                    endDay: endday.val(),
+                    url: url.val().trim(),
+                    msg: msg.val(),
+                    memo: memo.val(),
+                    code: cards.val()
+                },
+                success: function (data) {
+                    if (data == "ok") {
+                        layer.msg("恭喜：礼包添加成功!");                      
+                        window.setTimeout(function () {
+                            window.location.href = "/Company/Index";
+                        }, 1500);
+
+                    }
+                    else if (data == "no") {
+                        layer.msg("提示：添加礼包失败！");
+
+                    } else if(data=="empty") {
+                        layer.msg("提示：系统异常请稍候再试！");
+                    }
+                }
+            });
+        });
+    });
+</script>
+</head>
+<body>
+    <div id="addProDiv" style="width:100%;height:100%;padding-left:0%;padding-top:0%;">
+        <div class="easyui-panel" title="添加礼包" style="width:1400px; height:1000px;overflow:hidden;" >
+            <div style="padding: 10px 50px 20px 60px;">
+                <form id="ff" class="easyui-form" method="post" data-options="novalidate:true">
+                    <table cellpading="0" style="text-align:left">
+                        <input type="hidden" id="companyId" name="companyId" value="@Model.Id" />
+                        <tr>
+                            <td>游戏名称</td>
+                            <td>
+                                <input type="text" id="game" name="game" list="gamelist" style=" width:365px;height: 19px;" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>服务器名</td>
+                            <td>
+                                双线 <input type="text" maxlength="4" style="width: 30px;" id="serversname" name="serversname" /> 服
+                                <label><input type="checkbox"   style="vertical-align: sub;" id="publicserver" name="publicserver" />通服</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>礼包类型</td>
+                            <td>
+                                <select name="type" id="type" style=" width:370px;height: 25px;">
+                                    <option value="1">开服礼包</option>
+                                    <option value="2">激活码</option>
+                                    <option value="3">独家礼包</option>
+                                </select>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>礼包名称</td>
+                            <td>
+                                <input class="easyui-textbox" type="text" id="giftName" name="giftName" style=" width:370px;height: 25px;" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>有效期</td>
+                            <td>
+                                <input type="text" class="inputtext" id="startday" value="@DateTime.Now.ToString("yyyy-MM-dd")" onfocus="var endday=$dp.$('endday');WdatePicker({onpicked:function(){endday.focus();},maxDate:'#F{$dp.$D(\'endday\')}',isShowClear:false,readOnly:true})" style="width: 120px;" />
+                                <font>至</font>
+                                <input type="text" class="inputtext" id="endday" value="@DateTime.Now.AddDays(15).ToString("yyyy-MM-dd")" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'startday\')}',isShowClear:false,readOnly:true})" style="width: 120px;" />                              
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>游戏网址</td>
+                            <td><input class="easyui-textbox" id="url" name="url" value="http://" style=" width:370px;height: 25px;" /></td>
+                        </tr>
+                        <tr>
+                            <td>添加卡号</td>
+                            <td>
+                                <textarea class="easyui-validatebox textbox" id="cards" name="cards" style="width:900px; height:200px;"></textarea>
+                                <samp id="cou" style="vertical-align: bottom; padding-left: 10px; color: #79A402;">总数：0</samp>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>礼包内容</td>
+                            <td><textarea  id="msg" name="msg" style="width:900px; height:150px;margin-bottom:10px;text-wrap:normal"></textarea></td>
+                        </tr>
+                        <tr>
+                            <td>使用说明</td>
+                            <td><textarea class="easyui-validatebox textbox" id="memo" name="memo" style="width:900px; height:150px;text-wrap:normal"></textarea></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="padding-left:37%;padding-top:13px">
+                                <a href="javascript:void(0)" class="easyui-linkbutton c6" id="btnAdd" style="width:80px;height:25px;" onclick="submitForm()">添&nbsp;加</a>
+                                <a href="javascript:void(0)" class="easyui-linkbutton c3" style="width:80px;height:25px;" onclick="history.go(-1)">返&nbsp;回</a>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    @Html.Action("GameNameListPartial", "Game")
+</body>
+</html>

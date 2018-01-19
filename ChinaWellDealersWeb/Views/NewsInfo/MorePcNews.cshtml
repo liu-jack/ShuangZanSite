@@ -1,0 +1,84 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>游戏产业资讯_游戏新闻中心_新游资讯_热游动态_爽赞网</title>
+    <meta name="keywords" content="最新游戏资讯,游戏动态,游戏更新动态,新游动态,最新游戏报道,中国游戏产业,爽赞网">
+    <meta name="description" content="游戏新闻频道为玩家朋友提供最新的游戏更新动态和游戏行业报道，最有意思游戏趣闻及图片等内容">
+    <link href="~/Content/Css/index.css" rel="stylesheet" />
+    <link href="~/Content/Css/reset.css" rel="stylesheet" />
+    <link href="~/Content/Css/amoywel.css" rel="stylesheet" />
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="~/Content/Css/lunbo.css" rel="stylesheet" />
+    <link href="~/Content/Css/news.css" rel="stylesheet" />
+    <link href="~/Content/Css/commercial.css" rel="stylesheet" />
+    <link href="~/Content/Css/usename.css" rel="stylesheet" />
+    <link href="~/Content/style/NavPager.css" rel="stylesheet" />
+    <link href="/Content/Img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+</head>
+<body>
+    <!-- 顶部导航 -->
+    @Html.Action("_TwoShuangzanHeader", "Home")
+    @Html.Action("ShuangzanHeader", "NewsInfo")
+    <div class="wide details">当前位置：<a href="/Home/Index">爽赞网</a> > <a href="/NewsInfo/News">看新闻</a> > <a href="/NewsInfo/MorePcNews">PC主机</a></div>
+    <div class="info wide clearfix">
+        <form action="/NewsInfo/NewsSearchResult" method="get">
+            <h6>
+                <ul>
+                    <li><a href="/NewsInfo/MoreNewGameNews" target="_blank">新游在线</a></li>
+                    <li><a href="/NewsInfo/MoreHotGameNews" target="_blank">热游动态</a></li>
+                    <li><a href="/NewsInfo/MoreIndustryNews" target="_blank">产业资讯</a></li>
+                    <li><a href="/NewsInfo/MorePcNews" target="_blank" class="active">PC主机</a></li>
+                    <li><a href="/NewsInfo/MoreDirectHotNews" target="_blank">直播热点</a></li>
+                    <li><a href="/NewsInfo/MoreMobileGameNews" target="_blank">手游资讯</a></li>
+                </ul>
+                <span>
+                    <input type="text" title="title" name="title" placeholder="输入关键词"><button>搜新闻</button>
+                </span>
+            </h6>
+        </form>
+        <div class="gamelist-xy">
+            @foreach (var item in (List<Models.MapModel.NewsViewModel>)ViewData["PCHostNews"])
+            {
+                <div>
+                    <div class="game">
+                        <a href="@Url.Action("NewsDetail", "NewsInfo", new {id=item.Id})"><img src="@MvcHtmlString.Create(Common.WebHelper.PickupImgUrl(item.Msg))" alt=""></a>
+                        <div>
+                            @if (item.EditTitle != null && item.EditTitle != "")
+                            {
+                                <h5><a href="@Url.Action("NewsDetail", "NewsInfo", new {id=item.Id})">@item.EditTitle</a></h5>
+                            }
+                            else
+                            {
+                                <h5><a href="@Url.Action("NewsDetail", "NewsInfo", new {id=item.Id})">@item.Title</a></h5>
+                            }
+                            <section>@Html.Raw(item.Memo)</section>
+                            <p>
+                                <a href="javascript:void(0)"><img src="/Content/Img/时间.png" alt=""><time class="year">@item.InTime.ToString("yyyy")</time>-<time class="month">@item.InTime.ToString("MM")</time>-<time class="date">@item.InTime.ToString("dd")</time></a>
+                                <a href="javascript:void(0)"><img src="/Content/Img/查看.png" alt=""><i class="readers">@item.ViewNum</i>浏览</a>
+                                <a href="javascript:void(0)"><img src="/Content/Img/留言.png" alt=""><i class="replies">@item.MsgNum</i>留言</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="page">
+                <ul id="paginator">
+                    @MvcHtmlString.Create(Common.LaomaPager.ShowPageNavigate( (int)ViewData["pageSize"], (int)ViewData["pageIndex"], (int)ViewData["Total"]))
+                </ul>
+            </div>
+        </div>
+        @Html.Action("_RightNews", "NewsInfo")
+    </div>
+    <!-- 底部 -->
+    @Html.Partial("_ShuangZanFooter")
+    <script src="~/Content/js/jquery-1.11.1.min.js"></script>
+    <script src="~/Content/js/jquery.SuperSlide.2.1.1.js"></script>
+    <script src="~/Content/js/personal_use.js"></script>
+    <script src="~/Content/js/Public.js"></script>
+    <script src="~/Content/js/new_games.js"></script>
+</body>
+</html>

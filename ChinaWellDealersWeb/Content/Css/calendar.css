@@ -1,0 +1,39 @@
+#calendar { width: 421px; font-family: "Microsoft YaHei"; font-size: 14px; }
+		#calendar .title{ background-color: #90C41F; height: 34px; position: relative;}
+		#calendar .title *{ p height: 34px; line-height: 34px; color: #FFF; }
+		#calendar .title a{ padding: 0 5px; cursor: pointer;}
+		#calendar .title span{ text-align: center; display: block; width: 100%; }
+		#calendar ul,#calendar li{ list-style: none; padding: 0; margin: 0; } 
+		#calendar li{ width: 60px; height: 30px; line-height: 30px; text-align: center; border-right: 1px solid #E5E5E5; border-bottom: 1px solid #E5E5E5; float: left; }
+		#calendar li:nth-child(7n+1){border-left: 1px solid #E5E5E5;}
+		#calendar .on{background: #f4f9e8;color:#ccc;}
+		#calendar ul.head { border-left:1px solid #E5E5E5; height: 30px; }
+		#calendar ul.head li{ background-color: #F0F0F0; }
+		#calendar ul.body { border-left:1px solid #E5E5E5; }
+		#calendar ul.body div{ clear:both; }
+
+#calendar2 { width: 519px; font-family: "Microsoft YaHei"; font-size: 18px; }
+#calendar2 .title{ background-color: #fffaed; height: 50px; position: relative;line-height:50px}
+#calendar2 .title *{ position: absolute; height: 34px; line-height: 34px; color: #FFF; }
+#calendar2 .title a{ padding: 6px 5px;color: #ddd;font-size: 18px; cursor: pointer;}
+#calendar2 .title span{ text-align: center; display: block; width: 100%; color:#90C41F;font-size: 18px;line-height: 50px;}
+#calendar2 ul,#calendar li{ list-style: none; padding: 0; margin: 0; } 
+#calendar2 li{ width: 74px;height: 34px;line-height: 34px; text-align: center; border-right: 1px solid #E5E5E5; border-bottom: 1px solid #E5E5E5; float: left; }
+#calendar2 .on{background: #f4f9e8}
+#calendar2 ul.head { border-left:1px solid #E5E5E5; height: 30px; }
+#calendar2 ul.head li{ background-color: #F0F0F0; }
+#calendar2 ul.body { border-left:1px solid #E5E5E5; }
+#calendar2 ul.body div{ clear:both; }
+
+
+
+#calendar{position: relative;}
+#calendar h3{text-align: center;background-color:#7bab14;color:#fff;height:30px;line-height:30px;}
+.s3{text-decoration:none;position:absolute;color:#fff;top:5px;left:0;}
+.s2{text-decoration:none;position:absolute;color:#fff;top:5px;right:0;}
+.s3:hover,.s2:hover{color:#fff;}
+.day .pd{background:#FF830A;color:#FFFFFF;}
+.day .ac{color:#ccc}
+.day .ad{color:#ccc}
+.day .ap{color:#ccc}
+

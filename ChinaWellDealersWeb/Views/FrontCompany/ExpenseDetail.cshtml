@@ -1,0 +1,172 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ExpenseDetail</title>
+    <script src="~/Scripts/jquery-1.8.2.js"></script>
+    <script src="~/Content/bootstrap/js/bootstrap/3.3.6/bootstrap.js"></script>
+    <link href="~/Content/bootstrap/css/bootstrap/3.3.6/bootstrap.css" rel="stylesheet" />
+    <script src="~/Content/bootstrap/js/bootstrap-table.js"></script>
+    <link href="~/Content/bootstrap/css/bootstrap-table.css" rel="stylesheet" />
+    <script src="~/Content/bootstrap/js/bootstrap-table-zh-CN.js"></script>
+    <script src="/Scripts/datapattern.js"></script>
+    <script src="/Content/My97DatePicker/WdatePicker.js"></script>
+    <link href="~/Content/Css/Company.css" rel="stylesheet" />
+</head>
+<body>
+    <table style="margin-left:30px; margin-bottom:10px;" id="toolbar">
+        <div class="title">
+            <span>消费明细</span>
+        </div>
+        <tr>
+            <td style="width:200px;"></td>
+            <td>游戏名称</td>
+            <td><input type="text" class="form-control " id="gameName" name="gameName" style="width: 160px;height: 22px;outline:none;margin:0 5px;"></td>
+            <td style="padding-left:10px;">消费日期</td>
+            <td>
+                @*@DateTime.Now.ToString("yyyy-MM-dd")*@
+                <input type="text" class="form-control" id="startday" name="startday" value="" onfocus="var endday=$dp.$('endday');WdatePicker({onpicked:function(){endday.focus();},maxDate:'#F{$dp.$D(\'endday\')}'})" style="width: 100px; height: 22px; color: #ABABAB; margin: 0 5px;" />
+            </td>
+            <td>
+                <font>至</font>
+            </td>
+            <td>
+                @*@DateTime.Now.ToString("yyyy-MM-dd")*@
+                <input type="text" class="form-control" id="endday" name="endday" value="" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'startday\')}'})" style="width: 100px; height: 22px; color: #ABABAB; margin: 0 5px;" />
+            </td>
+            <td style="padding-left:2%">
+                <button type="button" style="margin-left:-0px;width:70px;padding:0;line-height:22px;" id="btn_query" class="btn  btnsearch" onclick="serachInfo()">搜索</button>
+            </td>
+        </tr>
+    </table>
+    <table id="msgInfo"></table>
+</body>
+</html>
+<script type="text/javascript">
+    $(function () {
+        //1.初始化Table
+        var oTable = new TableInit();
+        oTable.Init();
+
+        //2.初始化Button的点击事件
+        var oButtonInit = new ButtonInit();
+        oButtonInit.Init();
+    });
+    var TableInit = function () {
+        var oTableInit = new Object();
+        //初始化Table
+        oTableInit.Init = function () {
+            $('#msgInfo').bootstrapTable({
+                url: '/FrontCompany/GetExpenseDetail',         //请求后台的URL（*）
+                method: 'get',                      //请求方式（*）
+                toolbar: '#toolbar',                //工具按钮用哪个容器
+                striped: true,                      //是否显示行间隔色
+                cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                pagination: true,                   //是否显示分页（*）
+                sortable: true,                     //是否启用排序
+                sortOrder: "asc",                   //排序方式
+                queryParams: oTableInit.queryParams,//传递参数（*）
+                sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1,                       //初始化加载第一页，默认第一页
+                pageSize: 20,                       //每页的记录行数（*）
+                pageList: [20, 35, 50, 100],        //可供选择的每页的行数（*）
+                search: false,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+                strictSearch: true,
+                showColumns: true,                  //是否显示所有的列
+                showRefresh: true,                  //是否显示刷新按钮
+                minimumCountColumns: 2,             //最少允许的列数
+                clickToSelect: true,                //是否启用点击选中行
+                //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+                uniqueId: "Id",                     //每一行的唯一标识，一般为主键列
+                showToggle: true,                    //是否显示详细视图和列表视图的切换按钮
+                cardView: false,                    //是否显示详细视图
+                detailView: false,                   //是否显示父子表
+                columns: [{
+                    field: 'InTime',
+                    title: '消费日期',
+                    align: 'center',
+                    formatter: function (value, row, Index) {//  /Date(1377327062000)/
+                        return (eval(value.replace(/\/Date\((\d+)\)\//gi, "new Date($1)")))
+                            .pattern("yyyy-MM-dd");
+                    }
+                }, {
+                    field: 'GameName',
+                    title: '游戏名称',
+                    align: 'center',
+                }, {
+                    field: 'StartTime',
+                    title: '开服时间',
+                    align: 'center',
+                    formatter: function (value, row, Index) {//  /Date(1377327062000)/
+                        return (eval(value.replace(/\/Date\((\d+)\)\//gi, "new Date($1)")))
+                            .pattern("yyyy-MM-dd HH:mm");
+                    }
+                },
+                {
+                    field: 'ServerName',
+                    title: '服务器名称',
+                    align: 'center',
+                },
+                {
+                    field: 'Used',
+                    title: '扣除条数',
+                    align: 'center',
+                    formatter: function (value, row, Index) {
+                        if (value = "1") {
+                            return "1";
+                        } 
+                    }
+                },
+                {
+                    field: 'Rec_hot',
+                    title: '类型',
+                    align: 'center',
+                    formatter: function (value, row, Index) {
+                        if (value == "1") {
+                            return "置顶";
+                        } else if (value=="2")  {
+                            return "全天"
+                        }
+                       
+                    }
+                },
+                {
+                    field: 'BuyTime',
+                    title: '套餐购买日期',
+                    align: 'center',
+                    formatter: function (value, row, Index) {//  /Date(1377327062000)/
+                        return (eval(value.replace(/\/Date\((\d+)\)\//gi, "new Date($1)")))
+                            .pattern("yyyy-MM-dd");
+                    }
+                },
+                ]
+            });
+        };
+        //得到查询的参数
+        oTableInit.queryParams = function (params) {
+            var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+                limit: params.limit,   //页面大小
+                offset: params.offset,  //页码
+                gameName: $("#gameName").val(),
+                startday: $("#startday").val(),
+                endday: $("#endday").val(),
+            };
+            return temp;
+        };
+        return oTableInit;
+    };
+    function serachInfo() {
+        $("#msgInfo").bootstrapTable('refresh');
+    }
+    var ButtonInit = function () {
+        var oInit = new Object();
+        var postdata = {};
+        oInit.Init = function () {
+            //初始化页面上面的按钮事件
+        };
+        return oInit;
+    };
+</script>

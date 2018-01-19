@@ -1,0 +1,6 @@
+﻿<datalist id="citylist">
+    @foreach (var item in (List<Models.SqlMapModel.Sql_CityModel>)ViewBag.AllCity)
+    {
+        <option value="@item.City"/>
+    }
+ </datalist>

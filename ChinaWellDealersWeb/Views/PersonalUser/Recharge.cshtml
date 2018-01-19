@@ -1,0 +1,119 @@
+﻿@model Models.MapModel.GameDemoViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>XX游戏试玩_爽赞网</title>
+    <link href="~/Content/Css/index.css" rel="stylesheet" />
+    <link href="~/Content/Css/reset.css" rel="stylesheet" />
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="~/Content/Css/lunbo.css" rel="stylesheet" />
+    <link href="~/Content/Css/news.css" rel="stylesheet" />
+    <link href="~/Content/Css/commercial.css" rel="stylesheet" />
+    <link href="~/Content/Css/amoywel.css" rel="stylesheet" />
+    <link href="~/Content/Css/usename.css" rel="stylesheet" />
+    <link href="/Content/Img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+</head>
+<body>
+    @Html.Action("_TwoShuangzanHeader", "Home")
+    @Html.Action("ShuangzanHeader", "NewsInfo")
+    <div class="container" style="margin-top:0;">
+        <p class="czymp1">爽币充值</p>
+        <div class="rechar">
+            <table border="0" cellspacing="0" cellpadding="0">
+
+                <tr>
+                    <th width="361">折扣说明<br /><span>&nbsp;</span></th>
+                    <th width="247">充值数量<br /><span>（10的倍数/爽币）</span></th>
+                    <th width="247">对应人民币<br /><span>（元）</span></th>
+                    <th width="245">操作<br /><span>&nbsp;</span></th>
+                </tr>
+
+                <tr>
+                    <td><p><span>8</span>折<b>10-100 </b>爽币</p></td>
+                    <td><input type="text" name="" id="cz1" value="" /></td>
+                    <td><i class="RMB1"></i></td>
+                    <td><input type="button" value="立即充值" class="ljcz1" /></td>
+                </tr>
+                <tr>
+                    <td><p><span>7</span>折<b>110-500 </b>爽币</p></td>
+                    <td><input type="text" name="" id="cz2" value="" /></td>
+                    <td><i class="RMB2"></i></td>
+                    <td><input type="button" value="立即充值" class="ljcz2" /></td>
+                </tr>
+                <tr>
+                    <td><p><span>6</span>折<b>510-1000 </b>爽币</p></td>
+                    <td><input type="text" name="" id="cz3" value="" /></td>
+                    <td><i class="RMB3"></i></td>
+                    <td><input type="button" value="立即充值" class="ljcz3" /></td>
+                </tr>
+                <tr>
+                    <td><p><span>5</span>折<b>1000以上 </b>爽币</p></td>
+                    <td><input type="text" name="" id="cz4" value="" /></td>
+                    <td><i class="RMB4"></i></td>
+                    <td><input type="button" value="立即充值" class="ljcz4" /></td>
+                </tr>
+            </table>
+            <p><img src="/Content/Img/czsm.png" alt=""></p>
+            <div class="czsm">
+                <p>1、人民币充值爽币，充值越多优惠越大。充值数必须是<a>10的倍数</a>。</p>
+                <p>2、爽币的作用。作用一：充值游戏。爽币充值游戏，1爽币=1元RMB。<a>同款游戏，爽币畅玩更省钱</a>。作用二：兑换实体物品。各种精美物品等你来换。</p>
+                <p>3、充值时请务必确认金额无误，如因未仔细确认金额造成的充值问题，我们将一律不予处理此类退款申诉。</p>
+                <p>4、如有任何问题，请联系在线客服（QQ：10631881）。</p>
+            </div>
+            <!--支付表单-->
+            <form id="alipaysubmit" target="_blank" name="alipaysubmit" action="https://mapi.alipay.com/gateway.do?_input_charset=utf-8" method="get">
+                <div id="inputs">
+
+                </div>
+                <input type="submit" id="submitje" style="display:none" />
+            </form>
+            <!--充值弹框-->
+            <div class="chongzhi display">
+                <div>
+                    <p><a class="cel"></a></p>
+                    <div>
+                        <p><span>充值数量：</span><i class="forsb"></i>爽币</p>
+                        <p><span>应付金额：</span><i class="payfor"></i>元</p>
+                        <p><span>支付方式：</span><button class="alipay" value="alipay">支付宝</button><a class="wxpay" value="wchatpay">微信扫码</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 联系QQ -->
+    <div id="contactQQ">
+        <div class="qqcontar">
+            <a class="contactcel"></a>
+            <img src="/Content/Img/contactQQ.png" />
+            <a href="tencent://message/?uin=10631881&Site=爽赞游戏网&Menu=yes" target="_blank"><img src="/Content/Img/contactQQ1.png" class="contactQQ1" /><p style="position:absolute;bottom:13px;right:16px;color:#fff;font-size:12px;">QQ：10631881</p></a>
+        </div>
+    </div>
+    <!--登录弹框-->
+    <div class="loginbox display">
+        <div>
+            <p>登录爽赞通行证<a class="cel"></a></p>
+            <div>
+                <p class="loginname"><i></i><input type="text" placeholder="手机号/用户名" /></p>
+                <p class="nameerr"><i></i><span></span></p>
+                <p class="loginwpd"><i></i><input type="password" placeholder="密码" /></p>
+                <p class="pwserr"><i></i><span></span><a href="/Login/FindUserPwd">忘记密码?</a></p>
+                <p class="login"><i></i><input type="button" value="登录" class="loginbtn" /></p>
+                <p class="morelogin"><i></i><label><input type="checkbox" value="1" id="autologin" /><span>下次自动登录</span></label><a href="/Login/RegPersonalUser">立即注册</a></p>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("_ShuangZanFooter")
+    <script src="~/Content/js/jquery-1.11.1.min.js"></script>
+    <script src="~/Content/js/myExtend.js"></script>
+    <script src="~/Content/js/jquery.cookie.js"></script>
+    <script src="~/Content/js/personal_use.js"></script>
+    <script src="~/Content/js/Public.js"></script>
+    <script src="~/Content/js/recharge.js"></script>
+</body>
+</html>

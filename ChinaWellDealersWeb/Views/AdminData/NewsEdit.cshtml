@@ -1,0 +1,164 @@
+﻿@model Models.News
+
+@{
+    Layout = null;
+    Layout = "~/Views/Shared/_LayoutAdminData.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>NewsEdit</title>
+    <script src="~/Content/KinderEditor/kindeditor-min.js"></script>
+    <link href="~/Content/KinderEditor/themes/default/default.css" rel="stylesheet" />
+    <link href="~/Content/KinderEditor/plugins/code/prettify.css" rel="stylesheet" />
+    <script src="~/Content/KinderEditor/kindeditor.js"></script>
+    <script src="~/Content/KinderEditor/lang/zh_CN.js"></script>
+    <script src="~/Content/KinderEditor/plugins/code/prettify.js"></script>
+    <script src="~/Scripts/jquery-1.8.2.js"></script>
+    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+    <script src="~/Scripts/MyAjaxForm.js"></script>
+    <link href="~/Content/layui-v1.0.9_rls/layui/css/modules/layer/default/layer.css" rel="stylesheet" />
+    <script src="~/Content/layui-v1.0.9_rls/layui/lay/modules/layer.js"></script>
+    <script type="text/javascript">
+        KindEditor.ready(function (K) {
+            var editor1 = K.create('#msg', {
+                cssPath: '/Content/KinderEditor/plugins/code/prettify.css',
+                uploadJson: '/Content/KinderEditor/asp.net/upload_json.ashx',
+                fileManagerJson: '/Content/KinderEditor/asp.net/file_manager_json.ashx',
+                allowFileManager: true,
+                afterBlur: function () { this.sync(); },//注意这里（异步提交时需要同步）
+                afterCreate: function () {
+                    var self = this;
+                    self.sync();//把富文本编辑器的内容放到  文本域里面去。
+                }
+            });
+            prettyPrint();//注意要调用该方法.
+        });
+        function submitForm() {
+            $("#ff").ajaxSubmit({
+                url: '/AdminData/NewsEdit',
+                type: "post",
+                success: function (data) {
+                    if (data == "ok") {
+                        layer.msg("恭喜：修改成功!");
+                        window.setTimeout(function () {
+                            window.location.href = "/AdminData/NewsPagingList";
+                        }, 800);                                          
+                    } else if (data == "no") {
+                        layer.msg("提示：修改失败！");
+                    } else {
+                        layer.msg("提示：请选择要修改的数据！");
+                    }
+                },
+            });
+        }
+    </script>
+    <style type="text/css">
+        .easyui-textbox {
+            height:25px;
+            width:370px;
+            
+        }        
+        .editor-label {
+            line-height:25px;
+           color:#13629D;
+        }
+    </style>
+</head>
+<body>    
+        <fieldset >
+            <legend style="color:#13629D">新闻修改</legend>
+            <form id="ff" class="easyui-form" method="post" data-options="novalidate:true">
+                <div style="margin-left:48px;">
+                    @Html.HiddenFor(model => model.Id)
+                    <div class="editor-label">
+                        文章标题
+                    </div>
+                    <div class="editor-field">
+                        <input class="easyui-textbox" type="text" id="title" name="title" value="@Model.Title" />
+                    </div>
+
+                    <div class="editor-label">
+                        编辑标题
+                    </div>
+                    <div class="editor-field">
+                        <input class="easyui-textbox" type="text" id="editTitle" name="editTitle" value="@Model.EditTitle" />
+                    </div>
+                    <div class="editor-label">
+                        游戏名
+                    </div>
+                    <div class="editor-field">
+                        <input name="gameName"  id="gameName" list="gamelist" value="@Model.Game" style="border-radius:5px;width:370px;border:1px solid #95B8E7;outline:none" />
+                    </div>
+                    <div class="editor-label">
+                        关键词
+                    </div>
+                    <div class="editor-field">
+                        <input name="keyWords" class="easyui-textbox" id="keyWords" value="@Model.Kewords" />
+                    </div>
+                    <div class="editor-label">
+                        新闻来源
+                    </div>
+                    <div class="editor-field">
+                        <input name="source" class="easyui-textbox" id="source" value="@Model.Source" />
+                    </div>
+
+                    <div class="editor-label">
+                        编辑者
+                    </div>
+                    <div class="editor-field">
+                        <input name="editor" class="easyui-textbox" id="editor" value="@Model.Editor" />
+                    </div>
+                    <div class="editor-label">
+                        新闻类型
+                    </div>
+                    <div class="editor-field">
+                        <select id="newsType" name="newsType" style="width:370px;" panelheight="auto">
+                            @if (Model.Type == "1")
+                            {
+                                <option selected="selected" value="1">新游在线</option>
+                                <option value="2">热游动态</option>
+                                <option value="3">产业资讯</option>
+                            }
+                            else if (Model.Type == "2")
+                            {
+                                <option selected="selected" value="2">热游动态</option>
+                                <option value="1">新游在线</option>
+                                <option value="3">产业资讯</option>
+                            }
+                            else if (Model.Type == "3")
+                            {
+                                <option selected="selected" value="3">产业资讯</option>
+                                <option value="2">热游动态</option>
+                                <option value="1">新游在线</option>
+                            }else
+                            {
+                                <option  value="3">产业资讯</option>
+                                <option value="2">热游动态</option>
+                                <option value="1">新游在线</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="editor-label">
+                        新闻摘要
+                    </div>
+                    <div class="editor-field">
+                        <textarea  name="memo" id="memo" style="width:900px; height:150px;margin-bottom:10px;text-wrap:normal" >@Model.Memo</textarea>
+                    </div>
+                    <div class="editor-label">
+                        文章内容
+                    </div>
+                    <div class="editor-field">
+                        <textarea class="easyui-validatebox textbox" id="msg" name="msg" style="width:900px; height:450px;margin-bottom:10px;">@Html.Raw(Model.Msg)</textarea>
+                    </div>
+                    <p>
+                        <a href="javascript:void(0)" class="easyui-linkbutton c6" style="width:80px;height:25px;" onclick="submitForm()">提交</a>
+                        <a href="javascript:void(0)" onclick="history.go(-1)" class="easyui-linkbutton c3" style="width:80px;height:25px;">返&nbsp;回</a>
+                    </p>
+                </div>
+              </form>
+</fieldset>      
+    @Html.Action("GameNameListPartial", "Game")
+</body>
+</html>

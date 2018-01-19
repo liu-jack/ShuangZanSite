@@ -1,0 +1,996 @@
+﻿@{
+    Layout = null;
+    string phone = Model.Mobile.Substring(3, 6);
+    
+}
+@model Models.PersonalUser
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=1124">
+    <title>个人中心</title>
+    <link href="~/Content/Css/index.css" rel="stylesheet" />
+    <link href="~/Content/Css/reset.css" rel="stylesheet" />
+    <link href="~/Content/Css/personal.css" rel="stylesheet" />
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="~/Content/Css/sign.css" rel="stylesheet" />
+    <link href="~/Content/Css/calendar.css" rel="stylesheet" />
+    <link href="~/Content/Css/U_Index.css" rel="stylesheet" />
+    <link href="/Content/img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+    <link href="~/Content/layui-v1.0.9_rls/layui/css/modules/layer/default/layer.css" rel="stylesheet" />
+  
+</head>
+<body>
+    @Html.Action("UserTop", "PersonalUser")
+            <!--账号信息-->
+            <div class="information active">
+                <!--个人资料-->
+                <p>
+                    <span class="htop">个人资料</span>
+                    <span class="htop_uname" style="display:none">@Model.UName</span>
+                    <span class="htop_msg">首次完善以下信息，每项将获得2爽币</span>
+                    <span class="htop_a htop_b">
+                        <span>收起 <i></i></span>
+                        <span class="display">编辑 <i></i></span>
+                    </span>
+                </p>
+                <div class="mymsg change2 active">
+                    <form action="#">
+                        <table border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td>用户名:</td>
+                                <td>
+                                    <input type="text" value="@Model.UName" disabled="disabled" class="read" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>QQ:</td>
+                                <td>
+                                    <input type="text" name="QQ" id="QQ" value="@Model.QQ" placeholder="未填写" />
+                                    <input type="button" name="" value="修改" class="btn4 modify display" />
+                                    <span class="">
+                                        <input type="button" value="保存" class="btn4 save_qq" />
+                                        <input type="button" value="取消" class="btn4 cancel qcel display" />
+                                    </span>
+                                    <span class="regEmail display">
+                                        <i></i>
+                                        <a class="emailAlt"></a>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>微信号:</td>
+                                <td>
+                                    <input type="text" value="@Model.WeChat" name="weixin" id="weixin" placeholder="未填写" />
+                                    <input type="button" name="" value="修改" class="btn4 modify display" />
+                                    <span class="">
+                                        <input type="button" value="保存" class="btn4 save_wx" />
+                                        <input type="button" value="取消" class="btn4 cancel wcel display" />
+                                    </span>
+                                    <span class="regEmail display">
+                                        <i></i>
+                                        <a class="emailAlt"></a>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>邮箱:</td>
+                                <td>
+                                    <input type="email" value="@Model.Email" id="email" name="email" placeholder="未填写" />
+                                    <input type="button" name="" value="修改" class="btn4 modify display" />
+                                    <span class="">
+                                        <input type="button" value="保存" class="btn4 save_email" />
+                                        <input type="button" value="取消" class="btn4 cancel ecel display" />
+                                    </span>
+                                    <span class="regEmail display">
+                                        <i></i>
+                                        <a class="emailAlt"></a>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>生日:</td>
+                                <td>
+                                    <input type="text" value="@Model.Birthday" id="birthday" name="birthday" placeholder="未填写" onclick="WdatePicker({skin:'whyGreen',maxDate:'%y-%M-%d'})" />
+                                    <input type="button" name="" value="修改" class="btn4 modify display" />
+                                    <span class="">
+                                        <input type="button" value="保存" class="btn4 save_birth" />
+                                        <input type="button" value="取消" class="btn4 cancel bcel display" />
+                                    </span>
+                                    <span class="regEmail display">
+                                        <i></i>
+                                        <a class="emailAlt"></a>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>紧急联系人:</td>
+                                <td>
+                                    <input type="text" value="@Model.Contacts" id="name" name="name" class="put" placeholder="姓名" />
+                                    <input type="text" value="@Model.ContactNum" id="tel" name="tel" placeholder="联系电话" />
+                                    <input type="button" name="" value="修改" class="btn4 modify display" />
+                                    <span class="">
+                                        <input type="button" value="保存" class="btn4 save_tel" />
+                                        <input type="button" value="取消" class="btn4 cancel tcel display" />
+                                    </span>
+                                    <span class="regEmail display">
+                                        <i></i>
+                                        <a class="emailAlt"></a>
+                                    </span>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <!--头像-->
+                <p>
+                    <span class="htop">头像</span>
+                   
+                    @if (Model.Head==null)
+                    {
+                     <span>  <img src="/Content/UserImg/myImg.jpg" alt="" class="myheadimg1" /></span>  
+                    }
+                    else { 
+                     <span><img src="/Content/UserImg/@Model.Head" alt="" class="myheadimg1" /></span>
+                    
+                    }
+                   
+                    <span class="htop_a">
+                        <span class="display">收起 <i></i></span>
+                        <span>编辑 <i></i></span>
+                    </span>
+                </p>
+              
+                    <div class="headPortrait change2">
+                        <form id="frm" enctype="multipart/form-data" method="post" data-options="novalidate:true ">
+                            <div class="overfl">
+
+                                <div class="overfl">
+                                    <div class="lf nowheadimg">
+                                    @if (Model.Head == null)
+                                    {
+                                        <img src="/Content/UserImg/myImg.jpg" alt="" class="myheadimg2" />
+                                    }
+                                    else { 
+                                     <img src="/Content/UserImg/@Model.Head" alt="" class="myheadimg2" />
+                                    }                                   
+                                        <input type="hidden" id="real_headimg" name="real_headimg">
+                                    </div>
+                                    <div class="lf line">
+                                        <div>
+                                            <div>
+                                                <div class="btnup" style="width:100px;margin-left:0;">
+                                                    请选择<input type="file" name="headImg" style="width:470px;height:30px;position:absolute;left:0px;opacity:0;" />
+                                                </div>
+                                                <span></span>
+                                            </div>
+                                            <div id="show"></div>
+                                            <button class="userimgsave btn" id="saveImg" onclick="SaveMyImg(); return false;">保存</button>
+                                        </div>
+                                        <p>注:1.选择一张jpg/png/gif格式图片上传。2.注意图片不要超过2M，尺寸为:100*100</p>
+                                    </div>
+
+                                </div>
+
+                                <div class="headimgs">
+                                    <p class="ptext">也许你会喜欢这些经典头像</p>
+                                    <ul class="overfl headimg">
+                                        <li><img src="/Content/Img/1.jpg" alt="" /></li>
+                                        <li><img src="/Content/Img/2.jpg" alt="" /></li>
+                                        <li><img src="/Content/Img/3.jpg" alt="" /></li>
+                                        <li><img src="/Content/Img/4.jpg" alt="" /></li>
+                                        <li><img src="/Content/Img/5.jpg" alt="" /></li>
+                                        <li><img src="/Content/Img/6.jpg" alt="" /></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </form>
+            </div>
+              
+                <!--密码-->
+                <p>
+                    <span class="htop">密码</span>
+                    <span>******</span>
+                    <span class="htop_a">
+                        <span class="display">收起 <i></i></span>
+                        <span>编辑 <i></i></span>
+                    </span>
+                </p>
+                <div class="pwd change2">
+
+                    <!--修改密码第一步-->
+                    <div class="bindhe">
+                        <div class="bgjdt">
+                            <div class="pronum">
+                                <b class="act">1</b><br /><span class="actxt">身份验证</span>
+                            </div>
+                            <div class="pronum">
+                                <b>2</b><br /><span>修改密码</span>
+                            </div>
+                            <div class="pronum">
+                                <b>3</b><br /><span>修改成功</span>
+                            </div>
+                            <i></i>
+                        </div>
+                        <table>
+                            <tr>
+                                <td>当前绑定手机号:</td>
+                              
+                              
+                                <td>@Model.Mobile.Replace(phone, "*******")</td>
+                            </tr>
+                            <tr>
+                                <td>验证码:</td>
+                                <td>
+                                    <input type="text" id="code_input" class="inputtext" placeholder="请输入右侧内容" />
+                                    <img id="v_container" src="/Login/GetValidateCode/?id=1" align="absmiddle" alt="如果看不清楚,请点击重新获取" />
+                                    <samp class="err" style="display:inline-block;height:26px;color:#f43838;"></samp>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><input type="text" class="Verification1" id="mmxg1" name="Verification1" placeholder="请输入短信验证码" /><button class="btn hqbtn21">获取手机验证码</button><span class="yzmerr2"></span><span class="codeerr display"><i></i>验证码错误</span></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><button class="btn next1">下一步</button></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <!--修改密码第二步-->
+                    <div class="bindhe display">
+                        <div class="bgjdt">
+                            <div class="pronum">
+                                <b>1</b><br /><span>身份验证</span>
+                            </div>
+                            <div class="pronum">
+                                <b class="act">2</b><br /><span class="actxt">修改密码</span>
+                            </div>
+                            <div class="pronum">
+                                <b>3</b><br /><span>修改成功</span>
+                            </div>
+                            <i></i>
+                        </div>
+                        <form action="#" class="pwd2">
+                            <p>
+                                <span>新密码:</span>
+                                <input type="password" id="newpass" />
+                                <b>
+                                    6-16个字符，安全起见请使用:字母+数字或符号组合
+                                </b>
+                                <b class="display">
+                                    <i></i>
+                                    <s></s>
+                                </b>
+                            </p>
+                            <p>
+                                <span>确认密码:</span>
+                                <input type="password" id="renewpass" />
+                                <b>
+                                    再次输入新密码，请保持一致
+                                </b>
+                                <b class="display">
+                                    <i></i>
+                                    <s></s>
+                                </b>
+                            </p>
+                            <p><span></span><input type="button" class="btn4 changepass" value="保存" /></p>
+                        </form>
+                    </div>
+                    <!--修改密码第三步-->
+                    <div class="bindhe display">
+                        <div class="bgjdt">
+                            <div class="pronum">
+                                <b>1</b><br /><span>身份验证</span>
+                            </div>
+                            <div class="pronum">
+                                <b>2</b><br /><span>修改密码</span>
+                            </div>
+                            <div class="pronum">
+                                <b class="act">3</b><br /><span class="actxt">修改成功</span>
+                            </div>
+                            <i></i>
+                        </div>
+                        <p class="pwd3"><i></i><span>恭喜您！密码修改成功！</span></p>
+                    </div>
+                </div>
+                <!--绑定手机-->
+                <p>
+                    <span class="htop">绑定手机</span>
+                    <span>@Model.Mobile.Replace(phone, "*******")</span>
+                    <span class="htop_a htop-b">
+                        <span class="display">收起 <i></i></span>
+                        <span>编辑 <i></i></span>
+                    </span>
+                </p>
+                <div class="bind change2">
+                    <!--修改绑定手机-->
+                    <div class="bind bind6">
+                        <!--修改绑定手机第一步-->
+                        <div class="bindhe xgsj01">
+                            <b>· </b>修改绑定手机<b> ·</b><br />
+                            <div class="bgjdt">
+                                <div class="pronum">
+                                    <b class="act">1</b><br /><span class="actxt">身份验证</span>
+                                </div>
+                                <div class="pronum">
+                                    <b>2</b><br /><span>修改手机</span>
+                                </div>
+                                <div class="pronum">
+                                    <b>3</b><br /><span>修改成功</span>
+                                </div>
+                                <i></i>
+                            </div>
+                            <div class=" bind2">
+                                <table>
+                                    <tr>
+                                        <td>当前绑定手机号:</td>
+                                        <td class="linea">@Model.Mobile.Replace(phone, "*******")</td>
+                                    </tr>
+                                    <tr>
+                                        <td>验证码:</td>
+                                        <td class="linea">
+                                            <input type="text" id="code_input1" class="inputtext" placeholder="请输入右侧内容" />
+                                            <img id="v_container" src="/Login/GetValidateCode/?id=1" align="absmiddle" alt="如果看不清楚,请点击重新获取" />
+                                            <samp class="err" style="height:26px;color:#f43838;"></samp>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td><input type="text" class="Verification1" id="bdsj1" placeholder="请输入短信验证码" /><button class="btn hqbtn">获取手机验证码</button><span class="yzmerr1"></span><span class="codeerr display"><i></i>验证码错误</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td class="linea">手机接收不到信息?<a href="">申请人工更换手机</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td><button class="btn next3">下一步</button></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <!--修改绑定手机第二步-->
+                        <div class="bindhe xgsj02 display">
+                            <b>· </b>修改绑定手机<b> ·</b><br />
+                            <div class="bgjdt">
+                                <div class="pronum">
+                                    <b>1</b><br /><span>身份验证</span>
+                                </div>
+                                <div class="pronum">
+                                    <b class="act">2</b><br /><span class="actxt">修改手机</span>
+                                </div>
+                                <div class="pronum">
+                                    <b>3</b><br /><span>修改成功</span>
+                                </div>
+                                <i></i>
+                            </div>
+                            <div class="bind3">
+                                <p><span>新手机号:</span><input type="text" class="newmoile" /></p>
+                                <p><span></span><button class="btn hqbtn1">获取验证码</button></p>
+                                <p><span>手机验证码:</span><input type="text" class="Verification" /><span class="codeerr display"><i></i>验证码错误</span></p>
+                                <p><span></span><button class="btn1 next2">下一步</button></p>
+                            </div>
+                        </div>
+                        <!--修改绑定手机第三步-->
+                        <div class="bindhe display sbhsj xgsj03">
+                            <b>· </b>修改绑定手机<b> ·</b><br />
+                            <div class="bgjdt">
+                                <div class="pronum">
+                                    <b>1</b><br /><span>身份验证</span>
+                                </div>
+                                <div class="pronum">
+                                    <b>2</b><br /><span>修改手机</span>
+                                </div>
+                                <div class="pronum">
+                                    <b class="act">3</b><br /><span class="actxt">修改成功</span>
+                                </div>
+                                <i></i>
+                            </div>
+                            <div>
+                                <p class="pwd3"><i></i><span>恭喜您！修改手机成功！</span></p>
+                                <p class="revise"><span>您绑定的手机号:@Model.Mobile.Replace(phone, "*******")</span><br /><span></span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--人工更换绑定手机-->
+                    <div class="bind bind7 display">
+                        <!--人工更换绑定手机第一步-->
+                        <div class="bindhe xgsj04">
+                            <b>· </b>人工更换手机<b> ·</b><br />
+                            <div class="bgjdt">
+                                <div class="pronum">
+                                    <b class="act">1</b><br /><span class="actxt">密码验证</span>
+                                </div>
+                                <div class="pronum">
+                                    <b>2</b><br /><span>填写更换信息</span>
+                                </div>
+                                <div class="pronum">
+                                    <b>3</b><br /><span style="width:130px;margin-left: -10px">提交申请，等待审核</span>
+                                </div>
+                                <i></i>
+                            </div>
+                            <div class="bind3">
+                                <table>
+                                    <tr><td>用户名:</td><td><input type="text" disabled="disabled" class="uname read" value="@Model.UName" /></td></tr>
+                                    <tr class="bin"><td>登录密码:</td><td><input type="password" class="pass" /></td><td class ="codeerr display"><i></i>密码错误</td></tr>
+                                    <tr><td></td><td><button class="btn1 Vlogin">下一步</button></td></tr>
+                                </table>
+                            </div>
+                        </div>
+                        <!--人工更换绑定手机第二步-->
+                        <div class="bindhe display xgsj05">
+                            <b>· </b>人工更换手机<b> ·</b><br />
+                            <div class="bgjdt">
+                                <div class="pronum">
+                                    <b>1</b><br /><span>密码验证</span>
+                                </div>
+                                <div class="pronum">
+                                    <b class="act">2</b><br /><span class="actxt">填写更换信息</span>
+                                </div>
+                                <div class="pronum">
+                                    <b>3</b><br /><span style="width:130px;margin-left: -10px">提交申请，等待审核</span>
+                                </div>
+                                <i></i>
+                            </div>
+                            <div class="bind3">
+                                <table>
+                                    <tr><td>新手机号:</td><td><input type="text" class="newmoile" /></td></tr>
+                                    <tr><td>手机验证码:</td><td><input type="text" class="Verification" /><button class="btn hqbtn3">获取验证码</button></td><td class="codeerr display"><i></i>验证码错误</td></tr>
+                                    <tr><td></td><td><button class="btn1 next4">下一步</button></td></tr>
+                                </table>
+                            </div>
+                        </div>
+                        <!--人工更换绑定手机第三步-->
+                        <div class="bindhe display sbhsj xgsj06">
+                            <b>· </b>人工更换手机<b> ·</b><br />
+                            <div class="bgjdt">
+                                <div class="pronum">
+                                    <b>1</b><br /><span>密码验证</span>
+                                </div>
+                                <div class="pronum">
+                                    <b>2</b><br /><span>填写更换信息</span>
+                                </div>
+                                <div class="pronum">
+                                    <b class="act">3</b><br /><span class="actxt" style="width:130px;margin-left: -10px">提交申请，等待审核</span>
+                                </div>
+                                <i></i>
+                            </div>
+                            <div>
+                                <p class="pwd3"><i></i><span>恭喜您！修改申请提交成功！</span></p>
+                                <p class="revise s1"><span>客服人员将在1个工作日内与您联系，请保持手机通讯畅通!</span><br /><span></span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--尾部开始-->
+        @Html.Action("_SignInDiv", "PersonalUser")
+        <!--尾部结束-->
+</body>
+</html>
+<script src="~/Content/js/jquery-1.11.1.min.js"></script>
+<script src="~/Content/js/personal_use.js"></script>
+<script src="~/Content/js/Public.js"></script>
+<script src="~/Content/js/calendar.js"></script>
+<script src="~/Content/js/myExtend.js"></script>
+<script src="~/Content/My97DatePicker/WdatePicker.js"></script>
+<script src="~/Content/js/calendar1.js"></script>
+<script src="~/Scripts/MyAjaxForm.js"></script>
+@*<script src="~/Content/layui-v1.0.9_rls/layui/lay/modules/layer.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>*@
+
+<script type="text/javascript">
+    $(function () {
+        $('.mymsg tr td input[type=text],.mymsg tr td input[type=email]').each(function () {
+            if ($(this).val() != '') {
+                $(this).addClass("read").attr("disabled", true);
+                $(this).next('input[type = button]').removeClass('display');
+                $(this).next().next().addClass('display');
+            } else {
+                $(this).removeClass("read").attr("disabled", false);
+                $(this).next('input[type = button]').addClass('display');
+                $(this).next().next().removeClass('display');
+            }
+        })
+
+
+        //---------------------------验证码为空文本框触发事件------------
+        var vcode = $("#code_input"), vcode1 = $("#code_input1");
+        $("#code_input").blur(function () {
+            if (vcode.val().trim() == "") {
+                vcode.next().next().removeClass("display").html("请输入验证码");
+                return;
+            }
+            if (vcode.val().trim() != "") {
+                vcode.next().next().addClass("display").html("");
+                return;
+            }
+        });
+        $("#code_input1").blur(function () {
+            if (vcode1.val().trim() == "") {
+                vcode1.next().next().removeClass("display").html("请输入验证码");
+                return;
+            }
+            if (vcode1.val().trim() != "") {
+                vcode1.next().next().addClass("display").html("");
+                return;
+            }
+        });
+        //------------------点击验证码变换事件------------------
+        $("#v_container,#v_container1").click(function () {
+            $(this).attr("src", $(this).attr("src") + 1);// 取得img属性 得到src地址给它+1 是为了每次变换验证码
+        });
+    })
+    //----------------------qq更新事件---------------------------------
+    $(".save_qq").click(function () {
+        var a = $("#QQ").val().replace(/\s+/g, "");
+        if (a != "") {
+            $.ajax({
+                type: "Post",
+                url: "/PersonalUser/UpdateUserMsg",
+                data: {
+                    qq: a,
+                    update: "qq"
+                },
+                success: function (data) {
+                    if (data == "ok") {
+                        $(".save_qq").parent().prev().prev().addClass("read").attr("disabled", true);
+                        $(".save_qq").parent().addClass("display").prev().removeClass("display");
+                        $(".save_qq").parent().next().addClass("display");
+                    }
+                },
+            });
+        } else {
+            $(this).parent().next().removeClass("display").find(".emailAlt").html("请输入您的QQ号")
+        }
+    });
+    //----------------------------微信更新事件--------------------------
+    $(".save_wx").click(function () {
+        var b = $("#weixin").val().replace(/\s+/g, "");
+        if (b != "") {
+            $.ajax({
+                type: "Post",
+                url: "/PersonalUser/UpdateUserMsg",
+                data: {
+                    wx: b,
+                    update: "weChat"
+                },
+                success: function (data) {
+                    if (data = "ok") {
+                        $(".save_wx").parent().prev().prev().addClass("read").attr("disabled", true);
+                        $(".save_wx").parent().addClass("display").prev().removeClass("display");
+                        $(".save_wx").parent().next().addClass("display");
+                    }
+                },
+            });
+        } else {
+            $(this).parent().next().removeClass("display").find(".emailAlt").html("请输入微信号")
+        }
+    });
+    //-----------------------------邮箱保存事件-------------------------
+    $(".save_email").click(function () {
+        var c = $("#email").val().replace(/\s+/g, "");
+        var reg = /^[a-zA-Z0-9_]+\@@[a-zA-Z0-9]+\.[a-zA-Z0-9]{2,4}$/;
+        if (!reg.test(c) || c == "") {
+            $(this).parent().next().removeClass("display").find(".emailAlt").html("请填写正确的邮箱")
+        } else {
+            $.ajax({
+                type: "Post",
+                url: "/PersonalUser/UpdateUserMsg",
+                data: {
+                    email: c,
+                    update: "email",
+                },
+                success: function (data) {
+                    if (data == "ok") {
+                        $(".save_email").parent().prev().prev().addClass("read").attr("disabled", true);
+                        $(".save_email").parent().prev().prev().prev().addClass("read").attr("disabled", true);
+                        $(".save_email").parent().addClass("display").prev().removeClass("display");
+                        $(".save_email").parent().next().addClass("display")
+                    }
+                },
+            });
+        };
+    });
+    //---------------------生日提交保存事件-----------------------------
+    $(".save_birth").click(function () {
+        var g = $("#birthday").val().replace(/\s+/g, "");
+        if (g != "") {
+            $.ajax({
+                type: "Post",
+                url: "/PersonalUser/UpdateUserMsg",
+                data: {
+                    birthday: g,
+                    update: "birthday"
+                },
+
+                success: function (data) {
+                    if (data = "ok") {
+                        $(".save_birth").parent().prev().prev().addClass("read").attr("disabled", true);
+                        $(".save_birth").parent().addClass("display").prev().removeClass("display");
+                        $(".save_birth").parent().next().addClass("display");
+                    }
+                },
+            });
+        } else {
+            $(this).parent().next().removeClass("display").find(".emailAlt").html("请输入您的生日")
+        }
+    });
+    //----------------------------------------保存手机号码--------------
+    $(".save_tel").click(function () {
+        var e = $("#name").val().replace(/\s+/g, "");
+        var f = $("#tel").val().replace(/\s+/g, "");
+        var reg = /^1[34578]\d{9}$/;
+        if (!reg.test(f) || e == "" || f == "") {
+            $(this).parent().next().removeClass("display").find(".emailAlt").html("请输入正确的姓名/手机号")
+        } else {
+            $.ajax({
+                type: "Post",
+                url: "/PersonalUser/UpdateUserMsg",
+                data: {
+                    name: e,
+                    tel: f,
+                    update: "contactTel"
+                },
+                success: function (data) {
+                    if (data == "ok") {
+                        $(".save_tel").parent().prev().prev().addClass("read").attr("disabled", true);
+                        $(".save_tel").parent().prev().prev().prev().addClass("read").attr("disabled", true);
+                        $(".save_tel").parent().addClass("display").prev().removeClass("display");
+                        $(".save_tel").parent().next().addClass("display")
+                    }
+                },
+            });
+        }
+    });
+
+    //-------------------上传头像--------------------------------------------------
+    $(".headimg img").click(function () {
+        var imgs = $(this).attr("src");
+        $('#real_headimg').val(imgs);
+        $(".myheadimg2").attr("src", imgs);
+    })
+    if (localStorage.PersonalUserIMg != '') {
+        $('.myheadimg').attr("src", "/Content/UserImg/" + localStorage.PersonalUserIMg);
+        $('.myheadimg1').attr("src", "/Content/UserImg/" + localStorage.PersonalUserIMg);
+        $('.myheadimg2').attr("src", "/Content/UserImg/" + localStorage.PersonalUserIMg);
+        $('.use-pic img').attr("src", "/Content/UserImg/" + localStorage.PersonalUserIMg);
+    }
+   
+    function SaveMyImg() {
+        $("#frm").ajaxSubmit({
+            url: "/PersonalUser/UploadUserImg",
+            type: "Post",
+            success: function (data) {
+                //返回后台保存图片的服务器地址就可以了。
+                if (data == "typeError") {
+                    layer.msg("请选择正确的图片格式！");
+                } else if (data == "empty") {
+                    layer.msg("您懂上传吗？");
+                }
+                else {
+                    var str = "/Content/UserImg/" + data;
+                    localStorage.PersonalUserIMg = data;
+                    $('.myheadimg').attr("src", str);
+                    $('.myheadimg1').attr("src", str);
+                    $('.myheadimg2').attr("src", str);
+                    $('.use-pic img').attr("src", str);
+                    $("#real_headimg").val(data);
+
+                }
+            }
+        });
+    };
+    
+    var countDown = null, cou = 49;
+    function $cd(dom) {
+        if (countDown != null && cou > 0) {
+            dom.html(cou + "S后重新获取");
+            cou--;
+        } else {
+            clearInterval(countDown);
+            countDown = null;
+            dom.css({
+                "font-size": "14px",
+                "cursor": "pointer"
+            }).html("获取短信验证码");
+            cou = 49;
+        }
+    }
+    //-------------------密码修改验证码非空判断--------------------------------------------------
+    $("#code_input").blur(function () {
+        if ($("#code_input").val().trim() == "") {
+            $("#code_input").parent("div").find(".err").removeClass("errok").html("请输入验证码");
+            return;
+        }
+        $("#code_input").parent("div").find(".err").html("").addClass("errok");
+    });
+    //-------------------修改密码第一步获取验证码--------------------------------------------------
+    $(".hqbtn21").click(function () {
+        if ($(this).text() == "获取手机验证码") {
+            if ($("#code_input").val().trim() == "") {
+                $("#code_input").parent("div").find(".err").removeClass("errok").html("请输入验证码");
+                return;
+            }
+            $.ajax({
+                type: "Post",
+                url: "/Login/GetMobileVerifyCode",
+                data: { mobile: '@Model.Mobile', vcode: $("#code_input").val().trim() },
+                success: function (data) {
+                    var p = data;
+                    console.log(p);
+                    console.log(p.success);
+                    if (p.success == "false") {
+                        $('#mmxg1').parent("div").find(".err").removeClass("errok").html(p.str);
+                    } else if (p.success == "true") {
+                        $(".hqbtn21").css({
+                            "font-size": "12px",
+                            "cursor": "initial"
+                        }).html("50S后重新获取");
+                        $(".yzmerr2").css("color", "#78A402").html("验证码已发送，30分钟内输入有效");
+                        countDown = setInterval($cd($(".hqbtn21")), 1000);
+                    }
+                    else
+                        $('#mmxg1').parent("div").find(".err").removeClass("errok").html("验证码发送失败，请重试");
+                },
+            });
+        }
+    });
+    //-------------------修改密码第二步设置新密码--------------------------------------------------
+    //function passTwo() {
+    $(".next1").click(function () {
+        var phoneCode = $('#mmxg1').val();
+        $.ajax({
+            data: {
+                mobile: '@Model.Mobile',
+                code: phoneCode
+            },
+            type: 'post',
+            url: '/Login/CheckMobileCode',
+            success: function (data) {
+                if (data == 'ok') {
+                    $('.pwd .codeerr').addClass('display');
+                    $('.pwd .bindhe').eq(1).removeClass('display').siblings('.bindhe').addClass('display');
+                } else if (data == 'no') {
+                    $('.pwd .codeerr').removeClass('display');
+                }
+            }
+        })
+    });
+    //}
+    //-------------------修改密码第二步--------------------------------------------------
+    var pass = $('#newpass'), pass1 = $('#renewpass');
+    pass.blur(function () {
+        if (pass.val().length < 6 || pass.val().length > 16) {
+            pass.next().addClass('display');
+            pass.next().next().removeClass('display').find('s').text('密码长度不正确');
+        } else {
+            pass.next().removeClass('display').text('密码通过');
+            pass.next().next().addClass('display').find('s').text('');
+        }
+    })
+    pass1.blur(function () {
+        if (pass.val() != pass1.val()) {
+            pass1.next().addClass('display');
+            pass1.next().next().removeClass('display').find('s').text('两次密码不一致');
+        } else {
+            pass1.next().removeClass('display').text('密码一致');
+            pass1.next().next().addClass('display').find('s').text('');
+        }
+    })
+    $('.changepass').click(function () {
+        if (pass.val() == pass1.val() && pass.val().length > 5 && pass.val().length < 17) {
+            $.ajax({
+                data: {
+                    pwd: pass.val(),
+                    id: '@Model.Id'
+                },
+                type: 'post',
+                url: '/PersonalUser/UpdateUserPassword',
+                success: function (data) {
+                    alert(data);
+                    if (data == 'ok') {
+                        $('.pwd .bindhe').eq(2).removeClass('display').siblings('.bindhe').addClass('display');
+                    } else if (data == 'no') {
+                        pass1.next().next().removeClass('display').find('s').text('修改失败，请再试一次');
+                    }
+                }
+            })
+        }
+    })
+
+    //-------------------修改手机第一步--------------------------------------------------
+    $('.hqbtn').click(function () {
+        var code = $('#code_input1').val();
+        if ($(this).text() == "获取手机验证码") {
+            if ($("#code_input1").val().trim() == "") {
+                $("#code_input1v").parent("div").find(".err").removeClass("errok").html("请输入验证码");
+                return;
+            }
+            $.ajax({
+                type: "Post",
+                url: "/Login/GetMobileVerifyCode",
+                data: { mobile: '@Model.Mobile', vcode: $("#code_input1").val().trim() },
+                success: function (data) {
+                    var p = data;
+                    if (p.success == "false") {
+                        $(".bind2 .yzmerr1").css("color", "#f43838").html(p.str);
+                    } else if (p.success == "true") {
+                        $(".bind2 .hqbtn").css({
+                            "font-size": "12px",
+                            "cursor": "initial"
+                        }).html("50S后重新获取");
+                        $(".bind2 .yzmerr1").css("color", "#78A402").html("验证码已发送，30分钟内输入有效");
+                        countDown = setInterval($cd($(".hqbtn")), 1000);
+                    }
+                    else
+                        $('#bdsj1').parent("div").find(".err").removeClass("errok").html("验证码发送失败，请重试");
+                },
+            });
+        }
+    })
+
+    $('.next3').click(function () {
+        var phoneCode = $('#bdsj1').val();
+        $.ajax({
+            data: {
+                mobile: '@Model.Mobile',
+                code: phoneCode
+            },
+            type: 'post',
+            url: '/Login/CheckMobileCode',
+            success: function (data) {
+                $(".bind2 .yzmerr1").css("color", "#78A402").html('');
+                if (data == 'ok') {
+                    $('.bind .bind6 .codeerr').addClass('display');
+                    $('.bind .bind6 .bindhe').eq(1).removeClass('display').siblings('.bindhe').addClass('display');
+                } else if (data == 'no') {
+                    $('.bind .bind6 .codeerr').removeClass('display');
+                }
+            }
+        })
+    })
+    //-------------------修改手机第二步--------------------------------------------------
+    var newmoile = $('.newmoile');
+
+    $('.hqbtn1').click(function () {
+        if ($(this).text() == "获取验证码") {
+            $.ajax({
+                type: "Post",
+                url: "/Login/GetCode",
+                data: { mobile: newmoile.val() },
+                success: function (data) {
+                    var p = data;
+                    if (p.success == "false") {
+                        $('#bdsj1').parent("div").find(".err").removeClass("errok").html(p.str);
+                    } else if (p.success == "true") {
+                        $(".hqbtn1").css({
+                            "font-size": "12px",
+                            "cursor": "initial"
+                        }).html("50S后重新获取");
+                        countDown = setInterval($cd($('.hqbtn1')), 1000);
+                    }
+                },
+            });
+        }
+    })
+
+    $('.next2').click(function () {
+        var phoneCode = $('.Verification').val();
+        $.ajax({
+            data: {
+                mobile: '@Model.Mobile',
+                code: phoneCode
+            },
+            type: 'post',
+            url: '/Login/CheckMobileCode',
+            success: function (data) {
+                if (data == 'ok') {
+                    $('.bind .bind6 .codeerr').addClass('display');
+                    $.ajax({
+                        data: {
+                            mobile: newmoile.val(),
+                            id: '@Model.Id'
+                        },
+                        datatype: 'json',
+                        type: 'post',
+                        url: '/PersonalUser/UpdateUserMobile',
+                        success: function (data) {
+                            if (data == 'ok') {
+                                $('.bind .bind6 .bindhe').eq(2).removeClass('display').siblings('.bindhe').addClass('display');
+                            } else if (data == 'no') {
+                                $('.bind .bind6 .codeerr').removeClass('display').text('修改失败，请再试一次');
+                            }
+                        }
+                    })
+                } else if (data == 'no') {
+                    $('.bind .bind6 .codeerr').removeClass('display').text('验证码错误');
+                }
+            }
+        })
+    })
+    //-------------------人工修改手机第一步--------------------------------------------------
+    $('.linea a').click(function (event) {
+        event.preventDefault();
+        $('.bind7').removeClass('display');
+        $('.bind6').addClass('display');
+    })
+    //-------------------人工修改手机第二步--------------------------------------------------
+    $('.Vlogin').click(function () {
+        var oldPwd = $('.pass').val();
+        if (oldPwd == '@Model.Password') {
+            $('.bind .bind7 .bindhe').eq(0).find('.codeerr').addClass('display');
+            $('.bind .bind7 .bindhe').eq(1).removeClass('display').siblings('.bindhe').addClass('display');
+        } else {
+            $('.bind .bind7 .bindhe').eq(0).find('.codeerr').removeClass('display');
+        }
+    })
+    //-------------------人工修改手机第三步--------------------------------------------------
+    var mobile
+    $('.bind3 .newmoile').blur(function(){
+        mobile = $(this).val();
+    });
+    var phoneCode;
+    $('.bind3 .Verification').blur(function () {
+        phoneCode = $(this).val();
+    });
+    $('.hqbtn3').click(function () {
+        if ($(this).text() == "获取验证码") {
+            $.ajax({
+                type: "Post",
+                url: "/Login/GetCode",
+                data: { mobile: mobile},
+                success: function (data) {
+                    var p = data;
+                    if (p.success == "false") {
+                        $('.bind .bind7 .codeerr').removeClass('display').text(p.str);
+                        $('.bind .bind7 .codeerr').addClass('display').text('');
+                    } else if (p.success == "true") {
+                        $(".hqbtn3").css({
+                            "font-size": "12px",
+                            "cursor": "initial"
+                        }).html("50S后重新获取");
+                        countDown = setInterval($cd($('.hqbtn3')), 1000);
+                    }
+                },
+            });
+        }
+    })
+    $('.next4').click(function () {
+        $.ajax({
+            data: {
+                mobile: mobile,
+                code: phoneCode
+            },
+            type: 'post',
+            url: '/Login/CheckMobileCode',
+            success: function (data) {
+                if (data == 'ok') {
+                    $('.bind .bind6 .codeerr').addClass('display');
+                    $.ajax({
+                        data: {
+                            mobile: mobile,
+                            id: '@Model.Id'
+                        },
+                        datatype: 'json',
+                        type: 'post',
+                        url: '/PersonalUser/UpdateUserMobile',
+                        success: function (data) {
+                            if (data == 'ok') {
+                                $('.bind .bind7 .bindhe').eq(2).removeClass('display').siblings('.bindhe').addClass('display');
+                            } else if (data == 'no') {
+                                $('.bind .bind7 .codeerr').removeClass('display').text('修改失败，请再试一次');
+                            }
+                        }
+                    })
+                } else if (data == 'no') {
+                    $('.bind .bind7 .codeerr').removeClass('display').text('验证码错误');
+                }
+            }
+        })
+    })
+</script>
+

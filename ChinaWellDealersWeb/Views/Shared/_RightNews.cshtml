@@ -1,0 +1,84 @@
+﻿@using Models
+@using Models.MapModel
+@{
+    List<Models.MapModel.RaidersViewModel> NewestRaiders = (List<Models.MapModel.RaidersViewModel>)ViewBag.NewestRaiders;
+   
+}
+ <!-- 右侧内容开始 -->
+<aside>
+    <!-- 资讯排行 -->
+    <div class="rank">
+        <h5><span>资讯排行</span></h5>
+        <ul>
+            @foreach (var item in (List<FrontNews>)ViewData["ViewTopNews"])
+            {
+                   if (item.EditTitle != null&&item.EditTitle != "")
+            {           
+                <li><a href="/NewsInfo/NewsDetail/@item.Id"><span></span>@item.EditTitle</a></li>              
+            }else{
+                    <li><a href="/NewsInfo/NewsDetail/@item.Id"><span></span>@item.Title</a></li>   
+                   }  
+            }       
+        </ul>
+    </div>
+    <!-- 精彩图文 -->
+    <div class="pic-info">
+        <h5><span>精彩图文</span></h5>
+        <ul>
+            @foreach (Models.WonderfulTxtImg item in ViewBag.WonderfulSeeNews)
+            {                       
+            <li>
+                <a href="@item.Url">
+                    <img src="@item.Image" alt="">
+                    <p>@item.Title</p>
+                </a>
+            </li>  
+            }         
+        </ul>
+    </div>
+    <!-- 最新开服 -->
+    <div class="kfkckuai">
+        <div class="homekf2">
+            <h5><span>最新开服</span><a href="/OPenServices/ServiceIndex">更多>></a></h5>
+            <p class="kfkckuaiP"> <span class="intime">时间</span> <span class="gamename">游戏名称</span> <span class="linesys">运营商</span> <span class="caozuo">操作</span> </p>
+            <ul class="homekc2Ul">
+               
+            </ul>
+        </div>
+    </div>
+    <!-- 最强福利 -->
+    <div class="welfare">
+        <h5><span>最强福利</span><a href="/Home/DemoList">更多>></a></h5>
+        <ul>
+            @foreach (var item in (List<Models.SqlMapModel.Sql_GameDemo>)ViewBag.NewsetGameDemo)
+            {                      
+            <li>
+                <a href="/Home/DemoDetails/@item.Id">
+                    <img src="/Content/GameImg/@item.Img" alt="">
+                    <p>@item.GameName</p>
+                    <p>奖励<b>@item.PaySum</b>爽币</p>
+                    <span>立即试玩</span>
+                </a>
+            </li>
+            }
+        </ul>
+    </div>
+    <div class="extendstrate">
+        <h5><span>最赞攻略</span><a href="/Raiders/RaidersIndex">更多>></a></h5>
+        @for (int i = 0; i < NewestRaiders.Count; i++)
+        {
+            if (NewestRaiders[i].EditTitle != null && NewestRaiders[i].EditTitle != "")
+            {
+                <p>
+                    <i class="@Html.Raw('i')@i"></i><a target="_blank" href="/Raiders/RaidersDetail/@NewestRaiders[i].Id"
+   title="@NewestRaiders[i].EditTitle">@NewestRaiders[i].EditTitle</a>
+                </p>
+            }
+            else{ 
+            <p><i class="@Html.Raw('i')@i"></i><a target="_blank" href="/Raiders/RaidersDetail/@NewestRaiders[i].Id"
+   title="@NewestRaiders[i].Title">@NewestRaiders[i].Title</a></p>
+            }       
+        }
+    </div>
+</aside>
+   

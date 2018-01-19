@@ -1,0 +1,35 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width"/>
+    <title>Welcome</title>
+</head>
+<body>
+    <div style="margin-left:70px;">
+        <div style="float: left; background-color: #3598dc; width: 270px; height: 140px; margin: 40px; position:relative;">
+            <p style="position:absolute; bottom:0;text-align:right;color:#fff;width:270px;padding-right:20px;background-color:rgba(255,255,255,0.3);line-height:30px;">当前访问人数</p>
+            <p style="position:absolute;right:0;top:25px;font-size:40px;color:#fff;padding-right:20px;">
+            @ViewBag.onLine</p>
+            <img src="/Content/Img/ht1.png" style="position:absolute;left:0;top:0; "/>
+        </div>
+        <div style="float: left; background-color: #e7505a; width: 270px; height: 140px; margin: 40px; position: relative; ">
+            <p style="position:absolute; bottom:0;text-align:right;color:#fff;width:270px;padding-right:20px;background-color:rgba(255,255,255,0.3);line-height:30px;">今日新增留言</p>
+            <p style="position:absolute;right:0;top:25px;font-size:40px;color:#fff;padding-right:20px;">@ViewBag.todayAllLeaveMsg</p> 
+            <img src="/Content/Img/ht2.png" style="position:absolute;left:0;top:0; " />
+        </div>
+        <div style="float: left; background-color: #32c5d2; width: 270px; height: 140px; margin: 40px; position: relative;">
+            <p style="position:absolute; bottom:0;text-align:right;color:#fff;width:270px;padding-right:20px;background-color:rgba(255,255,255,0.3);line-height:30px;">今日订单</p>
+            <p style="position:absolute;right:0;top:25px;font-size:40px;color:#fff;padding-right:20px;">@ViewBag.todayAllOrder</p> 
+            <img src="/Content/Img/ht3.png" style="position:absolute;left:0;top:0; " />
+        </div>
+        <div style="float: left; background-color: #8e44ad; width: 270px; height: 140px; margin: 40px; position: relative;">
+            <p style="position:absolute; bottom:0;text-align:right;color:#fff;width:270px;padding-right:20px;background-color:rgba(255,255,255,0.3);line-height:30px;">今日反馈</p>
+            <p style="position:absolute;right:0;top:25px;font-size:40px;color:#fff;padding-right:20px;"> @ViewBag.todayYj</p>
+            <img src="/Content/Img/ht4.png" style="position:absolute;left:0;top:0; " />
+        </div>
+    </div>
+</body>
+</html>

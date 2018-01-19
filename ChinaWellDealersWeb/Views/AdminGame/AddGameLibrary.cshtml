@@ -1,0 +1,426 @@
+﻿@{
+    Layout = null;
+  
+    }
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AddGameLibrary</title>
+    <link href="~/Content/style/tableStyle.css" rel="stylesheet" />
+    <link href="~/Content/EasyUi/themes/default/easyui.css" rel="stylesheet" />
+    <link href="~/Content/EasyUi/themes/color.css" rel="stylesheet" />
+    <link href="~/Content/EasyUi/themes/icon.css" rel="stylesheet" />
+    <link href="~/Content/EasyUi/demo.css" rel="stylesheet" />
+    <script src="~/Content/EasyUi/jquery.min.js"></script>
+    <script src="~/Content/EasyUi/jquery.easyui.min.js"></script>
+    <script src="~/Content/EasyUi/easyui-lang-zh_CN.js"></script>
+    <link href="~/Content/layui-v1.0.9_rls/layui/css/modules/layer/default/layer.css" rel="stylesheet" />
+    <script src="~/Content/layui-v1.0.9_rls/layui/lay/modules/layer.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/MyAjaxForm.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $("#bigUpload").click(function () {
+                $("#ff").ajaxSubmit({
+                    url: "/AdminGame/BigImgUpload",
+                    type: "Post",
+                    success: function (data) {
+                        //返回后台保存图片的服务器地址就可以了。
+                        if (data == "typeError") {
+                            layer.msg("请选择正确的图片格式！");
+                        } else if (data == "empty") {
+                            layer.msg("您懂上传吗？");
+                        }
+                        else {
+                            $("#tdBig").html("<img src='/Content/GameImg/" + data + "' />");
+                            $("#bigImg").val(data);
+                        }
+                    }
+                });
+            });
+        });
+        $(function () {
+            $("#smallUpload").click(function () {
+                $("#ff").ajaxSubmit({
+                    url: "/AdminGame/SmallImgUpload",
+                    type: "Post",
+                    success: function (small) {
+                        //返回后台保存图片的服务器地址就可以了。
+                        if (small == "typeError") {
+                            layer.msg("请选择正确的图片格式！");
+                        } else if (small == "empty") {
+                            layer.msg("您懂上传吗？");
+                        }
+                        else {
+                            $("#tdSmall").html("<img src='/Content/GameImg/" + small + "' />");
+                            $("#smallImg").val(small);
+                        }
+                    }
+                });
+            });
+        });
+        $(function () {
+            $("#descUpload").click(function () {
+                $("#ff").ajaxSubmit({
+                    url: "/AdminGame/descImgUpload",
+                    type: "Post",
+                    success: function (desc) {
+                        //返回后台保存图片的服务器地址就可以了。
+                        if (desc == "typeError") {
+                            layer.msg("请选择正确的图片格式！");
+                        } else if (desc == "empty") {
+                            layer.msg("您懂上传吗？");
+                        }
+                        else {
+                            $("#tdDesc").html("<img src='/Content/GameImg/" + desc + "' />");
+                            $("#descImg").val(desc);
+                        }
+                    }
+                });
+            });
+        });
+        $(function () {
+            $("#logoUpload").click(function () {
+                $("#ff").ajaxSubmit({
+                    url: "/AdminGame/LogoImgUpload",
+                    type: "Post",
+                    success: function (logo) {
+                        //返回后台保存图片的服务器地址就可以了。
+                        if (logo == "typeError") {
+                            layer.msg("请选择正确的图片格式！");
+
+                        } else if (logo == "empty") {
+
+                            layer.msg("您懂上传吗？");
+                        }
+                        else {                          
+                            $("#tdLoGo").html("<img src='/Content/GameImg/" + logo + "' />");
+                            $("#logoImg").val(logo);
+                        }
+                    }
+                });
+            });
+        });      
+        $(function () {
+            $('#btnAdd').click(function () {
+                var game = $("#game"),
+                    company = $("#company"),
+                   operators = $("#operators"),
+                     bigImg = $("#bigImg"),
+                     smallImg = $("#smallImg"),
+                     descImg = $("#descImg"),
+                     logoImg = $("#logoImg"),
+                     url = $("#url"),
+                     msg = $("#msg"),
+                    cutImg = $("#realyImg input").map(function () { return $(this).attr("value"); }).get().join(',');
+                console.log(cutImg);
+                if ($.trim(game.val()) == "") {
+                    layer.msg("提示：请输入游戏名称!");
+                    gamename.focus();
+                    return;
+                }
+                if ($.trim(company.val()) == "") {
+                    layer.msg("提示：请输入研发名称!");
+                    company.focus();
+                    return;
+                }
+                if ($.trim(url.val()) == "") {
+                    layer.msg("提示：请输入游戏网址!");
+                    cards.focus();
+                    return;
+                }
+                if ($.trim(operators.val()) == "") {
+                    layer.msg("提示：请输入主运名称!");
+                    operators.focus();
+                    return;
+                }
+                if ($.trim(bigImg.val()) == "") {
+                    layer.msg("提示：请上传大背图!");
+                    return;
+                }
+                if ($.trim(smallImg.val()) == "") {
+                    layer.msg("提示：请上传小图标!");
+                    operators.focus();
+                    return;
+                }
+                if ($.trim(descImg.val()) == "") {
+                    layer.msg("提示：请上传游戏封面图!");
+                    return;
+                }
+                if ($.trim(logoImg.val()) == "") {
+                    layer.msg("提示：请上传logo图!");
+                    return;
+                }
+                if ($.trim(msg.val()) == "") {
+                    layer.msg("提示：请输入游戏介绍!");
+                    msg.focus();
+                    return;
+                }
+                layer.confirm('提示：您是否已确认输入无误？', {
+                    skin: 'layui-layer-lan',
+                    btn: ['是的', '没有呀'] //按钮
+                }, function () {
+                    $.ajax({
+                        url: '/AdminGame/AddGame',
+                        type: 'post',
+                        data: {
+                            game: game.val().trim(),
+                            alias: $("#alias").val(),
+                            type: $("#type").val(),
+                            theme: $("#theme").val(),
+                            play: $("#play").val(),
+                            company: company.val(),
+                            operators: operators.val(),
+                            url: url.val().trim(),
+                            msg: msg.val(),
+                            bigImg: bigImg.val(),
+                            smallImg: smallImg.val(),
+                            descImg: descImg.val(),
+                            logoImg: logoImg.val(),
+                            cutImg: cutImg
+                        },
+                        success: function (data) {
+                            
+                            if (data == "ok") {
+
+                                layer.msg("恭喜：添加成功!");
+                                window.setTimeout(function () {
+                                    window.location.href = "/AdminGame/GamePutLibrary";
+                                }, 2000);
+                            }
+                            else if (data == "no") {
+                                layer.msg("提示：添加失败！");
+
+                            } else if (data == "empty") {
+                                layer.msg("提示：系统异常请稍候再试！");
+                            }
+                        }
+                    });
+                });
+            });
+        });     
+    </script>
+</head>
+<body>
+    <form id="ff" enctype="multipart/form-data" method="post" data-options="novalidate:true ">
+        <table cellpading="0" style="text-align:left">
+            <thead>
+                <tr>
+                    <th colspan="2" style="text-align:center;">游戏入库</th>
+                </tr>
+            </thead>
+            <tr>
+                <td>游戏名称</td>
+                <td>
+                    <input id="game" name="game" style=" width:370px;height: 25px;" list="gameTermslist" />
+                </td>
+            </tr>
+            <tr>
+                <td>别名</td>
+                <td>
+                    <input class="easyui-textbox" id="alias" name="alias" style=" width:370px;height: 25px;"
+                           data-options="required:true,missingMessage:'别名可选择性输入'" />
+                </td>
+            </tr>
+            <tr>
+                <td>游戏类型</td>
+                <td>
+                    <select id="type" name="type" style=" width:370px;height: 25px;">
+                        <option value="1">角色扮演</option>
+                        <option value="2">战争策略</option>
+                        <option value="3">模拟经营</option>
+                        <option value="4">休闲竞技</option>
+                        <option value="5">社区养成</option>
+                        <option value="6">儿童游戏</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>游戏题材</td>
+                <td>
+                    <select name="theme" id="theme" style=" width:370px;height: 25px;">
+                        <option value="1">三国</option>
+                        <option value="2">西游</option>
+                        <option value="3">仙侠</option>
+                        <option value="4">武侠</option>
+                        <option value="5">奇幻</option>
+                        <option value="6">动漫</option>
+                        <option value="7">军事</option>
+                        <option value="8">体育</option>
+                        <option value="9">航海</option>
+                        <option value="10">其他</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>游戏玩法</td>
+                <td>
+                    <select name="play" id="play" style=" width:370px;height: 25px;">
+                        <option value="1">即时</option>
+                        <option value="2">回合</option>
+                        <option value="3">其他</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>研发</td>
+                <td><input name="company" class="easyui-textbox" id="company" style=" width:370px;height: 25px;" data-options="required:true,missingMessage:'研发必须输入'" /></td>
+            </tr>
+            <tr>
+                <td>主运</td>
+                <td><input name="operators" class="easyui-textbox" id="operators" style=" width:370px;height: 25px;" data-options="required:true,missingMessage:'主运必须输入'" /></td>
+            </tr>
+            <tr>
+                <td>链接</td>
+                <td><input name="url" class="easyui-textbox" id="url" value="http://" style=" width:370px;height: 25px;" /></td>
+            </tr>
+            <tr>
+                <td>大背图</td>
+                <td>
+                    <label style="color:red;font-weight:600">(图片大小为660x310,不符合要求的图片将会被拉伸)</label><br />
+                    <input type="file" name="bigImgs" />
+                    <input type="button" id="bigUpload" value="上传" />
+                    <input type="hidden" name="bigImg" id="bigImg" />
+                    <br />
+                    <span id="tdBig"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>小图标</td>
+                <td>
+                    <label style="color:#ff0000;font-weight:600">(图片大小为100x100,不符合要求的图片将会被拉伸)</label><br />
+                    <input type="file" name="smallImgs" />
+                    <input type="button" id="smallUpload" value="上传" />
+                    <input type="hidden" name="smallImg" id="smallImg" /> <br />
+                    <span id="tdSmall"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>游戏封面图</td>
+                <td>
+                    <label style="color:#ff0000;font-weight:600">(图片大小为170x120,不符合要求的图片将会被拉伸)</label><br />
+                    <input type="file" name="descImgs" />
+                    <input type="button" id="descUpload" value="上传" />
+                    <input type="hidden" name="descImg" id="descImg" /> <br />
+                    <span id="tdDesc"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>logo图</td>
+                <td>
+                    <label style="color:#ff0000;font-weight:600">(图片大小为100x50,不符合要求的图片将会被拉伸)</label><br />
+                    <input type="file" name="logoImgs" />
+                    <input type="button" id="logoUpload" value="上传" />
+                    <input type="hidden" name="logoImg" id="logoImg" /> <br />
+                    <span id="tdLoGo"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>截图</td>
+                <td>                   
+                    <form id="form1" enctype="multipart/form-data" method="post" action="/AdminGame/GameCutImgUpload">
+                        <div class="row">
+                            <input type="file" name="fileToUpload" id="fileToUpload" onchange="fileSelected();" multiple="multiple" />
+                            <input type="button" onclick="uploadFile()" value="上传" />
+                        </div>
+                        <div id="fileName"></div>
+                        <div id="fileSize"></div>                     
+                        <div id="progressNumber"></div>
+                        <div id="result"></div>
+                        <div id="realyImg"></div>                      
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td>游戏介绍</td>
+                <td><textarea  id="msg" name="msg" style="height: 200px; width: 800px;text-wrap:normal" ></textarea>  </td>
+            </tr>
+            <tr>
+                <td colspan="3" style="padding-left:37%;padding-top:13px">
+                    <a href="javascript:void(0)" class="easyui-linkbutton c6" id="btnAdd" style="width:80px;height:25px;">添&nbsp;加</a>
+                    <a href="javascript:void(0)" onclick="history.go(-1)" class="easyui-linkbutton c3" style="width:80px;height:25px;">返&nbsp;回</a>
+                </td>
+            </tr>
+        </table>
+    </form>
+ <script type="text/javascript">
+        //选择事件
+   function fileSelected() {
+       var files = document.getElementById('fileToUpload').files;
+    
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            if (file) {
+                if (file.type != "image/jpeg" && file.type != "image/png" && file.type != "image/gif") {
+                    layer.msg("请上传jpg,png,gif,zip,mp4格式的附件！");
+                    return;
+                }
+                var fileSize = 0;
+                if (file.size > 1024 * 1024) {
+                    fileSize = (Math.round(file.size * 100 / (1024 * 1024)) / 100).toString() + 'MB';
+                }
+                else {
+                    fileSize = (Math.round(file.size * 100 / 1024) / 100).toString() + 'KB';
+                    document.getElementById('fileName').innerHTML += '文件名' + i + ': ' + file.name + ' ';
+                    document.getElementById('fileSize').innerHTML += '大小' + i + ': ' + fileSize + ' ';
+                    //document.getElementById('fileType').innerHTML += '类型' + i + ': ' + file.type + ' ';
+                }                                                              
+            }
+        }           
+   }
+     //上传
+    function uploadFile() {
+        var files = document.getElementById('fileToUpload').files;
+        if (files.length <= 0) {
+            layer.msg("温馨提示：您懂上传吗？");
+        }
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            if (!file) { continue; }
+            var fd = new FormData();
+            fd.append("fileToUpload", file);
+            var xhr = new XMLHttpRequest();
+            xhr.upload.addEventListener("progress", uploadProgress, false);
+            xhr.addEventListener("load", uploadComplete, false);
+            xhr.addEventListener("error", uploadFailed, false);
+            xhr.addEventListener("abort", uploadCanceled, false);
+            xhr.open("POST", "/AdminGame/GameCutImgUpload");
+            xhr.send(fd);
+        }
+    }
+    //上传进度条
+    function uploadProgress(evt) {
+        if (evt.lengthComputable) {
+            var percentComplete ="上传完成"+ Math.round(evt.loaded * 100 / evt.total);
+            document.getElementById('progressNumber').innerHTML = percentComplete.toString() + '%';
+        }
+        else {
+            //无法计算
+            document.getElementById('progressNumber').innerHTML = 'unable to compute';
+        }
+    }
+    function uploadComplete(evt) {
+        document.getElementById('result').innerHTML += "<div style='position:relative;display:inline-block;width:190px;border:solid 1px #ccc;'><a href='/Content/GameImg/" + evt.target.responseText + "' target='_blank'><img src=/Content/GameImg/" + evt.target.responseText + " style='height:80px;width:150px;' /></a><span style='position:absolute;bottom:0;left:158px;color:red;cursor:pointer;' class='delete-img'>删除</span></div>";
+        document.getElementById('realyImg').innerHTML += "<input type='hidden'  value=" + evt.target.responseText + "  />";
+        $('.delete-img').each(function (index) {
+            var _this = this;
+            $(this).click(function () {
+                $(_this).parent('div').remove();
+                $('#realyImg input').eq(index).remove();
+            })
+        })
+    }
+   
+    function uploadFailed(evt) {
+       layer.msg("文件上传出现错误啦");
+    }
+    function uploadCanceled(evt) {
+        layer.msg("文件上传已被取消");
+    }
+    </script>
+    @Html.Action("_GameTerms", "Game")
+</body>
+</html>

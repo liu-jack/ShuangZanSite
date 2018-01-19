@@ -1,0 +1,103 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AddDemoAccounts</title>
+    <link href="~/Content/style/tableStyle.css" rel="stylesheet" />
+    <link href="~/Content/EasyUi/themes/default/easyui.css" rel="stylesheet" />
+    <link href="~/Content/EasyUi/themes/color.css" rel="stylesheet" />
+    <link href="~/Content/EasyUi/themes/icon.css" rel="stylesheet" />
+    <link href="~/Content/EasyUi/demo.css" rel="stylesheet" />
+    <script src="~/Content/EasyUi/jquery.min.js"></script>
+    <script src="~/Content/EasyUi/jquery.easyui.min.js"></script>
+    <script src="~/Scripts/MyAjaxForm.js"></script>
+    <link href="~/Content/layui-v1.0.9_rls/layui/css/modules/layer/default/layer.css" rel="stylesheet" />
+    <script src="~/Content/layui-v1.0.9_rls/layui/lay/modules/layer.js"></script>
+</head>
+<body>
+    <form id="ff" enctype="multipart/form-data" method="post" data-options="novalidate:true ">
+        <table width="100%">
+            <tr><th colspan="2" style="text-align:center">添加游戏试玩账号</th></tr>
+            <input type="hidden" id="gameDemoId" name="gameDemoId" value="@ViewBag.GameDemoId" />
+            <tr>
+                <td style="text-align:right">运营商名称</td>
+                <td><input class="easyui-textbox" id="systemname" name="systemname" style="width:300px;" /></td>
+            </tr>
+            <tr>
+                <td style="text-align:right">游戏登录网址</td>
+                <td><input class="easyui-textbox" id="url" name="url" style="width:400px;" /></td>
+            </tr>
+            <tr>
+                <td style="text-align:right">游戏帐号</td>
+                <td><input class="easyui-textbox" id="uName" name="uName" style="width:200px;" /></td>
+            </tr>
+            <tr>
+                <td style="text-align:right">游戏密码</td>
+                <td><input class="easyui-textbox" id="pwd" name="pwd" style="width:200px;" /></td>
+            </tr>
+            <tr>
+                <td style="text-align:right">所属地区</td>
+                <td>
+                    @Html.Action("_City", "Game")
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" style="padding-left:19%;padding-top:13px">
+                    <a href="javascript:void(0)" class="easyui-linkbutton c6" id="btnAdd" style="width:80px;height:25px;" onclick="submitForm()">添&nbsp;加</a>
+                    <a href="javascript:;" class="easyui-linkbutton c3" style="width:80px;height:25px;" onclick="history.go(-1)">返&nbsp;回</a>
+                </td>
+            </tr>
+        </table>
+        </form>
+        <script type="text/javascript">
+    function submitForm() {
+        if ($('#systemname').val() == "") {
+            layer.msg("提示：请输入运营商名称!");
+
+            return;
+        }
+        if ($('#url').val() == "") {
+            layer.msg("提示：请输入游戏登录网址!");
+
+            return;
+        }
+        if ($('#uName').val() == "") {
+            layer.msg("提示：请输入游戏帐号!");
+
+            return;
+        }
+        if ($('#pwd').val() == "") {
+            layer.msg("提示：请输入游戏密码!");
+
+            return;
+        }
+        layer.confirm('提示：您是否已确认输入无误？', {
+            skin: 'layui-layer-lan',
+            btn: ['是的', '没有呀'] //按钮
+        }, function () {
+            $("#ff").ajaxSubmit({
+                url: '/AdminGame/AddDemoAccountInfo',
+                type: "post",
+                success: function (data) {
+                    if (data == "ok") {
+                        layer.msg("恭喜：添加成功!");
+                        window.setTimeout(function () {
+                            window.location.href = "/AdminGame/DemoAccounts_Requires?id=@ViewBag.GameDemoId";
+                        }, 1500);
+                    } else if (data == "no") {
+                        layer.msg("提示：添加失败！");
+                    }
+
+                    else {
+                        layer.msg("提示：系统异常请稍候再试！");
+                    }
+                },
+            });
+        });
+    }
+        </script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+﻿@{
+    Layout = null;
+}
+@model Models.Gift
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>淘福利</title>
+    <link href="~/Content/Css/index.css" rel="stylesheet" />
+    <link href="~/Content/Css/reset.css" rel="stylesheet" />
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="~/Content/Css/lunbo.css" rel="stylesheet" />
+    <link href="~/Content/Css/commercial.css" rel="stylesheet" />
+    <link href="~/Content/Css/amoywel.css" rel="stylesheet" />
+    <link href="/Content/Img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+    <link href="~/Content/Css/usename.css" rel="stylesheet" />
+    <link href="~/Content/style/NavPager.css" rel="stylesheet" />
+</head>
+<body>
+    @Html.Action("_TwoShuangzanHeader", "Home")
+    @Html.Action("ShuangzanHeader", "NewsInfo")
+    <!-- 面包屑导航 -->
+    <div class="wide details">当前位置：<a href="">爽赞网</a> > <a href="">淘福利</a> > <a href="">爽币换礼品</a> > <a href="">@Model.Name</a></div>
+    <div id="giftdd">
+        <p class="toback"><a href="javascript:history.go(-1)"><i></i>返回</a></p>
+        <div>
+            <p class="confirmOrder">确认订单<i></i></p>
+            <div class="giftaddress">
+                <p class="qrlpaddth">确认收货地址、收货人、联系方式</p>
+                <div class="addrlist">
+                    <div class="giftaddr" id="giftaddr">
+                       
+                    </div>
+                    <div class="noaddr">
+                        <p class="display"><i></i>您还没有添加收货地址，请添加~（最多可添加3条）</p>
+                        <input type="button" name="" id="" value="+ 新增收货地址" class="addaddr" />
+                    </div>
+                </div>
+                <div class="noaddrnew display">
+                    <p class="addtit">新增收货地址</p>
+                    <p><span>收货人姓名：</span><input type="text" class="addrusername" /><span class="namerr"></span></p>
+                    <p><span>收货人地址：</span><input type="text" class="useraddr" /><span class="adderr">请填写详细的收件地址</span></p>
+                    <p><span>联系电话：</span><input type="text" class="userphone" /><span class="phonerr"></span></p>
+                    <p><span></span><input type="checkbox" class="chooseadd" />设置为默认收货地址</p>
+                    <p><span></span><input type="button" value="保存" class="saveaddr" /><input type="button" value="取消" class="addrcel" /></p>
+                </div>
+
+            </div>
+            <div id="qrlpxx">
+                <p class="qrlpxxth"><span class="sp1">确认礼品信息</span><span class="sp2">单价（爽币）</span><span class="sp3">数量</span><span class="sp4">总计（爽币）</span></p>
+                <ul id="qrlpxxmsg">
+                    <li>
+                        <span class="sp1 spimg1">
+                            <img src="/Content/GiftImg/@Model.Logo">
+                            <span>
+                                <p class="pname">@Model.Name</p>
+                                <a class="giftcolor">规格：@ViewBag.Color</a>
+                            </span>
+                        </span><span class="sp2">@Model.Price</span><span class="sp3">@ViewBag.Num</span><span class="sp4">@ViewBag.TotalPrice</span>
+                    </li>
+                </ul>
+            </div>
+            <div id="ddmsg">
+                <div id="ddmsgid">
+                    <p><b>实付款：</b><span class="sumprice">@ViewBag.TotalPrice</span>爽币</p>
+                    <p><b>寄送至：</b>（收件地址）</p>
+                    <p><b>收件人：</b>（收件人)(联系电话）</p>
+                </div>
+                <input type="button" name="" id="checkgift" value="确认兑换" />
+            </div>
+        </div>
+    </div>
+    <div id="giftsuccess" class="display">
+        <p>兑换成功<i></i></p>
+        <div>
+            <p><i></i><span>恭喜您！礼品兑换成功！</span></p>
+            <p class="gif01">您的包裹正整装待发</p>
+            <p><a href="/PersonalUser/OrderList"><input type="button" value="查看订单" class="lookdd" /></a><a href="/Gift/GiftList"><input type="button" value="返回礼品首页" class="togift" /></a></p>
+        </div>
+    </div>
+    <div class="deleaddr display">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <p class="delemsg">确定要删除该信息吗？</p>
+                <p>
+                    <input type="button" value="确定" id="confirm2">
+                    <input type="button" value="取消" id="delcancel2">
+                </p>
+            </div>
+        </div>
+    </div>
+
+    @Html.Partial("_ShuangZanFooter")
+    <script src="~/Content/js/jquery-1.11.1.min.js"></script>
+    <script src="~/Content/js/jquery.SuperSlide.2.1.1.js"></script>
+    <script src="~/Content/js/personal_use.js"></script>
+    <script src="~/Content/js/Public.js"></script>
+    <script src="~/Content/js/amoywel.js"></script>
+    <script src="~/Content/js/doT.js"></script>
+    <script id="adress" type="text/x-dot-template">
+        {{ for(var i=0;i< it.data.length;i++){ }}
+        <p class="titp1" value={{=it.data[i].Id }}>
+            {{? it.data[i].IsDefault === 1 }}
+            <i class="i1 mraddrimg"></i>
+            <input type="radio" checked="checked" name="addr" value="50" class="addinput">
+            {{?? }}
+            <i class="i1"></i>
+            <input type="radio"  name="addr" value="50" class="addinput">
+            {{?}}
+            <span class="addrname">{{=it.data[i].Name }}</span><span>{{=it.data[i].Address }}</span><span class="addrphone">{{=it.data[i].Phone }}</span><span class="addrmod display"><a class="mraddr">设为默认收货地址</a><a class="mod1">修改</a><a class="cancel1">删除</a></span>
+        </p>
+        <div class="addr1 display" name="50">
+            <p class="addtit">修改收货地址</p><p><span>收货人姓名：</span><input type="text" class="myname"><span></span></p><p><span>收货人地址：</span><input type="text" class="myadd"><span style="text-align:left;">请填写详细的收件地址</span></p><p><span>联系电话：</span><input type="text" class="myphone"><span></span></p><p><span></span>
+
+               {{? it.data[i].IsDefault === 1 }}                                                                                                 
+                    <input type="checkbox" class="ad0" checked="checked">                                                  
+               {{?? }}                                                                                                                        
+                    <input type="checkbox" class="ad0">                                                                   
+               {{?}}
+            设置为默认收货地址</p><p><span></span><input type="button" value="保存" class="saveaddr0"><input type="button" value="取消" class="changeaddrcel0"></p>
+        </div>
+        {{ } }}
+    </script>
+    <script>
+        $(function () {
+            $.ajax({
+                type: 'post',
+                datatype:'json',
+                url: '/Gift/LoadUserAdress',
+                success: function (data) {
+                    var tmpl = doT.template($("#adress").text());
+                    $("#giftaddr").html(tmpl(data));
+                    for (var i = 0; i < data.data.length; i++) {
+                        if (data.data[i].IsDefault==1) {
+                            $('#ddmsgid').html(
+                                '<p><b>实付款：</b><span class="sumprice">@ViewBag.TotalPrice</span>爽币</p><p><b>寄送至：</b>'+data.data[i].Address+'</p><p><b>收件人：</b>'+data.data[i].Name+'　'+data.data[i].Phone+'</p>'
+                            );
+                        } 
+                    }
+                    if (data.data.length === 3) {
+                        $('.addaddr').hide();
+                    } else {
+                        $('.addaddr').show();
+                    }
+                }
+            })
+        })
+    </script>
+</body>
+</html>

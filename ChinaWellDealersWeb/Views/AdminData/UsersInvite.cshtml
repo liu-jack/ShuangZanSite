@@ -1,0 +1,117 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>UsersInvite</title>
+    <link href="~/Content/EasyUi/themes/default/easyui.css" rel="stylesheet" />
+    <link href="~/Content/EasyUi/themes/color.css" rel="stylesheet" />
+    <link href="~/Content/EasyUi/themes/icon.css" rel="stylesheet" />
+    <link href="~/Content/EasyUi/demo.css" rel="stylesheet" />
+    <script src="~/Content/EasyUi/jquery.min.js"></script>
+    <script src="~/Content/EasyUi/jquery.easyui.min.js"></script>
+    <script src="~/Content/EasyUi/easyui-lang-zh_CN.js"></script>
+    <script src="~/Scripts/datapattern.js"></script>
+    <script src="~/Content/My97DatePicker/WdatePicker.js"></script>
+    <style type="text/css">
+        td {
+            padding-top: 6px;
+            font: larger bold 10px "Trebuchet MS" Verdana, Arial, Helvetica, sans-serif;
+            color: #4f6b72;
+            height: 35px;
+            letter-spacing: 0px;
+        }
+    </style>
+</head>
+<body>    
+    @*----------------搜索开始----------------*@
+    <div id="searchDiv" style="margin:5px 0;">
+        <label for="cpyName" style="font-size:14px;">邀请人：</label> <input class="easyui-textbox" id="uName" name="uName" />
+        <label for="searchName" style="font-size:14px;">邀请时间：</label>
+        <input type="text" style="width: 70px; border: solid 1px #95B8E7;border-radius:5px;padding:3px;" id="startday" onfocus="WdatePicker()" />
+        -
+        <input type="text" style="width: 70px; border: solid 1px #95B8E7; border-radius: 5px;padding:3px;" id="endday" onfocus="WdatePicker()" />
+        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-search'" id="btnSearch">查询</a>
+        <a download="somedata.xls" href="#" onclick="return ExcellentExport.excel(this, 'tableidd', 'tabletitle', 'Sheet Name Here');" style="background: url(/Content/Img/download-e.png) left center no-repeat; padding-left:20px;margin-left:10px;color:#000;text-decoration:none;">导出</a>
+    </div>
+ <table id="msgInfo"></table>
+</body>
+</html>
+<script type="text/javascript">
+    $(function () {
+        initTb();
+        //绑定搜索的点击事件
+        $("#btnSearch").click(function () {
+            //搜索后台的数据。
+            var queryData = {
+                uName: $("#uName").val(),
+                startday: $("#startday").val(),
+                endday: $("#endday").val(),
+            };
+            initTb(queryData);          
+        });
+    });
+    //读取基本信息的表
+    function initTb(queryParam) {
+        $('#msgInfo').datagrid({
+            title: '信息列表展示',
+            idField: 'Id',
+            fitColumns: true,//列自适应。
+            collapsible: false,
+            minimizable: false,
+            maximizable: false,
+            resizable: true,
+            fit: true,
+            loadMsg: '正在加载，请稍稍候...',
+            striped: true,
+            url: '/AdminData/GetUsersInvite',
+            nowrap: true,
+            singleSelect: true,//单行选中
+            rownumbers: false,  //显示行号
+            pagination: true,
+            pageSize: 20,
+            pageList: [20, 40, 60, 80, 100],
+            queryParams: queryParam,//请求的额外的参数。
+            toolbar: '#tb',
+            columns: [[
+                //{ field: 'ck', checkbox: true },
+                 {
+                     field: 'beInviteName', title: '邀请人', width: 350
+                 },
+             
+
+                      {
+                          field: 'InTime', title: '邀请时间', width: 250,
+                          formatter: function (value, row, Index) {//  /Date(1377327062000)/
+                              return (eval(value.replace(/\/Date\((\d+)\)\//gi, "new Date($1)")))
+                                  .pattern("yyyy-MM-dd HH:mm:ss");
+                          }
+                      },
+                        { field: 'UName', title: '被邀请人', width: 250 },
+                       {
+                           field: 'RecommendNum', title: '资料完善', width: 350,
+                           formatter: function (value, row, Index) {
+                               if (value == 0) {
+                                   return "未完善";
+                               } else {
+                                   return "已完善";
+                               }                              
+                           }
+                       }
+            ]],
+        });
+        // 设置页脚
+        var p = $('#msgInfo').datagrid('getPager')
+        $(p).pagination({
+            beforePageText: '第',
+            afterPageText: '页  共{pages} 页',
+            displayMsg: '当前显示 {from}-{to} 条记录   共 {total} 条记录'
+        });
+    }
+</script>
+<script src="~/Content/js/excellentexport.js"></script>
+  

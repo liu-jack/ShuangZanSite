@@ -1,0 +1,178 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=1124">
+    <link href="~/Content/Css/index.css" rel="stylesheet" />
+    <link href="~/Content/Css/reset.css" rel="stylesheet" />
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="~/Content/Css/personal.css" rel="stylesheet" />
+    <link href="~/Content/Css/sign.css" rel="stylesheet" />
+    <link href="~/Content/Css/calendar.css" rel="stylesheet" />
+    <link href="~/Content/style/NavPager.css" rel="stylesheet" />
+    <link href="/Content/Img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+    <title>个人中心</title>
+  
+</head>
+<body>
+    @Html.Action("UserTop", "PersonalUser")
+    <div>
+        <!--我的爽币-->
+        <div class="Coolcoins">
+            <ul>
+                <li class="Balance actives" value="">爽币余额</li>
+                <li class="earn" value="1">赚爽币记录</li>
+                <li class="Rech" value="2">充值记录</li>
+                <li class="consumption" value="3">消费记录</li>
+            </ul>
+            <div class="change2 active Balancecon">
+                <div class="calculation">
+                    <ul>
+                        <li>
+                            <p>爽币余额</p>
+                            <p class="sbsum">@ViewBag.CoolCoinsUsedCount</p>
+                            <a href="/PersonalUser/Recharge" target="_blank"><button>点击充值</button></a>
+                            <i></i>
+                        </li>
+                        <li>
+                            <p>赚爽币</p>
+                            <p class="earnsum">@ViewBag.Pays</p>
+                            <a class="lookearn">查看明细</a>
+                            <i></i>
+                        </li>
+                        <li>
+                            <p>充值</p>
+                            @if (ViewData["payRecord"] == null)
+                            {
+                                <p class="Rechsum">0</p>
+                            }
+                            else { 
+                             <p class="Rechsum"> @ViewData["payRecord"]</p>
+                            }
+                           
+                            <a class="lookRech">查看明细</a>
+                            <i></i>
+                        </li>
+                        <li>
+                            <p>消费</p>
+                            @if (ViewData["expenseRecord"]==null)
+                            {
+                               <p class="consump">0</p> 
+                            }
+                            else { 
+                             <p class="consump">@ViewData["expenseRecord"].ToString().Replace("-", "")</p>
+                            }
+                           
+                            <a class="lookconsump">查看明细</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!--赚爽币记录-->
+            <div class="change2 earncon">
+            </div>
+        </div>
+    </div>
+    <!--尾部开始-->
+    @Html.Action("_SignInDiv", "PersonalUser")
+    <!--尾部结束-->
+    <script src="~/Content/js/jquery-1.11.1.min.js"></script>
+    <script src="~/Content/js/Public.js"></script>
+    <script src="~/Content/js/calendar.js"></script>  
+    <script src="~/Content/js/calendar1.js"></script>  
+    <script src="~/Content/js/myExtend.js"></script>
+    <script src="~/Content/js/personal_use.js"></script> 
+    <script src="~/Scripts/datapattern.js"></script>
+    <script>
+        $(function () {
+            var type = '', pageIndex = 1;
+            loadGift();
+            $('.earncon').on('click', '.page ul a', function (event) {
+                event.preventDefault();
+                var href = $(this).attr("href").split('&');
+                href = href[0].split('=');
+                pageIndex = href[1];
+                loadGift();
+            });
+            $('.Coolcoins>ul>li').click(function () {
+                pageIndex = 1;
+                type = $(this).attr('value');
+                loadGift();
+            })
+            function loadGift() {
+                $.ajax({
+                    datatype: 'json',
+                    type: 'post',
+                    data: {
+                        type: type,
+                        pageIndex: pageIndex
+                    },
+                    url: '/PersonalUser/GetMyCoolCoins',
+                    success: function (data) {
+                        $('.earncon').empty();
+                        var str, state = '';
+                        if (type == 1) {
+                            if (data.Data.length == 0) {
+                                str = '<div class="nomsg"><p style="margin-top:80px;">口袋空空，如何剁手？赶紧去赚爽币吧~</p><p><a href="/Home/AmoyWelFare" target="_blank"><button class="btn">我要赚爽币</button></a></p></div>';
+                                $('.earncon').append(str);
+                            } else {
+                                var div = $('<div class="record SB1"></div>');
+                                var p = $('<p>赚爽币总计: <i>' + data.Data[0].Pays + '</i>(爽币)</p><p class="earnth"><span>赚取日期</span><span>获得数量</span><span>项目内容</span></p>');
+                                var box = $('<div id="earnlist"></div>')
+                                for (var i in data.Data) {
+                                    var InTime = (eval(data.Data[i].InTime.replace(/\/Date\((\d+)\)\//gi, "new Date($1)"))).pattern("yyyy-MM-dd");
+                                    str = '<p><span>' + InTime + '</span><span>' + data.Data[i].Pay + '</span><span style="text-align: left;padding-left:14px;">' + data.Data[i].Title + '</span></p>';
+                                    box.append(str);
+                                }
+                                div.append(p);
+                                div.append(box);
+                                div.append('<div class="page"><ul id="paginator">' + data.NavStr + '</ul></div>');
+                                $('.earncon').append(div);
+                            }
+                        } else if (type == 2) {
+                            if (data.Data.length == 0) {
+                                str = '<div class="nomsg"><p style="margin-top:80px;">爽币到账，游戏不慌。赶紧去充值吧~</p><p><a href="/PersonalUser/Recharge" target="_blank"><button class="btn">我要充值</button></a></p></div>';
+                                $('.earncon').append(str);
+                            } else {
+                                var div = $('<div class="record SB2"></div>');
+                                var p = $('<p>充值总计: <i>' + data.Data[0].Pays + '</i>(爽币)</p><p class="Rechth"><span>充值日期</span><span>充值数量</span><span>对应人民币(元)</span><span>支付方式</span><span>备注</span></p>');
+                                var box = $('<div id="Rechlist"></div>')
+                                for (var i in data.Data) {
+                                    var InTime = (eval(data.Data[i].InTime.replace(/\/Date\((\d+)\)\//gi, "new Date($1)"))).pattern("yyyy-MM-dd");
+                                    str = '<p><span>' + InTime + '</span><span>' + data.Data[i].Pay + '</span><span>' + data.Data[i].Memo1 + '</span><span>' + data.Data[i].Memo2 + '</span><span>' + data.Data[i].OrderNo + '</span></p>';
+                                    box.append(str);
+                                }
+                                div.append(p);
+                                div.append(box);
+                                div.append('<div class="page"><ul id="paginator">' + data.NavStr + '</ul></div>');
+                                $('.earncon').append(div);
+                            }
+                        } else if (type == 3) {
+                            if (data.Data.length == 0) {
+                                str = '<div class="nomsg"><p style="margin-top:80px;">爽币不花，如同水花。赶紧去消费吧~</p><p><a href="/Home/AmoyWelFare" target="_blank"><button class="btn">我要去消费</button></a></p></div>';
+                                $('.earncon').append(str);
+                            } else {
+                                var div = $('<div class="record SB3"></div>');
+                                var p = $('<p>消费币总计: <i>' +Math.abs( data.Data[0].Pays) + '</i>(爽币)</p><p class="consumptionth"><span>消费日期</span><span>消费数量</span><span>项目内容</span></p>');
+                                var box = $('<div id="consumptionlist"></div>')
+                                for (var i in data.Data) {
+                                    var InTime = (eval(data.Data[i].InTime.replace(/\/Date\((\d+)\)\//gi, "new Date($1)"))).pattern("yyyy-MM-dd");
+                                    str = '<p><span>' + InTime + '</span><span>' + data.Data[i].Pay + '</span><span style="text-align: left;padding-left:14px;">' + data.Data[i].Title + '</span></p>';
+                                    box.append(str);
+                                }
+                                div.append(p);
+                                div.append(box);
+                                div.append('<div class="page"><ul id="paginator">' + data.NavStr + '</ul></div>');
+                                $('.earncon').append(div);
+                            }
+                        }
+                    }
+                })
+            }
+        })
+    </script> 
+</body>
+</html>

@@ -1,0 +1,173 @@
+﻿@{
+    ViewBag.Title = "GamePutLibrary";
+    Layout = "~/Views/Shared/_LayoutAdminData.cshtml";
+}
+<style type="text/css">
+    .datagrid-view tr td:nth-of-type(9),.datagrid-view tr td:nth-of-type(10),.datagrid-view tr td:nth-of-type(11){
+        display:none;
+    }
+</style>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+@*----------------搜索开始----------------*@
+<div id="searchDiv" style="margin:5px 0;">
+    <label for="searchName" style="font-size:14px;">游戏名称：</label> <input class="easyui-textbox" id="gameName" name="gameName" />
+    <label for="searchName" style="font-size:14px;">运营商：</label> <input class="easyui-textbox" id="systemName" name="systemName" />
+    <label for="searchName" style="font-size:14px;">类型：</label>
+    <select class="easyui-combobox" name="type" id="type" style="width:120px; " panelheight="auto">      
+        <option value="" selected="selected">全部</option>
+        <option value="0">最强王者</option>
+        <option value="1">超凡大师</option>
+        <option value="2">璀璨钻石</option>
+        <option value="3">华贵铂金</option>
+        <option value="4">荣耀黄金</option>
+        <option value="5">不屈白银</option>
+        <option value="6">英勇黄铜</option>
+    </select>
+    <label for="searchName" style="font-size:14px;">领号玩家：</label>
+    <input class="easyui-textbox" id="uName" name="uName" />
+    <label for="searchName" style="font-size:14px;">状态：</label>
+    <select class="easyui-combobox" name="state" id="state" style="width:120px; " panelheight="auto">
+        <option value="2">待审核</option>
+        <option value="0">未通过</option>
+        <option value="1">已通过</option>
+    </select>
+    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-search'" id="btnSearch">查询</a>
+</div>
+@*----------------搜索结束----------------*@
+<table id="UsersInfo"></table>
+<!----------------------------添加用户的Div-------------------------->
+
+@*-------------------------修改的对话框的div-------------------------*@
+<div id="editDiv" style="display:none">
+    <iframe id="frameEdit" src="javascript:void(0)" frameborder="0" width="100%" height="100%"></iframe>
+</div>
+<script type="text/javascript">
+    $(function () {
+        initTb();
+        //绑定搜索的点击事件
+        $("#btnSearch").click(function () {
+            //搜索后台的数据。
+            var queryData = {
+                gameName: $("#gameName").val(),
+                systemName: $("#systemName").val(),
+                type: $("#type").combobox('getValue'),
+                uName: $("#uName").val(),
+                state: $("#state").combobox('getValue'),
+            };
+            initTb(queryData);
+        });
+    });
+    //读取基本信息的表
+    function initTb(queryParam) {
+        $('#UsersInfo').datagrid({
+            title: '试玩截图信息列表展示',
+            idField: 'Id',
+            fitColumns: true,//列自适应。
+            collapsible: false,
+            minimizable: false,
+            maximizable: false,
+            resizable: true,
+            fit: true,
+            loadMsg: '正在加载，请稍稍候...',
+            striped: true,
+            url: '/AdminData/GetDemoCutImgList',
+            nowrap: true,
+            singleSelect: true,//单行选中
+            rownumbers: true,  //显示行号
+            pagination: true,
+            pageSize: 20,
+            pageList: [20, 40, 60, 80, 100],
+            queryParams: queryParam,//请求的额外的参数。
+            toolbar: '#tb',
+            columns: [[               
+                { field: 'GameName', title: '游戏名称', width: 250 },
+                {
+                    field: 'Type', title: '类型', width: 150,
+                    formatter: function (value, row, Index) {
+                        if (value == "0") {
+                            return "最强王者"
+                        } else if (value == "1") {
+                            return "超凡大师"
+                        }
+                        else if (value=="2") {
+                            return "璀璨钻石"
+                        }
+                        else if (value== "3") {
+                            return "华贵铂金"
+                        }
+                        else if (value== "4") {
+                            return "荣耀黄金"
+                        } else if (value =="5") {
+                            return "儿童游戏"
+                        } else if (value =="6") {
+                            return "英勇黄铜"
+                        }
+                    }
+                },
+                {
+                    field: 'SystemName', title: '运营商', width: 250,
+
+                },
+                  { field: 'Account', title: '游戏账号', width: 250 },
+                  { field: 'UName', title: '领号玩家', width: 250 },
+                   { field: 'Demand', title: '试玩要求', width: 250 },
+                    { field: 'AwardCoins', title: '奖励', width: 250 },
+                     { field: 'CoinsEquity', title: '爽币权益', width: 250 },
+                      {
+                          field: 'DemoId', title: '试玩游戏的ID'
+                      },
+                       { field: 'AccountId', title: '游戏账号的ID'},
+                        { field: 'RequireId', title: '游戏等级的ID' },
+                       {
+                           field: 'Img', title: '图片', width: 250,
+                           formatter: function (value, row, Index) {
+                               if (value!=null) {
+                                   return " <img src=/Content/UserImg/" + row.Img + " class='details' id='" + row.Id + "' style='height:80px;width:110px;cursor:pointer'>"
+                               }
+                           }
+                       },                 
+                     {
+                         field: 'InTime', title: '上传时间', width: 250,
+                         formatter: function (value, row, Index) {//  /Date(1377327062000)/
+                             return (eval(value.replace(/\/Date\((\d+)\)\//gi, "new Date($1)")))
+                                 .pattern("yyyy-M-d H:m:s");
+                         }
+                     },
+                      {
+                          field: 'State', title: '状态', width: 250,
+                          formatter: function (value, row, Index) {
+                              if (value == "1") {
+                                  return "<psan style='#407988'>已通过</span>"
+                              } else if (value == "2") {
+                                  return "<span style='color:#892727'>待审核</span>"
+                              }
+                              else if (value == "0") {
+                                  return "未通过"
+                              }
+                          }
+                      },             
+            ]],         
+            onHeaderContextMenu: function (e, field) {
+            },
+            onLoadSuccess: onGridLoadSuccess//表格加载完成之后，调用此事件响应方法。
+        });
+        // 设置页脚
+        var p = $('#UsersInfo').datagrid('getPager')
+        $(p).pagination({
+            beforePageText: '第',
+            afterPageText: '页  共{pages} 页',
+            displayMsg: '当前显示 {from}-{to} 条记录   共 {total} 条记录'
+        });
+    }
+    //表格加载完成之后，调用此事件响应方法。
+    function onGridLoadSuccess(data) {
+        //绑定表格里面的所有的修改和删除按钮的点击事件
+        $(".details").click(function () {
+            var allSelectedRows = $('#UsersInfo').datagrid("getSelections");
+            var id = allSelectedRows[0].Id;
+            var accountId = allSelectedRows[0].AccountId,
+                demoId = allSelectedRows[0].DemoId;          
+            window.location.href = "/AdminData/CheckDemoDetails?demoId=" + demoId + "&accountId=" + accountId + "&userId=" + id +"&required=" + allSelectedRows[0].RequireId + "";
+        });
+    }
+</script>

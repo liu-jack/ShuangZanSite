@@ -1,0 +1,102 @@
+﻿
+ <!-- 顶部导航 -->
+<div>
+    <div class="top">       
+        <a href="/PersonalUser/Recharge" target="_blank">充值中心</a> |
+        <a href="/Home/Manufacturer" target="_blank">厂商大全</a>     
+    </div>
+    <div class="nav">
+        <div class="w">
+            <span><a href="/"><img src="/Content/Img/logo.png" alt="页游开服表" title="爽赞网" /></a></span>
+            <a href="/Home/Index">首页</a>
+            <a href="/NewsInfo/News">看新闻</a>
+            <a href="/Game/GameIndex">找游戏</a>
+            <a href="/OPenServices/ServiceIndex">开服表</a>
+            <a href="/Raiders/RaidersIndex">查攻略</a>
+            <a href="/Package/PackageIndex">寻礼包</a>
+            <a href="/Home/AmoyWelFare">淘福利</a>
+            <div class="searchcon">
+                <input type="text" placeholder="输入关键字"  class="searchtxt" />
+                <a href=""><img src="/Content/Img/search.png" alt="" class="searchbtn" /></a>
+                <div class="searchall" style="display:none;">
+                    <label><input type="radio" value="11" name="searchtab" checked="checked" />新闻</label>
+                    <label><input type="radio" value="12" name="searchtab" />攻略</label>
+                    <label><input type="radio" value="13" name="searchtab" />游戏</label>
+                    <label><input type="radio" value="14" name="searchtab" />礼包</label>
+                    <label><input type="radio" value="15" name="searchtab" />厂商</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+   @if (ViewBag.RichMedia.Count != 0)
+   {
+    <div id="bannerfmt">
+        <div>
+            <div class="banner-swf">
+                <p>爽赞推荐<i class="closebtn02"><img src="/Content/Img/close02.png" alt=""></i></p>
+                <a id="fmtlk" href="" target="_blank"><img src="/Content/Img//banersy.png" alt="" width="300" height="200"></a>
+            </div>
+            @foreach (var item in (List<Models.Advertisement>)ViewBag.RichMedia)
+            {
+                <embed class="fmtsw hide" menu="false" wmode="transparent" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"   quality="high" dataurl="@item.Url" src="@item.Path" width="300" height="200">
+            }
+        </div>
+    </div>
+   }
+   else { 
+   
+   }
+    <script src="~/Content/js/jquery-1.11.1.min.js"></script>
+    <script>
+        $(function () {
+            var img;
+            $.ajax({
+                datatype: 'JSON',
+                type: 'POST',
+                data: {
+                },
+                url: '/Home/GetCurrentUserInfo',
+                success: function (data) {
+                    if (data.NoReadMsg!=0) {
+                        img = 'message-on.png';
+                    }else{
+                        img = 'message.png';
+                    }
+                    if (data.User != null && data.User != "") {
+                        data.User.Head = localStorage.PersonalUserIMg == null ? data.User.Head : localStorage.PersonalUserIMg;
+                        data.User.Head = data.User.Head == null ? 'myImg.jpg' : data.User.Head;
+                        $('.top').append('<div class="usena-box"><ul class="use-nav"><li class="usename-box"><a href="/PersonalUser/Index" class="usename1" value=' + data.User.Id + '>' + data.User.UName + '</a><div class="use-pic"><img src="/Content/UserImg/' + data.User.Head + '" /></div><ul class="use-nav-list"><li><a href="/PersonalUser/GiftBox">我的礼包箱</a></li><li><a href="/PersonalUser/GameDemo">我的试玩</a></li> <li><a href="/PersonalUser/CoolCoins">我的爽币</a></li><li><a href="/PersonalUser/OrderList">我的礼品</a></li><li><a href="/PersonalUser/Index">账号信息</a></li><li><a href="/Command/PersonalUserLogOut.ashx">退出登录</a></li></ul></li><li><a href="/PersonalUser/MsgCenter"><img src="/Content/Img/' + img + '" class="meaasge-status" /></a></li></ul></div> ')
+                    } else{
+                        $('.top').append('<p class="top2"><a href="/Login/PersonalLogin" class="dl">登录</a><a href="/Login/RegPersonalUser" class="zc">注册</a></p>')
+                    }
+                }
+            })
+            $('.searchbtn').click(function (e) {
+                e.preventDefault();
+                var txt = $('.searchtxt').val();
+                var type = $('.searchall input:checked').attr('value');
+                if (type == 11) {
+                    window.open("/NewsInfo/NewsSearchResult?key=" + encodeURIComponent(txt));
+                } else if (type == 12) {
+                    window.open("/Raiders/RaidersSearch?key=" + encodeURIComponent(txt));
+                } else if (type == 13) {
+                    //局部刷新搜索
+                    window.open("/Game/GameIndex?gameName=" + encodeURIComponent(txt));
+                } else if (type == 14) {
+                    //局部刷新搜索
+                    window.open("/Package/PackageSearch?packageName=" + encodeURIComponent(txt));
+                } else if (type == 15) {
+                    window.open("/Home/Manufacturer?companyName=" + encodeURIComponent(txt));
+                }
+            })
+            $('.searchtxt').keyup(function (e) {
+                // keyCode == 13 表示回车键
+                if (e.keyCode === 13) {
+                    $('.searchbtn').click();
+                }
+            });
+        })
+      
+
+    </script>

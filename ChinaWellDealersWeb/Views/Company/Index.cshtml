@@ -1,0 +1,232 @@
+﻿@{
+    Layout = null;
+    Layout = "~/Views/Shared/_LayoutAdminData.cshtml";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>厂商管理</title>
+</head>
+<body>
+
+    @*----------------搜索开始----------------*@
+    <div id="searchDiv" style="margin:5px 0;">
+        <label for="searchName" style="font-size:14px;">登录名：</label> <input class="easyui-textbox" id="uName" name="uName" />
+        <label for="systemName" style="font-size:14px;">平台名：</label> <input class="easyui-textbox" id="systemName" name="systemName" />
+        <label for="companyName" style="font-size:14px;">公司名：</label> <input class="easyui-textbox" id="companyName" name="companyName" />
+      
+        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-search'" id="btnSearch">查询</a>
+    </div>
+    @*----------------搜索结束----------------*@
+    <table id="companyInfo"></table>
+    @*-------------------------修改的对话框的div-------------------------*@
+    <div id="editDiv" style="display:none;overflow:hidden;">
+        <iframe id="frameEdit" src="javascript:void(0)" frameborder="0" width="100%" height="100%"></iframe>
+    </div>  
+</body>
+</html>
+<script type="text/javascript">
+
+    $(function () {
+        initTb();
+        //隐藏添加的表单
+        $("#setRoleDiv").css("display", "none");
+        $("#setActionDiv").css("display", "none");
+        //绑定搜索的点击事件
+        $("#btnSearch").click(function () {
+            //搜索后台的数据。
+            var queryData = {
+                uName: $("#uName").val(),
+                systemName: $("#systemName").val(),
+                companyName: $("#companyName").val(),
+            };
+            initTb(queryData);
+        });
+        
+    });
+    //读取基本信息的表
+    function initTb(queryParam) {
+        $('#companyInfo').datagrid({
+            title: '厂商用户信息列表展示',
+            idField: 'Id',
+            fitColumns: true,//列自适应。
+            collapsible: false,
+            minimizable: false,
+            maximizable: false,
+            resizable: true,
+            fit: true,
+            border:false,
+            loadMsg: '正在加载，请稍稍候...',
+            striped: true,
+            url: '/Company/GetAllCompanyInfos',
+            nowrap: true,
+            singleSelect: true,//单行选中
+            rownumbers: true,  //显示行号
+            pagination: true,
+            pageSize: 20,
+            pageList: [20,40, 60, 80, 100],
+            queryParams: queryParam,//请求的额外的参数。
+            toolbar: '#tb',
+            columns: [[
+                //{ field: 'ck', checkbox: true },
+
+                { field: 'UName', title: '登录名', width: 200 },
+                { field: 'SystemName', title: '平台名', width: 250 },
+                  {
+                      field: 'Email', title: '邮箱', width: 350
+                  },
+                   {
+                       field: 'CompanyName', title: '公司名称', width: 350
+                   },
+                    {
+                        field: 'Phone', title: '联系电话', width: 320
+                    },
+                     {
+                         field: 'Total', title: '开服条数', width: 120, height: 90,
+                         formatter: function (value, row, Index) {//#13629D
+                             return "<a  class='total' href='/company/RechargeTotal?id=" + row.Id + "' style='color:#13629D;font-size: 14px'>" + row.Total + "</a>";
+                         }
+                     },
+                      {
+                          field: 'Games', title: '游戏', width: 120, height: 90,
+                          formatter: function (value, row, Index) {//#13629D
+                              return "<a class='games' href='/Company/CompanyGameNum?id=" + row.Id + "'style='color:#13629D;font-size: 14px'>" + row.Games + "</a>";
+                          }
+                      },
+                   
+                     {
+                         field: 'InTime', title: '注册时间', width: 250,
+                         formatter: function (value, row, Index) {//  /Date(1377327062000)/
+                             return (eval(value.replace(/\/Date\((\d+)\)\//gi, "new Date($1)")))
+                                 .pattern("yyyy-M-d H:m:s");
+                         }
+                     },
+
+             {
+                 field: 'State', title: '状态', width: 120,
+                 formatter: function (value, row, Index) {
+                     if (value == 1) {
+                         return "<a class='companyState' href='javascript:void(0)' uId='" + row.Id + "'style='color:#13629D;font-size: 14px' >正常</a>";
+                     } else {
+                         return "<a class='companyState' href='javascript:void(0)' uId='" + row.Id + "'style='color:#13629D;font-size: 14px' >停用</a>";
+                     }
+                 }
+             },
+             {
+                 field: 'sendNews', title: '发新闻', width: 120,
+                 formatter: function (value, row, Index) {
+                     return "<a class='sendNews' href='/AdminData/NewsAddShow?id="+row.Id+"' style='color:#13629D;font-size: 14px'>发新闻</a>";
+                 }
+             },
+                  {
+                      field: 'sendGift', title: '发礼包', width: 120,
+                      formatter: function (value, row, Index) {
+                          return "<a class='sendPackage' href='/AdminData/AddPackageShow?id=" + row.Id + "' style='color:#13629D;background-color:white;font-size: 14px'>发礼包</a>";
+                      }
+                  },
+                {
+                    field: 'Edit', title: '操作', width: 140,
+                    formatter: function (value, row, Index) {//#13629D
+                        return "<a class='delLink' href='javascript:void(0)' uId='" + row.Id + "' style='color:red;font-weight:600;font-size: 14px;padding-right:10px;'>删除</a><a href='/Company/Edit?id=" + row.Id + "' class='editLink' style='color:#13629D;font-size: 14px'>编辑</a>";
+                    }
+                },
+                 
+            ]],
+
+            onHeaderContextMenu: function (e, field) {
+            },
+            onLoadSuccess: onGridLoadSuccess//表格加载完成之后，调用此事件响应方法。
+        });
+        // 设置页脚
+        var p = $('#companyInfo').datagrid('getPager')
+        $(p).pagination({
+            beforePageText: '第',
+            afterPageText: '页  共{pages} 页',
+            displayMsg: '当前显示 {from}-{to} 条记录   共 {total} 条记录'
+        });
+    }
+    //表格加载完成之后，调用此事件响应方法。
+    function onGridLoadSuccess(data) {
+        //绑定表格里面的所有的修改和删除按钮的点击事件
+        $(".delLink").click(function () {
+            var strId = $(this).attr("uId");
+            $.messager.confirm("温馨提示", "您确定要删除该数据？", function (r) {
+                if (r) {
+                    postDeleteData(strId);                   
+                }
+            });
+        });
+        //部分特殊权限管理
+       
+        $.get('/AdminData/CurrrentAdmin', function (data) {
+            if (data.Id == 2016 && data.UName == 'sz编辑-01' && data.State == '1') {
+                $('.delLink,.sendPackage,.sendNews,.companyState,.total,.editLink').css({ "pointer-events": "none", "color": "#ccc" });
+                $('.delLink,.sendPackage,.sendNews,.companyState,.total,.editLink').removeAttr('href');               
+            }
+            if (data.Id == 2020 && data.UName == 'sz编辑-02' && data.State == '1') {
+                $('.delLink,.sendPackage,.sendNews,.companyState,.total,.editLink').css({ "pointer-events": "none", "color": "#ccc" });
+                $('.delLink,.sendPackage,.sendNews,.companyState,.total,.editLink').removeAttr('href');
+            }
+            if (data.Id == 2018 && data.UName == 'sz总经办' && data.State == '1') {
+                $('.delLink,.games').css({ "pointer-events": "none", "color": "#ccc" });
+                $('.delLink,.games').removeAttr('href');
+            }
+            if (data.Id == 2014 && data.UName == 'sz客服' && data.State == '1') {
+                $('.games,.delLink,.sendPackage,.sendNews,.companyState,.total,.editLink').css({ "pointer-events": "none", "color": "#ccc" });
+                $('.games,.delLink,.sendPackage,.sendNews,.companyState,.total,.editLink').removeAttr('href');
+            }
+            if (data.Id == 2 && data.UName == '马红刚' && data.State == '1') {
+                $('.games,.delLink,.sendPackage,.sendNews,.companyState,.total,.editLink').css({ "pointer-events": "none", "color": "#ccc" });
+                $('.games,.delLink,.sendPackage,.sendNews,.companyState,.total,.editLink').removeAttr('href');
+            } else {
+
+              // $.messager.alert("温馨提示", "不好意思,您无权操作！");
+            }
+        })
+
+        //改变状态
+        $(".companyState").click(function () {
+            var strId = $(this).attr("uId");
+            $.messager.confirm("温馨提示", "您确认要变更此数据的状态吗？", function (r) {
+                if (r) {
+                    changeState(strId);
+                } $('#companyInfo').datagrid("clearSelections");
+            });
+        });
+      
+    }
+    //自定义改变状态的事件
+    function changeState(strId) {
+        $.post("/Company/ChangeCompanyState", { id: strId }, function (data) {
+            if (data == "ok") {
+                //清除之前的选中的行。
+                $('#companyInfo').datagrid("clearSelections");
+                //刷新表格
+                $('#companyInfo').datagrid("reload");//代用表格的重新加载的方法。
+            } else if (data == "fail") {
+                $.messager.show("提示", "数据状态改变失败！");
+            }
+            else if (data == "empty") {
+                $.messager.alert("提示", "请先选择要改变的数据！");
+            } else {
+                $.messager.alert("温馨提示", "系统异常请稍候再试！");
+            }
+        });
+    };
+    //处理删除的表单提交
+    function postDeleteData(strId) {
+        $.post("/Company/CompanyDelete", { id: strId }, function (data) {         
+            if (data == "ok") {                          
+                //刷新表格
+                $('#companyInfo').datagrid("reload");//代用表格的重新加载的方法。
+            }  else {
+                $.messager.alert("温馨提示", "删除失败！");
+                $('#companyInfo').datagrid("clearSelections");
+            }
+        });
+    }
+    
+
+</script>

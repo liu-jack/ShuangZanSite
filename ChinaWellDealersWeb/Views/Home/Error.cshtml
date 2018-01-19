@@ -1,0 +1,97 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=1124">
+    <link href="~/Content/Css/index.css" rel="stylesheet" />
+    <link href="~/Content/Css/reset.css" rel="stylesheet" />
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="~/Content/Css/usename.css" rel="stylesheet" />
+    <link href="/Content/Img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+    <title>404</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-size: 14px;
+            font-family: "microsoft yahei";
+            border: 0;
+            outline: none;
+        }
+
+        img {
+            vertical-align: middle;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        body > a {
+            display: none;
+        }
+
+        .contarent {
+            text-align: center;
+        }
+
+            .contarent p {
+                width: 800px;
+                margin: 0 auto;
+            }
+
+            .contarent img {
+                margin-top: 120px;
+                margin-bottom: 20px;
+            }
+
+            .contarent input {
+                width: 180px;
+                height: 50px;
+                color: #fff;
+                font-size: 18px;
+                font-weight: bold;
+                background: #262626;
+                border: 0;
+                cursor: pointer;
+                font-family: "microsoft yahei";
+            }
+
+                .contarent input:hover {
+                    background: #7bab14;
+                }
+    </style>
+</head>
+<body>
+    @Html.Action("_TwoShuangzanHeader", "Home")
+    <div class="contarent">
+        <p style="text-align:center;"><img src="/Content/Img/404-10.png" /></p>
+        <a href="http://www.shuangzan.com"><input type="button" id="" value="返回首页" /></a>
+        <p class="daojiship" style="color: rgb(140, 140, 140);height: 40px;line-height: 40px;">
+            3秒后返回首页
+        </p>
+    </div>
+</body>
+</html>
+<script src="~/Content/js/jquery-1.11.1.min.js"></script>
+<script src="~/Content/js/amoywel.js"></script>
+<script src="~/Content/js/personal_use.js"></script>
+<script src="~/Content/js/Public.js"></script>
+<script type="text/javascript">
+    var second = 3;
+    setInterval("daojiship()", "1000");
+    $(function () {
+
+    })
+    function daojiship() {
+        if (second <= 1) {
+            location = "/Home/Index";
+        }
+        second = second - 1;
+        $(".daojiship").html("" + second + "秒后返回首页");
+    }
+</script>

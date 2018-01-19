@@ -1,0 +1,149 @@
+﻿
+        .goon {
+            text-decoration: none;
+            width: 100px;
+            display: block;
+            margin: 20px auto;
+        }
+
+        #reset {
+            width: 60px !important;
+            left: 270px !important;
+        }
+
+        .main div .err {
+            color: red;
+            background-image: url(/Content/Img/109.gif);
+            background-repeat: no-repeat;
+            background-position: left center;
+            padding-left: 20px;
+        }
+
+        .main div .errok {
+            background-image: url(/Content/Img/111.gif);
+            height: 20px;
+        }
+
+        .main div > samp {
+            line-height: 20px;
+        }
+
+        code#key {
+            padding-top: 4px;
+            left: 70px;
+            font-family: 'Microsoft YaHei';
+            font-size: 14px;
+        }
+
+            code#key * {
+                /*height: 26px;*/
+                line-height: 28px;
+            }
+
+            code#key font {
+                width: 60px;
+                display: block;
+                float: left;
+            }
+
+            code#key samp {
+                color: #909090;
+                font-size: 12px;
+            }
+
+                code#key samp a {
+                    color: #909090;
+                }
+
+            code#key h1 {
+                height: 5px;
+                margin: 0;
+            }
+
+
+        #gamenamelist {
+            position: absolute;
+            left: 60px;
+            top: 30px;
+            width: 200px;
+            border: 1px solid #C6C6C6;
+            z-index: 1;
+            padding-left: 10px;
+            background-color: #FFF;
+            height: initial;
+            display: none;
+        }
+
+            #gamenamelist span {
+                position: initial;
+                display: block;
+                text-align: left;
+            }
+
+
+        select::-ms-expand {
+            display: none;
+        }
+
+        #typediv select {
+            border: 0;
+            height: 26px;
+            background-color: transparent;
+            outline: none;
+            font-size: 14px;
+            color: #ABABAB;
+            width: 203px;
+            padding-left: 10px;
+            appearance: none;
+            -moz-appearance: none;
+            -webkit-appearance: none;
+        }
+
+        #typediv {
+            padding: 1px 1px 1px 0px;
+            height: 26px;
+            background-image: url("/Content/Img/132.gif");
+            background-repeat: no-repeat;
+            background-position: 180px center;
+            left: 130px;
+            width: 200px;
+        }
+
+            #typediv > span {
+                width: 190px;
+                overflow: hidden;
+            }
+
+        textarea {
+            left: 130px;
+        }
+
+        .ke-container {
+            width: 580px;
+            left: 130px;
+            border-radius: 5px;
+        }
+
+        .ke-container-default {
+            height: auto !important;
+        }
+
+        .ke-container * {
+            position: initial !important;
+        }
+
+        .ke-toolbar {
+            height: auto !important;
+        }
+
+            .ke-toolbar > span {
+                width: auto !important;
+                text-align: initial !important;
+                top: auto !important;
+                padding-right: initial !important;
+            }
+
+        .ke-statusbar {
+            display: none;
+        }
+    

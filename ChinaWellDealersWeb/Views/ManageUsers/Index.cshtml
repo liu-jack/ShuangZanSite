@@ -1,0 +1,75 @@
+﻿@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>权限管理</title>
+    <script src="~/Content/bootstrap/js/jquery/2.0.0/jquery.min.js"></script>
+    <link href="~/Content/bootstrap/css/bootstrap/3.3.6/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Content/bootstrap/js/bootstrap/3.3.6/bootstrap.min.js"></script>
+    <link href="~/Content/layui-v1.0.9_rls/layui/css/modules/layer/default/layer.css" rel="stylesheet" />
+    <script src="~/Content/layui-v1.0.9_rls/layui/lay/modules/layer.js"></script>
+</head>
+<body>
+    <div>
+        <div style="margin-left:15px;margin-top:20px;margin-bottom:20px;background-color:#fbf7f7">
+           登录名： <input type="text" class="searchbox-text" id="key" /><button id="btnSearch" class="searchbox-button-hover" >搜索</button><br />
+        </div>
+      
+        <table class="table table-hover" style="margin-left:2px; " id="tab">
+            <thead style="background:#3a8d7d no-repeat;font-weight:200">
+                <tr>
+                    <th>登录名</th>
+                    <th>姓名</th>
+                    <th>手机号</th>
+                    <th>最后登录时间</th>
+                    <th>状态</th>
+                    <th colspan="3" style="text-align:center;">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                 @foreach (var item in (List< Models.UserInfo >) ViewData["users"])
+                 {
+                <tr>
+                    <td>@item.UName</td>
+                    <td>@item.Name</td>
+                    <td>@item.Tel</td>
+                    <td>@item.Last_login_Time</td>
+                    <td>@item.State</td>
+                    <td colspan="3" style="text-align:center;"><a href="/AdminData/EditNewsInfo?id=@item.Id" class="editCase" id="EditCase">修改</a> &nbsp;&nbsp;&nbsp;&nbsp;
+                     <a href="/AdminData/EditNewsInfo?id=@item.Id"  id="EditCase" style="color:red">删除</a>   </td>    
+                                                         
+                </tr>    
+                }         
+            </tbody>
+        </table>         
+    </div>
+</body>
+</html>
+
+<script type="text/javascript">
+    $(function () {  
+        $("#btnSearch").click(function () {
+            var oTab = $('#tab').val();
+            var oSearch = $('#key').val();
+          
+            for (var i = 0; i < oTab.tBodies[0].rows.length; i++) {
+                var sTab = oTab.tBodies[0].rows[i].cells[1].innerHTML.toLowerCase();
+                var sTxt = oSearch.value.toLowerCase();
+                var attr = sTxt.split('');
+                oTab.tBodies[0].rows[i].style.background = '';
+                //遍历搜索框数据
+                for (var j = 0; j < attr.length; j++) {
+                    if (sTab.search(attr[j]) != -1) {
+                        oTab.tBodies[0].rows[i].style.background = 'red';
+                    }
+                }
+            }
+        });
+    });
+</script>

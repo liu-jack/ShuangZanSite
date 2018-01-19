@@ -1,0 +1,101 @@
+﻿@{
+    Layout = null;
+    Layout = "~/Views/Shared/_LayoutAdminData.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>杭州信谊汽车租赁留言管理</title>
+    <link href="~/Content/Css/NavPager.css" rel="stylesheet" />
+    <link href="~/Content/Css/tableStyle.css" rel="stylesheet" />  
+    <script src="~/Scripts/datapattern.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            initTable();//初始化表格
+        });
+        //初始化表格
+        function initTable(postData) {
+            $.getJSON("/AdminData/LeavesMsgInfo", postData, function (data) {
+                $("#tbBody").html("");
+                for (var i in data.Data) {
+                    var dateStr =//                /Date(1280802573000)/
+                  (eval(data.Data[i].Date.replace(/\/Date\((\d+)\)\//gi, "new Date($1)"))).pattern("yyyy-M-d H:m:s");
+                    var strTr = "<tr>";                  
+                    strTr += "<td>" + data.Data[i].Name + "</td>";
+                    strTr += "<td>" + data.Data[i].Tel + "</td>";
+                    strTr += "<td>" + data.Data[i].ContactMan + "</td>";
+                    strTr += "<td>" + data.Data[i].Email + "</td>";
+                    strTr += "<td>" + dateStr + "</td>";
+                    strTr += "<td>" + data.Data[i].Remark + "</td>";
+                    strTr += "<td>" + data.Data[i].Msg + "</td>";
+                    strTr += "<td><a  href='javascript:void(0)' class='deleteLink' ids='" + data.Data[i].Id + "'>删除</a></td>";
+                    strTr += "</tr>";
+                    $("#tbBody").append(strTr);
+                }
+                bindDeleteLinkClickEvent();//绑定点击删除的 超级链接
+                //把分页的标签放到页面里面去
+                $("#navDiv").html(data.NavStr);
+
+                //给分页的超级链接绑定点击事件
+                $(".pageLink").click(function () {
+                    var href = $(this).attr("href");
+                    var queryString = href.substr(href.lastIndexOf('?') + 1);
+                    initTable(queryString);
+                    return false;
+                });
+            });
+        }
+        function bindDeleteLinkClickEvent() {
+            $(".deleteLink").click(function () {
+                var link = $(this).parent().parent();
+                var ids = $(this).attr("ids");
+                var control = $(this);
+                //   alert("留言编号："+ids)
+                $.messager.confirm("提醒", "您懂删除吗？", function (r) {
+                    if (r) {
+                        //发送异步请求到后台，然后把这条数据剁掉。
+                        $.post("/AdminData/DelteMsg", { id: ids }, function (data) {
+                            if (data == "ok") {
+                                $.messager.alert("提示", "删除成功!", "info");
+                                $(control).parent().parent().remove();
+                                // link.fadeOut("slow");
+                            } else {
+                                $.messager.alert("提醒", "删除失败", "warning");
+                            }
+                        });
+                    }
+                });
+                return false;
+            });
+        }
+
+    </script>
+</head>
+<body>
+    <div>
+        <table style="width:100%">
+            <thead>
+                <tr>
+                    
+                    <th>意向车型</th>
+                    <th>手机号</th>
+                    <th>联系人</th>
+                    <th>电子邮件</th>
+                    <th>留言时间</th>
+                    <th>备注</th>
+                    <th>内容</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+
+            <tbody id="tbBody"></tbody>
+
+        </table>
+        <div id="navDiv" class="paginator">
+
+        </div>
+    </div>
+</body>
+</html>

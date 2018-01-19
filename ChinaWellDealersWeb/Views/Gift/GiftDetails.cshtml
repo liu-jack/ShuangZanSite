@@ -1,0 +1,122 @@
+﻿@{
+    Layout = null;
+    string[] imgArry = Model.Msgs.Split(',');
+    string[] colorArry = Model.Color.Split(',');
+    
+}
+@model Models.Gift
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>淘福利</title>
+    <link href="~/Content/Css/index.css" rel="stylesheet" />
+    <link href="~/Content/Css/reset.css" rel="stylesheet" />
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="~/Content/Css/lunbo.css" rel="stylesheet" />
+    <link href="~/Content/Css/commercial.css" rel="stylesheet" />
+    <link href="~/Content/Css/amoywel.css" rel="stylesheet" />
+    <link href="/Content/Img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+    <link href="~/Content/Css/usename.css" rel="stylesheet" />
+    <link href="~/Content/style/NavPager.css" rel="stylesheet" />
+</head>
+<body>
+    @Html.Action("_TwoShuangzanHeader", "Home")
+    @Html.Action("ShuangzanHeader", "NewsInfo")
+    <!-- 面包屑 -->
+    <div class="wide details">当前位置：<a href="/Home/Index">爽赞网</a> > <a href="/Home/AmoyWelFare">淘福利</a> > <a href="/Gift/GiftList">爽币换礼品</a> > <span>@Model.Name</span></div>
+    <div id="giftdhxq">
+        <div class="giftxq">
+            <div id="preview">
+                <div class="giftxq">
+                    <div id="preview">
+                        <p id="previewbig"><img src="/Content/GiftImg/@Model.Imgs.Split(new char[] { ',' }, StringSplitOptions.None)[0]"></p>
+                        <ul id="previewsmall">
+                            @for (int i = 0; i < Model.Imgs.Split(new char[] { ',' }, StringSplitOptions.None).Length; i++)
+                            {
+                                if (i==0)
+                                {
+                                   <li class="imgs" style="border: 2px solid rgb(144, 196, 31);"><img src="/Content/GiftImg/@Model.Imgs.Split(new char[] { ',' }, StringSplitOptions.None)[i]"></li> 
+                                }
+                                else { 
+                                 <li class="imgs" style="border: 2px solid rgb(255, 255, 255);"><img src="/Content/GiftImg/@Model.Imgs.Split(new char[] { ',' }, StringSplitOptions.None)[i]"></li>
+                                
+                                }                               
+                            }                                                    
+                        </ul>
+                    </div>
+                    <div id="product"><div><p class="producttitl">@Model.Name</p><p class="productmsg">@Model.Explain</p><p class="productjg"><span class="sprice">@Model.Price</span>爽币<s>市场价：￥@Model.OldPrice</s></p><p class="productsm1">
+                        <span>规格：</span></p><p class="productxzbtn">                                  
+                        @for (int i = 0; i < colorArry.Length; i++)
+                        {
+                            if (i == 0)
+                            {
+                                <span> <input type="button" class="btnact" value="@colorArry[i]"> </span>
+                            }
+                            else { 
+                            <span> <input type="button" value="@colorArry[i]"> </span>
+                            }
+                            
+                        }                      
+                        </p><p class="productsm2"><span>数量：</span></p><p class="productnum"><span class="prev">－</span><input type="text" value="1" class="giftnum"><span class="next">+</span><span>库存：<b class="stockkc">@Model.Stock</b> 件</span></p><p class="productdhbtn"><span ><input type="button" class="btndh" value="兑换"></span><s style="display:none;margin-left:5px;" class="noensb">您的爽币不够了，<a href="/Amoywel/cz.html" target="_blank" style="color:#f43838;">快去充值吧~</a></s></p></div></div>
+                </div>
+                <h6><em>商品详情</em></h6>
+                <div class="introimg">
+                    <div>                                                                                                                         @for (int i = 0; i <imgArry.Length; i++)
+                                                                                                                                                                        {
+                                                                                                                                                                         @Html.Raw(imgArry[i])
+                                                                                                                                                                        } 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+    @Html.Partial("_ShuangZanFooter")
+    <script src="~/Content/js/jquery-1.11.1.min.js"></script>
+    <script src="~/Content/js/jquery.SuperSlide.2.1.1.js"></script>
+    <script src="~/Content/js/Public.js"></script>
+    <script src="~/Content/js/personal_use.js"></script>
+    <script src="~/Content/js/amoywel.js"></script>
+    <script>
+        $(".loginbox p .cel").click(function () {
+            $(".loginbox").hide();
+        })
+        $(function () {
+            $("#product").delegate(".productxzbtn input", "click", function () {
+                $(this).addClass("btnact").parent().siblings().children().removeClass("btnact");
+            })
+            var giftId = '@Model.Id';
+            $("#product").delegate(".btndh", "click", function () {
+                var userId = $('.usename1').attr('value');
+                var color = $(".btnact").val(),
+					sum = $(".giftnum").val(),
+					stockkc = $(".stockkc").html();
+                if (typeof (userId) == "undefined") {
+                    $(".loginbox").show();
+                }
+                else {
+                    if (stockkc != 0) {
+                        $.ajax({
+                            type: "Post",
+                            url: "/Gift/GetCoolCoinUsed",
+                            data: {
+                            },                           
+                            success: function (data) {
+                                var p = data;
+                                var sprice = $('.sprice').html();
+                                if (parseFloat(p) < parseFloat(sprice * sum)) {
+                                    $(".noensb").show();
+                                } else {
+                                    window.location.href = "/Gift/ConfirmGiftOrder?giftId=" + giftId + "&color=" + color + "&num=" + sum;
+                                }
+                            },                            
+                        });
+                    }
+                }
+            })
+
+        });
+    </script>
+</body>
+</html>

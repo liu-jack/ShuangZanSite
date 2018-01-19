@@ -1,0 +1,139 @@
+﻿@{
+    Layout = null;
+}
+@model Models.SqlMapModel.Sql_OpenServer
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>最新页游开服表_网页游戏开服表_今日网页游服表_爽赞网</title>
+    <meta name="keywords" content="页游开服表,开服表,网页游戏开服表,今日页游开服表,开服信息,热游开服表,传奇页游开服表,爽赞网">
+    <meta name="description" content="爽赞网页游开服表是国内最优秀的页游开服表，包含最全的页游开服信息，最新的页游开服表，实时更新，最准确的为您提供页游开服信息。">
+    <link href="~/Content/Css/index.css" rel="stylesheet" />
+    <link href="~/Content/Css/reset.css" rel="stylesheet" />
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="~/Content/Css/commercial.css" rel="stylesheet" />
+    <link href="~/Content/Css/amoywel.css" rel="stylesheet" />
+    <link href="~/Content/Css/Openservice.css" rel="stylesheet" />
+    <link href="~/Content/Css/usename.css" rel="stylesheet" />
+    <link href="/Content/Img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+</head>
+<body>
+    @Html.Action("_TwoShuangzanHeader", "Home")
+    @Html.Action("ShuangzanHeader", "NewsInfo")
+    <div class="wide details">当前位置：<a href="/">爽赞网</a> > <span>今日开服</span></div>
+    <div class="opentest wide">
+        <ul class="kftitle">
+            <li class="t2 active">
+                <p>今日开服</p>
+                <span class="getdate"></span>
+            </li>
+            <li class="t1">
+                <a href="/Openservices/TestIndex">
+                    <p>开测表</p>
+                    <span class="getdate"></span>
+                </a>
+            </li>
+        </ul>
+        <div class="titletop">
+            <p class="cstg"><a href="/Login/LoginCompany" target="_blank">厂商自助发开服</a></p>
+            <form action="/OPenServices/ServiceSearch" method="get">
+                <p class="kftopp">
+                    <span class="sousou soso"><s></s><input type="text" id="key" name="key" placeholder="游戏名、平台名" class="sotxt2" onkeypress="if (event.keyCode == 13)_search();" /><input type="submit" value="搜开服" class="Searstrate2" /></span>
+                    <span class="Contrinewtg">今日共<var>@ViewBag.AllServiceCount</var>开服</span>
+                </p>
+            </form>
+      </div>
+        <div class="kfcontent">
+            <div class="jrkf">
+                <p><span>游戏名称</span><span>开服时间</span><span>服务器名</span><span>运营商</span><span>礼包</span><span>操作</span><span>开服状态</span></p>
+                <ul id="kfhottop">                                                                                         
+                     @foreach (var item in (List<Models.SqlMapModel.Sql_OpenServer>)ViewBag.AllService)
+                {
+                    <li class="on1 add" name="16">
+                        <span>@item.GameName<i></i></span>
+                        <span><a name="allday" class="nohover">全天</a></span>
+                        <span>双线 @item.ServerName 服</span>
+                        <span>@item.SystemName</span>
+                        @if (item.GiftName != "" && item.GiftName != null)
+                        {
+                            <span class="packagename"> <a value="@item.PackageId"><b></b>@item.GiftName</a></span>
+                        }
+                        else
+                        {
+                            <span class="packagename">--</span>
+                        }
+                        <span> <a href="@item.Url" target="_blank" class="start" rel="nofollow">开始游戏</a></span>
+                        <span></span>
+                    </li>
+                }      
+                                     
+                    @foreach (var item in (List<Models.SqlMapModel.Sql_OpenServer>)ViewBag.TopService)
+                    {
+                        <li class="on1 add" name="16">
+                            <span>@item.GameName<i></i></span>
+                            <span><a name="@item.StartTime.Value.ToString("HH")" class="nohover">@item.StartTime.Value.ToString("HH:mm")</a></span>
+                            <span>双线 @item.ServerName 服</span>
+                            <span>@item.SystemName</span>
+                            @if (item.GiftName != "" && item.GiftName != null)
+                            {
+                                <span class="packagename"> <a value="@item.PackageId"><b></b>@item.GiftName</a></span>
+                            }
+                            else
+                            {
+                                <span class="packagename">--</span>
+                            }
+                            <span> <a href="@item.Url" target="_blank" class="start" rel="nofollow">开始游戏</a></span>
+                            <span></span>
+                        </li>
+                    }                                           
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--弹出框-->
+    <div class="gifboxmodel display">
+        <div class="gifbox">
+            <p class="boxname"><span>爽赞礼包</span><a></a></p>
+            <div class="gifboxcon">
+                <p class="boxkm"><input type="text" value="" id="packagekm" /></p>
+                <p class="boxbtn"><input type="button" value="复制卡密" id="copy" /><a href="#" target="_blank" class="stractive" rel="nofollow"><input type="button" value="开始游戏" class="active" /></a></p>
+                <p class="boxsm">礼包内容：</p>
+                <p class="boxnr box1"></p>
+                <p class="boxsm">使用说明：</p>
+                <p class="boxnr box2"></p>
+            </div>
+        </div>
+    </div>   
+    <!--  -->
+    <ul id="timelist">
+        <li class="timetop">正在开服</li>
+        <a href="#08"><li class="time1" value="08">08:00</li></a>
+        <a href="#09"><li class="time2" value="09">09:00</li></a>
+        <a href="#10"><li class="time3" value="10">10:00</li></a>
+        <a href="#11"><li class="time4" value="11">11:00</li></a>
+        <a href="#12"><li class="time5" value="12">12:00</li></a>
+        <a href="#13"><li class="time6" value="13">13:00</li></a>
+        <a href="#14"><li class="time7" value="14">14:00</li></a>
+        <a href="#15"><li class="time8" value="15">15:00</li></a>
+        <a href="#16"><li class="time9" value="16">16:00</li></a>
+        <a href="#17"><li class="time10" value="17">17:00</li></a>
+        <a href="#18"><li class="time11" value="18">18:00</li></a>
+        <a href="#19"><li class="time12" value="19">19:00</li></a>
+        <a href="#20"><li class="time13" value="20">20:00</li></a>
+        <a href="#21"><li class="time14" value="21">21:00</li></a>
+        <a href="#22"><li class="time15" value="22">22:00</li></a>
+        <a href="#23"><li class="time16" value="23">23:00</li></a>
+        <a href="#00"><li class="time17" value="00">00:00</li></a>
+    </ul>
+    <!--底部热门游戏及热门厂商-->
+   @Html.Partial("_HotGame") 
+    <!-- 底部 -->
+    @Html.Partial("_ShuangZanFooter")
+    <!-- 回到顶部 -->
+    <script src="~/Content/js/jquery-1.11.1.min.js"></script>
+    <script src="~/Content/js/Public.js"></script>
+    <script src="~/Content/js/personal_use.js"></script>
+    <script src="~/Content/js/openservice.js"></script>
+</body>
+
+</html>

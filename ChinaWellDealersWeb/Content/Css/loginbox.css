@@ -1,0 +1,130 @@
+/* 登录弹框 */
+.loginbox{
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(0,0,0, .4);
+    z-index: 999;
+}
+.loginbox>div{
+	width: 390px;
+	border: 5px solid #E5E5E5;
+	background: #FFFFFF;
+	margin: 0 auto;
+	margin-top: 200px;
+	padding-bottom: 30px;
+}
+.loginbox>div>p{
+	line-height: 36px;
+	font-size: 16px;
+	color: #646464;
+	text-align: center;
+	margin-bottom: 30px;
+	overflow: hidden;
+	text-align: left;
+	padding-left: 10px;
+	border-bottom: 2px solid #90C41F;
+}
+.loginbox>div>p a {
+    width: 16px;
+    height: 20px;
+    display: inline-block;
+    background: url(../Img/icon.png) -30px -80px no-repeat;
+    vertical-align: middle;
+    float: right;
+    margin-top: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+.loginbox>div div p{
+	line-height: 30px;
+	font-size: 16px;
+}
+.loginbox div p i{
+	display: inline-block;
+	width: 86px;
+}
+.loginbox .loginname i{
+	margin-right: 4px;
+	height: 22px;
+	vertical-align: middle;
+	background: url(../Img/uname01.png)no-repeat right center;
+}
+.loginbox .loginwpd i{
+	margin-right: 4px;
+	height: 22px;
+	vertical-align: middle;
+	background: url(../Img/pwd01.png)no-repeat right center;
+}
+.loginbox .loginname input{
+	width: 200px;
+	height:30px;
+	border-radius: 4px;
+	border: 1px solid #E5E5E5;
+	background: #FAFAFA;
+	padding-left: 10px;
+}
+.loginbox .loginname input:focus{
+	background: #fff;
+	border: 1px solid #90C41F;
+}
+.loginbox .loginwpd input{
+	width: 200px;
+	height:30px;
+	border-radius: 4px;
+	border: 1px solid #E5E5E5;
+	background: #FAFAFA;
+	padding-left: 10px;
+}
+.loginbox .loginwpd input:focus{
+	background: #fff;
+	border: 1px solid #90C41F;
+}
+.loginbox .nameerr span{
+	display: inline-block;
+	color: #F43838;
+	margin-left: 4px;
+	font-size: 12px;
+	font-family: "宋体";
+}
+.loginbox .pwserr span{
+	display: inline-block;
+	width: 145px;
+	color: #F43838;
+	margin-left: 4px;
+	font-size: 12px;
+	font-family: "宋体";
+}
+.loginbox .pwserr a{
+	color: #999;
+	font-size: 12px;
+}
+.loginbox .pwserr a:hover{
+	color: #7BAB14;
+}
+.loginbox .login input{
+	width: 200px;
+	line-height: 30px;
+	color: #fff;
+	background: #90C41F;
+	border-radius: 4px;
+	cursor: pointer;
+}
+.loginbox .login input:hover{
+	background: #7BAB14;
+}
+.loginbox .morelogin label{
+	font-size: 12px;
+	margin-right: 65px;
+}
+.loginbox .morelogin span{
+	font-size: 12px;
+}
+.loginbox .morelogin input{
+}
+.loginbox .morelogin a{
+	font-size: 12px;
+	color: #309cef;
+}

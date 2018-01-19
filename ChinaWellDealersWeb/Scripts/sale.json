@@ -1,0 +1,15 @@
+sale=[
+	{"package":" K1套餐","money":" 2000","num":"10"},
+	{"package":"K2套餐","money":"5000","num":"27"},
+	{"package":"K3套餐","money":"10000","num":"55"},
+    {"package":" K4套餐","money":" 20000","num":"115"},
+	{"package":"K5套餐","money":"30000","num":"175"},
+	{"package":"K6套餐","money":"40000","num":"235"},
+    {"package":" K7套餐","money":" 50000","num":"295"},
+	{"package":"K8套餐","money":"60000","num":"360"},
+	{"package":"K9套餐","money":"80000","num":"490"},
+    {"package":" K10套餐","money":"100000","num":"620"},
+	{"package":"K11套餐","money":" 150000","num":"970"},
+	{"package":"K12套餐","money":" 200000","num":"1380"},
+    {"package":"全天置顶","money":" 105000","num":"30"}
+]

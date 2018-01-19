@@ -1,0 +1,922 @@
+/**********************厂商大全列表 -05**********************/
+
+#factorys{
+	width: 100%;
+	height: 144px;
+	background: #FAFAFA;
+	margin-top: 10px;
+}
+#factorys>img{
+	margin-top: -5px;
+}
+#factorys ul{
+	padding-left: 5px;
+}
+#factorys ul li{
+	float: left;
+	width: 122px;
+	margin: 0 7px;
+	cursor: pointer;
+}
+#factorys ul li:hover p{
+	color: #90C41F;
+}
+#factorys ul li img{
+	border: 1px solid #E5E5E5;
+	width: 122px;
+	height: 62px;
+}
+#factorys ul li p{
+	text-align: center;
+	margin-top: 8px;
+}
+.cslink{
+	float: right;
+	margin-top: 14px;
+    margin-right: 10px;
+    color: #b3b3b3;
+}
+.cslink a{
+	color: #b3b3b3;
+	font:12px "SimSun";
+}
+.cslink a:hover{
+	color:#7bab14;
+}
+#factorylist>p{
+	color: #323232;
+    font-size: 24px;
+    height: 41px;
+    border-bottom: 2px solid #E5E5E5;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+#factorylist>p i{
+	font-size:18px;
+	font-weight:bold;
+	color:#333;
+	border-bottom: 2px solid #8fc61e;
+	line-height:39px;
+}
+.listtop{
+	overflow: hidden;
+	padding: 0 80px;
+}
+.listtop li{
+	float: left;
+	border: 1px solid #E5E5E5;
+	border-radius: 4px;
+	padding: 3px 8px;
+	margin: 0 2px;
+	cursor: pointer;
+}
+.listtop .active{
+	background: #90C41F;
+	color: #fff;
+}
+#lists{
+	margin-top: 10px;
+	overflow: hidden;
+}
+#lists li{
+	width: 354px;
+	height: 127px;
+	border: 1px solid #E5E5E5;
+	border-radius: 4px;
+	padding: 10px;
+	float: left;
+	margin: 10px 6px;
+}
+#lists li:hover{
+	box-shadow: 0px 3px 10px 1px rgba(0,0,0,.15);
+}
+#lists li:hover b{
+	color: #7BAB14;
+}
+#lists li div {
+    float: left;
+}
+#lists li div img{
+	border: 1px solid #E5E5E5;
+	margin-right: 10px;
+	width: 150px;
+    height: 105px;
+}
+
+#lists li div p .csname{
+    font-size: 18px;
+    
+}
+#lists li s {
+    display: inline-block;
+    width: 50px;
+    border-bottom: 2px solid #E5E5E5;
+}
+#lists li a {
+    white-space: normal; 
+}
+#lists .listsmg{
+	width: 170px;
+	height: 105px;
+    overflow: hidden;
+}
+#lists .listsmg p{
+	font-size: 12px;
+	color: #808080;
+}
+#lists .listsmg .csmsg{
+	line-height: 20px;
+}
+/*分页*/
+#factorylist .page{
+    width: 800px;
+    margin: 5px auto;
+    overflow: hidden;
+}
+#factorylist .page ul{
+	margin: 30px auto;
+    display: table;
+	margin-bottom:0;
+}
+.info1{
+	margin-top:30px;
+	background-color:#fafafa;
+}
+.sousou1{
+	margin-top:-11px;
+    font-size:0;
+}
+.sousou s {
+    display: inline-block;
+    width: 26px;
+    height: 26px;
+    background: url(../img/sicon.png);
+    position: absolute;
+    top: 20px;
+    left: 10px;
+}
+.listtop .active {
+    background: #90C41F;
+    color: #fff;
+}
+
+/****************厂商详情介绍 -02***********************/
+.cslogo{
+	float: left;
+	width: 354px;
+	height: 274px;
+	background: url(../Img/csjsbg.jpg) no-repeat;
+}
+.cstxt{
+	float: left;
+}
+.cslogo img{
+	margin-left: 56px;
+	margin-top: 56px;
+	width: 296px;
+    height: 206px;
+}
+.gameArea{
+	width:1100px;
+	padding-top: 10px;
+	border-top: 1px solid #E5E5E5;
+	margin-top: 50px;
+}
+.gameArea1{
+	overflow: hidden;
+}
+.gameArea1 .rf{
+	width:740px;
+	/*padding-left: 20px;*/
+}
+.gameArea1 .rf>p{
+	padding-left: 20px;
+}
+.gameArea1 .rf>s{
+	display: block;
+	border-bottom: 3px solid #E5E5E5;
+	width: 60px;
+    margin: 20px 0 8px 20px;
+}
+.gameArea1 .rf h1{
+	margin-bottom: 10px;
+	border-bottom: 2px solid #90C41F;
+	padding-left: 20px;
+	margin-top: 12px;
+	padding-bottom: 5px;
+	display: inline-block;
+}
+.gameArea1 .rf h1 b{
+	font-size: 28px;
+}
+.gameArea1 .rf h1 span{
+	color: #808080;
+}
+.gameArea1 .rf p{
+	color:#808080;
+	line-height: 22px;
+	margin-bottom: 13px;
+}
+.gameArea1 .rf p span{
+	display: inline-block;
+	/*color:#808080;*/
+	/*width: 200px;*/
+	line-height: 26px;
+}
+.gameArea1 .rf p span a{
+	color: #309CEF;
+}
+.gameArea1 .rf span i{
+	/*color:#808080;*/
+}
+
+.gameArea1 .rf .span1{
+	width:200px;
+	
+}
+.gameArea1 .rf input{
+	width:154px;
+	height: 56px;
+	border-radius: 4px;
+	background: #F43838;
+	color: #FFFFFF;
+	font-size: 24px;
+	margin-top: 30px;
+	box-shadow: 0px 3px 10px 1px rgba(0,0,0,.24);
+}
+.gameArea1 .rf .intr{
+	margin-bottom: 0;
+}
+.gameArea1 .rf .intrco{
+	height:90px;
+	overflow: hidden;
+	padding-left: 20px;
+}
+.gameArea1 .rf .sh,.gameArea1 .rf .hi{
+	color: #90C41F;
+	width:40px;
+	cursor: pointer;
+	float: right;
+}
+
+#newgiftpg{
+	background: #f5f5f5;
+	padding: 30px 0;
+	overflow: hidden;
+	padding-top: 40px;
+	position: relative;
+    width:1100px;
+}
+#newgiftpg>ul{
+	width: 400px;
+	overflow: hidden;
+	margin: 0 auto;
+	padding-left: 22px;
+	/*border-bottom: 2px solid #E5E5E5;*/
+}
+#newgiftpg>ul .active{
+	color: #323232;
+	background: url(../Img/cstab2.png) no-repeat;
+	/*margin-bottom: 0;*/
+}
+#newgiftpg>ul li{
+	width: 140px;
+	height: 57px;
+	color: #808080;
+	line-height: 57px;
+	font-size: 20px;
+	float: left;
+	cursor: pointer;
+	padding-right: 60px;
+	background: url(../Img/cstab1.png) no-repeat;
+}
+#newgiftpg>ul li:hover{
+	color: #323232;
+}
+#newgiftpg .xglb{
+	width: 80px;
+    padding-right: 0;
+}
+.csnews{
+	margin-top: 20px;
+}
+.csnews ul{
+	padding-left: 10px;
+	overflow: hidden;
+	padding-bottom: 10px;
+}
+.csnews ul li{
+	width:340px;
+	height: 226px;
+	background: #fff;
+	padding: 20px 12px;
+	overflow: hidden;
+	margin: 0 10px;
+	float: left;
+}
+.csnews ul li:hover{
+	box-shadow: 0px 3px 10px 1px rgba(0,0,0,.15);
+}
+.csnews ul li:hover h1{
+	color: #90C41F;
+}
+.csnews ul li:hover input{
+	background: #F43838;
+}
+.csnews ul li h1{
+	font-size: 18px;
+	color: #646464;
+	width: 316px;
+	height: 24px;
+	overflow: hidden;
+	margin-bottom: 10px;
+	text-align:center;
+}
+.csnews ul li s{
+	display: block;
+	width: 80px;
+	margin: 15px auto;
+	border-bottom: 1px solid #E5E5E5;
+}
+.csnews ul li p span{
+	display: inline-block;
+	text-align: center;
+}
+.csnews ul li .jsmsg{
+	font-family: "宋体";
+	text-indent: 2em;
+	overflow: hidden;
+    line-height: 24px;
+    height: 70px;
+}
+.csnews ul li .intime{
+	text-align: center;
+}
+.csnews ul li .intime span{
+	color: #B3B3B3;
+	font-family: "宋体";
+}
+.csnews ul li .intime i{
+	color: #B3B3B3;
+	font-family: "宋体";
+}
+.csnews ul li p input{
+	width: 70px;
+	height: 24px;
+	border-radius: 4px;
+	background: #ccc;
+	color: #fff;
+	float: right;
+	margin-top: 10px;
+	font: 12px "宋体";
+	cursor: pointer;
+}
+.csnews>p{
+	text-align: center;
+	margin-top: 20px;
+}
+.csnews>p a{
+	margin: 0 auto;
+	display: block;
+	width: 180px;
+	height: 40px;
+	background: url(../Img/bt.png)no-repeat;
+	line-height: 40px;
+	color: #90C41F;
+}
+.csnews>p a:hover{
+	color: #7BAB14;
+}
+
+/* 友情链接 */
+.Friendlinks{width: 1100px;margin: 0 auto;}
+.Friendlinks p{font-size: 24px;color: #666;padding-top: 26px;margin-bottom: 20px;}
+.Friendlinks ul{overflow: hidden;border-bottom: 1px dashed #4C4C4C;padding-bottom: 20px;}
+.Friendlinks ul li{list-style: disc;float: left;width: 120px;margin-left: 17px;line-height: 26px;}
+.Friendlinks ul li a{color: #808080;}
+.Friendlinks ul li a:hover{color: #E5E5E5;}
+.footernr .footp1{line-height: 60px;border-bottom:1px dashed #4c4c4c;padding: 0;}
+.footernr{width: 1100px;}
+
+
+/**/
+#kfhottop{
+	width: 1090px;
+    margin: auto 5px;
+}
+.jrkf .topname{
+	line-height: 44px;
+	background: #B3B3B3;
+	width: 1090px;
+    margin-left: 5px;
+}
+.jrkf .topname span{
+	display: inline-block;
+	color: #FFFFFF;
+	text-align: center;
+	border-right: 1px solid #E5E5E5;
+}
+.jrkf .topname span:nth-child(1){
+	width: 206px;
+}
+.jrkf .topname span:nth-child(2){
+	width: 131px;
+}
+.jrkf .topname span:nth-child(3){
+	width: 211px;
+}
+.jrkf .topname span:nth-child(4){
+	width: 181px;
+}
+.jrkf .topname span:nth-child(5){
+	width: 211px;
+}
+.jrkf .topname span:nth-child(6){
+	width: 149px;
+	border-right: 0;
+}
+.jrkf li{
+	
+	border-bottom: 1px solid #E5E5E5;
+	text-align: center;
+	
+}
+.jrkf li span{
+	display: inline-block;
+	border-right: 1px solid #E5E5E5;
+	line-height: 44px;
+	height:44px;
+	vertical-align: middle;
+}
+.jrkf li span:nth-child(1){
+	width: 206px;
+	border-left: 1px solid #E5E5E5;
+}
+.jrkf li span:nth-child(2){
+	width: 131px;
+}
+.jrkf li span:nth-child(3){
+	width: 211px;
+}
+.jrkf li span:nth-child(4){
+	width: 181px;
+}
+.jrkf li span:nth-child(5){
+	width: 211px;
+}
+.jrkf li span:nth-child(6){
+	width: 150px;
+}
+.jrkf li b{
+	display: inline-block;
+	width: 15px;
+	height: 14px;
+	margin-right: 4px;
+	vertical-align: middle;
+	margin-bottom: 2px;
+	background: url(../Img/packlog.png) no-repeat;
+}
+.jrkf li .start{
+	color: #FFFFFF;
+	background: #90C41F;
+	border-radius: 4px;
+	padding: 0 17px;
+	line-height: 25px;
+	height:25px;
+	vertical-align: middle;
+}
+.cskf .jrkf{
+	margin-top: 20px;
+}
+.jrkf>p input{
+	width: 70px;
+	height: 24px;
+	border-radius: 4px;
+	background: #ccc;
+	color: #fff;
+	float: right;
+	margin-top: 10px;
+	font: 12px "宋体";
+}
+.jrkf>p{
+	text-align: center;
+	margin-top: 20px;
+}
+.jrkf>p a{
+	margin: 0 auto;
+	display: block;
+	width: 180px;
+	height: 40px;
+	background: url(../Img/bt.png)no-repeat;
+	line-height: 40px;
+	color: #90C41F;
+}
+.jrkf>p a:hover{
+	color: #7BAB14;
+}
+
+
+
+/**/
+.cspackage ul{
+	overflow: hidden;
+	padding-bottom: 10px;
+	margin-top: 20px;
+	padding-left: 15px;
+}
+.cspackage ul li{
+	width: 190px;
+	height: 198px;
+	padding: 10px;
+	background: #fff;
+	float: left;
+	margin: 0 12px;
+}
+.cspackage ul li:hover{
+	box-shadow: 0px 3px 10px 1px rgba(0,0,0,.15);
+}
+.cspackage ul li:hover p{
+	color: #90C41F;
+}
+.cspackage ul li div{
+	margin-bottom: 8px;
+}
+.cspackage ul li p{
+	text-align: center;
+	line-height: 25px;
+}
+.cspackage ul li p input{
+	width: 70px;
+	height: 24px;
+	border-radius: 4px;
+	background: #ccc;
+	color: #fff;
+	float: right;
+	margin-top: 10px;
+	font: 12px "宋体";
+}
+.cspackage>p{
+	text-align: center;
+	margin-top: 20px;
+}
+.cspackage>p a{
+	margin: 0 auto;
+	display: block;
+	width: 180px;
+	height: 40px;
+	background: url(../Img/bt.png)no-repeat;
+	line-height: 40px;
+	color: #90C41F;
+}
+.cspackage>p a:hover{
+	color: #7BAB14;
+}
+
+#newgiftpg>img,#csgame>img{
+	position: absolute;
+	top: 0;
+	left: 50%;
+}
+
+
+/**/
+#csgame{
+	position: relative;
+	overflow: hidden;
+	padding: 40px 0 0 0; 
+	width:1100px;
+}
+#csgame>ul{
+	width: 400px;
+	overflow: hidden;
+	margin: 0 auto;
+	padding-left: 22px;
+	margin-bottom: 20px;
+}
+#csgame>ul .active{
+	color: #323232;
+	background: url(../Img/cstab2.png) no-repeat;
+	/*margin-bottom: 0;*/
+}
+#csgame>ul li{
+	width: 140px;
+	height: 57px;
+	color: #808080;
+	line-height: 57px;
+	font-size: 20px;
+	float: left;
+	cursor: pointer;
+	padding-right: 60px;
+	background: url(../Img/cstab1.png) no-repeat;
+}
+#csgame>ul li a{
+	font-size: 20px;
+	display: block;
+}
+#csgame>ul li:hover{
+	color: #323232;
+}
+#csgame .ddgame{
+	width: 80px;
+    padding-right: 0;
+}
+
+.lygames>ul{
+	padding-left: 1px;
+}
+.lygames>ul li{
+	width: 352px;
+	height: 122px;
+	border-radius: 4px;
+	border: 1px solid #E5E5E5;
+	padding: 10px;
+	float: left;
+	margin: 0 7px;
+	margin-bottom: 20px;
+}
+.lygames>ul li:hover{
+	box-shadow: 0px 3px 10px 1px rgba(0,0,0,.15);
+}
+.lygames>ul li img{
+	border-radius: 4px;
+	margin-right: 10px;
+	width:100px;
+	height:100px;
+}
+.lygames>ul li .msg{
+	width: 220px;
+}
+.lygames>ul li .msg h1{
+	font-size: 18px;
+	color: #646464;
+	margin-bottom: 5px;
+}
+.lygames>ul li .msg span{
+	display: inline-block;
+	width: 110px;
+	font-size: 12px;
+	color: #808080;
+	line-height: 20px;
+}
+.lygames>ul li .msg i{
+	font-size: 12px;
+	color: #808080;
+}
+.lygames>ul li .msg input{
+	width: 80px;
+	height: 26px;
+	border: 1px solid #90C41F;
+	color: #90C41F;
+	border-radius: 4px;
+	background: #fff;
+	margin-right: 10px;
+	margin-top: 5px;
+}
+.lygames>ul li .msg input:hover{
+	background: #90C41F;
+	color: #fff;
+}
+.lygames li>div{
+	float: left;
+}
+
+.yfgames>ul{
+	padding-left: 10px;
+}
+.yfgames>ul li:hover{
+	box-shadow: 0px 3px 10px 1px rgba(0,0,0,.15);
+}
+.yfgames>ul li input:hover {
+	background: #90C41F;
+	color: #fff;
+}
+.yfgames>ul li>div{
+	float: left;
+}
+.yfgames>ul li>p{
+	float: right;
+    margin-right: 18px;
+    margin-top: 45px;
+}
+.yfgames>ul li>p input{
+	width: 120px;
+	height: 38px;
+	border-radius: 4px;
+	border: 1px solid #90C41F;
+	background: #fff;
+	color: #90C41F;
+	font-size: 16px;
+	margin-right: 10px;
+}
+.yfgames>ul .cscontartxt{
+	width: 500px;
+}
+.yfgames .cscontartxt h1{
+	font-size: 20px;
+	color: #646464;
+}
+.yfgames .cscontartxt p span{
+	margin-right: 30px;
+	color: #808080;
+}
+.yfgames .cscontartxt p i{
+	color: #808080;
+}
+.yfgames .cscontartxt p{
+	line-height: 22px;
+	height: 45px;
+    overflow: hidden;
+    color: #808080;
+}
+.yfgames .cscontartxt .p2{
+	margin: 10px 0;
+	height: 22px;
+}
+.yfgames .cscontartxt s{
+	border-bottom: 2px solid #E5E5E5;
+	display: block;
+    width: 80px;
+    margin: 5px 0;
+}
+.yfgames>ul li{
+	overflow: hidden;
+	width: 1080px;
+	height: 142px;
+	border: 1px solid #E5E5E5;
+	border-radius: 4px;
+	padding: 10px;
+	margin-bottom: 20px;
+}
+.yfgames>ul li img{
+	margin-right: 10px;
+}
+/**/
+.ddgames>ul{
+	padding-left: 10px;
+}
+.ddgames>ul li:hover{
+	box-shadow: 0px 3px 10px 1px rgba(0,0,0,.15);
+}
+.ddgames>ul li input:hover {
+	background: #90C41F;
+	color: #fff;
+}
+.ddgames>ul li>div{
+	float: left;
+}
+.ddgames>ul li>p{
+	float: right;
+    margin-right: 18px;
+    margin-top: 45px;
+}
+.ddgames>ul li>p input{
+	width: 120px;
+	height: 38px;
+	border-radius: 4px;
+	border: 1px solid #90C41F;
+	background: #fff;
+	color: #90C41F;
+	font-size: 16px;
+	margin-right: 10px;
+}
+.ddgames>ul .msg{
+	width: 500px;
+}
+.ddgames .msg h1{
+	font-size: 20px;
+	color: #646464;
+}
+.ddgames .msg p span{
+	margin-right: 30px;
+	color: #808080;
+}
+.ddgames .msg p i{
+	color: #808080;
+}
+.ddgames .msg p{
+	line-height: 22px;
+	height: 45px;
+    overflow: hidden;
+    color: #808080;
+}
+.ddgames .msg .p2{
+	margin: 10px 0;
+	height: 22px;
+}
+.ddgames .msg s{
+	border-bottom: 2px solid #E5E5E5;
+	display: block;
+    width: 80px;
+    margin: 5px 0;
+}
+.ddgames>ul li{
+	overflow: hidden;
+	width: 1080px;
+	height: 142px;
+	border: 1px solid #E5E5E5;
+	border-radius: 4px;
+	padding: 10px;
+	margin-bottom: 20px;
+}
+.ddgames>ul li img{
+	margin-right: 10px;
+    width:170px;
+    height:120px;
+}
+/**/
+.page{
+    width: 800px;
+    margin: 5px auto;
+    overflow: hidden;
+}
+.page ul{
+	margin: 30px auto;
+    display: table;
+	margin-bottom:0;
+}
+/* 分页条 */
+/*联运*/
+#lygamespage span,#lygamespage a,#lygamespage .p_next,#lygamespage .p_back,#lygamespage samp{
+	text-align:center;
+	display:inline-block;
+	cursor:pointer;
+	height:30px;
+}
+#lygamespage span{
+	height:30px;
+	margin:0;
+}
+#lygamespage a:hover,#lygamespage .p_next:hover,#lygamespage .p_back:hover{
+	border-bottom: 5px solid #90C41F;
+}
+#lygamespage span,#lygamespage a,#lygamespage samp{
+	width:30px;
+	border-bottom: 5px solid #e5e5e5;
+	margin:0 5px;
+}
+#lygamespage .p_next,#lygamespage .p_back{
+	width:50px;
+	border-bottom: 5px solid #e5e5e5;
+}
+#lygamespage span{
+	padding-bottom:5px;
+	border-bottom: 5px solid #90C41F;
+	margin:0 5px;
+}
+/*研发*/
+#yfgamespage span,#yfgamespage a,#yfgamespage .p_next,#yfgamespage .p_back,#yfgamespage samp{
+	text-align:center;
+	display:inline-block;
+	cursor:pointer;
+	height:30px;
+	border-bottom: 5px solid #e5e5e5;
+	margin:0 5px;
+}
+#yfgamespage span{
+	height:30px;
+	margin:0;
+}
+#yfgamespage a:hover,#yfgamespage .p_next:hover,#yfgamespage .p_back:hover{
+	border-bottom: 5px solid #90C41F;
+}
+#yfgamespage span,#yfgamespage a,#yfgamespage samp{
+	width:30px;
+}
+#yfgamespage .p_next,#yfgamespage .p_back{
+	width:50px;
+}
+#yfgamespage span{
+	padding-bottom:5px;
+	border-bottom: 5px solid #90C41F;
+	margin:0 5px;
+}
+/*独代*/
+#ddgamespage span,#ddgamespage a,#ddgamespage .p_next,#ddgamespage .p_back,#ddgamespage samp{
+	text-align:center;
+	display:inline-block;
+	cursor:pointer;
+	height:30px;
+	border-bottom: 5px solid #e5e5e5;
+	margin:0 5px;
+}
+#ddgamespage span{
+	height:30px;
+	margin:0;
+}
+#ddgamespage a:hover,#ddgamespage .p_next:hover,#ddgamespage .p_back:hover{
+	border-bottom: 5px solid #90C41F;
+}
+#ddgamespage span,#ddgamespage a,#ddgamespage samp{
+	width:30px;
+}
+#ddgamespage .p_next,#ddgamespage .p_back{
+	width:50px;
+}
+#ddgamespage span{
+	padding-bottom:5px;
+	border-bottom: 5px solid #90C41F;
+	margin:0 5px;
+}
+#newgiftpg .cspackage{
+	width:1100px;
+}

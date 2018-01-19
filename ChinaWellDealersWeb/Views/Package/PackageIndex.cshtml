@@ -1,0 +1,147 @@
+﻿@{
+    Layout = null;
+    List<PackageViewModel> serverPackage = (List<PackageViewModel>)ViewData["OpenServicePackage"];
+    List<PackageViewModel> activityPackage = (List<Models.MapModel.PackageViewModel>)ViewData["ActivityCodePackage"];
+}
+@using Models.MapModel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>网页游戏礼包_网页游戏礼包大全_爽赞网网页游戏礼包领取 -爽赞网礼包中心</title>
+    <link href="~/Content/Css/index.css" rel="stylesheet" />
+    <link href="~/Content/Css/reset.css" rel="stylesheet" />
+    <link href="~/Content/Css/amoywel.css" rel="stylesheet" />
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="~/Content/Css/lunbo.css" rel="stylesheet" />
+    <link href="~/Content/Css/news.css" rel="stylesheet" />
+    <link href="~/Content/Css/commercial.css" rel="stylesheet" />
+    <link href="~/Content/Css/personal.css" rel="stylesheet" />
+    <link href="~/Content/Css/Package.css" rel="stylesheet" />
+    <link href="/Content/Img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+</head>
+<body>
+    @Html.Action("_TwoShuangzanHeader", "Home")
+    @Html.Action("ShuangzanHeader", "NewsInfo")
+    <!-- 面包屑导航 -->
+    <div class="wide details">当前位置：<a href="/">爽赞网</a> > <span>页游礼包</span></div>
+    <div class="info packages wide clearfix">
+        <h6>
+            <p>热游礼包<i>HOT</i></p>
+            <span>
+                <input type="text" id="key" name="key" placeholder="游戏名、平台名"><button id="btnSearch">搜礼包</button>
+            </span>
+        </h6>
+        <div class="packsum packsum1">
+            <div id="hotpack">
+
+            </div>
+            <p class="packsum-title"><span class="packsum-item">独家礼包</span><a href="/Package/PackageSearch" target="_blank" type="3" class="packsum-more">更多&gt;&gt;</a></p>
+            <div id="Exclusive1" class="Exclusive1">
+                <ul id="Exclusive">
+                    @foreach (var item in (List<Models.MapModel.PackageViewModel>)ViewData["alonePackage"])
+                    {
+                        <li><a href="/Package/PackageDetails/@item.Id"><img src="/Content/GameImg/@item.SmallImg "><p>@item.GameName</p><p>@item.SystemName</p><p style="width:130px;height:20px;overflow:hidden;">@item.GiftName</p></a></li>
+                    }
+                </ul>
+            </div>
+            <p class="packsum-title"><span class="packsum-item">开服礼包</span><a href="/Package/PackageSearch" target="_blank" type="1" class="packsum-more">更多&gt;&gt;</a></p>
+            <div id="groom">
+                <ul id="groom1">
+                    @for (int i = 0; i < serverPackage.Count; i++)
+                    {
+                        if (i <= 3)
+                        {
+                            <li><a href="/Package/PackageDetails/@serverPackage[i].Id"><p class="img-sca"><img src="/Content/GameImg/@serverPackage[i].DescImg"></p><p title="@serverPackage[i].GameName">@serverPackage[i].SystemName @serverPackage[i].GameName</p><p>@serverPackage[i].GiftName</p></a></li>
+                        }
+                        else
+                        {
+
+                            <p><a href="/Package/PackageDetails/@serverPackage[i].Id" title="@serverPackage[i].GiftName"><i></i><span>@serverPackage[i].GameName</span><span>@serverPackage[i].SystemName</span><span>@serverPackage[i].GiftName</span></a></p>
+                        }
+                    }
+                </ul>
+            </div>
+            <p class="packsum-title"><span class="packsum-item">激活码</span><a href="/Package/PackageSearch" target="_blank" type="2" class="packsum-more">更多&gt;&gt;</a></p>
+            <div id="accode">
+                <ul id="accode1">
+                    @for (int i = 0; i < activityPackage.Count; i++)
+                    {
+                        if (i <= 3)
+                        {
+                            <li><a href="/Package/PackageDetails/@activityPackage[i].Id"><p class="img-sca"><img src="/Content/GameImg/@activityPackage[i].DescImg"></p><p title="@activityPackage[i].GameName">@activityPackage[i].SystemName @activityPackage[i].GameName</p><p>@activityPackage[i].GiftName</p></a></li>
+                        }
+                        else
+                        {
+
+                            <p><a href="/Package/PackageDetails/@activityPackage[i].Id" title="@activityPackage[i].GiftName"><i></i><span>@activityPackage[i].GameName</span><span>@activityPackage[i].SystemName</span><span>@activityPackage[i].GiftName</span></a></p>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+        @Html.Action("_RightPackage", "Package")
+    </div>
+    <!-- 底部 -->
+    @Html.Partial("_ShuangZanFooter")
+    <script src="~/Content/js/jquery-1.11.1.min.js"></script>
+    <script src="~/Content/js/jquery.SuperSlide.2.1.1.js"></script>
+    <script src="~/Content/js/personal_use.js"></script>
+    <script src="~/Content/js/Public.js"></script>
+    <script src="~/Content/js/amoywel.js"></script>
+    <script src="~/Content/js/packages.js"></script>
+    <script>
+        $(function () {
+            $.ajax({
+                datatype: 'json',
+                type: 'post',
+                data: {
+
+                },
+                url: '/Package/PackageHot',
+                success: function (data) {
+                    for (var i in data) {
+                        var msg = data[i].Data;
+                        data[i].systemname = regexp('systemname', msg);
+                        data[i].id = regexp('id', msg);
+                    }
+                    var ul = $('<ul class="hotpacktop clearfix"></ul>');
+
+                    for (var i = 0; i < data.length; i++) {
+                        ul.append('<li class="rep"><p class="packpic"><a href="/Package/PackageSearch?packageName=' + data[i].Name + '" target="_blank"><img src="/Content/GameImg/' + data[i].SmallImg + '"></a></p><p class="pickname1 pickname2"><a href="/Package/PackageSearch?packageName=' + data[i].Name + '" target="_blank">' + data[i].Name + '</a></p><p class="hphot1"><a href="/Package/PackageSearch?packageName=' + data[i].Name + '&systemname=' + data[i].systemname[0] + '" target="_blank">' + data[i].systemname[0] + '</a></p><p class="hphot1"><a href="/Package/PackageSearch?packageName=' + data[i].Name + '&systemname=' + data[i].systemname[1] + '" target="_blank">' + data[i].systemname[1] + '</a></p><p class="hphot1"><a href="/Package/PackageSearch?packageName=' + data[i].Name + '&systemname=' + data[i].systemname[2] + '" target="_blank">' + data[i].systemname[2] + '</a></p><p class="hphot1"><a href="/Package/PackageSearch?packageName=' + data[i].Name + '&systemname=' + data[i].systemname[3] + '" target="_blank">' + data[i].systemname[3] + '</a></p><p><input type="button" value="更多" class="morebtn"></p></li>');
+                        var span = $('<span class="moregame' + i + ' display"></span>');
+                        span.empty();
+                        span.append('<i></i>');
+                        for (var j = 4; j < data[i].systemname.length; j++) {
+                            span.append('<p class="hphot1"><a href="/Package/PackageSearch" target="_blank">' + data[i].systemname[j] + '</a></p>');
+                        };
+                        ul.append(span);
+                    }
+                    $('#hotpack').html(ul);
+                }
+            })
+
+            function regexp(name, str) {
+                var reg = new RegExp('<' + name + '>' + '(.*?)' + '</' + name + '>', 'g');
+                var reg1 = new RegExp('<' + name + '>' + '(.*?)' + '</' + name + '>');
+                var arr = str.match(reg);
+                var res = arr.map(function (x) {
+                    return x.match(reg1)[1];
+                })
+                return res;
+            }
+        })
+        $('.packsum-more').click(function () {
+            localStorage.type = $(this).attr('type');
+        })
+        $(function () {
+            $('#btnSearch').click(function () {
+                window.location.href = '/Package/PackageSearch?packageName=' + $('#key').val() + '&systemname=' + $('#systemname').val();
+            });
+        });
+    </script>
+
+
+
+</body>
+</html>

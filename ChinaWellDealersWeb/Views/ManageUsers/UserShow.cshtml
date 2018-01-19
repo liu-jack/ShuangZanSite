@@ -1,0 +1,459 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>UserShow</title>
+    <link href="~/Content/EasyUi/themes/default/easyui.css" rel="stylesheet" />
+    <link href="~/Content/EasyUi/themes/icon.css" rel="stylesheet" />
+    <link href="~/Content/EasyUi/themes/color.css" rel="stylesheet" />
+    <script src="~/Content/EasyUi/jquery.min.js"></script>
+    <script src="~/Content/EasyUi/jquery.easyui.min.js"></script>
+    <script src="~/Content/EasyUi/easyui-lang-zh_CN.js"></script>
+    <script src="~/Scripts/datapattern.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script> 
+    <style type="text/css">
+         td
+        {      
+        padding-top:6px;    
+       font: larger bold 10px "Trebuchet MS"  Verdana, Arial, Helvetica, sans-serif;   
+        color: #4f6b72;   
+        height:35px;
+         letter-spacing: 0px;                            
+        }
+        /*.datagrid .datagrid-pager.pagination {
+            margin-top:-36px;
+        }*/
+    </style> 
+</head>
+<body>
+        @*----------------搜索开始----------------*@
+    <div id="searchDiv" style="margin:5px 0;">
+            <label for=" searchname" style="font-size:14px;">
+        登录名：</label> <input class="easyui-textbox" id="searchName" name="searchName" />
+
+        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-search'" id="btnSearch">查询</a>
+
+    </div>
+        @*----------------搜索结束----------------*@
+       
+        <table id="UsersInfo"></table>
+    <!----------------------------添加用户的Div-------------------------->
+    <div id="addDiv"  style="display:none">
+        @using (Ajax.BeginForm("AddAdminUser", new AjaxOptions() { OnSuccess = "afterAdded" }))
+        {
+            <table style="margin-top:28px;margin-left:26px;" cellspacing="10">
+                <tr>
+                    <td>登录名</td>
+                    <td>
+                        <input type="text" name="uName" id="uName" />
+                    </td>
+                </tr>
+               
+                <tr>
+                    <td>管理员密码</td>
+                    <td>
+                        <input type="password" name="Pwd" id="Pwd" />
+                    </td>
+                </tr>
+              
+                <tr>
+                    <td>管理员姓名</td>
+                    <td>
+                        <input type="text" name="name" id="name" />
+                    </td>
+                </tr>
+             
+                <tr>
+                    <td>手机号</td>
+                    <td>
+                        <input type="text" name="tel" id="tel" />
+                    </td>
+                </tr>
+                           
+            </table>
+        }
+    </div>
+
+    @*-------------------------修改的对话框的div-------------------------*@
+    <div id="editDiv" style="display:none">
+        <iframe id="frameEdit" src="javascript:void(0)" frameborder="0" width="100%" height="100%"></iframe>
+    </div>
+
+    @*------------------------设置角色的对话框的div-------------------------*@
+    <div id="setRoleDiv" style="display:none">
+        <iframe id="frameSetRole" src="javascript:void(0)" frameborder="0" width="100%" height="100%"></iframe>
+    </div>
+
+    @*------------------------设置角色的对话框的div-------------------------*@
+    <div id="setActionDiv" style="display:none;">
+        <iframe id="frameSetAction" src="javascript:void(0)" frameborder="0" width="100%" height="100%"></iframe>
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+
+    $(function () {
+        initTb();
+        //隐藏添加的表单     
+        $("#setRoleDiv").css("display", "none");
+        $("#setActionDiv").css("display", "none");
+        //绑定搜索的点击事件
+        $("#btnSearch").click(function () {
+            //搜索后台的数据。
+            var queryData = {
+                searchName: $("#searchName").val(),
+            };
+            initTb(queryData);
+        });
+    });
+    //读取基本信息的表
+    function initTb(queryParam) {
+        $('#UsersInfo').datagrid({
+            title: '管理员信息列表展示',
+            idField: 'Id',
+            fitColumns: true,//列自适应。
+            collapsible: false,
+            minimizable: false,
+            maximizable: false,
+            resizable: true,
+            fit: true,
+            loadMsg: '正在加载，请稍稍候...',
+            striped: true,
+            url: '/ManageUsers/GetAllUserInfos',
+            nowrap: true,
+            singleSelect: true,//单行选中
+            rownumbers: true,  //显示行号
+            pagination: true,
+            pageSize: 20,
+            pageList: [20, 40, 60, 80, 100],
+            queryParams: queryParam,//请求的额外的参数。
+            toolbar: '#tb',
+            columns: [[
+                //{ field: 'ck', checkbox: true },
+
+                { field: 'UName', title: '登录名', width: 200 },
+                { field: 'Name', title: '姓名', width: 250 },
+                  {
+                      field: 'Tel', title: '手机号', width: 350
+                  },
+                   {
+                       field: 'Login_Num', title: '登录次数', width: 350
+                   },
+                     {
+                         field: 'InTime', title: '注册时间', width: 250,
+                         formatter: function (value, row, Index) {//  /Date(1377327062000)/
+                             return (eval(value.replace(/\/Date\((\d+)\)\//gi, "new Date($1)")))
+                                 .pattern("yyyy-M-d H:m:s");
+                         }
+                     },
+              {
+                  field: 'Last_login_Time', title: '最后登录时间', width: 250,
+                  formatter: function (value, row, NewsPagingList) {//  /Date(1377327062000)/
+                      return (eval(value.replace(/\/Date\((\d+)\)\//gi, "new Date($1)")))
+                          .pattern("yyyy-M-d H:m:s");
+                  }
+              },
+             {
+                 field: 'State', title: '状态', width: 120,
+                 formatter: function (value, row, Index) {
+                     if (value == "1") {
+                         return "<a class='usersState' href='javascript:void(0)' uId='" + row.Id + "' >正常</a>";
+                     } else {
+                         return "<a class='usersState' href='javascript:void(0)' uId='" + row.Id + "' >停用</a>";
+                     }
+                 }
+             },
+                {
+                    field: 'Edit', title: '操作', width: 120,
+                    formatter: function (value, row, Index) {
+                        return "<a class='delLink' href='javascript:void(0)' uId='" + row.Id + "' style='color:red'>删除</a>&nbsp;&nbsp;&nbsp;<a href='javascript:void(0)' class='editLink' uId='" + row.Id + "'>修改</a>";
+                    }
+                }
+            ]],
+            toolbar: [{
+                id: 'btnAdd',
+                text: '添加',
+                iconCls: 'icon-add',
+                handler: addEvent
+            }, {
+                id: 'btnSetRole',
+                text: '设置用户角色',
+                iconCls: 'icon-redo',
+                handler: setRoleEvent
+            }, {
+                id: 'btnSetActionInfo',
+                text: '设置用户权限',
+                iconCls: 'icon-blank',
+                handler: setActionEvent
+            }],
+            onHeaderContextMenu: function (e, field) {
+            },
+            onLoadSuccess: onGridLoadSuccess//表格加载完成之后，调用此事件响应方法。
+        });
+        // 设置页脚
+        var p = $('#UsersInfo').datagrid('getPager')
+        $(p).pagination({
+            beforePageText: '第',
+            afterPageText: '页  共{pages} 页',
+            displayMsg: '当前显示 {from}-{to} 条记录   共 {total} 条记录'
+        });
+    }
+    ///设置用户的 特殊权限
+    function setActionEvent() {
+        //弹出设置权限的对话框
+        //弹出设置用户角色的对话框
+        var allSelectedRows = $('#UsersInfo').datagrid("getSelections");
+        if (allSelectedRows.length != 1) {
+            $.messager.alert("提示", "请选中一位用户进行权限设置");
+            return;
+        }
+        var id = allSelectedRows[0].Id;
+        $("#frameSetAction").attr("src", "/ManageUsers/SetAction/" + id);
+        //弹出设置权限的对话框。
+        $("#setActionDiv").css("display", "block");
+        $("#setActionDiv").dialog({
+            width: 900,
+            height: 400,
+            modal: true,
+            title: "设置用户权限",
+            collapsible: true,
+            minimizable: true,
+            maximizable: true,
+            resizable: true,
+            buttons: [{
+                id: 'btnAddSbu',
+                text: '关闭',
+                iconCls: 'icon-ok',
+                handler: function () {
+                    $("#setActionDiv").dialog("close");
+                    $('#UsersInfo').datagrid("clearSelections");
+                }
+            }, {
+                id: 'btnCancelAdd',
+                text: '取消',
+                iconCls: 'icon-cancel',
+                handler: function () {
+                    $("#setActionDiv").dialog("close");
+                    $('#UsersInfo').datagrid("clearSelections");
+                }
+            }]
+        });
+    }
+
+    //设置用户的角色
+    function setRoleEvent() {
+        //弹出设置用户角色的对话框
+        var allSelectedRows = $('#UsersInfo').datagrid("getSelections");
+        if (allSelectedRows.length != 1) {
+            $.messager.alert("提醒", "请选中一位用户进行设置角色");
+            return;
+        }
+        var id = allSelectedRows[0].Id;
+        $("#frameSetRole").attr("src", "/ManageUsers/SetRole/" + id);
+        //弹出修改的对话框。
+        $("#setRoleDiv").css("display", "block");
+        $("#setRoleDiv").dialog({
+            width: 600,
+            height: 400,
+            modal: true,
+            title: "设置用户角色",
+            collapsible: true,
+            minimizable: true,
+            maximizable: true,
+            resizable: true,
+            buttons: [{
+                id: 'btnAddSbu',
+                text: '设置',
+                iconCls: 'icon-add',
+                handler: function () {
+                    //让子容器的表单提交
+                    $("#frameSetRole")[0].contentWindow.submitFrm();
+                   // $.messager.alert('恭喜', '操作成功！', 'info');
+                    $('#UsersInfo').datagrid("clearSelections");
+
+                }
+            }, {
+                id: 'btnCancelAdd',
+                text: '取消',
+                iconCls: 'icon-cancel',
+                handler: function () {
+                    $("#setRoleDiv").dialog("close");
+                    //清除之前的选中的行。
+                    $('#UsersInfo').datagrid("clearSelections");
+                }
+            }]
+        });
+    }
+    //设置角色成功之后，由子容器调用的
+    function afterSetRole() {
+        //关闭对话框
+        $("#setRoleDiv").dialog("close");
+    }
+    //表格加载完成之后，调用此事件响应方法。
+    function onGridLoadSuccess(data) {
+        //绑定表格里面的所有的修改和删除按钮的点击事件
+        $(".delLink").click(function () {
+            var strID = $(this).attr("uId");
+            $.messager.confirm("温馨提示", "您确认要删除该用户？", function (r) {
+                if (r) {
+                    postDeleteData(strID);
+                }
+            });
+        });
+        //绑定修改
+        $(".editLink").click(function () {
+            editEvent();
+        });
+        //改变用户的状态
+        $(".usersState").click(function () {
+            var strId = $(this).attr("uId");
+            $.messager.confirm("温馨提示", "您确认要变更此用户的状态吗？", function (r) {
+                if (r) {
+                    changeUsersState(strId);
+                } $('#UsersInfo').datagrid("clearSelections");
+            });
+        });
+    }
+    //自定义改变用户状态的事件
+    function changeUsersState(strId) {
+        $.post("/ManageUsers/ChangeUsersState", { id: strId }, function (data) {
+            if (data == "ok") {
+                //清除之前的选中的行。
+                $('#UsersInfo').datagrid("clearSelections");
+                //刷新表格
+                $('#UsersInfo').datagrid("reload");//代用表格的重新加载的方法。
+            } else if (data == "fail") {
+                $.messager.show("提示","用户状态改变失败！");
+            }
+            else if (data == "empty") {
+                $.messager.alert("提示","请先选择要改变的用户！");
+            } else {
+                $.messager.alert("温馨提示","系统异常请稍候再试！");
+            }
+        });
+    };
+    //添加被点击的时候执行的代码
+    function addEvent() {
+        //添加的表单出来。
+        $("#addDiv").css("display", "block");
+        $("#addDiv").dialog({
+            width: 340,
+            height: 300,
+            modal: true,
+            title: "注册用户",
+            collapsible: true,
+            minimizable: true,
+            maximizable: true,
+            resizable: true,
+            buttons: [{
+                id: 'btnAddSbu',
+                text: '添加',
+                iconCls: 'icon-add',
+                handler: function () {
+                    if ($('#uName').val() == "") {
+                        $.messager.alert("提示", "请输入管理员名称");
+                        return;
+                    }
+                    if ($('#pwd').val() == "") {
+                        $.messager.alert("提示", "请输入管理员密码");
+                        return;
+                    }
+                    if ($('#name').val() == "") {
+                        $.messager.alert("提示", "请输入管理员姓名");
+                        return;
+                    }
+                    if ($('#tel').val() == "") {
+                        $.messager.alert("提示", "请输入您的手机号");
+                        return;
+                    }
+                    //定位到表单然后  submit
+                    $("#addDiv form").submit();
+                }
+            }, {
+                id: 'btnCancelAdd',
+                text: '取消',
+                iconCls: 'icon-cancel',
+                handler: function () {
+                    $("#addDiv").dialog("close");
+                }
+            }]
+        });
+    }
+
+    //添加成功之后执行的 事件响应方法    方法与方法之间用空行隔开。
+    function afterAdded(data) {
+        if (data == "ok") {
+            //关闭对话框，刷新表格
+            $("#addDiv").dialog("close");
+            $('#UsersInfo').datagrid("reload");//代用表格的重新加载的方法。
+        } else {
+            //alert(data);
+            $.messager.alert("错误信息", "注册失败！");
+        }
+    }
+    //处理删除的表单提交
+    function postDeleteData(strIds) {
+        $.post("/ManageUsers/UsersDelete", { ids: strIds }, function (data) {
+            if (data == "ok") {
+                //清除之前的选中的行。
+                $('#UsersInfo').datagrid("clearSelections");
+                //刷新表格
+                $('#UsersInfo').datagrid("reload");//代用表格的重新加载的方法。
+            } else if (data == "empty") {
+                $.messager.alert("提示","请先选中一条数据");
+            } else {
+                $.messager.alert("温馨提示","系统异常请稍候再试！");
+            }
+        });
+    }
+    ///修改的事件响应方法
+    function editEvent() {
+        //弹出对话框之前先给iframe标签的src属性设置值
+        //拿到用户选择的要修改的数据
+        var allSelectedRows = $('#UsersInfo').datagrid("getSelections");
+        if (allSelectedRows.length != 1) {
+            $.messager.alert("提醒", "请选中一条数据进行修改");
+            return;
+        }
+        var id = allSelectedRows[0].Id;
+        $("#frameEdit").attr("src", "/ManageUsers/Edit/" + id);
+        //弹出修改的对话框。
+        $("#editDiv").css("display", "block");
+        $("#editDiv").dialog({
+            width: 370,
+            height: 350,
+            modal: true,
+            title: "修改用户",
+            collapsible: true,
+            minimizable: true,
+            maximizable: true,
+            resizable: true,
+            buttons: [{
+                id: 'btnAddSbu',
+                text: '修改',
+                iconCls: 'icon-add',
+                handler: function () {
+                    //让子容器的表单提交
+                    $("#frameEdit")[0].contentWindow.submitFrm();
+                   // $("#editDiv").dialog("close");
+                }
+            }, {
+                id: 'btnCancelAdd',
+                text: '取消',
+                iconCls: 'icon-cancel',
+                handler: function () {
+                    $("#editDiv").dialog("close");
+                    $('#UsersInfo').datagrid("clearSelections");
+                }
+            }]
+        });
+    }
+    //当子容器修改成功之后调用此方法，关闭对话框，刷新表格
+    function afterEdit() {
+        $("#editDiv").dialog("close");
+        $('#UsersInfo').datagrid("reload");//代用表格的重新加载的方法。
+    }
+</script>

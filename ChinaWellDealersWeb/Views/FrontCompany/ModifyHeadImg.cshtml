@@ -1,0 +1,68 @@
+﻿@{
+    Layout = null;
+}
+@model Models.Company
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>爽赞</title>
+    <meta charset="UTF-8">
+    <link href="~/Content/Css/Form.css" rel="stylesheet" />
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="~/Content/Css/ModifyHeadImg.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="title">
+        <span>修改头像</span>
+    </div>
+    <form id="ff" enctype="multipart/form-data" method="post" data-options="novalidate:true ">
+        <div class="main">
+            <div class="private">
+                <div id="headimg" style="top:15px;left:15px; position:absolute;">
+                    <img src="/Content/UserImg/@Model.Head" class="nowheadimg"  alt="" width="100" height="100" border="0">
+                    <input type="hidden" id="real_headimg" name="real_headimg">
+                </div>
+                <div>
+                    <div class="btnup" style="width:70px;height:30px;line-height:22px;">请选择
+                        <input type="file" name="headImg" style="width:70px;height:30px;position:absolute;left:0px;opacity:0;" />
+                    </div>
+                    <span></span>
+                </div>
+                <kbd class="btn" id="save">保存图像</kbd>
+                <p>注：1.选择一张jpg/png/gif格式的本地图片上传。2.注意图片不要超过2M，尺寸为：100x100</p>
+            </div>
+            <img src="/Content/Img/1128.png" alt="" width="181" height="132px" style="margin-left:-45px; position:absolute;top:59px;">
+            <span>
+                <strong style="font-weight:normal; display:block; border-top: 1px solid #CBCBCB; padding: 5px; line-height: 40px;">也许你会喜欢这些经典头像</strong>
+                <span id="heads">
+                    <img src="/Content/Img/1.jpg" alt="" data-head="1.jpg" />
+                    <img src="/Content/Img/2.jpg" alt="" data-head="2.jpg" />
+                    <img src="/Content/Img/3.jpg" alt="" data-head="3.jpg" />
+                    <img src="/Content/Img/4.jpg" alt="" data-head="4.jpg" />
+                    <img src="/Content/Img/5.jpg" alt="" data-head="5.jpg" />
+                    <img src="/Content/Img/6.jpg" alt="" data-head="6.jpg" />
+                </span>
+            </span>
+        </div>     
+     </form>
+</body>
+</html>
+<script src="~/Content/js/jquery-1.11.1.min.js"></script>
+<script src="~/Content/js/myExtend.js"></script>
+<script src="~/Content/js/jquery.SuperSlide.2.1.1.js"></script>
+<script src="~/Content/js/Public.js"></script>
+<link href="~/Content/layui-v1.0.9_rls/layui/css/modules/layer/default/layer.css" rel="stylesheet" />
+<script src="~/Content/layui-v1.0.9_rls/layui/lay/modules/layer.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script src="~/Scripts/MyAjaxForm.js"></script>
+<script>
+    $("#heads img").click(function () {
+        var imgs = $(this).attr("src");
+        $('#real_headimg').val(imgs);
+        $(".nowheadimg").attr("src", imgs);   
+    })
+    var dom = $("#ff");
+    $("#save").click(function () {
+        parent.changeImg(dom);
+    });
+</script>

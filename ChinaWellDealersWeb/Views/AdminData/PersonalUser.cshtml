@@ -1,0 +1,172 @@
+﻿@model IEnumerable<Models.PersonalUser>
+
+@{
+    Layout = null;
+    Layout = "~/Views/Shared/_LayoutAdminData.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>PersonalUser</title>  
+</head>
+<body>
+    @*----------------搜索开始----------------*@
+    <div id="searchDiv" style="margin:5px 0;">
+        <label for="cpyName" style="font-size:14px;">登录名：</label> <input class="easyui-textbox" id="uName" name="uName" />
+        <label for="cpyName" style="font-size:14px;">手机号：</label> <input class="easyui-textbox" id="mobile" name="mobile" />        
+        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-search'" id="btnSearch">查询</a>
+        <a download="somedata.xls" href="#" onclick="return ExcellentExport.excel(this, 'tableidd', 'tabletitle', 'Sheet Name Here');" style="background: url(/Content/Img/download-e.png) left center no-repeat; padding-left: 20px; margin-left: 10px; color: #000; text-decoration: none; font-size: 14px;">导出</a>
+
+    </div>
+    @*----------------搜索结束----------------*@
+    <table id="msgInfo"></table>  
+</body>
+</html>
+<script type="text/javascript">
+    $(function () {
+        initTb();
+       
+        //绑定搜索的点击事件
+        $("#btnSearch").click(function () {
+            ////搜索后台的数据。
+            $('#msgInfo').datagrid('load', {
+                     uName: $("#uName").val(),
+                    mobile: $("#mobile").val(),
+            });                    
+        });
+    });
+    //读取基本信息的表
+    function initTb() {
+        $('#msgInfo').datagrid({
+            title: '个人用户信息列表展示',
+            idField: 'Id',
+            fitColumns: true,//列自适应。
+            collapsible: false,
+            minimizable: false,
+            maximizable: false,
+            resizable: true,
+            height: 860,
+            fit: true,
+            loadMsg: '正在加载，请稍稍候...',
+            striped: true,
+            url: '/AdminData/GetPersonalUsers',
+            nowrap: true,
+            singleSelect: true,//单行选中
+            rownumbers: false,  //显示行号
+            pagination: true,
+            pageSize: 20,
+            pageList: [20, 40, 60, 80, 100],
+           // queryParams: queryParam,//请求的额外的参数。
+            toolbar: '#tb',
+            columns: [[
+                //{ field: 'ck', checkbox: true },
+                { field: 'UName', title: '登录名', width: 250 },
+                  {
+                      field: 'Mobile', title: '手机号', width: 350
+                  },
+                  {
+                      field: 'QQ', title: 'QQ', width: 350
+                  },
+                  {
+                      field: 'WeChat', title: '微信', width: 350
+                  },
+                  {
+                      field: 'Email', title: '邮件', width: 350
+                  },
+                  {
+                      field: 'Pay', title: '爽币', width: 250,
+                      formatter: function (value, row, Index) {//  /Date(1377327062000)/
+                          if (value == null) {
+                              return 0;
+
+                          } else {
+                              return "<a  class='coolDetail' href='/AdminData/User_EarnCoolDetails?id="+ row.Id +"'  style='color:#13629D' >" + row.Pay + "</a>"
+                          }
+                      }
+                  },
+                  {
+                      field: 'InTime', title: '注册时间', width: 250,
+                      formatter: function (value, row, Index) {//  /Date(1377327062000)/
+                          return (eval(value.replace(/\/Date\((\d+)\)\//gi, "new Date($1)")))
+                              .pattern("yyyy-M-d H:m:s");
+                      }
+                  },
+                  {
+                      field: 'State', title: '状态', width: 120,
+                      formatter: function (value, row, Index) {
+                          if (value == "1") {
+                              return "<a class='usersState' href='javascript:void(0)' uId='" + row.Id+"'style='color:#13629D' >正常</a>";
+                          } else {
+                              return "<a class='usersState' href='javascript:void(0)' uId='" + row.Id + "' >停用</a>";
+                          }
+                      }
+                  },                 
+
+            ]],
+            onHeaderContextMenu: function (e, field) {
+            },
+            onLoadSuccess: onGridLoadSuccess//表格加载完成之后，调用此事件响应方法。
+        });
+        // 设置页脚
+        var p = $('#msgInfo').datagrid('getPager')
+        $(p).pagination({
+            beforePageText: '第',
+            afterPageText: '页  共{pages} 页',
+            displayMsg: '当前显示 {from}-{to} 条记录   共 {total} 条记录'
+        });
+    }
+    //表格加载完成之后，调用此事件响应方法。
+    function onGridLoadSuccess(data) {
+        //改变用户的状态
+        $(".usersState").click(function () {
+            var strId = $(this).attr("uId");
+            $.messager.confirm("温馨提示", "您确认要变更此用户的状态吗？", function (r) {
+                if (r) {
+                    changeUsersState(strId);
+                } $('#msgInfo').datagrid("clearSelections");
+            });
+        });
+        //部分特殊权限管理
+        $.get('/AdminData/CurrrentAdmin', function (data) {
+            if (data.Id == 2016 && data.UName == 'sz编辑-01' && data.State == '1') {
+                $('.coolDetail,.usersState').css({ "pointer-events": "none", "color": "#ccc" });
+                $('.coolDetail,.usersState').removeAttr('href');
+            }
+            if (data.Id == 2020 && data.UName == 'sz编辑-02' && data.State == '1') {
+                $('.coolDetail,.usersState').css({ "pointer-events": "none", "color": "#ccc" });
+                $('.coolDetail,.usersState').removeAttr('href');
+            }
+            if (data.Id == 2021 && data.UName == 'sz运营' && data.State == '1') {
+                $('.coolDetail,.usersState').css({ "pointer-events": "none", "color": "#ccc" });
+                $('.coolDetail,.usersState').removeAttr('href');
+            }
+            if (data.Id == 2 && data.UName == '马红刚' && data.State == '1') {
+                $('.coolDetail,.usersState').css({ "pointer-events": "none", "color": "#ccc" });
+                $('.coolDetail,.usersState').removeAttr('href');
+            } else {
+
+                // $.messager.alert("温馨提示", "不好意思,您无权操作！");
+            }
+        })
+    }
+    //自定义改变用户状态的事件
+    function changeUsersState(strId) {
+        $.post("/AdminData/PersonalUserState", { id: strId }, function (data) {
+            if (data == "ok") {r
+                //清除之前的选中的行。
+                $('#msgInfo').datagrid("clearSelections");
+                //刷新表格
+                $('#msgInfo').datagrid("reload");//代用表格的重新加载的方法。
+            } else if (data == "fail") {
+                $.messager.show("提示", "用户状态改变失败！");
+            }
+            else if (data == "empty") {
+                $.messager.alert("提示", "请先选择要改变的用户！");
+            } else {
+                $.messager.alert("温馨提示", "系统异常请稍候再试！");
+            }
+        });
+    };
+</script>
+<script src="~/Content/js/excellentexport.js"></script>

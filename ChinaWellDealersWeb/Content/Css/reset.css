@@ -1,0 +1,12 @@
+
+/**
+ * 爽赞网 2.0
+ * 默认样式
+ */
+html,body,ol,ul,li,h1,h2,h3,h4,h5,h6,p,th,td,dl,dd,form,fieldset,legend,input,textarea,select{color: #333;margin: 0;padding: 0;}
+html{font-size: 14px;font-family: "微软雅黑";background: #f0f0f0;}
+a{text-decoration: none;color: black;}
+li{list-style: none;display: inline-block;}
+img{border: 0;vertical-align: middle;}
+table{border-collapse: collapse;border-spacing: 0;}
+p{word-wrap: break-word;}

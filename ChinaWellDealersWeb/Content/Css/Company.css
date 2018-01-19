@@ -1,0 +1,98 @@
+﻿     th {
+            background: #808080 no-repeat;
+            font-weight: 200;
+        }
+
+        table td {
+            font-size:12px;
+            height: 24px;
+            line-height:24px;
+            letter-spacing: 0px;
+            padding-top:0;
+        }
+        .title {
+            background-color: #f9f9f9;
+            height: 30px;
+            line-height: 30px;
+        }
+        .title span {
+            border-left: 4px solid #8fbf02;
+            display: block;
+            float: left;
+            padding-left: 8px;
+            font-size: 16px;
+            font-weight:bold;
+            font-family:Microsoft YaHei;
+        }
+        .btnsearch {
+            height: 24px;
+            line-height: 24px;
+            color: #FFF;
+            text-align: center;
+            font-size: 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #90C41F;
+            font-family: 'Microsoft YaHei';
+            border: #90C41F solid 1px;
+            padding: 0;
+            outline-style:none;
+        }
+        .btnsearch:hover {
+            border: #7BAB14 solid 1px;
+            background-color: #7BAB14;
+            color:#fff;
+        }
+        .btnsearch.btn:focus, .btn:active:focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn.active.focus {
+                outline: none;
+                color:#fff
+            }
+        .fixed-table-toolbar .bs-bars,
+        .fixed-table-toolbar .search,
+        .fixed-table-toolbar .columns {
+            position: relative;
+            margin: 3px;
+        }
+        .btn{
+            padding:2px 6px;
+        }
+        .glyphicon{
+            top:3px;
+        }
+        #gameName:focus {
+            border-color: #90C41F;
+            box-shadow: none;
+        }
+        
+        #msgInfo th {
+            border-radius: 0;
+            color: #fff;
+        }
+        .fixed-table-container .fixed-table-header .table thead tr th{
+            border-radius: 0;
+            color: #fff;
+        }
+         .fixed-table-container .fixed-table-body .table tbody tr td{
+            vertical-align:middle;
+        }
+       
+       
+        .fixed-table-pagination .pagination li a{
+            padding: 1px 6px;
+        }
+       .pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+            z-index: 3;
+            color: #fff;
+            cursor: default;
+            background-color: #90C41F;
+            border-color: #90C41F;
+        }
+       .pagination > li > a:hover, .pagination > li > span:hover, .pagination > li > a:focus, .pagination > li > span:focus {
+            z-index: 2;
+            color: #90C41F;
+            background-color: #eee;
+            border-color: #ddd;
+        }
+       .pagination > li > a{
+           color:#90C41F;
+       }

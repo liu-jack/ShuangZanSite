@@ -1,0 +1,210 @@
+﻿@{
+    Layout = null;
+    Layout = "~/Views/Shared/_LayoutAdminData.cshtml";
+    } 
+@model Models.Company
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>RechargeTotal</title>
+    <link href="~/Content/style/tableStyle.css" rel="stylesheet" />
+    <link href="/Content/style/NavPager.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+    <link href="~/Content/layui-v1.0.9_rls/layui/css/modules/layer/default/layer.css" rel="stylesheet" />
+    <script src="~/Content/layui-v1.0.9_rls/layui/lay/modules/layer.js"></script>
+    <script src="~/Scripts/MyAjaxForm.js"></script>
+    <script src="~/Content/My97DatePicker/WdatePicker.js"></script>
+    <style>
+        .table-cut td:nth-of-type(8){
+            display:none;
+        }
+    </style>
+</head>
+<body>
+    <p style="text-align:left;color:#13629D">厂商管理» @Model.SystemName» 充值记录</p>
+    <div style="height:34px;background-color:#F2F2F2;border:1px solid #BFBFBF">
+        <form action="/Company/RechargeTotal" style="float:left;">
+            <label style="font-size:14px;">套餐名称</label>
+            <select name="comboName" id="comboName" style="width:200px; border-radius: 5px; padding: 3px;margin-top:5px;">
+                <option value="">全部</option>
+                <option value="K1套餐">K1套餐</option>
+                <option value="K2套餐">K2套餐</option>
+                <option value="K3套餐">K3套餐</option>
+                <option value="K4套餐">K4套餐</option>
+                <option value="K5套餐">K5套餐</option>
+                <option value="K6套餐">K6套餐</option>
+                <option value="K7套餐">K7套餐</option>
+                <option value="K8套餐">K8套餐</option>
+                <option value="K9套餐">K9套餐</option>
+                <option value="K10套餐">K10套餐</option>
+                <option value="K11套餐">K11套餐</option>
+                <option value="K12套餐">K12套餐</option>
+                <option value="全天置顶">全天置顶</option>
+            </select>
+            <label for="timeSlot" style="font-size:14px;">充值时间：</label>
+            <input type="text" id="time" name="time" onfocus="WdatePicker()"  style=" border: solid 1px #95B8E7; border-radius: 5px; padding: 3px;" />
+            <input type="hidden" name="id" id="id" value="@ViewBag.CurrentId" />
+            <input type="submit" value="查询" />
+        </form>   
+        <div class="title_5" style="float:right;margin-right:4px;padding-top:2px;">
+            <a href="javascript:;" class="easyui-linkbutton c6" id="btnAdd" style="width:80px;height:25px;">添&nbsp;加</a>
+            <a href="javascript:history.back(-1)" class="easyui-linkbutton c3" style="width:80px;height:25px;">返&nbsp;回</a>
+        </div>
+    </div> 
+    <table style="width:100%;" class="table-cut">
+        <tr>
+            <th>套餐名称</th>
+            <th>金额</th>
+            <th>条数</th>
+            <th>已使用</th>
+            <th>充值时间</th>
+            <th>备注</th>
+            <th>操作</th>
+        </tr>  
+             
+        @foreach (var item in (List < Models.Recharge >) ViewData["Recharge"])
+        {                 
+        <tr>
+            <td>@item.ComboName</td>
+            <td>@item.Money</td>
+            <td>@item.Num</td>
+            <td>@item.Used</td>
+            <td>@item.InTime.ToString("yyyy-MM-dd")</td>
+            <td>@item.Remark</td>
+            <td><a class="DelEvent" href="javascript:;"id=@item.Id><span style="color:red;font-weight:700;">删除</span></a><td>
+        </tr>
+        }     
+    </table>
+    <p id="paginator" style="padding-left:-10%;">
+        <input type="hidden" name="id" id="id" value="@ViewBag.CurrintId" />
+        @MvcHtmlString.Create(Common.LaomaPager.ShowPageNavigate((int)ViewData["pageSize"], (int)ViewData["pageIndex"], (int)ViewData["pageCount"], (int)ViewBag.CurrentId))
+    </p>
+    <div id="addDiv" style="display:none;height:270px;width:600px;padding-left:35%;">
+        <form id="ff" enctype="multipart/form-data" method="post" data-options="novalidate:true ">
+            <input type="hidden" id="companyId" name="companyId" value="@Model.Id" />
+            <table style="position: fixed; width:20%;top:30%;left:40%;background-color:#fff;">
+                <tr><th colspan="2" style="text-align:center">设置开服条数</th></tr>
+                <tr>
+                    <td style="text-align:right">套餐</td>
+                    <td>
+                        <select name="comboName" id="comboName1" style="width:200px;">
+                            <option value="K1套餐">K1套餐</option>
+                            <option value="K2套餐">K2套餐</option>
+                            <option value="K3套餐">K3套餐</option>
+                            <option value="K4套餐">K4套餐</option>
+                            <option value="K5套餐">K5套餐</option>
+                            <option value="K6套餐">K6套餐</option>
+                            <option value="K7套餐">K7套餐</option>
+                            <option value="K8套餐">K8套餐</option>
+                            <option value="K9套餐">K9套餐</option>
+                            <option value="K10套餐">K10套餐</option>
+                            <option value="K11套餐">K11套餐</option>
+                            <option value="K12套餐">K12套餐</option>
+                            <option value="全天置顶">全天置顶</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align:right">金额</td>
+                    <td><input type="text" id="money" name="money" style="width:200px;" value="2000" /></td>
+                </tr>
+                <tr>
+                    <td style="text-align:right">点数</td>
+                    <td><input type="text" id="num" name="num" style="width:200px;" value="10" /></td>
+                </tr>
+                <tr>
+                    <td style="text-align:right">备注</td>
+                    <td><input class="easyui-textbox" id="remark" name="remark" style="width:200px;" /></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align:center">
+                        <a href="javascript:;" class="easyui-linkbutton c6" id="btnAdd" style="width:80px;height:25px;" onclick="submitForm()">添&nbsp;加</a>
+                        <a href="javascript:;" class="easyui-linkbutton c6" id="btnClose" style="width:80px;height:25px;">关&nbsp;闭</a>
+                    </td>
+                </tr>
+            </table>
+            </form>
+</div>
+    <script type="text/javascript">
+        $(function () {
+            window.location.href.split('=')[1];
+        $('.DelEvent').click(function (id, control) {
+            DelAccounts($(this).attr("id"), $(this));
+        });
+        $('#btnAdd').click(function () {
+            $('#addDiv').css("display", "block");
+        });
+        $('#btnClose').click(function () {
+            $('#addDiv').css("display", "none");
+        });
+    });
+    function DelAccounts(id, control) {
+        layer.confirm('您确认要删除这条数据？', {
+            btn: ['确认', '取消'] //按钮
+        }, function () {
+            $.post("/Company/DelRecharge", { "id": id }, function (data) {
+                if (data == "ok") {
+                    layer.msg('删除成功');
+                    $(control).parent().parent().remove();
+                } else {
+                    layer.msg('删除失败');
+                }
+            });
+        });
+    };
+    sale = [
+      { "package": "K1套餐", "money": "2000", "num": "10" },
+      { "package": "K2套餐", "money": "5000", "num": "27" },
+      { "package": "K3套餐", "money": "10000", "num": "55" },
+      { "package": "K4套餐", "money": "20000", "num": "115" },
+      { "package": "K5套餐", "money": "30000", "num": "175" },
+      { "package": "K6套餐", "money": "40000", "num": "235" },
+      { "package": "K7套餐", "money": "50000", "num": "295" },
+      { "package": "K8套餐", "money": "60000", "num": "360" },
+      { "package": "K9套餐", "money": "80000", "num": "490" },
+      { "package": "K10套餐", "money": "100000", "num": "620" },
+      { "package": "K11套餐", "money": " 150000", "num": "970" },
+      { "package": "K12套餐", "money": " 200000", "num": "1380" },
+      { "package": "全天置顶", "money": "105000", "num": "30" }
+    ]
+    var off = eval(sale)
+    $("#comboName1").change(function () {
+        for (var n in off) {
+            if ($("#comboName1").find("option:selected").text().trim() == off[n].package) {
+                $("input[name='money']").val(off[n].money)
+                $("input[name='num']").val(off[n].num)
+            }
+        }
+    })
+    function submitForm() {
+        if ($('#remark').val() == "") {
+            layer.msg("提示：请输入备注!");
+
+            return;
+        }      
+        layer.confirm('提示：您是否已确认输入无误？', {
+            skin: 'layui-layer-lan',
+            btn: ['是的', '没有呀'] //按钮
+        }, function () {
+            $("#ff").ajaxSubmit({
+                url: '/Company/SetRechargeTotal',
+                type: "post",
+                success: function (data) {
+                    if (data == "ok") {
+                        layer.msg("恭喜：添加成功!");
+                        window.setTimeout(function () {
+                            window.location.href = "/Company/RechargeTotal?id=@Model.Id";
+                        }, 700);
+                    } else if (data == "no") {
+                        layer.msg("提示：添加失败！");
+                    } else {
+                        layer.msg("提示：系统异常请稍候再试！");
+                    }
+                },
+            });
+        });
+    }
+    </script>
+</body>
+</html>

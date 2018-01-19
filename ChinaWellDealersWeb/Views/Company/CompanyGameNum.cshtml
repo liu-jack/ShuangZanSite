@@ -1,0 +1,167 @@
+﻿@{
+    Layout = null;
+    Layout = "~/Views/Shared/_LayoutAdminData.cshtml";
+    
+}
+@model Models.Company
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>RechargeTotal</title>   
+    <link href="~/Content/style/tableStyle.css" rel="stylesheet" />
+    <link href="~/Content/style/NavPager.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+    <link href="~/Content/layui-v1.0.9_rls/layui/css/modules/layer/default/layer.css" rel="stylesheet" />
+    <script src="~/Content/layui-v1.0.9_rls/layui/lay/modules/layer.js"></script>
+    <script src="~/Scripts/MyAjaxForm.js"></script>
+    <script type="text/javascript">
+    $(function () {
+        $('.DelEvent').click(function (id, control) {
+            DelAccounts($(this).attr("id"), $(this));
+        });
+        $('#btnAdd').click(function () {
+            $('#addDiv').css("display", "block");
+        });
+        $('#btnClose').click(function () {
+            $('#addDiv').css("display", "none");
+        });
+    });
+    function DelAccounts(id, control) {
+        layer.confirm('您确认要删除这条数据？', {
+            btn: ['确认', '取消'] //按钮
+        }, function () {
+            $.post("/Company/DelCpyGame", { "id": id }, function (data) {
+                if (data == "ok") {
+                    layer.msg('删除成功');
+                    $(control).parent().parent().remove();
+                } else {
+                    layer.msg('删除失败');
+                }
+            });
+        });
+    };
+    function submitForm() {
+        if ($('#gameName').val() == "") {
+            layer.msg("提示：请输入游戏名称!");
+
+            return;
+        }
+        if ($('#url').val() == "" || $('#url').val() == "http://") {
+            layer.msg("提示：请输入链接地址!");
+
+            return;
+        }
+        $("#ff").ajaxSubmit({
+            url: '/Company/AddCpyName',
+            type: "post",
+            success: function (data) {
+                if (data == "ok") {
+                    layer.msg("恭喜：添加成功!");
+                    window.setTimeout(function () {
+                        window.location.href = "/Company/CompanyGameNum?id=@Model.Id";
+                    }, 2000);
+                } else if (data == "no") {
+                    layer.msg("提示：添加失败！");
+                } else {
+                    layer.msg("提示：系统异常请稍候再试！");
+                }
+            },
+        });
+       
+    }
+    </script>
+
+</head>
+<body>
+    <p style="text-align:left;color:#13629D">厂商管理 » @Model.SystemName» 运营游戏</p>
+    <div style="height:34px;background-color:#F2F2F2;border:1px solid #BFBFBF">
+        <form action="/Company/CompanyGameNum" style="float:left;">
+            <label style="font-size:14px;">类型</label>
+            <select name="type" id="type" style="width:200px; border-radius: 5px; padding: 3px;margin-top:5px;">
+                <option value="">全部</option>
+                <option value="1">联运</option>
+                <option value="2">研发</option>
+                <option value="3">独代</option>
+            </select>
+            <label for="timeSlot" style="font-size:14px;">游戏名称：</label>
+            <input type="text" id="gamename" name="gamename" style=" border: solid 1px #95B8E7; border-radius: 5px; padding: 3px;" />
+            <input type="hidden" name="id" id="id" value="@ViewBag.CurrentId" />
+            <input type="submit" value="查询" />
+        </form>   
+        <div class="title_5" style="float:right;margin-right:8px;padding-top:2px;">
+            <a href="javascript:;" class="easyui-linkbutton c6" id="btnAdd" style="width:80px;height:25px;border-radius: 5px;">添&nbsp;加</a>
+            <a href="javascript:history.back(-1)" class="easyui-linkbutton c3" style="width:80px;height:25px;">返&nbsp;回</a>
+        </div>
+    </div> 
+    <table style="width:100%;">
+        <tr>
+            <th>游戏名</th>
+            <th>类型</th>
+            <th>链接地址</th>
+            <th>添加时间</th>
+            <th colspan="2">操作</th>        
+        </tr>
+        @foreach (var item in (List<Models.CompanyGame>)ViewData["CompanyGame"])
+        {
+            <tr>
+                <td>@item.GameName</td>
+                @if (item.Type == "1")
+                {
+                    <td>联运</td>
+                }
+                else if (item.Type == "2")
+                
+                { 
+                <td>研发</td>
+                }
+                else if (item.Type == "3")
+                {
+                    <td>独代</td>
+                }                
+                <td>@item.Url</td>
+                <td>@item.InTime</td>            
+                <td><a href="javascript:;" class="DelEvent" id=@item.Id><span style="color:red;font-weight:700;">删除</span></a></td>
+                <td><a href="/Company/CpyNameEdit?id=@item.Id" style="color:#13629D">修改</a></td>
+            </tr>
+        }
+    </table>
+    <p id="paginator" style="padding-left:-10%;">
+        @MvcHtmlString.Create(Common.LaomaPager.ShowPageNavigate((int)ViewData["pageSize"], (int)ViewData["pageIndex"], (int)ViewData["pageCount"],(int)ViewBag.CurrentId))
+    </p>
+    <div id="addDiv" style="display:none;height:270px;width:600px;padding-left:35%;" >
+        <form id="ff" enctype="multipart/form-data" method="post" data-options="novalidate:true ">
+            <input type="hidden" id="companyId" name="companyId" value="@Model.Id" />@*当前厂商的id*@
+            <table style="position: fixed; width:20%;top:30%;left:40%;background-color:#fff;">
+                <tr><th colspan="2" style="text-align:center">添加运营游戏</th></tr>
+                <tr>
+                    <td style="text-align:right">游戏名称:</td>
+                    <td><input type="text" id="gameName" name="gameName" list="gamelist" style="width:200px;" /></td>
+                </tr>
+                <tr>
+                    <td style="text-align:right">运营类型:</td>
+                    <td>
+                        <select name="type" id="type" style="width:200px;">
+
+                            <option value="1">联运</option>
+                            <option value="2">研发</option>
+                            <option value="3">独代</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align:right">链接地址:</td>
+                    <td><input class="easyui-textbox" id="url" name="url" style="width:200px;" value="http://" /></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align:center">
+                        <a href="javascript:;" class="easyui-linkbutton c6" id="btnAdd" style="width:80px;height:25px;" onclick="submitForm()">提&nbsp;交</a>
+                        <a href="javascript:;" class="easyui-linkbutton c8" id="btnClose" style="width:80px;height:25px;">关&nbsp;闭</a>
+                    </td>
+                </tr>
+            </table>
+            </form>
+        </div> 
+    @Html.Action("GameNameListPartial", "Game")
+</body>
+</html>

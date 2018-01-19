@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net">
+  <!--配置services-->
+  <object name="UserInfoBll" type="BLL.UserInfoBll,BLL" singleton="false">   </object>
+  <object name="RoleInfoBll" type="BLL.RoleInfoBll,BLL" singleton="false">   </object>
+  <object name="ActionInfoBll" type="BLL.ActionInfoBll,BLL" singleton="false">   </object>
+  <object name="R_UserInfo_ActionInfoBll" type="BLL.R_UserInfo_ActionInfoBll,BLL" singleton="false">   </object>
+  <object name="CompanyBll" type="BLL.CompanyBll,BLL" singleton="false">   </object>
+  <object name="NewsBll" type="BLL.NewsBll,BLL" singleton="false">   </object>
+  <object name="PackageBll" type="BLL.PackageBll,BLL" singleton="false">   </object>
+  <object name="PackageCardBll" type="BLL.PackageCardBll,BLL" singleton="false">   </object>
+  <object name="RechargeBll" type="BLL.RechargeBll,BLL" singleton="false">   </object>
+  <object name="LeaveMsgBll" type="BLL.LeaveMsgBll,BLL" singleton="false">   </object>
+  <object name="PersonalUserBll" type="BLL.PersonalUserBll,BLL" singleton="false">  </object>
+  <object name="UserMessageBll" type="BLL.UserMessageBll,BLL" singleton="false">  </object>
+  <object name="OpenServiceBll" type="BLL.OpenServiceBll,BLL" singleton="false">  </object>
+  <object name="UserRaidersBll" type="BLL.UserRaidersBll,BLL" singleton="false">  </object>
+  <object name="GameBll" type="BLL.GameBll,BLL" singleton="false">   </object>
+  <object name="KeyWordsBll" type="BLL.KeyWordsBll,BLL" singleton="false">   </object>
+  <object name="TestBll" type="BLL.TestBll,BLL" singleton="false">   </object>
+  <object name="BeautifulGirlsBll" type="BLL.BeautifulGirlsBll,BLL" singleton="false">  </object>
+  <object name="OrderBll" type="BLL.OrderBll,BLL" singleton="false">   </object>
+  <object name="FeedbackBll" type="BLL.FeedbackBll,BLL" singleton="false">   </object>
+  <object name="GiftBll" type="BLL.GiftBll,BLL" singleton="false">   </object>
+  <object name="GameDemoBll" type="BLL.GameDemoBll,BLL" singleton="false">   </object>
+  <object name="GameDemoAccountsBll" type="BLL.GameDemoAccountsBll,BLL" singleton="false">   </object>
+  <object name="GameDemoRechargeBll" type="BLL.GameDemoRechargeBll,BLL" singleton="false">   </object>
+  <object name="GameDemoRequiresBll" type="BLL.GameDemoRequiresBll,BLL" singleton="false">   </object>
+  <object name="CompanyGameBll" type="BLL.CompanyGameBll,BLL" singleton="false">   </object>
+  <object name="RechargedUsedBll" type="BLL.RechargedUsedBll,BLL" singleton="false">   </object>
+  <object name="AuditLogBll" type="BLL.AuditLogBll,BLL" singleton="false">   </object>
+  <object name="DemoUserBll" type="BLL.DemoUserBll,BLL" singleton="false">   </object>
+  <object name="SeeNewsBll" type="BLL.SeeNewsBll,BLL" singleton="false">   </object>
+  <object name="ForbiddenListBll" type="BLL.ForbiddenListBll,BLL" singleton="false"> </object>
+  <object name="HomePageBll" type="BLL.HomePageBll,BLL" singleton="false">  </object>
+  <object name="BlackListIPBll" type="BLL.BlackListIPBll,BLL" singleton="false">  </object>
+  <object name="SeoBll" type="BLL.SeoBll,BLL" singleton="false">  </object>
+  <object name="WonderfulTxtImgBll" type="BLL.WonderfulTxtImgBll,BLL" singleton="false">  </object>
+  <object name="AdvertisementBll" type="BLL.AdvertisementBll,BLL" singleton="false">  </object>
+   <object name="UserAdressBll" type="BLL.UserAdressBll,BLL" singleton="false">  </object>
+  <object name="PersonalUserSignBll" type="BLL.PersonalUserSignBll,BLL" singleton="false"> </object>
+  <object name="PersonalUserSignDetailBll" type="BLL.PersonalUserSignDetailBll,BLL" singleton="false"> </object>
+</objects>

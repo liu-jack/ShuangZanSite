@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/EasyUi/themes/default/easyui.css" rel="stylesheet" />
+    <link href="~/Content/EasyUi/themes/icon.css" rel="stylesheet" />
+    <link href="~/Content/EasyUi/themes/color.css" rel="stylesheet" />
+    <script src="~/Content/EasyUi/jquery.min.js"></script>
+    <script src="~/Content/EasyUi/jquery.easyui.min.js"></script>
+    <script src="~/Content/EasyUi/easyui-lang-zh_CN.js"></script>
+    <script src="~/Scripts/datapattern.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+  
+   <style type="text/css">                     
+        td
+        {      
+        padding-top:6px;    
+       font: larger bold 10px "Trebuchet MS"  Verdana, Arial, Helvetica, sans-serif;   
+        color: #4f6b72;   
+        height:35px;
+         letter-spacing: 0px;                            
+        }   
+        body{
+            margin:0;
+        }
+           
+   </style>
+</head>
+<body>
+    
+        @RenderBody()
+   
+</body>
+</html>

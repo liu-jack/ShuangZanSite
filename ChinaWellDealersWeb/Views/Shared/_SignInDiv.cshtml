@@ -1,0 +1,76 @@
+﻿@model Models.PersonalUser
+ <!-- 签到成功 -->
+<div class="Signsucc display">
+    <p><i></i></p>
+    <p>今日签到成功，再接再厉哦~</p>
+</div>
+<!-- 签到 弹框开始-->
+<div class="modall display">
+    <div class="Sign">
+        <div class="Signtop">
+            <p><span>签到有奖</span><a></a></p>
+        </div>
+        <div class="Signbott">
+            <div class="Signleft">
+                <div id="calendar">
+                    <h3></h3>
+                    <a class="s3"><</a>
+                    <a class="s2">></a>
+                    <ul class="head">
+                        <li>日</li>
+                        <li>一</li>
+                        <li>二</li>
+                        <li>三</li>
+                        <li>四</li>
+                        <li>五</li>
+                        <li>六</li>
+                    </ul>
+                    <ul class="day"></ul>
+                </div>
+                <div>
+                    <p><span>您已连续签到<b class="qiandao1">0</b>天</span><input type="button" value="立即签到" class="Signimmed" /></p>
+                </div>
+            </div>
+        </div>
+        <div class="Signright">
+            <p>签到说明</p>
+            <p><img src="/Content/Img/qd.png" alt="签到说明" /></p>
+        </div>
+    </div>
+</div>
+<!--签到弹框结束-->
+ </div>
+<!-- 回到顶部 -->
+<div class="fixed-top" style="display:none;">
+    <div>
+        <a id="gotop" title="回到顶部"></a>
+    </div>
+</div>
+
+<div style="display:none;">
+    <input type="button" id="aqq" value="@Model.QQ" />
+    <input type="button" id="awx" value="@Model.WeChat"/>
+    <input type="button" id="ayx" value="@Model.Email"/>
+    <input type="button" id="asr" value="@Model.Birthday"/>
+    <input type="button" id="contact" value="@Model.Contacts"/>
+    <input type="button" id="adh" value="@Model.ContactNum" />
+    <input type="button" id="aname" value="@Model.Contacts" />
+</div>
+<div class="footer">
+    <div class="footernr">
+        <p class="footp1"> <a href="/Home/About" rel="nofollow" target="_blank">关于爽赞</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp; <a href="/Home/Contact" rel="nofollow" target="_blank">联系我们</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp; <a href="/Home/SiteMap" rel="nofollow" target="_blank">网站地图</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp; <a href="/Home/FeedBack" rel="nofollow" target="_blank">意见反馈</a> </p>
+        <p class="footp2"> <span>网站备案：皖ICP备15025599号-2</span>&nbsp;&nbsp; <span>网络文化经营许可证编号：皖网文[2016]0965-020号</span></p>
+        <p class="footp3">
+            <span>Copyright©2017 shuangzan.com All rights reserved.</span>
+            <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33010502004653" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;">
+                <img src="/Content/Img/beian.png" style="float:left;" />
+                <span style="height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#999;">浙公网安备 33010502004653号</span>
+            </a>
+        </p>
+        <p class="footp4"> </p>
+        <p class="footp5">
+            <img src="/Content/Img/ewm.png" alt="" style="margin-right: 20px;border: 1px solid #90c41f;"> <img src="/Content/img/exl.png" alt="" style="border: 1px solid #90c41f;width:88px;"> <br>
+            <img src="/Content/Img/wx.png" alt="" style="margin: 0 0 0 4px;"> <span style="display: inline-block;margin-top: 14px;font-size: 12px;color: #999;">扫码关注</span> <img src="/Content/Img/wb.png" alt="" style="margin: 0 0 0 36px;"> <span style="font-size: 12px;color: #999;">扫码关注</span>
+        </p>
+    </div>
+</div>

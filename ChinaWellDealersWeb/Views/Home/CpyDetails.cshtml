@@ -1,0 +1,345 @@
+﻿@{
+    Layout = null;
+}
+@model Models.Company
+@using Models
+@using Models.SqlMapModel
+@using Models.MapModel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>@Model.SystemName 平台 @Model.CompanyName 公司</title>
+    <link href="~/Content/Css/index.css" rel="stylesheet" />
+    <link href="~/Content/Css/reset.css" rel="stylesheet" />
+    <link href="~/Content/Css/amoywel.css" rel="stylesheet" />
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="~/Content/Css/lunbo.css" rel="stylesheet" />
+    <link href="~/Content/Css/news.css" rel="stylesheet" />
+    <link href="~/Content/Css/commercial.css" rel="stylesheet" />
+    <link href="~/Content/Css/manufacturer.css" rel="stylesheet" />
+    <link href="~/Content/Css/usename.css" rel="stylesheet" />
+    <link href="/Content/Img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+    <link href="~/Content/style/NavPager.css" rel="stylesheet" />
+</head>
+<body>
+    @Html.Action("_TwoShuangzanHeader", "Home")
+    
+    <div class="commercial wide">
+        @foreach (var item in (List<Models.Advertisement>)ViewData["advert"])
+        {
+
+            <a href="@item.Url" class="banner_one">
+                <embed src="@item.Path" wmode="transparent" type="application/x-shockwave-flash" wmode="transparent" pluginspage="http://www.macromedia.com/go/getflashplayer" width="540" height="100">
+            </a>
+        }
+    </div>
+    <div class="wide details">当前位置：<a href="/Home/Index">爽赞网</a> > <a href="/Home/Manufacturer">厂商大全</a> > <a href="/Home/CpyDetails/@Model.Id">@Model.SystemName</a></div>
+    <div class="info wide clearfix">
+        <div id="factoryintr">
+            <div class="gameArea1">
+                <div class="cslogo lf">
+                    <img src="/Content/CompanyImg/@Model.Logo" alt="@Model.SystemName" />
+                </div>
+                <div class="cstxt rf">
+                    <h1><b>@Model.SystemName</b><span>【@Model.CompanyName】</span></h1>
+                    <p><span class="span1">平台名称：<i>@Model.SystemName</i></span><span>官方网址：<a href="@Model.WebSite" rel="nofollow" target="_blank">@Model.WebSite</a></span><br /><span class="span1">运营游戏：<i>@ViewBag.gameCount 个</i></span><span>公司地址：<i>@Model.Address</i></span></p>
+                    <s></s>
+                    <div class="intrco">
+                        <p class="intr">
+                            @Html.Raw(Model.CopanyMsg)
+                        </p>
+                    </div>
+                    <a class="sh display">展开&or;</a><a class="hi display">收起&and;</a>
+                </div>
+            </div>
+        </div>
+        <div id="newgiftpg">
+            <img src="/Content/Img/down02.png" />
+            <ul>
+                <li class="xgnew active">相关新闻</li>
+                <li class="xgkf">相关开服</li>
+                <li class="xglb">相关礼包</li>
+            </ul>
+            <div class="csnews">
+                <img src="/Content/Img/nocszx.png" style="margin-top:20px; margin-left:357px;">
+                <ul id="csnews">
+                    @foreach (var item in (List<NewsViewModel>)ViewBag.CurrentCpyNews)
+                    {
+                        <li>
+                            @if (item.EditTitle==null||item.EditTitle=="")
+                            {
+                               <a href="/NewsInfo/NewsDetail/@item.Id" target="_blank">
+                                <h1 title="@item.Title">@item.Title</h1>
+                            </a> 
+                            }
+                            else { 
+                              <a href="/NewsInfo/NewsDetail/@item.Id" target="_blank">
+                                <h1 title="@item.EditTitle">@item.EditTitle</h1>
+                            </a>
+                            }
+                          
+                            <p class="intime">
+                                <span>发布时间：<i>@item.InTime.ToString("yyyy-MM-dd")</i></span>
+                            </p>
+                            <s></s><p class="jsmsg">@Html.Raw(item.Memo)</p><p><a href="/NewsInfo/NewsDetail/@item.Id" target="_blank"><input type="button" value="阅读全文"></a></p>
+                        </li>
+                    }
+                </ul>
+                <p><a href="/NewsInfo/NewsSearchResult?key=@Model.SystemName" target="_blank" class="csnewsa">更多</a></p>
+            </div>
+            <div class="cskf display">
+                <div class="jrkf">
+                    <ul id="kfhottop">
+                        <p class="topname"><span>游戏名称</span><span>开服时间</span><span>服务器名</span><span>运营商</span><span>礼包</span><span>操作</span></p>
+                        
+                        <ul id="kfhottop">
+                            @if (ViewBag.CurrentCpyService.Count != 0)
+                            {
+                                foreach (var item in (List<Models.SqlMapModel.Sql_ServerModel>)ViewBag.CurrentCpyService)
+                                {
+                                    <li style="background:#fff;font-size:0;">
+                                        <span>@item.GameName<i></i></span><span><a style="color:#4c4c4c">@item.StartTime.Value.ToString("HH:mm")</a></span>
+
+                                        @if (item.ServerName != "通服")
+                                        {
+                                            <span>双线 @item.ServerName 服</span>
+                                        }
+                                        else
+                                        {
+                                            <span>  通服 </span>
+                                        }
+                                        <span>@Model.SystemName</span>
+                                        <span class="packagename">
+                                            @if (item.GiftName == "" && item.GiftName == null)
+                                            {
+                                                <a><b></b></a>
+                                            }
+                                            else
+                                            {
+                                                <a><b></b>@item.GiftName</a>
+                                            }
+
+                                        </span>
+                                        <span><a href="@item.Url" target="_blank" class="start" rel="nofollow">开始游戏</a></span>
+                                    </li>
+                                }
+                            }
+                            else
+                            {
+                                <img src='/Content/Img/nocskf.png' style='margin-top:20px; margin-left:357px;'>
+                            }
+                           
+                        </ul>
+                    </ul>
+                    <p><a href="@Url.Action("ServiceSearch", "OPenServices", new { key=Model.SystemName})" class="/OPenServices/ServiceSearch">更多</a>
+                   
+                    </p>
+                </div>
+            </div>
+            <div class="cspackage display" style="float:none;">
+                <ul id="cspackage">
+                    @if (ViewBag.Package.Count!=0) { 
+                        foreach (var item in (List<Sql_CpyPackageModel>)ViewBag.Package)
+                        {
+                       
+                             <li><a href="/Package/PackageDetails/@item.Id" target="_blank"><div style="float:none;"><img src="/Content/GameImg/@item.DescImg" alt="@item.GameName" /></div><p>《@item.GameName》</p><p>@item.GiftName</p></a></li>
+                        }
+                    }
+                    else
+                    {
+                        <img src="/Content/Img/nocslb.png" style="margin-top:20px; margin-left:357px;">
+                    }
+                    
+                </ul>
+                <p><a href="/Package/PackageSearch?packageName=@Model.SystemName" class="cspackagea" target="_blank">更多</a></p>
+            </div>
+        </div>
+        <div id="csgame">
+            <img src="/Content/Img/down01.png" />
+            <ul>
+                <li class="lygame active">联运游戏</li>
+                <li class="yfgame">研发游戏</li>
+                <li class="ddgame">独代游戏</li>
+            </ul>
+            <div class="lygames">                                            
+            </div>
+            <!--研发游戏 独代游戏-->
+            <div class="ddgames display">
+                <img src="/Content/Img/nocsyx.png" style="margin-top:20px; margin-left:357px;">
+                <ul id="ddgames">
+                   <!--研发游戏 独代游拼接的信息-->
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+    @Html.Partial("_HotGame")
+    @Html.Partial("_ShuangZanFooter")
+    <script src="~/Content/js/jquery-1.11.1.min.js"></script>
+    <script src="~/Content/js/jquery.SuperSlide.2.1.1.js"></script>
+    <script src="~/Content/js/personal_use.js"></script>
+    <script src="~/Content/js/Public.js"></script>
+    <script src="~/Content/js/manufacturer.js"></script>
+    <script src="~/Scripts/datapattern.js"></script>
+    <script type="text/javascript">
+    $(function () {
+        var pageIndex = 1;
+        var companyId = '@Model.Id';
+        var type = 1;
+        initTable(type, pageIndex);
+        $('#csgame>ul>li').each(function (index) {
+            $(this).click(function () {
+                if (index == 0) {
+                    type = 1;
+                    initTable(type, pageIndex);
+                    $('.lygames').show();
+                    $('.ddgames').hide();
+                } else if (index == 1) {
+                    type = 2;
+                    InitReaerchAndAloneGame(type, pageIndex);
+                    $('.lygames').hide();
+                    $('.ddgames').show();
+                } else if (index == 2) {
+                    type = 3;
+                    InitReaerchAndAloneGame(type, pageIndex);
+                    $('.lygames').hide();
+                    $('.ddgames').show();
+                }
+            });
+        });
+        $('.lygames').on('click', '.page ul a', function (event) {
+            event.preventDefault();
+            var href = $(this).attr("href").split('&');
+            href = href[0].split('=');
+            pageIndex = href[1];
+            initTable(type, pageIndex);
+        });
+    });
+        
+
+    //联运游戏
+    function initTable(type, pageIndex) {
+        $.getJSON("/Home/JoinGame", { id: '@Model.Id', type: type, pageIndex: pageIndex }, function (data) {
+            $(".lygames").html("");
+            if (data.Data.length==0) {
+                $(".lygames").append('<img src="/Content/Img/nocsyx.png" style="margin-top:20px; margin-left:357px;">');
+            } else {
+                var ul = $('<ul id="lygames"></ul>');
+                for (var i in data.Data) {
+                    if (data.Data[i].Type == 1) {
+                        data.Data[i].Type = '角色扮演';
+                    } else if (data.Data[i].Type == 2) {
+                        data.Data[i].Type = '战争策略';
+                    } else if (data.Data[i].Type == 3) {
+                        data.Data[i].Type = '模拟经营';
+                    } else if (data.Data[i].Type == 4) {
+                        data.Data[i].Type = '休闲竞技';
+                    } else if (data.Data[i].Type == 5) {
+                        data.Data[i].Type = '社区养成';
+                    } else if (data.Data[i].Type == 6) {
+                        data.Data[i].Type = '儿童游戏';
+                    }
+
+                    if (data.Data[i].Theme == 1) {
+                        data.Data[i].Theme = '三国';
+                    } else if (data.Data[i].Theme == 2) {
+                        data.Data[i].Theme = '西游';
+                    } else if (data.Data[i].Theme == 3) {
+                        data.Data[i].Theme = '仙侠';
+                    } else if (data.Data[i].Theme == 4) {
+                        data.Data[i].Theme = '武侠';
+                    } else if (data.Data[i].Theme == 5) {
+                        data.Data[i].Theme = '奇幻';
+                    } else if (data.Data[i].Theme == 6) {
+                        data.Data[i].Theme = '动漫';
+                    } else if (data.Data[i].Theme == 7) {
+                        data.Data[i].Theme = '军事';
+                    } else if (data.Data[i].Theme == 8) {
+                        data.Data[i].Theme = '体育';
+                    } else if (data.Data[i].Theme == 9) {
+                        data.Data[i].Theme = '航海';
+                    } else if (data.Data[i].Theme == 10) {
+                        data.Data[i].Theme = '其他';
+                    }
+
+
+                    if (data.Data[i].Play == 1) {
+                        data.Data[i].Play = '即时';
+                    } else if (data.Data[i].Play == 2) {
+                        data.Data[i].Play = '回合';
+                    } else if (data.Data[i].Play == 3) {
+                        data.Data[i].Play = '其他';
+                    }
+
+                    var strTr = '<li><div><img src="/Content/GameImg/' + data.Data[i].SmallImg + '"/></div><div class="msg"><h1>' + data.Data[i].GameName + '</h1><p><span>类型：<i>' + data.Data[i].Type + '</i></span><span>玩法：<i>' + data.Data[i].Play + '</i></span><span>题材：<i>' + data.Data[i].Theme + '</i></span><span>研发：<i>' + data.Data[i].Company + '</i></span></p><p><a href="/Game/GameDetail/' + data.Data[i].Id + '" target="_blank"><input type="button" value="进入专区" /></a><a href="' + data.Data[i].Url + '" target="_blank" rel="nofollow"><input type="button" value="开始游戏" /></a></p></div></li>';
+                    ul.append(strTr);
+                }
+                $('.lygames').append(ul);
+                //把分页的标签放到页面里面去
+                $(".lygames").append('<div class="page"><ul id="paginator">' + data.NavStr + '</ul></div>');
+            }        
+        });
+    }
+    //研发游戏 独代游戏
+    function InitReaerchAndAloneGame(type, pageIndex) {
+        $.getJSON("/Home/JoinGame", { id: '@Model.Id', type: type, pageIndex: pageIndex }, function (data) {
+            $(".ddgames").html("");
+            if (data.Data.length == 0) {
+                $(".ddgames").append('<img src="/Content/Img/nocsyx.png" style="margin-top:20px; margin-left:357px;">');
+            } else {
+                var ul = $('<ul id="ddgames"></ul>');
+                for (var i in data.Data) {
+                    if (data.Data[i].Type == 1) {
+                        data.Data[i].Type = '角色扮演';
+                    } else if (data.Data[i].Type == 2) {
+                        data.Data[i].Type = '战争策略';
+                    } else if (data.Data[i].Type == 3) {
+                        data.Data[i].Type = '模拟经营';
+                    } else if (data.Data[i].Type == 4) {
+                        data.Data[i].Type = '休闲竞技';
+                    } else if (data.Data[i].Type == 5) {
+                        data.Data[i].Type = '社区养成';
+                    } else if (data.Data[i].Type == 6) {
+                        data.Data[i].Type = '儿童游戏';
+                    }
+                    if (data.Data[i].Theme == 1) {
+                        data.Data[i].Theme = '三国';
+                    } else if (data.Data[i].Theme == 2) {
+                        data.Data[i].Theme = '西游';
+                    } else if (data.Data[i].Theme == 3) {
+                        data.Data[i].Theme = '仙侠';
+                    } else if (data.Data[i].Theme == 4) {
+                        data.Data[i].Theme = '武侠';
+                    } else if (data.Data[i].Theme == 5) {
+                        data.Data[i].Theme = '奇幻';
+                    } else if (data.Data[i].Theme == 6) {
+                        data.Data[i].Theme = '动漫';
+                    } else if (data.Data[i].Theme == 7) {
+                        data.Data[i].Theme = '军事';
+                    } else if (data.Data[i].Theme == 8) {
+                        data.Data[i].Theme = '体育';
+                    } else if (data.Data[i].Theme == 9) {
+                        data.Data[i].Theme = '航海';
+                    } else if (data.Data[i].Theme == 10) {
+                        data.Data[i].Theme = '其他';
+                    }
+                    if (data.Data[i].Play == 1) {
+                        data.Data[i].Play = '即时';
+                    } else if (data.Data[i].Play == 2) {
+                        data.Data[i].Play = '回合';
+                    } else if (data.Data[i].Play == 3) {
+                        data.Data[i].Play = '其他';
+                    }
+                    var strTr = '<li><div><img src="/Content/GameImg/' + data.Data[i].SmallImg + '" alt="' + data.Data[i].GameName + '"></div><div class="msg"><h1>' + data.Data[i].GameName + '</h1><s></s><p class="p2"><span>类型：<i>' + data.Data[i].Type + '</i></span><span>题材：<i>' + data.Data[i].Theme + '</i></span><span>玩法：<i>' + data.Data[i].Play + '</i></span><span>研发：<i>' + data.Data[i].Company + '</i></span></p><p>' + data.Data[i].Msg + '</p></div><p><a href="/Game/GameDetail/' + data.Data[i].Id + '" target="_blank"><input type="button" value="进入专区" class="kfzq"></a><a href="' + data.Data[i].Url + '" target="_blank" rel="nofllow"><input type="button" value="开始游戏" class="kfyx"></a></p></li>';
+                    ul.append(strTr);
+                }
+                $('.ddgames').append(ul);
+                //把分页的标签放到页面里面去
+                $(".ddgames").append('<div class="page"><ul id="paginator">' + data.NavStr + '</ul></div>');
+            }         
+        });
+    }
+        </script>
+    </body>
+</html>

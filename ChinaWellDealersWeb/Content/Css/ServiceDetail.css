@@ -1,0 +1,269 @@
+﻿
+        .goon {
+            text-decoration: none;
+            width: 100px;
+            display: block;
+            margin: 20px auto;
+        }
+
+        .title strong {
+            color: red;
+            font-weight: normal;
+        }
+
+        #reset {
+            width: 60px !important;
+            left: 270px !important;
+        }
+
+        .main div .err {
+            color: red;
+            background-image: url(/Content/Img/109.gif);
+            background-repeat: no-repeat;
+            background-position: left center;
+            padding-left: 20px;
+        }
+
+        .main div .errok {
+            background-image: url(/Content/Img/111.gif);
+            height: 20px;
+        }
+
+        .main div > samp {
+            line-height: 20px;
+        }
+
+            .main div > samp.alt a {
+                color: #909090;
+            }
+
+        p#servers {
+            padding-top: 6px;
+        }
+
+            p#servers * {
+                display: block;
+                float: left;
+                height: 26px;
+                line-height: 28px;
+            }
+
+            p#servers label {
+                padding: 0;
+                margin-left: 15px;
+            }
+
+        #history {
+            width: 640px;
+            height: 90px;
+            left: 130px;
+            overflow-y: scroll;
+            background-color: #FFF;
+        }
+
+            #history span {
+                position: initial;
+                width: 118px;
+                padding: 0 0 0 5px;
+                display: block;
+                text-align: left;
+                float: left;
+            }
+
+        #gamenamelist {
+            left: 130px;
+            top: 30px;
+            width: 200px;
+            border: 1px solid #C6C6C6;
+            z-index: 1;
+            padding-left: 10px;
+            background-color: #FFF;
+            height: initial;
+            display: none;
+        }
+
+            #gamenamelist span {
+                position: initial;
+                display: block;
+                text-align: left;
+            }
+
+        p#day {
+            width: 300px;
+        }
+
+            p#day * {
+                display: block;
+                float: left;
+            }
+
+            p#day input {
+                padding: 0 0 0 10px;
+                height: 28px;
+                font-size: 14px;
+                background-image: url("/Content/Img/132.gif");
+                background-repeat: no-repeat;
+                width: 120px;
+                background-position: 110px center;
+            }
+
+        select::-ms-expand {
+            display: none;
+        }
+
+        p#day select {
+            border: 0;
+            height: 26px;
+            background-color: transparent;
+            outline: none;
+            font-size: 14px;
+            color: #ABABAB;
+            width: 73px;
+            padding-left: 10px;
+            appearance: none;
+            -moz-appearance: none;
+            -webkit-appearance: none;
+        }
+
+        p#day > span {
+            padding: 1px 1px 1px 0px;
+            height: 26px;
+            background-image: url("/Content/Img/132.gif");
+            background-repeat: no-repeat;
+            background-position: 50px center;
+            margin-left: 10px;
+            width: 70px;
+        }
+
+            p#day > span > span {
+                width: 60px;
+                overflow: hidden;
+            }
+
+        p#day > samp {
+            color: #FFF;
+            width: 60px;
+            height: 20px;
+            border-radius: 3px;
+            display: block;
+            float: left;
+            font-size: 12px;
+            line-height: 20px;
+            text-align: center;
+            margin: 5px 5px 0 0;
+        }
+
+            p#day > samp#d1 {
+                background-color: #90C41F;
+                clear: left;
+            }
+
+            p#day > samp#d2 {
+                background-color: #309CEF;
+            }
+
+        p#totop {
+            padding-top: 6px;
+        }
+
+            p#totop * {
+                display: block;
+                float: left;
+                height: 26px;
+                line-height: 28px;
+            }
+
+            p#totop label {
+                padding: 0;
+                margin-left: 15px;
+                width: auto;
+            }
+
+        p#totop2 {
+            padding-top: 9px;
+        }
+
+            p#totop2 * {
+                display: block;
+                float: left;
+                height: 26px;
+                line-height: 28px;
+            }
+
+            p#totop2 label {
+                padding: 0;
+                margin-left: 15px;
+                width: auto;
+            }
+
+        #packageList {
+            width: 640px;
+            height: 170px;
+            overflow-y: scroll;
+            left: 130px;
+            border: 1px solid #C6C6C6;
+            border-radius: 5px;
+        }
+
+            #packageList ul {
+                position: initial;
+            }
+
+        .li1 {
+            width: 110px;
+        }
+
+        .li2 {
+            width: 80px;
+        }
+
+        .li3 {
+            width: 90px;
+        }
+
+        .li4 {
+            width: 70px;
+        }
+
+        .li5 {
+            width: 130px;
+        }
+
+        .li6 {
+            width: 25px;
+        }
+
+            .li6 input {
+                height: 40px;
+            }
+
+        .List .li2 span {
+            line-height: 14px;
+            display: table-cell;
+            text-align: center;
+            width: 80px;
+            height: 40px;
+            vertical-align: middle;
+        }
+
+        .List ul {
+            white-space: normal;
+        }
+
+        .List .li8 span {
+            width: 110px;
+            text-align: left;
+        }
+
+            .List .li8 span a {
+                padding: 0 3px;
+            }
+
+            .List .li8 span .green {
+                color: #75A709;
+            }
+
+            .List .li8 span .red {
+                color: #F43B3B;
+            }
+  

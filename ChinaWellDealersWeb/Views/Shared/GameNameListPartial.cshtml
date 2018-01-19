@@ -1,0 +1,6 @@
+﻿<datalist id="gamelist">
+    @foreach (var item in (List<Models.Enum.GameName>)ViewBag.GameName)
+    {
+        <option value="@item.Name" />
+    }   
+</datalist>

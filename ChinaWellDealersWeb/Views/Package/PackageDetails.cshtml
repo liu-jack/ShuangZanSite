@@ -1,0 +1,143 @@
+﻿@{
+    Layout = null;
+    List<Sql_PackageModel2> SameGamePackage = (List<Models.SqlMapModel.Sql_PackageModel2>)ViewData["SameGamePackage"];
+    List<Sql_ServerModel> SameGameService = (List<Sql_ServerModel>)ViewData["SameGameService"];
+}
+@model Models.MapModel.PackageViewModel2
+@using Models.SqlMapModel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>@Model.SystemName《@Model.GameName》@Model.GiftName 礼包_爽赞网</title>
+    <link href="~/Content/Css/index.css" rel="stylesheet" />
+    <link href="~/Content/Css/reset.css" rel="stylesheet" />
+    <link href="~/Content/Css/amoywel.css" rel="stylesheet" />
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="~/Content/Css/lunbo.css" rel="stylesheet" />
+    <link href="~/Content/Css/news.css" rel="stylesheet" />
+    <link href="~/Content/Css/commercial.css" rel="stylesheet" />
+    <link href="~/Content/Css/personal.css" rel="stylesheet" />
+    <link href="/Content/Img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+</head>
+<body>
+    @Html.Action("_TwoShuangzanHeader", "Home")
+    @Html.Action("ShuangzanHeader", "NewsInfo")
+    <!-- 面包屑导航 -->
+    <div class="wide details">当前位置：<a href="/Home/Index">爽赞网</a> > <a href="/Package/PackageIndex">页游礼包</a> > <a href="/Package/PackageSearch">全部礼包</a> > <span>@Model.SystemName 《@Model.GameName》 @Model.GiftName</span></div>
+    <div class="info wide gpack clearfix">
+        <h6>
+            <b value="@Model.Id" url="@Model.Url">@Model.SystemName 《@Model.GameName》 @Model.GiftName</b>
+            <span>
+                <input type="text" name="key" id="key" placeholder="平台名、游戏名"><button id="btnSearch">搜礼包</button>
+            </span>
+        </h6>
+        <div class="packdetails">
+            <div class="detjs">
+                <div class="lf">
+                    <img src="/Content/GameImg/@Model.DescImg" alt="@Model.GameName" />
+                </div>
+                <div class="lf">
+                    <p>剩余量：<span class="sumpack"><span class="packnow"></span></span><i class="packnownum">@Model.Used</i>/<i class="sumpacknum">@Model.Cardcou1</i></p>
+                    <p>有效期：<span class="startime">@Model.StartTime.Value.ToString("yyyy-MM-dd")</span> 至 <span class="endtime">@Model.EndTime.Value.ToString("yyyy-MM-dd")</span></p>
+                    <p>运营商：<span class="sysname">@Model.SystemName</span></p>
+                    <p><input type="button" name="" id="linghao" value="领号" />温馨提示：领号成功后尽快使用,可进入<a class="mypack" href="/PersonalUser/GiftBox"></a>查看此条卡密</p>
+                </div>
+            </div>
+            <div class="packcontar">
+                <p><span>礼包内容：</span></p><p class="packages-msg"><span>@Html.Raw(Model.Msg)</span></p>
+            </div>
+            <div class="packexplain">
+                <p><span>使用说明：</span></p><p class="packages-msg"><span>@Html.Raw(Model.Memo)</span></p>
+            </div>
+            <h6>
+                <em>相关开服</em>
+                <span><a href="/OPenServices/ServiceIndex" class="ptitla2" target="_blank">更多>></a></span>
+            </h6>
+            <div>
+                <p class="pth1"><span style="width:191px">游戏名称</span><span style="width:101px">开服时间</span><span style="width:141px">服务器名</span><span style="width:151px">运营商</span><span style="width:143px">操作</span></p>
+                <div id="relatwlk">
+                    @if (SameGameService.Count == 0)
+                    {
+                        <img src='/Content/Img/nolbkf.png'>
+                    }
+                    else
+                    {
+                        for (int i = 0; i < SameGameService.Count; i++)
+                        {
+                            <p style="font-size:0px;">
+                                <span style="width:191px">@SameGameService[i].GameName</span><span style="width:101px">@SameGameService[i].StartTime.Value.ToString("HH:mm")</span>
+                                @if (SameGameService[i].ServerName != "通服")
+                                {
+                                    <span style="width:141px">双线 @SameGameService[i].ServerName 服</span>
+                                }
+                                else
+                                {
+                                    <span style="width:141px">通服</span>
+                                }
+                                <span style="width:151px"> @SameGameService[i].SystemName </span>
+
+                                <span style="width:143px"><a href="@SameGameService[i].Url" target="_blank" rel="nofollow"><input type="button" value="开始游戏" /></a></span>
+                            </p>
+                        }
+                    }
+                </div>
+            </div>
+            <h6>
+                <em>相关礼包</em>
+                <span><a href="/Package/PackageIndex" class="ptitla2">更多>></a></span>
+            </h6>
+            <div>
+                <p class="pth2"><span>游戏名</span><span>运营商</span><span>礼包名</span><span>有效期</span><span>剩余量</span><span>抢账号</span></p>
+                <div id="relatpack">
+                   
+                    <table border="0" cellspacing="0" cellpadding="0" class="relatpack">
+                        @if (SameGamePackage.Count==0)
+                        {
+                           <img src="/Content/Img/nolblb.png">
+                        }
+                        else
+                        {
+                            for (int i = 0; i < SameGamePackage.Count; i++)
+                            {
+                                <tr>
+                                    <td>@SameGamePackage[i].GameName</td>
+                                    <td>@SameGamePackage[i].CompanyName</td>
+                                    <td>@SameGamePackage[i].GiftName</td>
+                                    <td>@SameGamePackage[i].StartTime.Value.ToString("yyyy-MM-dd")<br />@SameGamePackage[i].EndTime.Value.ToString("yyyy-MM-dd")</td>
+                                    <td>@SameGamePackage[i].Used</td>
+                                    <td><input type="button" value="领号" class="inp1" name="2592" /></td>
+                                </tr>
+                            }
+                        }
+                       
+                    </table>
+
+                </div>
+            </div>
+        </div>
+        @Html.Action("_RightPackage", "Package")
+    </div>
+    <!-- 弹出框 -->
+    <div class="nummodel display">
+
+    </div>
+    <!-- 底部 -->
+    @Html.Partial("_ShuangZanFooter")
+    <script src="~/Content/js/jquery-1.11.1.min.js"></script>
+    <script src="~/Content/js/jquery.SuperSlide.2.1.1.js"></script>
+    <script src="~/Content/js/personal_use.js"></script>
+    <script src="~/Content/js/Public.js"></script>
+    <script src="~/Content/js/amoywel.js"></script>
+    <script src="~/Content/js/packages.js"></script>
+    <script src="~/Scripts/datapattern.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.mygiftbox').hide();
+            $('#btnSearch').click(function () {
+                window.location.href = '/Package/PackageSearch?packageName=' + $('#key').val();
+            });
+        });
+    </script>
+</body>
+</html>

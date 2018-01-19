@@ -1,0 +1,125 @@
+.lunbobox{width:auto;}
+.carousel{margin: 0px auto 26px;}
+.picScroll-left{ 
+	width:610px;
+	height:280px;
+	margin: 0px 10px;
+	position:relative;
+}
+.carousel-left{
+	width: 1124px;
+	margin: 0 0;
+}
+.picScroll-left .hd{
+	height:30px;
+	position: absolute;
+	bottom: 5px;
+	right: 0; 
+}
+.carousel .hd{
+	position: absolute;
+    right: calc((100vw - 201px)/2);
+    margin-top: 4px;
+}
+.picScroll-left .hd .prev,.picScroll-left .hd .next,.carousel-left .hd .prev, .carousel-left .hd .next{
+	display:inline-block;
+	overflow:hidden;
+	cursor:pointer;
+	position:absolute;
+	top: -138px;
+}
+.carousel-left .hd .prev, .carousel-left .hd .next{
+	width: 11px;
+	height:19px;
+	top:3px;
+}
+.picScroll-left .hd .prev{
+	background:url("../img/prev.png") no-repeat;
+	right: 580px;
+}
+.carousel-left .hd .prev{
+	background: url(../img/prev2.png) no-repeat;
+    right: 213px;
+}
+.picScroll-left .hd .next{
+	background:url("../img/next.png") no-repeat;
+}
+.carousel-left .hd .next{
+	background: url(../img/next2.png) no-repeat;
+    right: -21px;
+}
+.picScroll-left .hd .prevStop,.carousel-left .hd .prevStop{ background-position:-60px 0; }
+.picScroll-left .hd .nextStop,.carousel-left .hd .nextStop{ background-position:-60px -50px; }
+.picScroll-left .hd ul,.carousel-left .hd ul{
+	float:right;
+	overflow:hidden;
+	zoom:1;
+	margin:12px 10px 0px 0px;
+}
+.carousel-left .hd ul{margin:8px auto 0px;}
+.picScroll-left .hd ul li,.carousel-left .hd ul li{
+	float:left;
+	width:10px;
+	height:10px;
+	overflow:hidden;
+	margin-right:8px;
+	text-indent:-999px;
+	cursor:pointer;
+	background:#e5e5e5;
+    border-radius:50%;
+}
+.carousel-left .hd ul li{background: #b3b3b3;}
+.carousel-left .hd ul li{
+	border-radius: 0px;
+	height: 12px;
+	width: 12px;
+	margin-right: 12px;
+}
+.picScroll-left .hd ul li.on,.carousel-left .hd ul li.on{
+	background: #90C41F;
+}
+.picScroll-left .bd,.carousel-left .bd{
+	overflow:hidden;
+}
+.picScroll-left .bd ul,.carousel-left .bd ul{
+	overflow:hidden;
+	zoom:1; 
+}
+.picScroll-left .bd ul li,.carousel-left ul li{
+	float:left;
+	_display:inline;
+	overflow:hidden;
+	text-align:center;
+	position:relative;
+}
+.carousel .bd ul li .pic img{
+	width: 660px;
+	height: 310px;
+}
+.picScroll-left .bd ul li .pic{
+	text-align:center;
+}
+.picScroll-left .bd ul li .pic img{
+	width:610px;
+	height:280px;
+	display:block;
+}
+.picScroll-left .bd ul li .pic a:hover img{
+	border-color:#999;
+}
+		.picScroll-left .bd ul li .title{
+			line-height:30px;
+			position:absolute;
+			/*bottom:3px;*/
+			text-align:left;
+			width:610px;
+			background:rgba(0,0,0,0.5);
+			color:#fff;
+			font-size:16px;
+			padding-left:20px
+		}
+		.picScroll-left .bd ul li .title a{
+			color:#fff;
+			font-size:16px;
+            line-height:40px;
+		}

@@ -1,0 +1,325 @@
+﻿@model Models.Gift
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AddGift</title>
+    <link href="~/Content/style/tableStyle.css" rel="stylesheet" />
+    <script src="~/Content/KinderEditor/kindeditor-min.js"></script>
+    <link href="~/Content/KinderEditor/themes/default/default.css" rel="stylesheet" />
+    <link href="~/Content/KinderEditor/plugins/code/prettify.css" rel="stylesheet" />
+    <script src="~/Content/KinderEditor/kindeditor.js"></script>
+    <script src="~/Content/KinderEditor/lang/zh_CN.js"></script>
+    <script src="~/Content/KinderEditor/plugins/code/prettify.js"></script>
+    <script src="~/Scripts/jquery-1.8.2.js"></script>
+    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+    <script src="~/Scripts/MyAjaxForm.js"></script>
+    <link href="~/Content/layui-v1.0.9_rls/layui/css/modules/layer/default/layer.css" rel="stylesheet" />
+    <script src="~/Content/layui-v1.0.9_rls/layui/lay/modules/layer.js"></script>
+    <script type="text/javascript">
+        KindEditor.ready(function (K) {
+            var editor1 = K.create('#msg', {
+                cssPath: '/Content/KinderEditor/plugins/code/prettify.css',
+                uploadJson: '/Content/KinderEditor/asp.net/upload_json.ashx',
+                fileManagerJson: '/Content/KinderEditor/asp.net/file_manager_json.ashx',
+                allowFileManager: true,
+                afterBlur: function () { this.sync(); },//注意这里（异步提交时需要同步）
+                afterCreate: function () {
+                    var self = this;
+                    self.sync();//把富文本编辑器的内容放到  文本域里面去。
+                }
+            });
+            prettyPrint();//注意要调用该方法.
+        });
+        function submitForm() {
+            var reg = /^[0-9]+\.{0,1}[0-9]{0,2}$/
+            if ($('#name').val() == "") {
+                layer.msg("提示：请输入礼品名称!");
+
+                return;
+            }
+            if (!reg.test($('#price').val()) || $('#price').val() == "") {
+                layer.msg("提示：请准确输入礼品价格!");
+
+                return;
+            }
+            if (!reg.test($('#oldPrice').val()) || $('#oldPrice').val() == "") {
+                layer.msg("提示：请准确输入礼品原价!");
+
+                return;
+            }
+            if ($('#color').val() == "") {
+                layer.msg("提示：请输入礼品规格!");
+
+                return;
+            }
+            if (!reg.test($('#stock').val()) || $('#stock').val() == "") {
+                layer.msg("提示：请准确输入礼品库存数量!");
+                return;
+            }
+            if ($('#logo').val() == "") {
+                layer.msg("提示：请上传LoGo图!");
+                return;
+            }
+            if ($('#msg').val() == "") {
+                layer.msg("提示：请输入礼品详情!");
+                return;
+            }
+            var str = '', a = '';
+            $('#result div').each(function () {
+                a = $(this).find('img').attr('src').split('/').pop();
+                str += a + ',';
+            })
+            str = str.substring(0, str.length - 1);
+            //var oldimgs = $("#realyImg input").map(function () { return $(this).attr("value"); }).get().join(',') == "" ? $("#oldImg").val() : $("#realyImg input").map(function () { return $(this).attr("value"); }).get().join(',');
+            //console.log(oldimgs);
+            layer.confirm('提示：您是否已确认输入无误？', {
+                skin: 'layui-layer-lan',
+                btn: ['是的', '没有呀'] //按钮
+            }, function () {
+                $("#ff").ajaxSubmit({
+                    url: '/AdminGame/GiftEdit',
+                    type: "post",
+                    data: {
+
+                        oldimgs: str,
+                    },
+                    success: function (data) {
+                        if (data == "ok") {
+                            layer.msg("恭喜：编辑成功!");
+                            window.setTimeout(function () {
+                                window.location.href = "/AdminGame/GiftList";
+                            }, 2000);
+                        } else if (data == "no") {
+                            layer.msg("提示：编辑失败！");
+                        } else {
+                            layer.msg("提示：系统异常请稍候再试！");
+                        }
+                    },
+                });
+            });
+        }
+        $(function () {
+            $("#Upload").click(function () {
+                $("#ff").ajaxSubmit({
+                    url: "/AdminGame/UploadGiftImg",
+                    type: "Post",
+                    success: function (logo) {
+                        //返回后台保存图片的服务器地址就可以了。
+                        if (logo == "typeError") {
+                            layer.msg("请选择正确的图片格式！");
+
+                        } else if (logo == "empty") {
+
+                            layer.msg("您懂上传吗？");
+                        }
+                        else {
+                            $("#tdLoGo").html("<img src='/Content/GiftImg/" + logo + "' />");
+                            $("#logo").val(logo);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+
+</head>
+<body>
+    <form id="ff" enctype="multipart/form-data" method="post" data-options="novalidate:true ">
+        <table style="width:100%;">
+            <input type="hidden" id="id" name="id" value="@Model.Id" />
+            <tr>
+                <th colspan="2" style="color:white">礼品信息编辑</th>
+            </tr>
+            <tr>
+                <td align="right">
+                    礼品名称
+                </td>
+                <td>
+                    <input type="text" id="name" name="name" value="@Model.Name" style=" width:370px;" />
+                </td>
+            </tr>
+            <tr>
+                <td align="right">
+                    价格
+                </td>
+                <td>
+                    <input type="text" id="price" name="price" value="@Model.Price" style="width:370px;" />
+                </td>
+            </tr>
+            <tr>
+                <td align="right">
+                    原价
+                </td>
+                <td>
+                    <input type="text" id="oldPrice" name="oldPrice" value="@Model.OldPrice" style="width:370px;" />
+                </td>
+            </tr>
+            <tr>
+                <td align="right">
+                    库存
+                </td>
+                <td>
+                    <input type="text" id="stock" name="stock" value="@Model.Stock" style="width:370px;" />
+                </td>
+            </tr>
+            <tr>
+                <td align="right">
+                    规格
+                </td>
+                <td>
+                    <input type="text" id="color" name="color" value="@Model.Color" style="width:370px;" />
+                </td>
+            </tr>
+
+            <tr>
+                <td align="right">
+                    LoGo图
+                </td>
+                <td>
+                    <label style="color:red;font-weight:600">((图片大小为400x400,不符合要求的图片将会被拉伸))</label><br />
+                    <input type="file" name="logoImgs" />
+                    <input type="button" id="Upload" value="上传" />
+                    <br />
+                    <input type="hidden" name="logo" id="logo" value="@Model.Logo" />
+                    <span id="tdLoGo"><img src="/Content/GiftImg/@Model.Logo" style="width:100px;height:50px;display: block; clear: both;" /></span>
+                </td>
+            </tr>
+            <tr>
+                <td align="right">
+                    轮番图
+                </td>
+                <td>
+                    <input type="hidden" name="imgs" id="imgs" />
+                    <form id="form1" enctype="multipart/form-data" method="post" action="/AdminGame/MoreUploadGiftImg">
+                        <div class="row" style="margin-left:0;">
+                            <input type="file" name="fileToUpload" style="display:inline-block" id="fileToUpload" onchange="fileSelected();" multiple="multiple" />
+                            <input type="button" class="btn-file" onclick="uploadFile()" style="display:inline-block;background-color:#0066AA;color:white ;margin-bottom:20px;" value="上传" />
+                        </div>
+                        <div id="fileName"></div>
+                        <div id="fileSize"></div>
+                        <div id="progressNumber"></div>
+                        <div id="result">
+                            @foreach (var item in (List<Models.Gift>)ViewData["ImgsList"])
+                            {
+
+                                <div style="position :relative;display:inline-block;width:190px;"><a href="/Content/GiftImg/@item.Imgs" target="_blank"><img src="/Content/GiftImg/@item.Imgs" style="width:150px;height:80px; clear: both;" /> </a><span style='position:absolute;bottom:0;left:150px;color:red;cursor:pointer;' class='delete-img'>删除</span></div>
+
+                            }
+                            @*<input type="hidden" id="oldImg" value="@Model.Imgs" />*@
+                        </div>
+                        <div id="realyImg"></div>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td align="right">
+                    礼品说明
+                </td>
+                <td>
+                    <textarea id="explain" name="explain" style="height:90px; width:800px;">@Model.Explain</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td align="right">礼品详情</td>
+                <td>
+                    <textarea id="msg" name="msg" style="height:400px;width:800px;">@Html.Raw(Model.Msgs)</textarea>
+                </td>
+
+            </tr>
+            <tr>
+                <td colspan="2" style="padding-left:20%">
+                    <a href="javascript:void(0)" id="btnAdd" style="background-color:#1f637b;color:white;border-radius: 5px; padding: 3px;width:150px; " onclick="submitForm()">提交</a>&nbsp;&nbsp;<a href="javascript:;history.go(-1)" style="background-color:#1f637b;color:white;border-radius: 5px; padding: 3px;width:150px;">返回</a>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+</body>
+</html>
+<script type="text/javascript">
+    $('#result .delete-img').each(function (index) {
+        var _this = this;
+        $(this).click(function () {
+            $(_this).parent('div').remove();
+            //$('#realyImg input').eq(index).remove();
+        })
+    })
+    //选择事件
+    function fileSelected() {
+        var files = document.getElementById('fileToUpload').files;
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            if (file) {
+                if (file.type != "image/jpeg" && file.type != "image/png" && file.type != "image/gif") {
+                    layer.msg("请上传jpg,png,gif,zip,mp4格式的附件！");
+                    return;
+                }
+                var fileSize = 0;
+                if (file.size > 1024 * 1024) {
+                    fileSize = (Math.round(file.size * 100 / (1024 * 1024)) / 100).toString() + 'MB';
+                }
+                else {
+                    fileSize = (Math.round(file.size * 100 / 1024) / 100).toString() + 'KB';
+                    document.getElementById('fileName').innerHTML += '文件名' + i + ': ' + file.name + ' ';
+                    document.getElementById('fileSize').innerHTML += '大小' + i + ': ' + fileSize + ' ';
+                    //document.getElementById('fileType').innerHTML += '类型' + i + ': ' + file.type + ' ';
+                }
+            }
+        }
+    }
+    //上传
+    function uploadFile() {
+        var files = document.getElementById('fileToUpload').files;
+        if (files.length <= 0) {
+            layer.msg("温馨提示：您懂上传吗？");
+        }
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            if (!file) { continue; }
+            var fd = new FormData();
+            fd.append("fileToUpload", file);
+            var xhr = new XMLHttpRequest();
+            xhr.upload.addEventListener("progress", uploadProgress, false);
+            xhr.addEventListener("load", uploadComplete, false);
+            xhr.addEventListener("error", uploadFailed, false);
+            xhr.addEventListener("abort", uploadCanceled, false);
+            xhr.open("POST", "/AdminGame/MoreUploadGiftImg");
+            xhr.send(fd);
+        }
+    }
+    //上传进度条
+    function uploadProgress(evt) {
+        if (evt.lengthComputable) {
+            var percentComplete = "上传完成" + Math.round(evt.loaded * 100 / evt.total);
+            document.getElementById('progressNumber').innerHTML = percentComplete.toString() + '%';
+        }
+        else {
+            //无法计算
+            document.getElementById('progressNumber').innerHTML = 'unable to compute';
+        }
+    }
+    function uploadComplete(evt) {
+        document.getElementById('result').innerHTML += "<div style='position:relative;display:inline-block;width:190px;'><a href='/Content/GiftImg/" + evt.target.responseText + "' target='_blank'><img src=/Content/GiftImg/" + evt.target.responseText + " style='height:80px;width:150px;' /></a><span style='position:absolute;bottom:0;left:150px;color:red;cursor:pointer;' class='delete-img'>删除</span></div>";
+        document.getElementById('realyImg').innerHTML += "<input type='hidden'  value=" + evt.target.responseText + "  />";
+        $('.delete-img').each(function (index) {
+            var _this = this;
+            $(this).click(function () {
+                $(_this).parent('div').remove();
+                $('#realyImg input').eq(index).remove();
+            })
+        })
+    }
+
+    function uploadFailed(evt) {
+        layer.msg("文件上传出现错误啦");
+    }
+    function uploadCanceled(evt) {
+        layer.msg("文件上传已被取消");
+    }
+
+</script>

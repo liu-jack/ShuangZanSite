@@ -1,0 +1,237 @@
+/* 关于我们 */
+body{
+	margin: 0;
+	padding: 0;
+	background: #f0f0f0;
+}
+*{
+	margin: 0;
+	padding: 0;
+	color: #4c4c4c;
+}
+li{
+	list-style: none;
+}
+p,a,span{
+	font-family: "microsoft yahei";
+}
+a{
+	/*color: #808080;*/
+	/*padding: 0 15px;*/
+	text-decoration: none;
+}
+a:hover{
+	color: #7bab14;
+}
+body > a{
+	display:none;
+}
+#dttop{
+	background: #333;
+	line-height: 120px;
+	border-bottom: 2px solid #90C41F;
+}
+#dttop p{
+	width: 1000px;
+	margin: 0 auto;
+}
+#dttop b{
+	color: #90c41f;
+	font-size: 30px;
+}
+#dttop img{
+	vertical-align: middle;
+	margin-bottom: 8px;
+}
+#dttop a{
+	color: #767676;
+    text-decoration: none;
+    background-image: url(/Img/100.jpg);
+    background-repeat: no-repeat;
+    background-position: left;
+    height: 30px;
+    line-height: 30px;
+    padding-left: 30px;
+    margin-left: 10px;
+    font-size: 14px;
+    float: right;
+    margin-top: 45px;
+}
+#dttop a:hover{
+	color:#7bab14;
+}
+#container{
+	padding-top: 10px;
+	padding-bottom: 119px;
+	background: #f0f0f0;
+	width: 1000px;
+	margin: 0 auto;
+	overflow: hidden;
+    min-height:500px;
+}
+
+#container .wzdt01 {
+	color: #323232;
+	font-size: 16px;
+	line-height: 40px;
+	border-bottom: 4px solid #e5e5e5;
+}
+#container .wzdt01 i{
+	display: inline-block;
+	width: 6px;
+	height: 24px;
+	margin-right: 6px;
+	vertical-align: middle;
+	background: url(/Content/Img/wz01.png)no-repeat;
+}
+#container p{
+	color:#808080;
+	line-height: 24px;
+	font-size: 14px;
+}
+
+.footer {
+	margin-top:0;
+	width: 100%;
+    background: #333;
+}
+.footernr {
+    width: 900px;
+    margin: 0 auto;
+    text-align: center;
+}
+.footernr .footp1 {
+    padding-top: 50px;
+    padding-bottom: 26px;
+    border-bottom: 1px dashed #4c4c4c;
+}
+.footernr .footp2 {
+    padding-top: 22px;
+    padding-bottom: 50px;
+}
+.footernr .footp1 a {
+    padding: 0 15px;
+    color: #999;
+}
+.footernr .footp2 span {
+    color: #666;
+    margin: 0 10px;
+}
+
+
+/* 联系我们 */
+#hzsy {
+    padding: 0 5px;
+    height: 255px;
+}
+#hzsy li {
+    width: 310px;
+    height: 100px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+    box-shadow: 0px 3px 10px 1px rgba(0,0,0,.1);
+    float: left;
+    margin: 20px 10px 0 10px;
+    background: #fff;
+}
+#hzsy li p {
+    width: 140px;
+    background: #90C41F;
+    line-height: 30px;
+    padding-left: 16px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    margin-bottom: 18px;
+}
+#hzsy li span {
+    padding-left: 16px;
+    font-size: 14px;
+}
+
+
+/* 网站地图 */
+#container .sitemap p {
+    color: #808080;
+    width: 1000px;
+    line-height: 70px;
+    margin: 0 auto;
+    border-bottom: 1px dashed #b3b3b3;
+}
+#container .sitemap p i {
+    display: inline-block;
+    width: 6px;
+    height: 25px;
+    margin-right: 6px;
+    vertical-align: middle;
+    background: url(/Content/Img/wz02.png)no-repeat;
+}
+#container .sitemap a{
+	font-size:16px;
+    padding-left: 0;
+    margin-right: 12px;
+    color: #808080;
+    padding: 0 15px;
+    text-decoration: none;
+}
+#container .sitemap p a:first{
+	font-weight:bold;
+}
+
+/* 意见反馈 */
+#opinion {
+    width: 680px;
+    max-width: 680px;
+    height: 260px;
+    margin-top: 5px;
+    padding: 10px;
+    font-size: 14px;
+}
+.p1 input {
+    width: 690px;
+    height: 40px;
+    padding-left: 10px;
+    border-radius: 4px;
+    outline: none;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    margin-top: 5px;
+}
+.p2 input {
+    width: 700px;
+    height: 40px;
+    border-radius: 4px;
+    outline: none;
+    border: 1px solid #90c14f;
+    color: #fff;
+    background: #90C14F;
+    font-size: 16px;
+    margin-top: 30px;
+    cursor: pointer;
+}
+.rf {
+    float: right;
+}
+#container .rf p {
+    width: 285px;
+    color: #808080;
+    font-size: 14px;
+}
+.lf {
+    float: left;
+}
+#container .rf p {
+    width: 285px;
+    color: #808080;
+    font-size: 14px;
+}
+#container .rf .texterr {
+    color: #f43838;
+}
+#container .rf .callerr {
+    color: #f43838;
+    margin-top: 68px;
+}

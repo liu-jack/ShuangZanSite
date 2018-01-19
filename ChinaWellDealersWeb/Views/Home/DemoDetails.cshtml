@@ -1,0 +1,721 @@
+﻿@model Models.MapModel.GameDemoViewModel
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>XX游戏试玩_爽赞网</title>
+    <link href="~/Content/Css/index.css" rel="stylesheet" />
+    <link href="~/Content/Css/reset.css" rel="stylesheet" />
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="~/Content/Css/lunbo.css" rel="stylesheet" />
+    <link href="~/Content/Css/news.css" rel="stylesheet" />
+    <link href="~/Content/Css/commercial.css" rel="stylesheet" />
+    <link href="~/Content/Css/amoywel.css" rel="stylesheet" />
+    <link href="~/Content/Css/usename.css" rel="stylesheet" />
+    <link href="/Content/Img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+    <link href="/Content/Img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+</head>
+<body>
+    @Html.Action("_TwoShuangzanHeader", "Home")
+    @Html.Action("ShuangzanHeader", "NewsInfo")
+    <!-- 面包屑导航 -->
+    <div class="wide details">当前位置：<a href="/Home/Index">爽赞网</a> > <a href="/Home/AmoyWelFare">淘福利</a> > <a href="@Url.Action("DemoList","Home")">游戏试玩</a> > <span class="demoGameName"></span></div>
+    <div class="gametrial trialdetail wide">
+        <h6>
+            <em></em>
+        </h6>
+        <div class="tflyxsw">
+            <div class="detjs">
+                <div class="lf imgco">
+                    <img src="" />
+                    <p>奖励<span></span>爽币</p>
+                </div>
+                <div class="lf gametxtco">
+                    
+                    <p>运营商：
+                    <select name="" id="sysname">
+                        <option value="">--请选择运营商--</option>
+                        
+                    </select>
+                    </p><p><input type="button" name="" id="linghao" value="领取帐号" /></p>
+                </div>
+                <div class="lf yxswsm">
+                    <p class="swjllc"><b>1</b>领取账号<span></span><b>2</b>试玩游戏<span></span><b>3</b>上传截图<span></span><b>4</b>提交审核<span></span><b>5</b>获得爽币权益</p>
+                    <p class="sm"><b></b></p>
+                    <p>1、截图需包含<b>账号</b>、<b>区服</b>、<b>等级</b>，请截取网页版登入截图。部分游戏无法同时截取到账号与等级信息，遇此类情况请联系客服，客服将登入游戏核实信息。</p>
+                    <p>2、爽币权益：试玩账号达到要求且截图通过审核，即获得相应爽币奖励及爽币消费额度。</p>
+                    <p>3、爽币可直接充值试玩账号。在“我的已领账号”中选择账号，点击“充值”按钮，提交成功后，虚拟货币（元宝）将在1个小时内到账。</p>
+                    <p class="lastp">4、部分游戏平台充值需要密码，充值此类游戏平台时，如密码修改请主动联系客服。</p>
+                </div>
+            </div>
+            <p><input type="button" value="我的已领账号" class="ylzhbtn"></p>
+            <div class="yxswzh display">
+                <div class="lf yxswzhco">
+                   
+                </div>
+            </div>
+            <div>
+                <table border="0" cellspacing="0" cellpadding="0" id="swjl">
+                </table>
+                <p class="sb-zj"><b class="zsum">总计数量</b><b class="jlsum">0</b><b class="xfsum">0</b></p>
+            </div>
+        </div>
+    </div>
+    <!--领号 账号-->
+    <div class="modal2 display">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal2co">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--领号-超-->
+    <div class="modal3 display">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <p>今日2个试玩账号已经领完啦</p>
+                <p>明日赶早哦~</p>
+                <p>
+                    <input type="button" value="确定" id="check3">
+                </p>
+            </div>
+        </div>
+    </div>
+    <!--领号提示-->
+    <div class="modal1 display">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <p>每日所有游戏只能够领取2个试玩账号</p>
+                <p>确认要领取吗？</p>
+                <p>
+                    <input type="button" value="确定" id="check1">
+                    <input type="button" value="取消" id="cancel1">
+                </p>
+            </div>
+        </div>
+    </div>
+    <!--领号充值-->
+    <div class="modal4 display">
+        <div>
+            <p>试玩账号充值<a class="celmodal4"></a></p>
+            <div>
+                <p class="mop4"><span>游戏账号：</span><a class="gameuname"></a></p>
+                <p class="mop4"><span>运营商：</span><a class="sysczname"></a></p>
+                <p><span>输入区服：</span><input type="text" name="" id="qf01" /><i>服</i><a class="qferr" style="color:#f43838;font-size:12px;"></a></p>
+                <p class="mop4"><span>允许充值金额：</span><b class="yxczje"></b><a>(爽币)</a></p>
+                <p class="mop4"><span>账户可用余额：</span><b class="kyye"></b><a>(爽币)</a></p>
+                <p><span>输入充值金额：</span><input type="text" name="" id="payfor1" /><i class="errmsg">10的倍数</i></p>
+                <p><span></span><input type="button" value="提交" class="cztj" /></p>
+            </div>
+        </div>
+    </div>
+    <!--上传提示-->
+    <div class="modal5 display">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <p>上传的截图须将<i>账号</i>、<i>区服</i>、<i>等级</i>三个信息包含在内</p>
+                <p>确认要上传截图吗？</p>
+                <p>
+                    <span>
+                        <input type="button" value="确定" id="check5">
+                    </span>
+                    <input type="button" value="取消" id="cancel5">
+                </p>
+            </div>
+        </div>
+    </div>
+    <!--充值后提示-->
+    <div class="modal6 display">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <p>您已成功提交充值信息！</p>
+                <p>我们将在1个小时内(每日<i>9:00-23:00</i>)充值到账</p>
+                <p>
+                    <input type="button" value="确定" id="check6">
+                </p>
+            </div>
+        </div>
+    </div>
+    <!--截图上传后提示-->
+    <div class="modal7 display">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <p>游戏截图提交成功！</p>
+                <p>我们将在1个小时内(每日<i>9:00-23:00</i>)进行审核</p>
+                <p>
+                    <input type="button" value="确定" id="check7">
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 联系QQ -->
+    <div id="contactQQ">
+        <div class="qqcontar">
+            <a class="contactcel"></a>
+            <img src="/Content/Img/contactQQ.png" />
+            <a href="tencent://message/?uin=10631881&Site=爽赞游戏网&Menu=yes" target="_blank"><img src="/Content/Img/contactQQ1.png" class="contactQQ1" /><p style="position:absolute;bottom:13px;right:16px;color:#fff;font-size:12px;">QQ：10631881</p></a>
+        </div>
+    </div>
+    
+    @Html.Partial("_ShuangZanFooter")
+    <script src="~/Content/js/jquery-1.11.1.min.js"></script>
+    <script src="~/Content/js/jquery.SuperSlide.2.1.1.js"></script>
+    <script src="~/Content/js/myExtend.js"></script>
+    <script src="~/Content/js/jquery.cookie.js"></script>
+    <script src="~/Content/js/amoywel.js"></script>
+    <script src="~/Content/js/personal_use.js"></script>
+    <script src="~/Content/js/Public.js"></script>
+    <script src="~/Scripts/MyAjaxForm.js"></script>
+</body>
+<script type="text/javascript">
+    
+  
+    //奖励爽币总计
+    $('#swjl tr').each(function (index) {
+        if (index > 0) {
+            //scode = scode + parseInt($(this).find('td').eq(1).text());
+        }
+    })
+        
+		var ab=window.location.href;
+		var url=ab.split("/");
+		var abc=url[4].split("=");
+		var gameid = abc[1];
+		$(".inputfile").change(function(){
+			var a=$(this).val();
+			$(this).parent().html(a);
+			$(this).parent().parent().css("background-image","url()")
+		})
+		//领号提示
+		$("#cancel1").click(function(){
+			$(".modal1").hide();
+		})
+		//领取账号
+		$(".modal2").delegate("#cancel2","click",function(){
+			//$(".modal2").hide();
+			window.location.href=window.location.href;
+		});
+		$(".modal2").delegate("#check2","click",function(){
+			//$(".modal2").hide();
+			//window.location.href=window.location.href;
+		})
+		//领号超过
+		$("#check3").click(function(){
+			$(".modal3").addClass("display");
+		})
+		//充值
+		//$(".modal4>div>p a").click(function(){
+		//	$(".modal4").addClass("display");
+		//})
+		//上传提示
+		$("#cancel5").click(function(){
+			$(".modal5").hide();
+		});
+		$("#check5").click(function(){
+			$(".modal5").addClass("display");
+		})
+		//截图提交
+		$("#check7").click(function(){
+			$(".modal7").hide();
+			var tid=$(".yxswzhco input[type='radio']:checked").val();
+			loadGamaMsg();
+			
+		});
+		//充值提交
+		$("#check6").click(function(){
+			$(".modal6").hide();
+		});
+			//上传
+			function SWFUpLoad1(div) {
+				this.filechange = function (objectid, fileName) {
+					if (fileName == "") {
+						alert("请选择文件");
+						return;
+					}
+					$("#" + div).html("开始上传");
+				};
+				//上传的进度条
+				this.progress = function (objectid, fileName, upsize, allsize) {
+					$("#" + div).html(parseInt(upsize / allsize * 100) + "%");
+				};
+				this.complete = function (objectid, fileName, size) {
+					$("#" + div).html(' <a href="/UpLoad/' + fileName + '" target="_blank">'+fileName+'</a>');
+					$("#real_" + div).val(fileName);
+					$("#" + div).parent().next().children().click();
+				};
+			}
+		    var up0, up1, up2, up3, up4, up5, up6, up7;
+		//
+		$(document).ready(function () {
+				$.getUp = function (div, str) {
+					if ($("#real_" + div).val().length <= 0) {
+						alert(str);
+						return false;
+					}
+					return true;
+				};
+				//var id = getUrlParam('id');
+				var id = window.location.href.split('/')[5];
+				//alert(id);
+				var userid = $('.usename1').attr('value');
+				$.ajax({
+				    datatype: 'JSON',
+				    type: 'POST',
+				    url: '/Home/DemoDetails',
+				    data: {
+				        id: id
+				    },
+				    success: function (data) {
+				        if (data[0].Type == 1) {
+				            data[0].Type = '角色扮演';
+				        } else if (data[0].Type == 2) {
+				            data[0].Type = '战争策略';
+				        } else if (data[0].Type == 3) {
+				            data[0].Type = '模拟经营';
+				        } else if (data[0].Type == 4) {
+				            data[0].Type = '休闲竞技';
+				        } else if (data[0].Type == 5) {
+				            data[0].Type = '社区养成';
+				        } else if (data[0].Type == 6) {
+				            data[0].Type = '儿童游戏';
+				        }
+
+				        if (data[0].Theme == 1) {
+				            data[0].Theme = '三国';
+				        } else if (data[0].theme == 2) {
+				            data[0].Theme = '西游';
+				        } else if (data[0].Theme == 3) {
+				            data[0].Theme = '仙侠';
+				        } else if (data[0].Theme == 4) {
+				            data[0].Theme = '武侠';
+				        } else if (data[0].Theme == 5) {
+				            data[0].Theme = '奇幻';
+				        } else if (data[0].Theme == 6) {
+				            data[0].Theme = '动漫';
+				        } else if (data[0].Theme == 7) {
+				            data[0].Theme = '军事';
+				        } else if (data[0].Theme == 8) {
+				            data[0].Theme = '体育';
+				        } else if (data[0].Theme == 9) {
+				            data[0].Theme = '航海';
+				        } else if (data[0].Theme == 10) {
+				            data[0].Theme = '其他';
+				        }
+
+				        if (data[0].Play == 1) {
+				            data[0].Play = '即时';
+				        } else if (data[0].Play == 2) {
+				            data[0].Play = '回合';
+				        } else if (data[0].Play == 3) {
+				            data[0].Play = '其他';
+				        }
+				        var demoType = ['最强王者', '超凡大师', '璀璨钻石', '华贵铂金', '荣耀黄金', '不屈白银', '英勇黄铜'];
+				        $('.gametxtco').prepend('<p value="' + data[0].Id + '">类型：<span>' + data[0].Type + '</span></p><p>题材：<span>' + data[0].Theme + '</span></p><p>玩法：<span>' + data[0].Play + '</span></p><p>研发：<span>' + data[0].Company + '</span></p>');			        
+				        if (data[0].Operator != null) {
+				            var arr = data[0].Operator.split(',');
+				            for (var i in arr) {
+				                $('#sysname').append('<option value="">' + arr[i] + '</option>')
+				            }
+				        } else {
+				            $('#linghao').css('backgroundColor', '#b3b3b3');
+				            $('#linghao').attr('disabled', 'disabled');
+				            $('#sysname').find('option').eq(0).text('--暂无运营商--');
+				        }
+				        $('.imgco img').attr('src', '/Content/GameImg/' + data[0].Img + '');
+				        $('.imgco p span').text('' + data[0].PaySum + '')
+				        $('.gametrial.trialdetail h6 em').text('《' + data[0].GameName + '》' + demoType[data[0].DemoType]+'试玩');
+				        $('.demoGameName').text('《' + data[0].GameName + '》' + demoType[data[0].DemoType]+'试玩');
+				    }
+				})
+			
+
+			//默认要求
+			$.ajax({
+				type: "Post",
+				url: "/Home/DemoDetail_Step3",
+				data: {
+				    gamedemoId: id,
+				    accountId: 0
+				},
+				dataType: "json",
+				success: function (data) {
+					var p=data;
+					var abs=0,absb=0;
+					$("#swjl").empty();
+					$('<tr>').html('<th width="241">试玩要求<br /><span>&nbsp;</span></th><th width="141">奖励<br /><span>（爽币）</span></th><th width="141">爽币消费额度<br /><span>（累计允许消费）</span></th><th width="148">充值金额<br /><span>（试玩账号充值）</span></th><th width="148">游戏截图<br /><span>&nbsp;</span></th><th width="141">操作<br /><span>&nbsp;</span></th><th width="140">审核状态<br /><span>&nbsp;</span></th>').appendTo("#swjl");
+					$.each(p, function(i,arr){
+					    $("<tr>").html('<td>' + arr.Demand + '</td><td><b>+' + arr.AwardCoins + '</b></td><td class="jssum">≤' + arr.CoinsEquity + '</td><td><input type="button" value="充值" class="nokechongzhi"/></td><td><span class="jtsc"><input type="button" name="" id="" value="上传" class="nokechongzhi"/></span></td><td><input type="button" value="修改" class="nokechongzhi"></td><td></td>').appendTo("#swjl");
+					    abs = Number(abs) + Number(arr.AwardCoins);
+					    absb = arr.CoinsEquity;
+					})
+					$(".jlsum").html(abs);
+					$(".xfsum").html(absb);
+				},
+				error: function (err) {
+					err.responseText
+				}
+			});
+			
+
+			//显示已领账号
+			$(".ylzhbtn").click(function () {
+			    userId = $('.usename1').attr('value');
+			    var gamedemoId = $('.gametxtco').find('p').eq(0).attr('value');
+			    if (typeof (userId) == "undefined") {
+			        $(".loginbox").show();
+			    } else if (userId != 0) {
+			        $(this).hide();
+			        $('.yxswzh').removeClass('display');
+					$.ajax({
+						type: "Post",
+						url: "/Home/DemoDetail_Step2",
+						data: {
+						    userId: userId,
+						    gamedemoId: gamedemoId
+						},
+						dataType: "json",
+						success: function (data) {
+						    var p = data;
+							$(".yxswzhco").empty();
+							var arrs = [];
+							$.each(p, function (i, arr) {
+							    var obj = {
+							        id: arr.Id,
+							        pass: arr.Pwd,
+							        systemname: arr.SystemName,
+							        uname: arr.UName,
+							        url: arr.Url,
+							        userid: arr.UserId
+							    };
+							    if (userId == arr.UserId) {
+							        arrs.push(obj)
+							    }
+							});
+							if(arrs==""){
+								$("<p>").html('<span class="sp1">已领账号：</span>您暂时还没有领取账号</span>').appendTo(".yxswzhco");
+								$(".zsum").css("width",241);
+								$(".jlsum").css("width",141);
+								$(".xfsum").css("width",141);
+							}else{
+								$.each(arrs, function(i,arr){
+									if(i==0){
+										$("<p>").html('<span class="sp1">已领账号：</span><input type="radio" name="yxzh" class="yxzh" checked="checked" value="'+arr.id+'"/>游戏账号：<span>'+arr.uname+'</span><span>登录密码：<span>'+arr.pass+'</span>登录网址：<a href="'+arr.url+'" target="_blank">'+arr.url+'</a></span><span>（'+arr.systemname+'）</span>').appendTo(".yxswzhco");
+									}else{
+										$("<p>").html('<span class="sp1"></span><input type="radio" name="yxzh" class="yxzh" value="'+arr.id+'"/>游戏账号：<span>'+arr.uname+'</span><span>登录密码：<span>'+arr.pass+'</span>登录网址：<a href="'+arr.url+'" target="_blank">'+arr.url+'</a></span><span>（'+arr.systemname+'）</span>').appendTo(".yxswzhco");
+									}
+								});
+							}
+
+						    //默认领号数据
+							loadGamaMsg();
+						},
+						error: function (err) {
+							err.responseText
+						}
+					});
+
+					$(".zsum").css("width",219);
+					$(".jlsum").css("width",121);
+					$(".xfsum").css("width",121);
+				}
+
+				//账号切换数据变化
+			    $(".yxswzhco").on("click", ".yxzh", function () {
+			        loadGamaMsg();
+				});
+                
+			})
+
+
+			$(".gametxtco").on("click", "#linghao", function () {
+			    userId = $('.usename1').attr('value');
+			        if ($("#sysname").find("option:selected").text() == "--请选择运营商--") {
+			            $("#sysname").css("border", "1px solid #f43838");
+			            setTimeout('$("#sysname").removeAttr("style")', 150);
+			            setTimeout('$("#sysname").css("border","1px solid #f43838")', 300);
+			            setTimeout('$("#sysname").removeAttr("style")', 450);
+			        }else if (typeof (userId) == "undefined") {
+				        $(".loginbox").show();
+				    } else {
+						var a=$("#sysname").val();
+						if(a=="--请选择运营商--"){
+							$("#sysname").css("border","1px solid #f43838");
+						}else{
+							$('.modal1').show();
+						}
+					}
+				});
+				$(".gametxtco").delegate("#sysname","change",function(){
+					var a=$("#sysname").val();
+						if(a=="--请选择运营商--"){
+							$("#sysname").css("border","1px solid #f43838");
+						}else{
+							$("#sysname").css("border","1px solid #ccc");
+						}
+				})
+				$("#check1").click(function () {
+				    userId = $('.usename1').attr('value');
+				    var sysname = $("#sysname option:selected").text();
+				    var gamedemoId = $('.gametxtco').find('p').eq(0).attr('value');
+					if(sysname=="--请选择运营商--"){
+
+					}else{
+					//领账号
+					$.ajax({
+						type: "Post",
+						url: "/Home/DemoGetAccount",
+						data: {
+						    userId: userId,
+						    gamedemoId: gamedemoId,
+						    systemName:sysname,
+						},
+						dataType: "json",
+						success: function (data) {
+							
+						    if (data.Err == "每天限领2个号") {
+								$(".modal3").removeClass("display");
+								$('.modal1').hide();
+						    } else if (data.Err == "该运营商测试号已领完") {
+								$(".modal3").removeClass("display");
+								$('.modal1').hide();
+								$(".modal3").chlidren().chlidren().html("<p>该运营商测试号已领完</p><p><input type='button' value='确认' id='check3'></p>")
+						    } else if (data.Err == "") {
+								$('.modal1').hide();
+								$(".modal2").removeClass("display");
+								$("<div>").html('<p class="ptitl">游戏试玩</p><div><p>游戏账号：<input type="text" value="' + data.UName + '" readonly="readonly"><a class="btnswcopy">复制账号</a></p><p>登录密码：<span>' + data.Pass + '</span></p><p>运营商：<span>' + data.Systemname + '</span></p></div><p class="lhp1"><a href="' + data.Url + '" rel="nofollow" target="_blank"><input type="button" value="开始游戏" id="check2"></a><input type="button" value="取消" id="cancel2"></p><p style="margin-top:20px;"><img src="/Content/Img/swzhtx.png"/></p>').appendTo(".modal2co");
+								$("#check2").parent().attr("href",p.url)
+							}
+						},
+						error: function (err) {
+							err.responseText
+						}
+					});
+					}
+				});
+
+			//点击提交上传
+			$("#swjl").delegate(".sccz","click",function(){
+				var tid=$(".yxswzhco input[type='radio']:checked").val();
+				var filename=$(this).parent().prev().children().next().children().html();
+				var tj=$(this).html();
+				if(tj=="提交"){
+					var requireid=$(this).attr("name");
+					$.ajax({
+						type: "Post",
+						url: "/Interface.aspx/DemoUpImg",
+						data: JSON.stringify({
+							demoid: gameid,
+							requireid: requireid,
+							accountid: tid,
+							img: filename
+						}),
+						contentType: "application/json; charset=utf-8",
+						dataType: "json",
+						success: function (data) {
+							var p=data.d;
+							if(p==""){
+								$(".modal7").show();
+							}
+						},
+						error: function (err) {
+							err.responseText
+						}
+					});
+				}else if(tj=="修改"){
+					$(this).html("提交").hide();
+					$(this).parent().prev().find(".imgjt").hide().next().show().val("重新上传");
+				}
+			})
+		})
+		//充值
+		$("#swjl").on("click", ".kechongzhi", function () {
+		    userId = $('.usename1').attr('value');
+		    var tid = $(".yxswzhco input[type='radio']:checked").val();
+		    var gamedemoId = $('.gametxtco').find('p').eq(0).attr('value');
+		    var RequiredId = $(this).parents('tr').find('td').eq(0).attr('value');
+			var name=$(".yxswzhco input[type='radio']:checked").next().html();
+			var sysuname=$(".yxswzhco input[type='radio']:checked").next().next().next().html();
+			var sysname01 = sysuname.substring(1, sysuname.length - 1);
+			$.ajax({
+				type: "Post",
+				url: "/Home/DemoMaxRecharge",
+				data:{
+				    gamedemoId: gamedemoId,
+				    accountId: tid,
+				    userId: userId
+				},
+				dataType: "json",
+				success: function (data) {
+				    $(".yxczje").html(data[0].MaxRecharge);
+				    $(".kyye").html(data[0].MyPay);
+				    $('.gameuname').text(name);
+				    $('.sysczname').text(sysname01);
+				    $(".modal4").show();
+				},
+				error: function (err) {
+					err.responseText
+				}
+			});
+		})
+		$(".celmodal4").click(function(){
+			$(".modal4").hide();
+		})
+		$("#qf01").blur(function(){
+			var qf=$("#qf01").val();
+			if(qf==""){
+				$(".qferr").html("请输入区服")
+			}else{
+				$(".qferr").html("")
+			}
+		})
+
+		//充值提交
+		$(".cztj").click(function () {
+		    userId = $('.usename1').attr('value');
+		    var gamedemoId = $('.gametxtco').find('p').eq(0).attr('value');
+			var tid=$(".yxswzhco input[type='radio']:checked").val();
+			var pay=$("#payfor1").val();
+			var qf=$("#qf01").val();
+			if(pay!=""&&pay%10==0&&qf!=""){
+				$.ajax({
+					type: "Post",
+					url: "/Home/DemoRecharge",
+					data: {
+					    userId:userId,
+					    gameDemoId: gamedemoId,
+					    accountId: tid,
+						pay: pay,
+						memo: qf
+					},
+					dataType: "json",
+					success: function (data) {
+						if(data[0].Err==""){
+							$(".modal4").hide();
+							$(".modal6").show();
+						}else{
+							$(".errmsg").html(data.d).css("color","#f43838")
+						}
+					},
+					error: function (err) {
+						err.responseText
+					}
+				});
+			}
+		})
+
+		$("#payfor1").blur(function(){
+			var payforval=$("#payfor1").val();
+			if(payforval%10!=0||isNaN(payforval)){
+				$(".errmsg").html("请输入正确的金额").css("color","#f43838");
+			}
+		})
+
+
+		$(".loginbox p .cel").click(function(){
+			$(".loginbox").hide();
+		})
+		
+		//复制账号
+		$(".modal2").delegate(".btnswcopy","click",function(){
+			var w=$(this).prev();
+			w.select(); // 选择对象
+			document.execCommand("Copy"); // 执行浏览器复制命令
+			$(".btnswcopy").html("复制完成");
+			$(".btnswcopy").addClass("copyed");
+		});
+
+			//网站数据统计
+			var _hmt = _hmt || [];
+            (function() {
+                var hm = document.createElement("script");
+                hm.src = "https://hm.baidu.com/hm.js?f9e966c31b48ba96382a5e18a6be25ed";
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(hm, s);
+            })();
+            //领号数据
+            function loadGamaMsg() {
+                var gamedemoId = $('.gametxtco').find('p').eq(0).attr('value');
+                var tid = $(".yxswzhco input[type='radio']:checked").val();
+                $.ajax({
+                    type: "Post",
+                    url: "/Home/DemoDetail_Step3",
+                    data: {
+                        gamedemoId: gamedemoId,
+                        accountId: tid
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        $("#swjl").empty();
+                        $('<tr>').html('<th width="221">试玩要求<br /><span>&nbsp;</span></th><th width="121">奖励<br /><span>（爽币）</span></th><th width="121">爽币消费额度<br /><span>（累计允许消费）</span></th><th width="148">充值金额<br /><span>（试玩账号充值）</span></th><th width="148">游戏截图<br /><span>&nbsp;</span></th><th width="121">操作<br /><span>&nbsp;</span></th><th width="221">审核状态<br /><span>&nbsp;</span></th>').appendTo("#swjl");
+                        $.each(data, function (i, arr) {
+                            
+                            if (arr.State == '0') {
+                                arr.State = "未通过";
+                                var ahtml = "修改";
+                                $("<tr>").html('<td value="' + arr.Id + '">' + arr.Demand + '</td><td><b>+' + arr.AwardCoins + '</b></td><td class="jssum">≤' + arr.CoinsEquity + '</td><td><input type="button" value="充值" class="nokechongzhi"/></td><td><div><div class="imgjt"><a href="/Content/UserImg/' + arr.Img + '" target="_blank"><img src="/Content/UserImg/' + arr.Img + '" style="width:80px;height:30px;"></a></div><form  enctype="multipart/form-data" method="post" data-options="novalidate:true " style="display:none;"><div class="demoimg" >上传<input type="file" name="fileToUpload" /></div></form></td><td><a class="sccz" name="' + arr.UserId + '" style="border:1px solid #90c41f;">' + ahtml + '</a></td><td>' + arr.State + '，' + arr.Reason +'</td>').appendTo("#swjl");
+                                eval('up' + i + ' = new SWFUpLoad1("show' + i + '")');
+                            } else if (arr.State == '1') {
+                                arr.State = "已通过";
+                                var ahtml = "";
+                                $("<tr>").html('<td value="' + arr.Id + '">' + arr.Demand + '</td><td><b>+' + arr.AwardCoins + '</b></td><td class="jssum">≤' + arr.CoinsEquity + '</td><td><input type="button" value="充值" class="kechongzhi"/></td><td><a href="/Content/UserImg/' + arr.Img + '" target="_blank"><img src="/Content/UserImg/' + arr.Img + '" style="width:80px;height:30px;"></a></td><td><a class="sccz" name="' + arr.UserId + '" style="border:0">' + ahtml + '</a></td><td>' + arr.State + '</td>').appendTo("#swjl");
+                            } else if (arr.State == '2' && arr.Img != null) {
+                                arr.State = "待审核";
+                                //var ahtml="修改";
+                                $("<tr>").html('<td value="' + arr.Id + '">' + arr.Demand + '</td><td><b>+' + arr.AwardCoins + '</b></td><td class="jssum">≤' + arr.CoinsEquity + '</td><td><input type="button" value="充值" class="nokechongzhi"/></td><td><div><div class="imgjt"><a href="/Content/UserImg/' + arr.Img + '" target="_blank"><img src="/Content/UserImg/' + arr.Img + '" style="width:80px;height:30px;"></a></div><form  enctype="multipart/form-data" method="post" data-options="novalidate:true " style="display:none;"><div class="demoimg" >上传<input type="file" name="fileToUpload" /></div></form></td><td><a class="sccz" name="' + arr.UserId + '" style="border:1px solid #90c41f;">修改</a></td><td>' + arr.State + '</td>').appendTo("#swjl");
+                                eval('up' + i + ' = new SWFUpLoad1("show' + i + '")');
+                            } else {
+                                arr.State = " ";
+                                var ahtml = "提交";
+                                $("<tr>").html('<td value="' + arr.Id + '">' + arr.Demand + '</td><td><b>+' + arr.AwardCoins + '</b></td><td class="jssum">≤' + arr.CoinsEquity + '</td><td><input type="button" value="充值" class="nokechongzhi"/></td><td><form  enctype="multipart/form-data" method="post" data-options="novalidate:true "><div class="demoimg" >上传<input type="file" name="fileToUpload" /></div></form></td><td><a class="sccz" name="' + arr.UserId + '" style="border:1px solid #90c41f;display:none;">' + ahtml + '</a></td><td></td>').appendTo("#swjl");
+                                eval('up' + i + ' = new SWFUpLoad1("show' + i + '")');
+                            }
+                        })
+                    },
+                    error: function (err) {
+                        err.responseText
+                    }
+                });
+            }
+            //图片上传
+            $('#swjl').on('change', 'form', function () {
+                var gamedemoId = $('.gametxtco').find('p').eq(0).attr('value');
+                var tid = $(".yxswzhco input[type='radio']:checked").val();
+                var RequiredId = $(this).parents('tr').find('td').eq(0).attr('value');
+                var _this = this;
+                $(this).ajaxSubmit({
+                    url: '/Home/GameCutImgUpload',
+                    type: 'post',
+                    data: {
+                        gamedemoId: gamedemoId,
+                        accountId: tid,
+                        RequiredId:RequiredId
+                    },
+                    success: function (data) {
+                        var msg = data.split(',');
+                        if (msg[0] == 'empty') {
+                            $('.modal7 .modal-content').find('p').eq(0).text('您没有选择图片');
+                            $('.modal7').show();
+                        } else if (msg[0] == 'typeError') {
+                            $('.modal7 .modal-content').find('p').eq(0).text('请选择正确的图片类型,目前仅支持:jpg/png/jpeg');
+                            $('.modal7').show();
+                        } else  {
+                            $('.modal7 .modal-content').find('p').eq(0).text('游戏截图提交成功！');
+                            $('.modal7').show();
+                            $(_this).hide();
+                            $(_this).parent().append('<img src="/Content/GameImg/'+data+'" style="width:80px;height:30px;"/>')
+                        }
+                    }
+                });
+                return false;
+            })
+                
+            
+</script>
+</html>

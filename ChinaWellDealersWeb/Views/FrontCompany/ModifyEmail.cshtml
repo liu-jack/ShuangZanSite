@@ -1,0 +1,117 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>爽赞-邮箱修改</title>
+    <meta charset="UTF-8">
+    <link href="~/Content/Css/Form.css" rel="stylesheet" />
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <style type="text/css">
+        .main div .err {
+            color: red;
+            background-image: url(/Content/Img/109.gif);
+            background-repeat: no-repeat;
+            background-position: left center;
+            padding-left: 20px;
+        }
+        .main div .errok {
+            background-image: url(/Content/Img/111.gif);
+            height: 20px;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        label {
+            left: 40%;
+        }
+        .btn1.btn {
+            margin-top:20px;
+            width: 120px;
+            height: 40px;
+            font-size: 16px;
+            border: none;
+            line-height: 28px;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">
+        <span style="font-weight: bold;">修改邮箱</span>
+    </div>
+    @using (Ajax.BeginForm("UpdateEmail", new { }, new AjaxOptions() { HttpMethod = "post", OnSuccess = "afterMsg" }, new { id = "frm" }))
+    {
+       
+        <div class="main">
+            <div>
+                <span>原注册邮箱：</span>
+                <input type="text" class="inputtext" id="oldemail" name="oldemail" />
+                <samp class="alt"></samp>
+            </div>
+            <div style="border-bottom:1px solid #e3e3e3;">
+                <span>新邮箱：</span>
+                <input type="text" class="inputtext" id="newemail" name="newemail" />
+                <samp class="alt">每一个电子邮箱只能注册一个账号</samp>
+            </div>
+            <div>
+                @*<kbd class="btn" id="save">保存</kbd>*@
+                <input class="btn btn1" type="submit" value="保存" />
+            </div>
+        </div>
+    }
+</body>
+</html>
+<script src="~/Content/js/jquery-1.11.1.min.js"></script>
+<script src="~/Scripts/jquery-1.8.2.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Content/js/myExtend.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var oldemail = $("#oldemail"), newemail = $("#newemail");
+        $("#oldemail").blur(function () {
+            $.check({
+                el: oldemail, nothing: "请输入原注册邮箱",
+                contain: { str: ["@@", "."], alt: "请输入正确的邮箱地址" }
+            });
+        });
+        $("#newemail").blur(function () {
+            if (!$.check({
+                el: newemail, nothing: "请输入新邮箱",
+                contain: { str: ["@@", "."], alt: "请输入正确的邮箱地址" }
+            })) return;
+            $.ajax({
+                type: "Post",
+                url: "/Login/checkEmail",
+                data: { email: $('#newemail').val() },
+                success: function (data) {
+                    if (data == '') {
+                        newemail.parent("div").find(".alt").html("").addClass("err errok");
+                        //uname.focus();
+                        return;
+                    }
+                    else {
+                        newemail.parent("div").find(".alt").removeClass("errok").addClass("err").html("该邮箱已存在");
+                    }
+                }
+            });
+        });
+    });
+    //表单提交执行的方法
+    function afterMsg(data) {
+        if (data == "different") {
+            $("#oldemail").parent("div").find(".alt").removeClass("errok").addClass("err").html("不是原来注册的邮箱");
+        } else if (data == "exist") {
+            $("#newemail").parent("div").find(".alt").removeClass("errok").addClass("err").html("该邮箱已存在");
+        } else if (data == "ok") {
+            $(".main").html('<div class="allalt">恭喜您！邮箱保存成功！</div>');
+        } else {
+            $(".main").html('<div class="allalt">修改失败！</div>');
+        }
+    };
+</script>

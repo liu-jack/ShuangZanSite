@@ -1,0 +1,5 @@
+﻿1、My97DatePicker目录所有文件都需要
+2、在需要调用的页面加入以下脚本
+   <script src="/Plugins/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+3、给文本框增加事件 onClick="WdatePicker()"
+4、使用说明见：http://www.my97.net/dp/demo/index.htm

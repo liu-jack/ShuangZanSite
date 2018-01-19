@@ -1,0 +1,317 @@
+﻿@{
+    Layout = null;
+    List<Models.MapModel.MyServerGame> goPackageGame = (List<Models.MapModel.MyServerGame>)ViewBag.goGame;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>爽赞</title>
+    <meta charset="UTF-8">
+    <link href="~/Content/Css/Form.css" rel="stylesheet" />
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="~/Content/Css/SendPackage.css" rel="stylesheet" />
+    <link href="~/Content/layui-v1.0.9_rls/layui/css/modules/layer/default/layer.css" rel="stylesheet" /> 
+</head>
+<body>
+
+    <div class="title">
+        <span style="font-weight: bold;">发布礼包</span>
+    </div>
+    <div class="main">
+        <div>
+            <span>游戏名称：</span>
+            <input type="text" class="inputtext" id="gamename" />
+            <div id="gamenamelist"></div>
+            <samp class="alt">输入游戏名根据下拉提示选择，新游戏入库联系QQ：<a href="tencent://message/?uin=2885630190&Site=爽赞游戏网&Menu=yes">2885630190</a></samp>
+        </div>
+        <div style="height:100px;">
+            <span>历史游戏：</span>
+            <div id="history" class="inputtext">
+                @foreach (var item in goPackageGame)
+                {
+                    <span>@item.GameName</span>
+                }
+            </div>
+        </div>
+        <div>
+            <span>服务器名：</span>
+            <p id="servers">
+                <font>双线</font>
+                <input type="text" class="inputtext" maxlength="4" onkeyup="value=value.replace(/[^\d]/g,'')" style="width: 50px; padding-left: 10px; margin: 0 10px;" id="serversname" />
+                <font>服</font>
+                <label>
+                    <input type="checkbox" id="publicserver" /><font>通服</font>
+                </label>
+            </p>
+            <samp class="alt" style="top: 10px;">填写阿拉伯数字，最多4个数字</samp>
+        </div>
+        <div>
+            <span>礼包类型：</span>
+            <p id="packge">
+                <label>
+                    <input type="radio" name="type" id="packgetype1" value="1"  /><font>开服礼包</font>
+                </label>
+                <label>
+                    <input type="radio" name="type" id="packgetype2" value="2" /><font>激活码</font>
+                </label>
+                <label>
+                    <input type="radio" name="type" id="packgetype3" value="3" /><font>独家礼包</font>
+                </label>
+            </p>
+            <samp class="alt"></samp>
+        </div>
+        <div>
+            <span>礼包名称：</span>
+            <input type="text" class="inputtext" maxlength="12" id="name" />
+            <samp class="alt">12个字符以内</samp>
+        </div>
+        <div>
+            <span>有效期：</span>
+            <p id="day">
+                <input type="text" class="inputtext" id="startday" value="@DateTime.Now.ToString("yyyy-MM-dd")" onfocus="var endday=$dp.$('endday');WdatePicker({onpicked:function(){endday.focus();},maxDate:'#F{$dp.$D(\'endday\')}',isShowClear:false,readOnly:true})" style="width: 120px;" />
+                <font>至</font>
+                <input type="text" class="inputtext" id="endday" value="@DateTime.Now.AddDays(15).ToString("yyyy-MM-dd")" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'startday\')}',isShowClear:false,readOnly:true})" style="width: 120px;" />
+            </p>
+            <samp class="alt" style="left: 440px;"></samp>
+        </div>
+        <div>
+            <span>游戏网址：</span>
+            <input type="text" class="inputtext" id="url" value="http://" style="width: 300px;" />
+            <samp class="alt" style="left: 450px;">游戏登录地址</samp>
+        </div>
+        <div style="height: 200px;">
+            <span>添加卡号：</span>
+            <textarea class="inputtext" id="cards"></textarea>
+            <samp class="alt" style="left: 650px; top: 0">
+                卡号前后都不要带空格，1条1行<br />
+                按回车键换行<br />
+                例如：<br />
+                7KIO4NQY23457id<br />
+                RO6BAGLS122334sddef<br />
+                HU7W5VMP234667
+            </samp>
+            <samp id="cou">总数：0</samp>
+        </div>
+        <div style="height: 140px;">
+            <span>礼包内容：</span>
+            <textarea class="inputtext" id="msg"></textarea>
+            <samp class="alt" style="left: 650px; top: 0">
+                例如：<br />
+                合同1级*6，合同2级*4，合同3级*2，汽车1级*3，汽车2级*2，游艇1级*1，训练卡100*1,训练卡200*1，训练卡500*1
+            </samp>
+        </div>
+        <div style="height: 140px; border-bottom: 1px solid #E3E3E3;">
+            <span>使用说明：</span>
+            <textarea type="text" class="inputtext" id="memo"></textarea>
+            <samp class="alt" style="left: 650px; top: 0;">
+                例如：<br />
+                1、领取礼包后，进入XXX游戏官网点击“进入游戏”选择任意服务器； 2、进入游戏后，点击右上角礼包领取图标，选择对应的礼包输入框，输入卡号，点击兑换
+            </samp>
+        </div>
+        <div>
+            <kbd class="btn" id="save" style="line-height:40px;">提交发布</kbd>
+        </div>
+    </div>
+</body>
+</html>
+<script src="~/Content/js/jquery-1.11.1.min.js"></script>
+<script src="~/Content/js/myExtend.js"></script>
+<script src="~/Content/js/Public.js"></script>
+<script src="~/Content/My97DatePicker/WdatePicker.js"></script>
+<script>
+    $(document).ready(function () {
+        var gamename = $("#gamename"), serversname = $("#serversname"), publicserver = $("#publicserver"),
+            name = $("#name"), startday = $("#startday"), endday = $("#endday"),
+            url = $("#url"), cards = $("#cards"), msg = $("#msg"), memo = $("#memo");
+        var names = [];
+        $.ajax({
+            type: "Post",
+            url: "/FrontCompany/GameName",
+            data: "",
+            success: function (data) {
+                // names = JSON.parse(data);
+                names = data;
+                // alert(names);
+            }
+        });
+        $("#gamename").blur(function () {
+            if (!$.check({
+                el: $(this), nothing: "请填写游戏名称"
+            })) return;
+            //检测在不在可发布范围内
+            var v = $(this).val(), isok = false;
+            $.each(names, function (i, val) {
+                if (val.Name == v) {
+                    isok = true;
+                    return false;
+                }
+            });
+            if (!isok) {
+                gamename.parents("div").eq(0).find(".alt").removeClass("errok").addClass("err").html('游戏名称不可以发布，新游戏入库联系QQ：<a href="tencent://message/?uin=2885630190&Site=爽赞游戏网&Menu=yes">2885630190</a>');
+            } else {
+                gamename.parents("div").eq(0).find(".alt").removeClass("err").addClass("errok").html('');
+            }
+            //setTimeout(function () { $("#gamenamelist").empty().hide(); }, 100);
+        }).keyup(function () {
+            var p = [], v = $(this).val(), l = v.length;
+            if (v == "") {
+                $("#gamenamelist").hide();
+            }
+            else {
+                $.each(names, function (i, val) {
+                    if (val.Name.substr(0, l) == v)
+                        p.push(val.Name);
+                });
+                if (p.length > 0) {
+                    $("#gamenamelist").empty().show();
+                    $.each(p, function (i, val) {
+                        $("<span>").html(val).appendTo($("#gamenamelist"))
+                    });
+                }
+            }
+        });
+        $("#gamenamelist").delegate("span", "click", function () {
+            gamename.val($(this).html()).parents("div").eq(0).find(".alt").html("").addClass("err errok");
+            $("#gamenamelist").empty().hide();
+        });
+        $("#serversname").blur(function () {
+            if ($("#serversname").val() != '' && !isNaN($("#serversname").val())) {
+                $("#publicserver").attr('disabled', true);
+                serversname.parents("div").eq(0).find(".alt").addClass("err errok").html('');
+            } else {
+                $("#publicserver").attr('disabled', false);
+                $.check({
+                    el: $(this), nothing: "请填写服务器名"
+                });
+            }
+        });
+        $("#publicserver").click(function () {
+            if ($(this).is(":checked")){
+                $("#serversname").attr('disabled', true);
+                $(this).parents("div").eq(0).find(".alt").html("").addClass("err errok");
+            }  
+            else {
+                $("#serversname").attr('disabled', false);
+                $.check({
+                    el: serversname, nothing: "请填写服务器名"
+                })
+            }
+                
+        });
+        $("#name").blur(function () {
+            $.check({
+                el: $(this), nothing: "请填写礼包名称"
+            });
+        });
+        $("#url").blur(function () {
+            $.check({
+                el: $(this), nothing: "请填写游戏网址"
+            });
+            var alt = $("#url").parents("div").eq(0).find(".alt");
+            if ($("#url").val() == "http://") {
+                alt.removeClass("errok").addClass("err").html("请填写游戏网址");
+                return;
+            }
+            alt.html("").addClass("err errok");
+        });
+        $("#cards").blur(function () {
+            if (!$.check({
+                el: $(this), nothing: "请填写卡号"
+            }))
+                $("#cou").html("总数：0");
+            else
+                var cou = $(this).val().trim().split('\n');
+                var len= cou.length;
+                for (var i = 0; i < cou.length; i++) {
+                    if (cou[i] == '') {
+                        len--;
+                    }
+                }
+                $("#cou").html("总数：" + len);
+        });
+        $("#msg").blur(function () {
+            $.check({
+                el: $(this), nothing: "请填写礼包内容"
+            });
+        });
+        $("#memo").blur(function () {
+            $.check({
+                el: $(this), nothing: "请填写使用说明"
+            });
+        });
+        $("#reset").click(function () { location.reload(); });
+        $("#history span").click(function () {
+            gamename.val($(this).html()).parents("div").eq(0).find(".alt").html("").addClass("err errok");
+        });
+        $("#save").click(function () {
+            if (!$.check({
+                el: gamename, nothing: "请填写游戏名称", focus: true
+            })) return;
+            var v = gamename.val(), isok = false;
+            $.each(names, function (i, val) {
+                if (val.Name == v) {
+                    isok = true;
+                    return false;
+                }
+            });
+            if (!isok) {
+                gamename.focus().parents("div").eq(0).find(".alt").removeClass("errok").addClass("err").html('游戏名称不可以发布，新游戏入库联系QQ：<a href="tencent://message/?uin=2885630190&Site=爽赞游戏网&Menu=yes">2885630190</a>');
+                return;
+            }
+            if (!publicserver.is(":checked")) {
+                if (!$.check({
+                    el: serversname, nothing: "请填写服务器名", focus: true
+                })) return;
+            } else {
+                serversname.parents("div").eq(0).find(".alt").removeClass("errok").addClass("err").html("");
+            }
+            if (!$.check({
+                el: name, nothing: "请填写礼包名称", focus: true
+            })) return;
+            if (!$.check({
+                el: startday, nothing: "请选择有效期开始时间", focus: true
+            })) return;
+            if (!$.check({
+                el: endday, nothing: "请选择有效期结束时间", focus: true
+            })) return;
+            if (!$.check({
+                el: url, nothing: "请填写游戏网址", focus: true
+            })) return;
+            var alt = $("#url").parents("div").eq(0).find(".alt");
+            if ($("#url").val() == "http://") {
+                alt.removeClass("errok").addClass("err").html("请填写游戏网址");
+                return;
+            }
+            alt.html("").addClass("err errok");
+            if (!$.check({
+                el: cards, nothing: "请填写卡号", focus: true
+            })) return;
+            if (!$.check({
+                el: msg, nothing: "请填写礼包内容", focus: true
+            })) return;
+            if (!$.check({
+                el: memo, nothing: "请填写使用说明", focus: true
+            })) return;
+            var tag = 'http://';
+            var str = $("#url").val();
+            if (str.indexOf(tag) == -1) {
+                alt.removeClass("errok").addClass("err").html("游戏网址前请加http://");
+                return;
+            } else {
+                $.ajax({
+                    type: "Post",
+                    url: "/FrontCompany/AddPackage",
+                    data: {
+                        gamename: gamename.val().trim(), servername: publicserver.is(":checked") ? "通服" : serversname.val().trim(), type: $("#packge input:checked").val(), name: name.val().trim(), startdate: startday.val(), enddate: endday.val(), url: url.val().trim(), msg: msg.val(), memo: memo.val(), code: cards.val()
+                    },
+                    success: function (data) {
+                        if (data == "ok")
+                            $(".main").html('<div class="allalt">恭喜您！礼包发布成功！' + ($("#packge input:checked").val() == "3" ? "请等待审核！" : "") + '</div><a href="/FrontCompany/SendPackage" class="btn"  style="display: inline-block;width: 120px;margin-top: 20px;margin-left: 390px;height:40px;line-height:40px;text-decoration:none;">继续发布</a>');
+                        else
+                            layer.msg("礼包发布失败，请重试");
+                    },
+                });
+            }
+        });
+    });
+</script>

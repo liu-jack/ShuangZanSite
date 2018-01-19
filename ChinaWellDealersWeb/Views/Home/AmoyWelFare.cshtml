@@ -1,0 +1,328 @@
+﻿@{
+    Layout = null;
+}
+@using Models.MapModel
+@using Models
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=1200">
+    <link href="~/Content/Css/index.css" rel="stylesheet" />
+    <link href="~/Content/Css/reset.css" rel="stylesheet" />
+    <link href="~/Content/Css/usename.css" rel="stylesheet" />
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="~/Content/Css/sign.css" rel="stylesheet" />
+    <link href="~/Content/Css/calendar.css" rel="stylesheet" />
+    <link href="~/Content/Css/amoywel-index.css" rel="stylesheet" />
+    <link href="~/Content/Css/amoywel.css" rel="stylesheet" />
+    <link href="/Content/Img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+    <title>页游试玩赚钱_页游试玩换礼品_淘福利_爽赞网</title>
+    <meta name="keywords" content="玩游戏赚钱，页游试玩赚钱，页游试玩换礼品，淘福利，爽赞网">
+    <meta name="description" content="爽赞网可以玩游戏赚钱、做任务赚钱、参加活动等多种方式赚钱，还可以兑换U盘、智能手环、机械键盘等各种数码奖品，轻松游戏，快乐赚钱，就上爽赞网。"> 
+</head>
+<body>
+    @Html.Action("_TwoShuangzanHeader", "Home")
+    <!-- banner -->
+    <div class="am-banner">
+       
+    </div>
+    <div class="body-bg">
+        <!-- 赚爽币 -->
+        <div class="am-title">
+            <p>赚爽币</p>
+        </div>
+        <!-- 赚爽币主体 -->
+        <div class="width">
+            <div class="am-make-left">
+                <div class="am demogame clearfix">
+                    <p class="am-t-bg">游戏试玩</p>
+                    <!-- 游戏试玩 -->
+                    <ul class="am-demogame-list clearfix">
+                        @foreach (var item in (List<GameDemoViewModel>) ViewData["GameDemo"])
+                        {                                           
+                        <li class="am-demogame-item">
+                            <a href="/Home/DemoDetails/@item.Id" target="_blank"><img src="/Content/GameImg/@item.Img"><p class="p1">@item.GameName</p></a>
+                            <p class="p2">奖励<b>
+                                @if (item.PaySum==null)
+                                {
+                                   @Html.Raw("0")
+                                }else
+                                {
+                                  @item.PaySum
+                                }                             
+                                </b>爽币</p>
+                            <p><a href="/Home/DemoDetails/@item.Id" target="_blank"><input type="button" value="立即试玩"></a></p>
+                        </li>
+                        }                   
+                    </ul>
+                    <!-- 游戏试玩结束 -->
+                    <a class="am-btn" href="/Home/DemoList" target="_blank">更多试玩</a>
+                </div>
+                <div class="am perfectdata clearfix">
+                    <p class="am-t-bg">完善资料</p>
+                    <ul class="am-perfectdata-list clearfix">
+                        <li class="am-perfectdata-item">
+                            <img src="/Content/Img/QQicon.png" alt="QQ" />
+                            <p>填写QQ账号</p>
+                            <p>+<span>2</span>爽币</p>
+                        </li>
+                        <li class="am-perfectdata-item">
+                            <img src="/Content/Img/weixinicon.png" alt="weiixn" />
+                            <p>填写微信账号</p>
+                            <p>+<span>2</span>爽币</p>
+                        </li>
+                        <li class="am-perfectdata-item">
+                            <img src="/Content/Img/emailicon.png" alt="email" />
+                            <p>填写邮箱账号</p>
+                            <p>+<span>2</span>爽币</p>
+                        </li>
+                        <li class="am-perfectdata-item">
+                            <img src="/Content/Img/birthdayicon.png" alt="birthday" />
+                            <p>填写生日信息</p>
+                            <p>+<span>2</span>爽币</p>
+                        </li>
+                        <li class="am-perfectdata-item">
+                            <img src="/Content/Img/telicon.png" alt="tel" />
+                            <p>填写紧急联系人</p>
+                            <p>+<span>2</span>爽币</p>
+                        </li>
+                    </ul>
+                    <img src="/Content/Img/perfectdata.png" class="perfectdata-line">
+                    <a class="am-btn am-btn2" href="/PersonalUser/Index" target="_blank">去完善</a>
+                </div>
+            </div>
+            <div class="am-make-right">
+                <!-- 签到 -->
+                <div class="am am-sign clearfix">
+                    <p class="am-t-bg">签到有奖</p>
+                    <div class="Signleft" id="Signleft">
+                        <div id="calendar" class="calendar">
+                            <h3>2017-7-25</h3>
+                            <a class="s3"><</a>
+                            <a class="s2">></a>
+                            <ul class="head">
+                                <li>一</li>
+                                <li>二</li>
+                                <li>三</li>
+                                <li>四</li>
+                                <li>五</li>
+                                <li>六</li>
+                                <li>日</li>
+                            </ul>
+                            <ul class="day"></ul>
+                        </div>
+                    </div>
+                    <div class="am-calendar-msg clearfix">
+                        <p><span>您已连续签到<b class="qiandao1">0</b>天</span><input type="button" value="立即签到" class="Signimmed" /></p>
+                    </div>
+                    <div class="am-explain">
+                        <h1>签到说明</h1>
+                        <p>1、连续签到<span> 7</span>天，+<span>5 </span>爽币</p>
+                        <p>2、连续签到<span> 15</span>天，+<span>10 </span>爽币</p>
+                        <p>3、连续签到<span> 30</span>天，+<span>20 </span>爽币</p>
+                    </div>
+                </div>
+                <!-- 攻略投稿 -->
+                <div class="am am-contribution">
+                    <p class="am-t-bg">攻略投稿</p>
+                    <div class="am-contribution-con">
+                        <p class="am-contribution-item am-contribution-item1">通过审核 +<span>10</span>爽币</p>
+                        <p class="am-contribution-item am-contribution-item2">首页推荐 +<span>10</span>爽币</p>
+                    </div>
+                    <a class="am-btn am-btn1 am-btn2" href="/PersonalUser/Submission" target="_blank">立即投稿</a>
+                </div>
+                <!-- 邀请小伙伴 -->
+                <div class="am am-invite">
+                    <p class="am-t-bg">邀请小伙伴</p>
+                    <div class="am-invite-con">
+                        <p class="am-invite-item am-invite-item1">用自己的专属链接邀请</p>
+                        <p class="am-invite-item am-invite-item2">成功邀请<i> 1 </i>注册 +<span>5</span>爽币</p>
+                    </div>
+                    <a class="am-btn am-btn1 am-btn2" href="/PersonalUser/ExtenLinks" target="_blank">立即邀请</a>
+                </div>
+            </div>
+        </div>
+        <!-- 充爽币 -->
+        <div class="am-title am-title1">
+            <p>充爽币</p>
+        </div>
+        <!-- 充爽币主体 -->
+        <div class="wid">
+            <div class="am-recharge clearfix">
+                <div class="am-recharge-left">
+                    <div class="am-recharge-title">
+                        <img src="/Content/Img/recharge.png" class="am-recharge-pic" />
+                        <div class="parallelogram-box">
+                            <span class="parallelogram parallelogram1 parallelogram-active"><em class="parallelogram-em">5</em><i class="parallelogram-i">折</i></span><span class="parallelogram"><em class="parallelogram-em">6</em><i class="parallelogram-i"> 折</i></span><span class="parallelogram"><em class="parallelogram-em">7</em><i class="parallelogram-i"> 折</i></span><span class="parallelogram"><em class="parallelogram-em">8</em><i class="parallelogram-i"> 折</i></span>
+                        </div>
+                    </div>
+                    <div class="am-recharge-input clearfix">
+                        <span>充值数量：</span>
+                        <div class="am-recharge-select">
+                            <input type="text" name="5" placeholder="输入10的倍数">
+                            <span>1000以上爽币</span>
+                        </div>
+                        <div class="am-recharge-select display">
+                            <input type="text" name="6" placeholder="输入10的倍数">
+                            <span>510-1000爽币</span>
+                        </div>
+                        <div class="am-recharge-select display">
+                            <input type="text" name="7" placeholder="输入10的倍数">
+                            <span>110-500爽币</span>
+                        </div>
+                        <div class="am-recharge-select display">
+                            <input type="text" name="8" placeholder="输入10的倍数">
+                            <span>10-100爽币</span>
+                        </div>
+                        <div class="errmsg"><p class="display">金额不符合要求</p></div>
+                    </div>
+                    <div class="am-recharge-way">
+                        <div class="am-recharge-choice">
+                            <span class="c">支付方式：</span><ul>
+                                <li class="rechargeactive" value="alipay"><img src="/Content/Img/zfbpay.png"><span>支付宝</span></li>
+                                <li value="wchatpay"><img src="/Content/Img/weixinpay.png"><span>微信</span></li>
+                                <li value="unionpay" style="display:none;"><img src="/Content/Img/bankpay.png"><span>网银</span></li>
+                            </ul>
+                        </div>
+                        <div class="am-recharge-rmb">
+                            <span class="am-recharge-lefttitle">应付金额：</span><span class="am-recharge-paynum"><i id="rmb"></i>（元）</span>
+                        </div>
+                        <span class="paynow am-btn2">立即充值</span>
+                    </div>
+                </div>
+                <div class="am-recharge-right">
+                    <h1>充值说明</h1>
+                    <p>1、人民币充值爽币，充值越多优惠越大。充值数必须是10的倍数。</p>
+                    <p>2、爽币的作用。作用一：充值游戏。爽币充值游戏，1爽币=1元RMB。同款游戏，爽币畅玩更省钱。作用二：兑换实体物品。各种精美物品等你来换。</p>
+                    <p>3、充值时请务必确认金额无误，如因未仔细确认金额造成的充值问题，我们将一律不予处理此类退款申诉。</p>
+                    <p>4、如有任何问题，请联系在线客服<br />（QQ：10631881）。</p>
+                </div>
+            </div>
+        </div>
+        <!-- 花爽币 -->
+        <div class="am-title">
+            <p>花爽币</p>
+        </div>
+        <!-- 花爽币主体 -->
+        <div class="width width1">
+            <div class="am-use">
+                <div class="am am-use-left">
+                    <p class="am-t-bg">兑换礼品</p>
+                    <ul class="am-gift-list clearfix">
+                        @foreach (var item in (List<Gift>)ViewBag.NewestGift)
+                        {                                             
+                        <li><p class="giftimg">
+                                <a href="/Gift/GiftDetails/@item.Id" target="_blank"><img src="/Content/GiftImg/@item.Logo" alt=""></a></p>
+                        <p class="giftname">@item.Name </p><p class="giftjg">
+                            @if (item.Price==null)
+                            {
+                              <span>0</span>   
+                            }
+                            else { 
+                              <span>@item.Price</span>
+                            }                       
+                            爽币<a href="/Gift/GiftDetails/@item.Id" target="_blank"><input type="button" value="兑换"></a></p></li> 
+                        }                     
+                    </ul>
+                    <a class="am-btn" href="/Gift/GiftList" target="_blank">更多礼品</a>
+                </div>
+                
+                <div class="am am-use-right">
+                    <p class="am-t-bg">游戏充值</p>
+                    <div class="am-demo-recharge">
+                        <div class="am-demo-recharge-list">
+                            <p>
+                                <span>游戏名</span><select name="" id="gamenames" class="am-btn2">
+                                    <option value="">--请选择--</option>
+                                </select>
+                            </p>
+                            <p>
+                                <span>运营商</span><select name="" id="sysnames">
+                                    <option value="">--请选择--</option>
+                                </select>
+                            </p>
+                            <p>
+                                <span>试玩账号</span><select name="" id="zhgao">
+                                    <option value="">--请选择--</option>
+                                </select>
+                            </p>
+                            <p>
+                                <span>服务器</span><input type="text" placeholder="输入游戏区服" id="serverqu" />
+                                <span class="errmsgqu errmsgqu1">请输入游戏区服</span>
+                            </p>
+                            <p>
+                                <span>充值金额</span><input type="text" placeholder="输入爽币数，10的倍数" id="czjine" name="money" /><!-- momey为选择的区服最高允许充值爽币值 -->
+                                <span class="errmsgqu errmsgcz">请输入正确的充值金额</span>
+                            </p>
+                            <span class="errmsg">允许消费：<a class="yxxfje"></a>（爽币）</span>
+                            <p>
+                                <span></span><input type="button" class="btncz am-btn2" value="立即充值" />
+                            </p>
+                        </div>
+                    </div>
+                    <div class="am-demo-recharge-text">
+                        <h1>充值说明：</h1>
+                        <p>1、流程<br />“<a href="/Home/DemoList">领取试玩账号</a>”—上传试玩截图—获得爽币消费额—提交充值申请—虚拟货币到账</p>
+                        <p>2、爽币充值和游戏快速入口：充值游戏虚拟货币（元宝），1爽币=1RMB。充值数为10的倍数，不得超过爽币允许消费额度。</p>
+                        <p>3、部分游戏平台充值需要密码，充值此类游戏平台时，如密码修改请主动联系客服。</p>
+                        <p>4、提交充值申请后，虚拟货币（元宝）将在1个小时内到账，且系统将自动扣除相应爽币。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 签到成功 -->
+    <div class="Signsucc display">
+        <p><i></i></p>
+        <p>今日签到成功,再接再厉哦~</p>
+    </div>
+    <!--充值后提示-->
+    <div class="modal6 display">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <p>您已成功提交充值信息！</p>
+                <p>我们将在1个小时内(每日<i>9:00-23:00</i>)充值到账</p>
+                <p>
+                    <input type="button" value="确定" id="check6">
+                </p>
+            </div>
+        </div>
+    </div>
+    <!-- 账号提示 -->
+    <div class="modal8 display">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <p style="line-height: 30px;font-size: 16px;margin:25px 0;">您还没有试玩账号，先去领号吧~</p>
+                <p>
+                    <a href="/Amoywel/demo.html" target="_blank"><input type="button" value="我要领号" id="check8"></a>
+                    <input type="button" id="checkcel7" value="取消" />
+                </p>
+            </div>
+        </div>
+    </div>
+    <!-- 联系QQ -->
+    <div id="contactQQ">
+        <div class="qqcontar">
+            <a class="contactcel"></a>
+            <img src="/Content/Img/contactQQ.png" />
+            <a href="tencent://message/?uin=10631881&Site=爽赞游戏网&Menu=yes" target="_blank"><img src="/Content/Img/contactQQ1.png" class="contactQQ1" /><p style="position:absolute;bottom:13px;right:16px;color:#fff;font-size:12px;">QQ：10631881</p></a>
+        </div>
+    </div>
+    <!--支付表单-->
+    <form id="alipaysubmit" target="_blank" name="alipaysubmit" action="https://mapi.alipay.com/gateway.do?_input_charset=utf-8" method="get">
+        <div id="inputs">
+
+        </div>
+        <input type="submit" id="submitje" style="display:none" />
+    </form>
+    @Html.Partial("_ShuangZanFooter")
+    <script src="~/Content/js/jquery-1.11.1.min.js"></script> 
+    <script src="~/Content/js/amoywel-index.js"></script> 
+    <script src="~/Content/js/Public.js"></script>
+    <script src="~/Content/js/calendar.js"></script>
+    <script src="~/Content/js/personal_use.js"></script>
+    <script src="~/Content/js/calendar1.js"></script>
+    <script src="~/Content/js/index.js"></script>   
+</body>
+</html>

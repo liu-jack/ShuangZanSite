@@ -1,0 +1,88 @@
+﻿@{
+    Layout = null;
+}
+@model Models.PersonalUser
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=1124">
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="~/Content/Css/personal.css" rel="stylesheet" />
+    <link href="~/Content/Css/sign.css" rel="stylesheet" />
+    <link href="~/Content/Css/calendar.css" rel="stylesheet" />
+    <link href="~/Content/Css/index.css" rel="stylesheet" />
+    <link href="~/Content/Css/reset.css" rel="stylesheet" />
+    <link href="/Content/Img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+    <title>个人中心</title>
+    <style type="text/css">
+        #bannerfmt {
+            width: 1124px;
+        }
+            #bannerfmt > div {
+                position: fixed;
+                bottom: 0;
+                right: 0;
+                height: 200px;
+                z-index: 100;
+            }
+
+        .banner-swf {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+        }
+
+            .banner-swf p {
+                padding-left: 5px;
+                height: 20px;
+                color: #fff;
+                background: #252525;
+            }
+
+        i.closebtn02 img {
+            float: right;
+            cursor: pointer;
+        }
+
+        .hide {
+            display: none;
+        }
+        #v_container, #v_container1 {
+        width: 100px;
+        height: 26px;
+        margin-right: 10px;
+        cursor: pointer;
+    }
+    </style>
+</head>
+<body>
+    <div>
+        @Html.Action("UserTop", "PersonalUser")
+            <!--账号信息-->
+            <div class="information">
+                <!-- 推广链接 -->
+                <div class="bind" style="border-bottom:1px solid #e5e5e5;margin-bottom:15px;border:none;">
+                    <div class="tglink" style="border:none;">
+                        <p class="tglink-promotion">您的推广链接：<input id="tglink" type="text" value="http://www.shuangzan.com/Login/RegPersonalUser?id=@Model.Id"><button class="copymylink">复制链接</button></p>
+                        <img src="/Content/Img/personal_promotion.jpg" />
+                        <p class="promotion-explanation"><b>邀请说明：</b>1、玩家使用各自专属邀请链接，通过QQ、YY等聊天工具，邀请好友<span>注册并完善个人资料</span>，邀请人就可获得额外的爽币奖励。</p>
+                        <p class="promotion-explanation-2">2、每成功发展一个会员，就可获得<s>5</s>爽币。邀请越多，奖励越多。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+ <!--尾部开始-->
+ @Html.Action("_SignInDiv", "PersonalUser")
+ <!--尾部结束-->
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260848027&web_id=1260848027" language="JavaScript"></script>
+    <script src="~/Content/js/jquery-1.11.1.min.js"></script>
+    <script src="~/Content/js/Public.js"></script>
+    <script src="~/Content/js/calendar.js"></script>
+    <script src="~/Content/js/zh_CN.js"></script>
+    <script src="~/Content/js/myExtend.js"></script>
+    <script src="~/Content/js/personal_use.js"></script>
+    <script src="~/Content/js/calendar1.js"></script>
+</body>
+</html>

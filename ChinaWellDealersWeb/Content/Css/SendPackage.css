@@ -1,0 +1,147 @@
+﻿ 
+      .goon {
+            text-decoration: none;
+            width: 100px;
+            display: block;
+            margin: 20px auto;
+        }
+
+        #reset {
+            width: 60px !important;
+            left: 270px !important;
+        }
+
+        .main div .err {
+            color: red;
+            background-image: url(/Content/Img/109.gif);
+            background-repeat: no-repeat;
+            background-position: left center;
+            padding-left: 20px;
+        }
+         .main div:first-child{
+            line-height:28px;
+        }
+        .main div .errok {
+            background-image: url(/Content/Img/111.gif);
+            height: 20px;
+        }
+
+        .main div > samp {
+            line-height: 20px;
+        }
+
+            .main div > samp.alt a {
+                color: #909090;
+            }
+
+        p#servers {
+            padding-top: 6px;
+        }
+
+            p#servers * {
+                display: block;
+                float: left;
+                height: 26px;
+                line-height: 28px;
+            }
+
+            p#servers label {
+                padding: 0;
+                margin-left: 15px;
+            }
+
+        #history {
+            width: 640px;
+            height: 90px;
+            left: 130px;
+            overflow-y: scroll;
+            background-color: #FFF;
+        }
+
+            #history span {
+                position: static;
+                width: 118px;
+                padding: 0 0 0 5px;
+                display: block;
+                text-align: left;
+                float: left;
+            }
+
+        #gamenamelist {
+            left: 130px;
+            top: 30px;
+            width: 200px;
+            border: 1px solid #C6C6C6;
+            z-index: 1;
+            padding-left: 10px;
+            background-color: #FFF;
+            height: initial;
+            display: none;
+        }
+
+            #gamenamelist span {
+                position: initial;
+                display: block;
+                text-align: left;
+            }
+
+        p#packge {
+            width: 400px;
+        }
+
+            p#packge label {
+                width: auto !important;
+                padding-right: 15px;
+            }
+
+        textarea {
+            left: 130px;
+            padding: 10px 0 0 10px;
+            font-size: 14px;
+            font-family: 'Microsoft YaHei';
+        }
+
+        p#day {
+            width: 300px;
+        }
+
+            p#day * {
+                display: block;
+                float: left;
+            }
+
+            p#day font {
+                width: 30px;
+                line-height: 30px;
+                text-align: center;
+            }
+
+            p#day input {
+                padding: 0 0 0 10px;
+                height: 28px;
+                font-size: 14px;
+                background-image: url("/Content/Img/132.gif");
+                background-repeat: no-repeat;
+                width: 120px;
+                background-position: 110px center;
+            }
+
+        #cards {
+            width: 500px;
+            height: 170px !important;
+            resize: none;
+        }
+
+        #cou {
+            left: 650px;
+            top: 160px;
+            font-weight: bold;
+            color: #79A402;
+        }
+
+        #msg, #memo {
+            width: 500px;
+            height: 110px !important;
+            resize: none;
+        }
+  

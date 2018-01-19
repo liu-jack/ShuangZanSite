@@ -1,0 +1,176 @@
+﻿ 
+        #main {
+            width: 1012px;
+            margin: 0 auto;
+            background-image: url(/Content/Img/106.jpg);
+        }
+
+            #main > div > div {
+                clear: both;
+                height: 80px;
+                position: relative;
+            }
+
+                #main > div > div > span {
+                    position: absolute;
+                    text-align: right;
+                    display: block;
+                    float: left;
+                    width: 300px;
+                    padding: 10px 10px 0 0;
+                    font-size: 16px;
+                    font-family: 'Microsoft YaHei';
+                }
+
+                #main > div > div > input {
+                    position: absolute;
+                    left: 310px;
+                    width: 350px;
+                    padding: 0 0 0 10px;
+                    height: 40px;
+                    font-size: 14px;
+                }
+
+                #main > div > div .err {
+                    position: absolute;
+                    left: 680px;
+                    top: 15px;
+                    color: red;
+                    background-image: url(/Content/Img/109.gif);
+                    background-repeat: no-repeat;
+                    background-position: left center;
+                    padding-left: 20px;
+                }
+
+                #main > div > div .errok {
+                    background-image: url(/Content/Img/111.gif);
+                    height: 20px;
+                }
+
+                #main > div > div .alt {
+                    position: absolute;
+                    left: 310px;
+                    top: 47px;
+                    color: #909090;
+                }
+
+                #main > div > div > label {
+                    position: absolute;
+                    padding-left: 310px;
+                    height: 40px;
+                    font-family: 'Microsoft YaHei';
+                    color: #909090;
+                }
+
+                    #main > div > div > label * {
+                        float: left;
+                        display: block;
+                    }
+
+                    #main > div > div > label input {
+                        margin-left: 0;
+                    }
+
+                    #main > div > div > label a {
+                        text-decoration: none;
+                        color: #309CEF;
+                    }
+
+                        #main > div > div > label a:hover {
+                            color: #0083E7;
+                        }
+
+                #main > div > div > p {
+                    position: absolute;
+                    left: 520px;
+                    display: block;
+                    margin: 0;
+                    width: 140px;
+                    height: 40px;
+                    line-height: 40px;
+                    font-size: 14px;
+                    color: #FFF;
+                    text-align: center;
+                    border: 1px solid #C6C6C6;
+                    background-color: #5D5D5D;
+                    border-radius: 5px;
+                    cursor: pointer;
+                }
+
+                #main > div > div > #save {
+                    position: absolute;
+                    float: left;
+                    display: block;
+                    left: 310px;
+                }
+
+        .modal8 {
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background: rgba(0,0,0, .4);
+            z-index: 999;
+        }
+
+            .modal8 .modal-content {
+                padding: 26px 12px 16px 12px;
+            }
+
+        .modal-content {
+            background: #fff;
+            box-shadow: 0 0 0 5px #e5e5e5;
+            padding: 16px 12px;
+            width: 360px;
+            height: 150px;
+            text-align: center;
+        }
+
+        .modal8 .modal-content p {
+            line-height: 20px;
+            font-size: 16px;
+            font-family: "Microsoft YaHei";
+        }
+
+        .modal8 .modal-content > span {
+            display: block;
+            width: 44px;
+            height: 46px;
+            margin: 0 auto;
+            background: url(/Content/Img/icon.png) -103px -2px no-repeat;
+        }
+
+        .modal8 .modal-content #check8 {
+            background: #90C41F;
+            color: #fff;
+            margin-top: 25px;
+            font-size: 16px;
+            font-family: "Microsoft YaHei";
+        }
+
+        .modal-content p input {
+            width: 100px;
+            height: 30px;
+            font-size: 14px;
+            margin: 0 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            border: 0;
+        }
+
+        .modal8 .modal-dialog {
+            width: 300px;
+            margin: 200px auto;
+        }
+
+        #v_container {
+            position: absolute;
+            left: 490px;
+            display: block;
+            margin: 0;
+            height: 40px;
+            cursor: pointer;
+        }
+  

@@ -1,0 +1,229 @@
+﻿@model Models.MapModel.NewsViewModel
+<!-- 评论模块 -->
+<div class="title-title title-title2" id="comment">
+    <!-- 玩家评论数据 -->
+    <p>评论 ( <span class="number-1">236</span><span class="number-text">条</span> )</p>
+    <div class="title-title-1 fl"></div>
+    <div class="title-title-2  title-title-2-1fr fans fans1"></div>
+</div>
+<!-- 玩家评论开始 -->
+<div class="comment">
+    <div class="head-portrait head-portrait2">
+        <img src="/Content/Img/2.jpg">
+    </div>
+    <div class="comment-text comment-text2">
+        <div class="comment-text-input fans fans1">
+            <textarea id="msgTxt"></textarea>
+        </div>
+        <div class="fans fans1">
+            <div class="fl">
+                <div class="look"> <span><img src="/Content/Img/20.png" /></span><span class="face-icon"> 表情</span> </div>
+            </div>
+            <div class="fr fans fans1 login">
+                <input type="button" name="登录" value="登录" class="login-btn">
+                <input type="button" name="btnAdd" id="btnAdd" value="发表评论" class="push" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="hot1">
+    <div class="hot-comment">
+        <p>最热评论</p>
+    </div>
+    <div class="hot-box">
+    </div>
+</div>
+<div class="new">
+    <div class="hot-comment">
+        <p>最新评论</p>
+    </div>
+    <div class="new-box" id="ulList">
+        <!-- 一个评论开始 -->
+        <!-- 一个评论结束 -->
+    </div>
+</div>
+<div class="page">
+    <ul id="paginator" class="paginator">
+    </ul>
+</div>
+<script type="text/javascript">
+    $(function () {
+        var girlId = parseInt(window.location.href.split('/')[5]);
+        var pageIndex = 1;
+        initTable(girlId, pageIndex);//初始化表格  
+        //给分页的超级链接绑定点击事件
+        $('.text-content').on('click', '.page ul a', function (event) {
+            event.preventDefault();
+            var href = $(this).attr("href").split('&');
+            href = href[0].split('=');
+            pageIndex = href[1];
+            initTable(girlId, pageIndex);
+        });
+    });
+    //初始化表格
+    function initTable(girlId, pageIndex) {
+        $.getJSON("/BeautyGirl/LoadGirleaveMsg", { girlId: girlId, pageIndex: pageIndex }, function (data) {
+            //把分页的标签放到页面里面去
+            $("#paginator").html(data.PubStrNav);
+          
+            //当前信息总留言数
+            // var num_news = data.Data.length + data.replyData.length;
+            //总留言数
+            $('.number-1').text(data.Total);
+            //绑定模板给dot.js
+            var tmpl = doT.template($("#jtmpl").text());
+            $("#ulList").html(tmpl(data));
+            $.evaluate();
+            //为回复评论提供所需要的参数
+            var girlId, replyId;
+            girlId = parseInt(window.location.href.split('/')[5]);
+
+            $('.btnReplyOne').each(function () {
+                var _this = this;
+                var replyMsg;
+                $(this).click(function () {
+                    replyMsg = $(_this).parents('.one-comment').find('textarea').val();
+                    replyId = $(_this).parents('.hot-comment-content').find('.comment-text>.usename>h1').attr('name');
+                    // alert(replyMsg);
+                    replyComment(replyId, girlId, replyMsg);//回复评论
+                })
+
+            });
+            $('.btnReplyTwo').each(function () {
+                var _this = this;
+                var replyMsg;
+                $(this).click(function () {
+                    replyMsg = $(_this).parents('.tow-comment').find('textarea').val();
+                    replyId = $(_this).parents('.hot-comment-content').find('.comment-text>.usename>h1').attr('name');
+                    //  alert(replyMsg);
+                    replyComment(replyId, girlId, replyMsg);//回复评论
+                })
+            });
+        });
+    }
+    //回复评论
+    function replyComment(replyId, girlId, replyMsg) {
+        //if ($('.replyTxt').val() == "") {
+        //    layer.msg('<span style="color:white">提示：请输入回复信息</span>')
+        //    return;
+        //}
+        $.post("/BeautyGirl/AddGirlReplyMsg", { replyId: replyId, girlId: girlId, msg: replyMsg, ip: returnCitySN["cip"], city: returnCitySN["cname"] }, function (data) {
+            //去后台判断是否含有禁用词
+            var msgData = data.split(",");
+            if (msgData[0] == "banned") {
+                layer.msg('<span style="color:white">' + msgData[1] + '</span>');
+                return;
+            } else if (msgData[0] == "ipNo") {
+                layer.msg('<span style="color:white">' + msgData[1] + '</span>');
+                return;
+            }
+            else if (msgData[0] == "ok") {
+                layer.msg('<span style="color:white">' + msgData[1] + '</span>');
+                setTimeout(function () {
+                    $('#msgTxt').val("");
+                }, 2000);
+                var girlId = parseInt(window.location.href.split('/')[5]);
+                initTable(girlId);
+            } else if (msgData[0] == "no") {
+                layer.msg('<span style="color:white">' + msgData[1] + '</span>');
+            }
+        });
+    }
+</script>
+<!--所有评论信息加载开始-->
+<script id="jtmpl" type="text/x-dot-template">
+    {{ for(var i=0;i< it.Data.length;i++){ }}
+    <div class="hot-comment-content">
+        <div class="head-portrait head-portrait1">
+            {{? it.Data[i].UserNameImg === null }}
+            <img src="/Content/Img/19.png" />
+            {{?? }}
+            <img src={{=it.Data[i].UserNameImg }} />
+            {{?}}
+        </div>
+        <div class="comment-text comment-text1 comment-text2">
+            <div class="usename">
+                <h1 name={{=it.Data[i].Id }}>{{=it.Data[i].UserName }}</h1>
+                <p>[<span class="ip">{{=it.Data[i].City }}</span>]</p>
+                <p class="onebox-floor"></p>
+            </div>
+            <div class="one-box">
+                <p class="comment-text-p">{{=it.Data[i].Msg }}</p>
+                <div class="one-comment-message">
+                    <ul class="one">
+                        <li>{{=it.Data[i].StrTime}}</li>
+                        <li class="ding-con">顶(<span class="ding">{{=it.Data[i].Tip }}</span>)</li>
+                        <li class="cai-con">踩(<span class="cai">{{=it.Data[i].Stamp }}</span>)</li>
+                        <li class="replay">回复</li>
+                    </ul>
+                    <div class="one-comment">
+                        <textarea></textarea>
+                        <div class="fans fans1">
+                            <div class="fl">
+                                <div class="look"> <span><img src="~/Content/Img/20.png" /></span><span class="face-icon"> 表情</span> </div>
+                            </div>
+                            <div class="fr fans fans1 login">
+                                <input type="button" class="btnReplyOne push" name="发表评论" value="发表评论" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="two-box">
+                {{ for(var j=0;j< it.replyData.length;j++){ }}
+
+                {{? it.replyData[j].ReplyId !== it.Data[i].Id }}
+                {{?? }}
+                <div class="two-comment-box two-comment-box1">
+                    <div class="floor floor1">
+                        <div class="floor-left fl">
+                            {{? it.replyData[j].ReplyUserImg===null }}
+                            <img src="/Content/Img/19.png" />
+                            {{?? }}
+                            < img src={{=it.replyData[j].ReplyUserImg }} />
+                            {{?}}
+                        </div>
+                        <div class="floor-right floor-right1 fl">
+                            <div class="usename">
+                                <h1 name={{=it.replyData[j].SelfId }}>{{=it.replyData[j].ReplyName }}</h1>
+                                <p>[<span class="ip">{{=it.replyData[j].ReplyCity }}</span>]</p>
+                            </div>
+                            <div class="tow-comment-text fans fans2">
+                                <p>{{=it.replyData[j].ReplyContent }}</p>
+                            </div>
+                            <div class="tow-comment-message">
+                                <div class="two-two">
+                                    <ul class="two">
+                                        <li>{{=it.replyData[j].ReplyStrTime }}</li>
+                                        <li class="ding-con1">顶(<span class="ding">{{=it.replyData[j].ReplyTip }}</span>)</li>
+                                        <li class="cai-con1">踩(<span class="cai">{{=it.replyData[j].ReplyStamp }}</span>)</li>
+                                        <li class="replay">回复</li>
+                                    </ul>
+                                </div>
+                                <div class="tow-comment tow-comment1">
+                                    <textarea></textarea>
+                                    <div class="fans fans1">
+                                        <div class="fl">
+                                            <div class="look"> <span><img src="~/Content/Img/20.png" /></span><span class="face-icon"> 表情</span> </div>
+                                        </div>
+                                        <div class="fr fans fans1 login">
+                                            <input type="button" name="发表评论" class="btnReplyTwo push" value="发表评论" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{?}}
+                {{ } }}
+                <div class="minpage" id="minpage">
+                </div>
+                <div class="hide-box"><span class="hidenum-box">共 <span class="hidenum">5</span></span> 条回复【<span class="showhide">点击查看</span>】</div>
+                <div class="show-box"><span class="hidenum-box">全部已显示【<span class="hideshow">点击隐藏</span>】</span></div>
+            </div>
+        </div>
+    </div>
+    {{ } }}
+</script>
+<!--所有评论信息加载结束-->

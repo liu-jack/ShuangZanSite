@@ -1,0 +1,156 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>爽赞充值</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #f0f0f0;
+            font-family: "microsoft yahei";
+        }
+
+        input {
+            outline: none;
+        }
+
+        .container {
+            width: 1000px;
+            margin: 0 auto;
+            background: #F0F0F0;
+            /*overflow: hidden;*/
+        }
+
+            .container > p {
+                background: #F0F0F0;
+                color: #90c41f;
+                font-size: 30px;
+                font-weight: bold;
+                line-height: 120px;
+                margin: 0;
+            }
+
+                .container > p img {
+                    vertical-align: middle;
+                }
+
+        .hide {
+            display: none;
+        }
+
+        .show {
+            display: block;
+        }
+
+        .containerbox {
+            background: #fff;
+            width: 1000px;
+            -webkit-box-shadow: 0 0 10px rgba(0,0,0,.18);
+            -moz-box-shadow: 0 0 10px rgba(0,0,0,.18);
+            box-shadow: 0 0 10px rgba(0,0,0,.18);
+        }
+
+        .czewm {
+            text-align: center;
+            padding: 30px 0;
+        }
+
+            .czewm p {
+                color: #4c4c4c;
+                font-size: 18px;
+                font-weight: bold;
+            }
+
+                .czewm p span {
+                    color: #808080;
+                    font-size: 14px;
+                    font-weight: normal;
+                }
+
+        .czsuccess {
+            text-align: center;
+            padding: 80px 0;
+        }
+
+            .czsuccess p {
+                color: #4C4C4C;
+                font-size: 24px;
+                font-weight: bold;
+            }
+
+            .czsuccess span {
+                color: #808080;
+                font-size: 18px;
+            }
+
+                .czsuccess span b {
+                    color: #f43838;
+                }
+
+            .czsuccess p i {
+                display: inline-block;
+                width: 46px;
+                height: 44px;
+                background: url(img/icon.png) -103px -2px no-repeat;
+                vertical-align: middle;
+                margin-right: 10px;
+            }
+
+            .czsuccess p input {
+                width: 140px;
+                height: 30px;
+                border-radius: 4px;
+                border: 1px solid #90C41F;
+                background: #fff;
+                margin: 0 5px;
+                color: #90C41F;
+                cursor: pointer;
+            }
+
+                .czsuccess p input:hover {
+                    background: #90C41F;
+                    color: #FFFFFF;
+                }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p><img src="/Content/Img/Logo.png" alt="" />爽赞充值</p>
+        <div class="containerbox">
+            <div class="czewm">
+                <p>微信扫码支付</p>
+                <p><span>爽赞网（爽币）充值</span></p>
+                <p><img src="@ViewBag.QRCode" class="qrcode" /></p>
+                <p><img src="/Content/Img/ewmsg.png" /></p>
+            </div>
+            <div class="czsuccess hide">
+                <p><i></i>恭喜您，充值成功！</p>
+                <span>本次充值：<b>100</b>爽币</span>
+                <p><input type="button" value="查看爽币余额" /><input type="button" value="返回爽币首页" /></p>
+                <input type="hidden" id="trade" value="@ViewBag.out_trade_no" />
+            </div>
+        </div>
+    </div>
+    <script>
+    $(function() {
+        var trade = $("#trade").val();
+        setInterval(function() {
+            $.post("/WxPay/PaymentResult", { tradeno: trade }, function (data) {
+                if (data == 1) {
+                    location.href = "/Checkout/PaidSuccess?tradeno=" + trade;
+                } if (data == 2) {
+                    location.href = "/Checkout/PaidSuccess?tradeno=" + trade;
+                }
+            });
+        }, 1000);
+
+    });
+
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+﻿@{
+    ViewBag.Title = "BeautifulGirlsList";
+    Layout = "~/Views/Shared/_LayoutAdminData.cshtml";
+}
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+@*----------------搜索开始----------------*@
+<div id="searchDiv" style="margin:5px 0;">
+    <label for="searchName" style="font-size:14px;">发布人员：</label> <input class="easyui-textbox" id="addedBy" name="addedBy" />
+    <label for="searchName" style="font-size:14px;">标题：</label> <input class="easyui-textbox" id="title" name="title" />
+    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-search'" id="btnSearch">查询</a>
+</div>
+@*----------------搜索结束----------------*@
+<table id="UsersInfo"></table>
+<script type="text/javascript">
+    $(function () {
+        initTb();
+        //绑定搜索的点击事件
+        $("#btnSearch").click(function () {
+            //搜索后台的数据。
+            var queryData = {
+                title: $("#title").val(),
+                addedBy: $("#addedBy").val(),
+            };
+            initTb(queryData);
+        });
+    });
+    //读取基本信息的表
+    function initTb(queryParam) {
+        $('#UsersInfo').datagrid({
+            title: '信息列表展示',
+            idField: 'Id',
+            fitColumns: true,//列自适应。
+            collapsible: false,
+            minimizable: false,
+            maximizable: false,
+            resizable: true,
+            fit: true,
+            loadMsg: '正在加载，请稍稍候...',
+            striped: true,
+            url: '/AdminGame/GetBeautifulGirls',
+            nowrap: true,
+            singleSelect: true,//单行选中
+            rownumbers: true,  //显示行号
+            pagination: true,
+            pageSize: 20,
+            pageList: [20, 40, 60, 80, 100],
+            queryParams: queryParam,//请求的额外的参数。
+            toolbar: '#tb',
+            columns: [[
+                //{ field: 'ck', checkbox: true },
+                { field: 'Title', title: '标题', width: 400 },
+                 { field: 'Views', title: '浏览量', width: 50 },
+                  { field: 'LeaveMsgCount', title: '留言总数', width: 50 },
+                   {
+                       field: 'Image', title: '封面图片', width: 200,
+                       formatter: function (value, row, Index) {
+                           if (value!=null) {                              
+                               return "<a href='/Content/GirlImg/" + value + "' target='_blank'><img src='/Content/GirlImg/" + value + "' height='70' width='170'  /></a>"
+                           }
+                       }
+                   },
+                     {
+                         field: 'InTime', title: '时间', width: 250,
+                         formatter: function (value, row, Index) {//  /Date(1377327062000)/
+                             return (eval(value.replace(/\/Date\((\d+)\)\//gi, "new Date($1)")))
+                                 .pattern("yyyy-M-d H:m:s");
+                         }
+                     },
+                     {
+                         field: 'ImageCount', title: '图片总数', width: 50,
+                     },
+                      {
+                          field: 'AddedBy', title: '发布人员', width: 150,
+                      },
+                {
+                    field: 'Edit', title: '操作', width: 120,
+                    formatter: function (value, row, Index) {
+                        return "<a class='delLink' href='javascript:void(0)' id='" + row.Id + "' style='color:red;font-weight:600;font-size: 14px'>删除</a>&nbsp;&nbsp;&nbsp;<a href='/AdminGame/BeautifulgirlEdit?id=" + row.Id + "' class='editLink'  style='color:#13629D;font-size: 14px'>修改</a>";
+                    }
+                }
+            ]],
+            toolbar: [{
+                id: 'btnAdd',
+                text: " <a href='/AdminGame/AddBeautifulGirls'> <span style='color:#13629D;font-weight:500;font-size:16px'>添加</span></a>",
+                iconCls: 'icon-add',
+                //  handler: addEvent
+            }, ],
+            onHeaderContextMenu: function (e, field) {
+            },
+            onLoadSuccess: onGridLoadSuccess//表格加载完成之后，调用此事件响应方法。
+        });
+        // 设置页脚
+        var p = $('#UsersInfo').datagrid('getPager')
+        $(p).pagination({
+            beforePageText: '第',
+            afterPageText: '页  共{pages} 页',
+            displayMsg: '当前显示 {from}-{to} 条记录   共 {total} 条记录'
+        });
+    }
+    //表格加载完成之后，调用此事件响应方法。
+    function onGridLoadSuccess(data) {
+        //绑定表格里面的所有的修改和删除按钮的点击事件
+        $(".delLink").click(function () {
+            var strId = $(this).attr("id");
+            $.messager.confirm("温馨提示", "您确定要删除该数据？", function (r) {
+                if (r) {
+                    postDeleteData(strId);
+                }
+            });
+        });
+    }
+    //处理删除的表单提交
+    function postDeleteData(strId) {
+        $.post("/AdminGame/DelBeautiful", { id: strId }, function (data) {
+            if (data == "ok") {
+                //清除之前的选中的行。
+                $('#UsersInfo').datagrid("clearSelections");
+                //刷新表格
+                $('#UsersInfo').datagrid("reload");//代用表格的重新加载的方法。
+            } else if (data == "no") {
+                $.messager.alert("提示", "删除失败！");
+            } else {
+                $.messager.alert("温馨提示", "系统异常请稍候再试！");
+            }
+        });
+    }
+</script>

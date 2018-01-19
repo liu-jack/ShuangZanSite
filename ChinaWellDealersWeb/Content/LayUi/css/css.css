@@ -1,0 +1,20 @@
+/*s*/
+/*定义整个内容区域的自适应*/
+body,body.full-height-layout .wrapper,html{height: 100% ;}
+body.full-height-layout .content-wrapper{height: calc(100% - 0px) ;}
+
+/*Tab区域兼容重写*/
+.mt-drag-tmp > a.mt-nav-tab{ color:#fff !important;}
+.nav .open > a,.nav .open > a:hover,.nav .open > a:focus {background-color: #eee;border-color: #dfe2e4;}
+
+.mt-nav .layui-nav{ background:none; padding:0 1px 0 0; } 
+.mt-nav .layui-nav .layui-nav-item .ss{ line-height:40px;}
+.mt-nav .layui-nav .layui-nav-item .ss:hover{ color:#009688;}
+.mt-nav .layui-nav .layui-nav-item .ss .layui-nav-more{ top:18px;}
+.mt-nav .layui-nav .layui-nav-item .ss .layui-nav-mored{ top:10px;} 
+
+
+
+
+
+

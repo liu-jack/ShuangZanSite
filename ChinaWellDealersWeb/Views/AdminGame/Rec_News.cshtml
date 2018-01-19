@@ -1,0 +1,229 @@
+﻿@model Models.UserInfo
+@{
+    Layout = null;
+    Layout = "~/Views/Shared/_LayoutAdminData.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>新闻审核管理</title>
+</head>
+<body>
+
+    @*----------------搜索开始----------------*@
+    <div id="searchDiv" style="margin:5px 0;">
+        <label for="searchName" style="font-size:14px;">文章标题：</label> <input class="easyui-textbox" id="title" name="title" />
+        <label for="searchName" style="font-size:14px;">厂商平台名：</label> <input class="easyui-textbox" id="cpyName" name="cpyName" />
+        <label for="searchName" style="font-size:14px;">发布人员：</label> <input class="easyui-textbox" id="addedBy" name="addedBy" />
+        <label for="searchName" style="font-size:14px;">关键字：</label> <input class="easyui-textbox" id="keyWords" name="keyWords" />
+        <label for="searchName" style="font-size:14px;">新闻类型：</label>
+        <select class="easyui-combobox" id="newsType" name="newsType" style="width:120px; " panelheight="auto">
+            <option value="" selected="selected">全部</option>
+            <option value="1">新游在线</option>
+            <option value="2">热游动态</option>
+            <option value="3">产业资讯</option>
+            <option value="0">娱乐八卦</option>
+            <option value="4">PC主机</option>
+            <option value="5">直播热点</option>
+            <option value="6">手机游戏</option>
+        </select>
+        <label for="searchName" style="font-size:14px;">版块推荐：</label>
+        <select id="rec_Forum" class="easyui-combobox" style="width:120px; " panelheight="auto">
+            <option value="" selected="selected">版块推荐全部</option>
+            <option value="0">版块未推荐</option>
+            <option value="1">版块已推荐</option>
+        </select>
+        <label for="searchName" style="font-size:14px;">首页推荐：</label>
+        <select id="rec_Hot" class="easyui-combobox" style="width:120px; " panelheight="auto">
+            <option value="" selected="selected">首页推荐全部</option>
+            <option value="0">首页未推荐</option>
+            <option value="1">首页已推荐</option>
+        </select>
+
+        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-search'" id="btnSearch">查询</a>
+    </div>
+    @*----------------搜索结束----------------*@
+    <table id="UsersInfo"></table>
+</body>
+</html>
+<script type="text/javascript">
+    $(function () {
+        initTb();
+            //搜索后台的数据。
+            $("#btnSearch").click(function () {
+                //搜索后台的数据。
+                $('#UsersInfo').datagrid('load', {
+                    title: $("#title").val().trim(),
+                    cpyName: $("#cpyName").val(),
+                    addedBy: $("#addedBy").val(),
+                    keyWords: $("#keyWords").val(),
+                    newsType: $("#newsType").combobox('getValue'),
+                    rec_Forum: $("#rec_Forum").combobox('getValue'),
+                    rec_Hot: $("#rec_Hot").combobox('getValue'),
+                });
+            });
+    });
+        //读取基本信息的表
+        function initTb() {
+            $('#UsersInfo').datagrid({
+                title: '新闻信息列表展示',
+                idField: 'Id',
+                fitColumns: true,//列自适应。
+                collapsible: false,
+                minimizable: false,
+                maximizable: false,
+                resizable: true,
+                fit: true,
+                loadMsg: '正在加载，请稍稍候...',
+                striped: true,
+                url: '/AdminGame/Rec_GetNews',
+                nowrap: true,
+                singleSelect: false,//单行选中
+                rownumbers: true,  //显示行号
+                pagination: true,
+                pageSize: 20,
+                pageList: [20, 40, 60, 80, 100],
+                toolbar: '#tb',
+                columns: [[
+                    //{ field: 'ck', checkbox: true },
+
+                    { field: 'SystemName', title: '所属厂商', width: 120 },
+                    {
+                        field: 'Title', title: '文章标题', width: 300,
+                        formatter: function (value, row, Index) {
+                            if (value!=null) {
+                                return "<a href='/NewsInfo/NewsDetail/" + row.Id + "style='color:#13629D;font-size: 14px'target='_blank' >" + row.Title + "</a>"
+                            }
+                        }
+                    },
+                     {
+                         field: 'EditTitle', title: '编辑标题', width: 300,
+                         formatter: function (value, row, Index) {
+                             if (value != null) {
+                                 return "<a href='/NewsInfo/NewsDetail/" + row.Id + "'style='color:#13629D;font-size: 14px' >★" + row.EditTitle + "</a>"
+                             } else {
+                                 return "暂无数据"
+                             }
+                         }
+                     },
+                      {
+                          field: 'Game', title: '游戏名称', width: 100
+                      },
+                       {
+                           field: 'Type', title: '新闻类型', width: 150,
+                           formatter: function (value, row, Index) {                           
+                               if (value == "1") {
+                                   return "新游在线";
+                               } else if (value == "2") {
+                                   return "热游动态";
+                               } else if (value == "3") {
+                                   return "产业资讯";
+                               }
+                               else if (value == "0") {
+                                   return "娱乐八卦";
+                               }
+                               else if (value == "4") {
+                                   return "PC主机";
+                               } else if (value == "5") {
+                                   return "直播热点";
+                               }
+                               else if (value == "6") {
+                                   return "手机游戏";
+                               } else {
+                                   return "暂无区分"
+                               }
+                           }
+                       },
+                         {
+                             field: 'InTime', title: '发布时间', width: 210,
+                             formatter: function (value, row, Index) {//  /Date(1377327062000)/
+                                 return (eval(value.replace(/\/Date\((\d+)\)\//gi, "new Date($1)")))
+                                     .pattern("yyyy-M-d H:m:s");
+                             }
+                         },
+                           {
+                               field: 'Rec_Hot_Index', title: '首页推荐', width: 50,
+                               formatter: function (value, row, Index) {
+                                   if (value == "0") {
+                                       return "<a class='recHot_State' href='javascript:void(0)' uId='" + row.Id + "'style='color:#703243;font-size: 14px' >否</a>"
+                                   } else if (value == 1)
+                                   {
+                                       return "<a class='recHot_State' href='javascript:void(0)' uId='" + row.Id + "'style='color:#3b95b1;font-size: 14px' >是</a>"
+                                   }
+                               }
+                           },
+                             {
+                                 field: 'Rec_Forum_Index', title: '版块推荐', width: 50,
+                                 formatter: function (value, row, Index) {
+                                     if (value == "0") {
+                                         return "<a class='recForum_State' href='javascript:void(0)' uId='" + row.Id + "' style='color:#703243;font-size: 14px'>否</a>"
+                                     } else if (value == "1") {
+                                         return "<a class='recForum_State' href='javascript:void(0)' uId='" + row.Id + "' style='color:#3b95b1;font-size: 14px'>是</a>"
+                                     }
+                                 }
+                             },                                                            
+                ]],
+               
+                onHeaderContextMenu: function (e, field) {
+                },
+                onLoadSuccess: onGridLoadSuccess//表格加载完成之后，调用此事件响应方法。
+            });
+            // 设置页脚
+            var p = $('#UsersInfo').datagrid('getPager')
+            $(p).pagination({
+                beforePageText: '第',
+                afterPageText: '页  共{pages} 页',
+                displayMsg: '当前显示 {from}-{to} 条记录   共 {total} 条记录'
+            });
+        }
+        //表格加载完成之后，调用此事件响应方法。
+        function onGridLoadSuccess(data) {
+            //推荐首页
+            $(".recHot_State").click(function () {
+                var strId = $(this).attr("uId");
+                $.messager.confirm("温馨提示", "您确认要推荐<span style ='color:red'>或</span>取消到首页吗？", function (r) {
+                    if (r) {
+                        changeHotState(strId);
+                    } $('#UsersInfo').datagrid("clearSelections");
+                });
+            });
+            //推荐板块
+            $(".recForum_State").click(function () {
+                var strId = $(this).attr("uId");
+                $.messager.confirm("温馨提示", "您确认要推荐<span style ='color:red'>或</span>取消到版块吗？", function (r) {
+                    if (r) {
+                        changeForumState(strId);
+                    } $('#UsersInfo').datagrid("clearSelections");
+                });
+            });
+        }
+      
+        function changeHotState(strId) {
+            $.post("/AdminGame/RecNewsState", { id: strId, recParam: "recHot" }, function (data) {
+                if (data == "ok") {
+                  
+                    $('#UsersInfo').datagrid("reload");//代用表格的重新加载的方法。
+                } else if (data == "fail") {
+                    $.messager.show("提示", "推荐或取消到首页失败了！");
+                }
+                else {
+                    $.messager.alert("温馨提示", "系统异常请稍候再试！");
+                }
+            });
+        };
+        function changeForumState(strId) {
+            $.post("/AdminGame/RecNewsState", { id: strId, recParam: "recForum" }, function (data2) {
+                if (data2 == "ok") {
+                    $('#UsersInfo').datagrid("reload");//代用表格的重新加载的方法。
+                } else if (data2 == "fail") {
+                    $.messager.show("提示", "推荐或取消到版块失败了！");
+                }
+                else {
+                    $.messager.alert("温馨提示", "系统异常请稍候再试！");
+                }
+            });
+        };
+      
+</script>

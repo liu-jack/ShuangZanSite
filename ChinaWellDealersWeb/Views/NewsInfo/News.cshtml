@@ -1,0 +1,435 @@
+﻿@{
+    Layout = null;
+
+    List<Models.SeeNews> redlight = (List<Models.SeeNews>)ViewBag.RedLight;
+  
+    List<Models.SeeNews> fiveStick = (List<Models.SeeNews>)ViewBag.FiveStick;
+    List<Models.SeeNews> seeNewsNewGame = (List<Models.SeeNews>)ViewBag.SeeNewsNewGame;
+    List<Models.SeeNews> seeNewsHotGame = (List<Models.SeeNews>)ViewBag.SeeNewsHotGame;
+    List<Models.SeeNews> seeNewsIndustry = (List<Models.SeeNews>)ViewBag.SeeNewsIndustry;
+    List<FrontNews> newGame = (List<FrontNews>)ViewBag.NewGame;
+    List<FrontNews> hotGame = (List<FrontNews>)ViewBag.HotGame;
+    List<FrontNews> industry = (List<FrontNews>)ViewBag.Industry;
+    List<Models.MapModel.NewsViewModel> newsNewGameMsg = (List<Models.MapModel.NewsViewModel>)ViewBag.NewsNewGameMsg;
+    List<Models.MapModel.NewsViewModel> newsHotGameMsg = (List<Models.MapModel.NewsViewModel>)ViewBag.NewsHotGameMsg;
+    List<Models.MapModel.NewsViewModel> newsIndustryMsg = (List<Models.MapModel.NewsViewModel>)ViewBag.NewsIndustryMsg;
+    List<Models.SeeNews> directSeeding = (List<Models.SeeNews>)ViewBag.DirectSeeding;
+    List<Models.SeeNews> mobileGame = (List<Models.SeeNews>)ViewBag.MobileGame;
+    List<Models.MapModel.NewsViewModel> happyNews=(List<Models.MapModel.NewsViewModel>)ViewBag.HappNews;
+}
+@using Models.MapModel
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>游戏产业资讯_游戏新闻中心_新游资讯_热游动态_爽赞网</title>
+    <meta name="keywords" content="最新游戏资讯,游戏动态,游戏更新动态,新游动态,最新游戏报道,中国游戏产业,爽赞网">
+    <meta name="description" content="游戏新闻频道为玩家朋友提供最新的游戏更新动态和游戏行业报道，最有意思游戏趣闻及图片等内容">  
+    <link href="~/Content/Css/index.css" rel="stylesheet" />
+    <link href="~/Content/Css/reset.css" rel="stylesheet" />
+    <link href="~/Content/Css/amoywel.css" rel="stylesheet" />
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="~/Content/Css/lunbo.css" rel="stylesheet" />
+    <link href="~/Content/Css/news.css" rel="stylesheet" />
+    <link href="~/Content/Css/commercial.css" rel="stylesheet" />
+    <link href="~/Content/Css/usename.css" rel="stylesheet" />
+  
+    <link href="/Content/Img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+</head>
+<body>
+    @Html.Action("_TwoShuangzanHeader", "Home")
+    @Html.Action("ShuangzanHeader","NewsInfo")
+    <!-- 面包屑导航 -->
+    <div class="wide details">当前位置：<a href="/Home/Index">爽赞网</a> > <span>看新闻</span></div>
+    <!-- 主要内容 -->
+    <div class="content wide clearfix">
+        <div class="aml">
+            <div>
+                <div class="lunbobox">
+                    <div class="picScroll-left">
+                        <div class="bd">
+                            <!--轮播区开始-->
+                            <ul class="picList">
+                                @foreach (var item in redlight)
+                                {
+                                    <li>
+                                       
+                                        <div class="pic"><a href="@item.Url" target="_blank"><img src="@item.Image" /></a></div>
+                                        <div class="title"><a href="@item.Url" target="_blank">@item.Title</a></div>
+                                    </li>
+                                }
+                            </ul>
+                            <!--轮播区结束-->
+                        </div>
+                        <div class="hd">
+                            <a class="next"></a>    
+                            <a class="prev"></a>
+                            <ul></ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="newsbox">               
+                        <div class="news">                          
+                        </div>
+                    <div class="multipleLine">
+                        <ul>
+                            <!--5条置顶区-->
+                            @foreach (var item in fiveStick)
+                            {                                                        
+                            <li>
+                                <img src="/Content/Img/jx.png" alt="">
+                                <a href="@item.Url" target="_blank">@item.Title</a>
+                                <span>@DateTime.Now.ToString("MM-dd")</span>
+                            </li>
+                            }                           
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <!--新游在线开始-->
+            <div class="gamesol">
+                <h6>
+                    <span><i></i><a href="/NewsInfo/MoreNewGameNews" target="_blank">新游在线</a></span>
+                    <span><a href="/NewsInfo/MoreNewGameNews" target="_blank">更多 >></a></span>
+                </h6>
+                <!--看新闻新游最新一条数据-->
+                @foreach (var item in seeNewsNewGame)
+                {                                  
+                <a href="@item.Url" target="_blank">
+                    <section>
+                        <img src="@item.Image" alt="">
+                    </section>
+                    <p>@item.Title</p>
+                </a>
+                }
+                <div class="gamelist">
+                    <div>
+                        @foreach (var item in newsNewGameMsg)
+                        {                                                 
+                        <div class="gameimage"><a href="/NewsInfo/NewsDetail/@item.Id" target="_blank"><img src="@Common.WebHelper.PickupImgUrl(item.Msg)" alt=""></a></div>
+                        <div class="gametext">
+                            <a href="/NewsInfo/NewsDetail/@item.Id" target="_blank">
+                                @if (item.EditTitle != null && item.EditTitle != "")
+                                {
+                                    @item.EditTitle
+                                }
+                                else
+                                {
+                                    @item.Title
+                                }
+                                <span>【阅读全文】</span>
+                            </a>
+                        </div>
+                        }
+                    </div>
+                    <ul>
+                        <!--新游最新5条-->
+                        @for (int i = 1; i <newGame.Count; i++)
+			              {
+                              if (newGame[i].EditTitle != null && newGame[i].EditTitle != "")
+                            {
+                               <li><a href="/NewsInfo/NewsDetail/@newGame[i].Id" target="_blank" title="@newGame[i].EditTitle">@newGame[i].EditTitle</a></li>
+                            }
+                            else
+                            {
+                                <li><a href="/NewsInfo/NewsDetail/@newGame[i].Id" target="_blank" title="@newGame[i].Title">@newGame[i].Title</a></li>
+                            }
+
+                        }
+                    </ul>
+                </div>
+            </div>
+            <!--新游在线结束-->
+            <div class="gamesol">
+                <h6>
+                    <span><i></i><a href="/NewsInfo/MoreHotGameNews" target="_blank">热游动态</a></span>
+                    <span><a href="/NewsInfo/MoreHotGameNews" target="_blank">更多 >></a></span>
+                </h6>
+                <!--看新闻热游最新一条数据-->
+                @foreach (var item in seeNewsHotGame)
+                {
+                    <a href="@item.Url" target="_blank">
+                        <section>
+                            <img src="@item.Image" alt="">
+                        </section>
+                        <p>@item.Title</p>
+                    </a>
+                }
+                <div class="gamelist">
+                    <div>
+                        <!--热游带图-->
+                        @foreach (var item in newsHotGameMsg)
+                        {
+                            <div class="gameimage"><a href="/NewsInfo/NewsDetail/@item.Id" target="_blank"><img src="@Common.WebHelper.PickupImgUrl(item.Msg)" alt=""></a></div>
+                            <div class="gametext">
+                                <a href="/NewsInfo/NewsDetail/@item.Id" target="_blank">
+                                    @if (item.EditTitle != null && item.EditTitle != "")
+                                    {
+                                        @item.EditTitle
+                                    }
+                                    else
+                                    {
+                                        @item.Title
+                                    }
+                                    <span>【阅读全文】</span>
+                                </a>
+                            </div>
+                        }
+                    </div>
+                    <ul>
+                        <!--热游-->
+                        @for (int i = 1; i < hotGame.Count; i++)
+                        {
+
+
+                            if (hotGame[i].EditTitle != null && hotGame[i].EditTitle != "")
+                            { 
+                              <li><a href="/NewsInfo/NewsDetail/@hotGame[i].Id" target="_blank" title="@hotGame[i].EditTitle">@hotGame[i].EditTitle</a></li>
+                            }
+                            else { 
+                             <li><a href="/NewsInfo/NewsDetail/@hotGame[i].Id" target="_blank" title="@hotGame[i].Title">@hotGame[i].Title</a></li>
+                            }                                             
+                       
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div class="gamesol">
+                <h6>
+                    <span><i></i><a href="/NewsInfo/MoreIndustryNews" target="_blank">产业资讯</a></span>
+                    <span><a href="/NewsInfo/MoreIndustryNews" target="_blank">更多 >></a></span>
+                </h6>
+                <!--看新闻产业最新一条-->
+                @foreach (var item in seeNewsIndustry)
+                {
+                    <a href="@item.Url" target="_blank">
+                        <section>
+                            <img src="@item.Image" alt="">
+                        </section>
+                        <p>@item.Title</p>
+                    </a>
+                }
+                <div class="gamelist">
+                    <div>
+                        <!--产业带图-->
+                        @foreach (var item in newsIndustryMsg)
+                        {
+                            <div class="gameimage"><a href="/NewsInfo/NewsDetail/@item.Id" target="_blank"><img src="@Common.WebHelper.PickupImgUrl(item.Msg)" alt=""></a></div>
+                            <div class="gametext">
+                                <a href="/NewsInfo/NewsDetail/@item.Id" target="_blank">
+                                   @if (item.EditTitle != null && item.EditTitle != "")
+                                     { 
+                                        @item.EditTitle  
+                                     }
+                                   else { 
+                                   @item.Title
+                                   }                                 
+                                    <span>【阅读全文】</span>
+                                </a>
+                            </div>
+                        }
+                    </div>
+                    <ul>
+                        <!--产业最新的5条-->
+                        @for (int i = 1; i < industry.Count; i++)
+                        {
+
+                            if (industry[i].EditTitle != null && industry[i].EditTitle != "")
+                            { 
+                            <li><a href="/NewsInfo/NewsDetail/@industry[i].Id" target="_blank" title="@industry[i].EditTitle">@industry[i].EditTitle</a></li>
+                            }
+                            else { 
+                            <li><a href="/NewsInfo/NewsDetail/@industry[i].Id" target="_blank" title="@industry[i].Title">@industry[i].Title</a></li>
+                            }                           
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="gamePC">
+                <h6>
+                    <span><i></i><a href="/NewsInfo/MorePcNews" target="_blank">PC主机</a></span>
+                    <span><a href="/NewsInfo/MorePcNews" target="_blank">更多 >></a></span>
+                </h6>
+                <div class="gamePC-left">
+                    
+                    @foreach (var item in (List<Models.MapModel.NewsViewModel>)ViewBag.NewsPcMsgImg)
+                    {
+                        <div class="game">
+                            <a href="/NewsInfo/NewsDetail/@item.Id" target="_blank"><img src="@Common.WebHelper.PickupImgUrl(item.Msg)" alt=""></a>
+                            <div>
+
+                                <h5><a href="/NewsInfo/NewsDetail/@item.Id" target="_blank">@item.EditTitle</a></h5>
+                                <section>@item.Memo</section>
+                                <p>
+                                    <a href="/NewsInfo/NewsDetail/@item.Id" target="_blank"><img src="/Content/img/时间.png" alt=""><time class="year">@item.InTime.ToString("yyyy")</time>-<time class="month">@item.InTime.ToString("MM")</time>-<time class="date">@item.InTime.ToString("dd")</time></a>
+                                    <a href="/NewsInfo/NewsDetail/@item.Id" target="_blank"><img src="/Content/img/查看.png" alt=""><i class="readers">@item.ViewNum</i>浏览</a>
+                                    <a href="/NewsInfo/NewsDetail/@item.Id" target="_blank"><img src="/Content/img/留言.png" alt=""><i class="replies">@item.MsgNum</i>留言</a>
+                                </p>
+
+                            </div>
+                        </div>
+                    }
+                                      
+                </div>
+                <div class="gamePC-right">
+                    <div>
+                        <ul>
+                            @foreach (var item in  (List<FrontNews>)ViewBag.NewestNewsPC)
+                            {
+                                if (item.EditTitle != null && item.EditTitle != "")
+                            { 
+                            <li><a href="/NewsInfo/NewsDetail/@item.Id" target="_blank" title="@item.EditTitle">@item.EditTitle</a></li>
+                            }
+                            else { 
+                            <li><a href="/NewsInfo/NewsDetail/@item.Id" target="_blank" title="@item.Title">@item.Title</a></li>
+                            }         
+                            }                                                 
+                        </ul>
+                    </div>                   
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="livehot">
+                <h6>
+                    <span><i></i><a href="/NewsInfo/MoreDirectHotNews" target="_blank">直播热点</a></span>
+                    <span><a href="/NewsInfo/MoreDirectHotNews" target="_blank">更多 >></a></span>
+                </h6>
+                <div class="gamesad">
+                    @foreach (var item in directSeeding)
+                    {                                      
+                    <a href="@item.Url" target="_blank">
+                        <div><img src="@item.Image" alt=""></div>
+                        <p>@item.Title</p>
+                    </a>                  
+                    }
+                </div>
+                <ul>
+                    @foreach (var item in (IQueryable<FrontNews>)ViewBag.DirectRec)
+                    {                                          
+                    <li><a href="/NewsInfo/NewsDetail/@item.Id" target="_blank">@if (item.EditTitle != null && item.EditTitle != "")
+                    {
+                        @item.EditTitle
+                    }
+                    else
+                    {
+                        @item.Title
+                    }<span>@item.InTime.Value.ToString("yyyy-MM-dd")</span></a></li>
+                    }
+                </ul>
+            </div>
+            <div class="mobilegames">
+                <h6>
+                    <span><i></i><a href="/NewsInfo/MoreMobileGameNews" target="_blank">手游资讯</a></span>
+                    <span><a href="/NewsInfo/MoreMobileGameNews" target="_blank">更多 >></a></span>
+                </h6>
+                <div class="gamesad">
+                    @foreach (var item in mobileGame)
+                    {
+                       <a href="@item.Url" target="_blank">
+                        <div><img src="@item.Image" alt=""></div>
+                        <p>@item.Title</p>
+                    </a> 
+                    }                                    
+                </div>
+                <ul>
+                    @foreach (var item in (IQueryable<FrontNews>)ViewBag.MobileRec)
+                    {
+                        <li><a href="/NewsInfo/NewsDetail/@item.Id" target="_blank">
+                            @if (item.EditTitle != null && item.EditTitle != "")
+                        {
+                            @item.EditTitle
+                        }
+                        else
+                        {
+                            @item.Title
+                        }
+                <span>@item.InTime.Value.ToString("yyyy-MM-dd")</span></a></li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div>
+            <div class="starsnews">
+                <h6>
+                    <span><i></i><a href="/NewsInfo/FunNews" target="_blank">娱乐八卦</a></span>
+                    <span><a href="/NewsInfo/FunNews" target="_blank">更多 >></a></span>
+                </h6>
+                <section>
+                        @for (int i = 0; i < happyNews.Count; i++)
+                        {
+                            <a href="/NewsInfo/FunNewsDetail/@happyNews[i].Id" target="_blank"><img src="@happyNews[i].Image" alt=""><p>@happyNews[i].EditTitle</p></a>
+
+                        }                                       
+                </section>           
+            </div>
+        </div>
+    </div>
+    <!-- 回到顶部 -->
+    <div class="fixed-top" style="display:none;">
+        <aside>
+            <a href="javascript:void(0)">新游</a>
+            <a href="javascript:void(0)">热游</a>
+            <a href="javascript:void(0)">产业</a>
+            <a href="javascript:void(0)">PC</a>
+            <a href="javascript:void(0)">直播</a>
+            <a href="javascript:void(0)">手游</a>
+            <a href="javascript:void(0)">八卦</a>
+        </aside>
+        <div>
+            <a id="gotop" title="回到顶部"></a>
+        </div>
+    </div>
+
+    <!-- 底部 -->
+    @Html.Partial("_ShuangZanFooter")
+    <script src="~/Content/js/jquery-1.11.1.min.js"></script>
+    <script src="~/Content/js/personal_use.js"></script>
+    <script src="~/Content/js/Public.js"></script>
+    <script src="~/Content/js/jquery.SuperSlide.2.1.1.js"></script>
+    <script src="~/Content/js/SuperSlide.connected-slides.js"></script>
+    <script>
+        //看新闻红字灰字头条
+    $(function () {
+        $.ajax({
+            datatype: 'json',
+            type: 'post',
+            url: '/NewsInfo/RedAndGrayHomePage',
+            success: function (data) {
+                var p = $('<p></p>');
+                var p1 = $('<p></p>');
+                for (var i = 0; i < 6; i++) {
+                    if (i == 0 || i == 3) {
+                        var j = i == 0 ? 0 : 1;
+                        $('.news').append('<h6><a href="' + data.redData[j].Url + '" target="_blank">' + data.redData[j].Title + '</a></h6>');
+                    } else {
+                        var k;
+                        if (i < 3) {
+                            k = i - 1;
+                        } else if (i > 3) {
+                            k = i - 2;
+                        }
+                        if (i == 2) {
+                            p.append('<span><a href="' + data.grayData[k].Url + '" target="_blank">' + data.grayData[k].Title + '</a></span>');
+                            $('.news').append(p);
+                        } else if (i == 5) {
+                            p1.append('<span><a href="' + data.grayData[k].Url + '" target="_blank">' + data.grayData[k].Title + '</a></span>');
+                            $('.news').append(p1);
+                        } else if (i < 3 && i != 2) {
+                            p.append('<span><a href="' + data.grayData[k].Url + '" target="_blank">' + data.grayData[k].Title + '</a></span>');
+                        } else if (i > 3 && i != 5) {
+                            p1.append('<span><a href="' + data.grayData[k].Url + '" target="_blank">' + data.grayData[k].Title + '</a></span>');
+                        }
+
+                    }
+                }
+            }
+        })
+    })
+    </script>
+  
+</body>
+</html>

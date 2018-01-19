@@ -1,0 +1,85 @@
+.commercial{
+    margin: 16px auto 0;
+    overflow:hidden;
+}
+/* 首页精品收录 */
+.advert_imgs01 {
+    overflow: hidden;
+    margin-top: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px dashed #E5E5E5;
+}
+.advert_imgs01>img {
+    float: left;
+}
+.advert_imgs01 ul {
+    padding-left: 8px;
+    overflow: hidden;
+}
+.advert_imgs01 ul li {
+	width: 100px;
+    float: left;
+    margin: 0 5px;
+    text-align: center;
+}
+.advert_imgs01 ul li:hover p{
+	color:#7bab14;
+}
+.advert_imgs01 ul img {
+    vertical-align: top;
+    border-radius: 10px;
+    width: 74px;
+    height: 74px;
+}
+.advert_imgs01 ul li p {
+    margin-top: 6px;
+}
+/* 首页推荐游戏及合作厂商 */
+
+
+/* 精品收录 */
+.advert_imgs {
+    overflow: hidden;
+    margin-top: 20px;
+	padding-bottom: 20px;
+    border-bottom: 1px dashed #E5E5E5;
+}
+.advert_imgs>img,.advert_imgs_news>img {
+    float: left;
+}
+.advert_imgs ul, .advert_imgs_news ul {
+    padding-left: 8px;
+    overflow: hidden;
+}
+.advert_imgs ul li ,.advert_imgs_news ul li {
+	width: 94px;
+    float: left;
+    margin: 0 11px;
+    text-align: center;
+}
+.advert_imgs ul li:hover p,.advert_imgs_news ul li:hover p{
+	color:#7bab14;
+}
+.advert_imgs ul img,.advert_imgs_news ul img {
+    vertical-align: top;
+    border-radius: 10px;
+    width: 74px;
+    height: 74px;
+}
+.advert_imgs ul li p,.advert_imgs_news ul li p {
+    margin-top: 6px;
+}
+.advert_imgs_news {
+    padding:10px 0px 0px;
+}
+/*  */
+.advert_top01{
+	overflow:hidden;
+}
+.advert_top01 img{
+	float:left;
+}
+.advert_top01 .adimg1{
+	float:right;
+	/* margin-left: 15px; */
+}

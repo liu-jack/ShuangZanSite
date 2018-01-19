@@ -1,0 +1,139 @@
+﻿@{
+    Layout = null;
+    Response.Expires = -1;
+    Response.AddHeader("pragma", "no-cache");
+    Response.AddHeader("cache-control", "no-cache");
+    Response.CacheControl = "no-cache";
+    Response.Cache.SetNoStore();
+}
+@model Models.Company
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>爽赞-厂商后台</title>
+    <meta charset="UTF-8">
+    <link href="~/Content/Css/CpyIndex.css" rel="stylesheet" />
+    <link href="/Content/Img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+</head>
+<body>
+    <div id="head">
+        <div>
+            <a href="javascript:void(0)"><img src="/Content/Img/logo.png" alt=""></a>
+            <img src="/Content/Img/120.jpg" alt="">
+        </div>
+        <span>
+            <font>@Model.UName</font>
+            <a href="/Command/CpyLogOut.ashx" style="background-image: url(/Content/Img/121.jpg);">退出登录</a>
+            <a href="/Home/Index" style="background-image: url(/Content/Img/122.jpg);" target="_blank">爽赞首页</a>
+        </span>
+    </div>
+    <div id="main">
+        <div id="left">
+            <div class="private">
+                @if (Model.Head == null)
+                {
+                    <img src="/Content/UserImg/myImg.jpg" id="headimg" alt="" width="100" height="100" border="0" style="top: 15px;left: 60px;">
+                }
+                else
+                {
+                 <img src="/Content/UserImg/@Model.Head" id="headimg" alt="" width="100" height="100" border="0" style="top: 15px;left: 60px;">
+                }
+               
+                <img src="/Content/Img/128.gif" alt="" width="220" height="182">
+                <a href="/FrontCompany/ModifyHeadImg" target="FM" id="CompanyImg"></a>
+                <span>@Model.UName</span>
+                <samp>@Model.SystemName</samp>
+            </div>
+            <div class="top">置顶条数：<font>@ViewBag.recCount</font>条<a href="/FrontCompany/Cpy_Purchase" target="FM">【购买】</a></div>
+            <div class="all">全天条数：<font>@ViewBag.serviceCount</font>条<a href="/FrontCompany/Cpy_Purchase" target="FM">【购买】</a></div>
+          
+            <div class="menu" id="menu1" data-show="0" style="margin-top: 10px;">
+                <p>　修改用户资料　</p>
+                <samp style="display: none;"><a href="/FrontCompany/ModifyEmail" target="FM">修改邮箱</a></samp>
+                <samp style="display: none;"><a href="/FrontCompany/EditCpyPwdPage" target="FM">修改密码</a></samp>
+                <samp style="display: none;"><a href="/FrontCompany/ModifyCpyInfo?companyId=@Model.Id" target="FM">修改平台信息</a></samp>
+                <samp style="display: none;" class="lm"><a href="/FrontCompany/CpyPersonalInfo?companyId=@Model.Id" target="FM">修改个人信息</a></samp>
+            </div>
+            <div class="menu" data-show="1">
+                <span>消费管理</span>
+                <samp><a href="/FrontCompany/ExpenseDetail" target="FM">消费明细</a></samp>
+                <samp class="lm"><a href="/FrontCompany/Recharge_Record" target="FM">充值记录</a></samp>
+            </div>
+            <div class="menu" data-show="1">
+                <span>开服管理</span>
+                <samp><a href="/FrontCompany/SendOpenService" target="FM">发布开服表</a></samp>
+                <samp class="lm"><a href="/FrontCompany/CpyOpenService" target="FM">管理开服表</a></samp>
+            </div>
+            <div class="menu" data-show="1">
+                <span>礼包管理</span>
+                <samp><a href="/FrontCompany/SendPackage" target="FM">发布礼包</a></samp>
+                <samp class="lm"><a href="/FrontCompany/CpyPackage" target="FM">管理礼包</a></samp>
+            </div>
+            <div class="menu" data-show="1">    
+                <span>投稿管理</span>
+                <samp><a href="/FrontCompany/AddCpyNews" target="FM">发布新闻</a></samp>
+                <samp class="lm"><a href="/FrontCompany/CpyNews" target="FM">管理新闻</a></samp>
+            </div>
+            <div class="menu" style="background-image: none">
+                <span>联系我们</span>
+                <samp style="margin-bottom: 100px;">新闻预约QQ：<a class="qq" href="tencent://message/?uin=2885630190&Site=爽赞游戏网&Menu=yes">2885630190</a></samp>
+            </div>
+        </div>
+        <div id="right">
+            <iframe id="FM" name="FM" src="/FrontCompany/Company_Index" scrolling="no" frameborder="0"></iframe>
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+</body>
+</html>
+<script src="~/Content/js/jquery-1.11.1.min.js"></script>
+<script src="~/Content/js/myExtend.js"></script>
+<script src="~/Content/js/jquery.SuperSlide.2.1.1.js"></script>
+<script src="~/Content/js/Public.js"></script>
+<script type="text/javascript">
+    // 默认页面
+    $(document).ready(function () {
+        //javascript: window.history.forward(1);  
+        $("#left .menu>span,#left #menu1 p").click(function(){
+            var div=$(this).parent("div");
+            if(div.attr("data-show")==undefined) return;
+            if(div.attr("data-show")=="1"){
+                div.attr("data-show","0").css("background-image","url(/Content/Img/125.jpg)").find("samp").hide();
+            }else{
+                div.attr("data-show","1").css("background-image","url(/Content/Img/124.jpg)").find("samp").show();
+            }
+        });
+        $("#left .menu>samp a").click(function(){
+            if(!$(this).hasClass("qq")){
+                $("#left .menu>samp a").css("color","#303030");
+                $(this).css("color", "#79a402");
+            }
+        });
+    });
+    if (localStorage.CompanyUserIMg != '') {
+        $('#main #left .private #headimg').attr("src", localStorage.CompanyUserIMg);
+    }
+    function changeImg(dom) {
+        dom.ajaxSubmit({
+            url: "/FrontCompany/UpdateHeadImg",
+            type: "Post",
+            success: function (data) {
+                //返回后台保存图片的服务器地址就可以了。
+                if (data == "typeError") {
+                    layer.msg("请选择正确的图片格式！");
+                } else if (data == "empty") {
+                    layer.msg("您懂上传吗？");
+                }
+                else {
+                    var str = "/Content/UserImg/" + data;
+                    localStorage.CompanyUserIMg = str;
+                    $(".nowheadimg").attr("src", str);
+                    document.getElementById("CompanyImg").click();
+                    $('#main #left .private #headimg').attr("src", str);
+                    // $("#tdBig").html("<img src='" + data + "' />");
+                    $("#real_headimg").val(data);
+                }
+            }
+        });
+    }
+</script>

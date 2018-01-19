@@ -1,0 +1,169 @@
+﻿@{
+    Layout = null;
+}
+@model Models.WonderfulTxtImg
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AddGift</title>
+    <link href="~/Content/style/tableStyle.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.8.2.js"></script>
+    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+    <script src="~/Scripts/MyAjaxForm.js"></script>
+    <link href="~/Content/layui-v1.0.9_rls/layui/css/modules/layer/default/layer.css" rel="stylesheet" />
+    <script src="~/Content/layui-v1.0.9_rls/layui/lay/modules/layer.js"></script>
+    <style>
+        #btnAdd {
+            width: 78px;
+            height: 23px;
+            line-height: 23px;
+            color: #fff;
+            border: solid 1px #1f637b;
+            font-size: 12px;
+            background: #2984a4;
+            display: inline-block;
+            text-decoration: none;
+            text-align: center;
+            border-radius: 5px;
+        }
+
+            #btnAdd:hover {
+                background: #24748f;
+            }
+
+        .btn-back {
+            width: 78px;
+            height: 23px;
+            line-height: 23px;
+            color: #000;
+            border: solid 1px #ff8080;
+            font-size: 12px;
+            background: #ffb3b3;
+            display: inline-block;
+            text-decoration: none;
+            text-align: center;
+            border-radius: 5px;
+        }
+
+            .btn-back:hover {
+                background: #ff9999;
+            }
+    </style>
+    <script type="text/javascript">
+        function submitForm() {
+            if ($('#title').val() == "") {
+                layer.msg("提示：请输入标题名称!");
+                return;
+            }
+            if ($('#url').val() == "") {
+                layer.msg("提示：请输入链接!");
+                return;
+            }
+
+            layer.confirm('提示：您是否已确认输入无误？', {
+                skin: 'layui-layer-lan',
+                btn: ['是的', '没有呀'] //按钮
+            }, function () {
+                $("#ff").ajaxSubmit({
+                    url: '/AdminData/TxtImgEdit',
+                    type: "post",
+                    success: function (data) {
+                        if (data == "ok") {
+                            layer.msg("恭喜：更新成功!");
+                            window.setTimeout(function () {
+                                window.location.href = "/AdminData/WonderFulTxtImgList";
+                            }, 1500);
+                        } else if (data == "no") {
+                            layer.msg("提示：修改失败！");
+                        } else if (data == "empty") {
+                            layer.msg("提示：请选择要添加的数据！");
+
+                        } else {
+                            layer.msg("提示：系统异常请稍候再试！");
+                        }
+                    },
+                });
+            });
+        }
+        $(function () {
+            $("#Upload").click(function () {
+              
+                $("#ff").ajaxSubmit({
+                    url: "/AdminData/UploadTxtImg",
+                    type: "Post",
+                    success: function (data) {
+                        var msgdata = data.split(',');
+                        //返回后台保存图片的服务器地址就可以了。
+                        if (msgdata[0] == "empty") {
+                            layer.msg(msgdata[1]);
+                        } else if (msgdata[0] == "typeError") {
+                            layer.msg(msgdata[1]);
+                        }
+                        else {
+                            var str = "/Content/PublicImg/" + data;
+                            $("#tdLoGo").html("<img src='" + str + "' />");
+                            $("#image").val(str);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+
+</head>
+<body>
+    <form id="ff" enctype="multipart/form-data" method="post" data-options="novalidate:true ">
+        <input type="hidden" id="id" name="id" value="@Model.Id" />
+        <table style="width:100%;">
+            <tr>
+                <th colspan="2">精彩图文编辑</th>
+            </tr>
+            <tr>
+                <td align="right">
+                    标题名称
+                </td>
+                <td>
+                    <input class=".addText" type="text" id="title" name="title" placeholder="请输入标题名称" style=" width:370px;" value="@Model.Title" />
+                </td>
+            </tr>
+            <tr>
+                <td align="right">
+                    链接
+                </td>
+                <td>
+                    <input id="url" name="url" value="@Model.Url" style=" width:370px;" />
+                </td>
+            </tr>
+            <tr>
+                <td align="right">
+                    图片
+                </td>
+                <td>
+                    <label style="color:red;font-weight:600">(图片大小170*120,不符合要求的图片将会被拉伸;幻灯轮播只需要上传图片、其他可选)</label><br />
+                    <input type="file" name="logoImgs" />
+                    <input type="button" id="Upload" value="上传" style="background-color:#1AA094;color:#ffffff" />
+                    <input type="hidden" name="image" id="image" value="@Model.Image" />
+                    <br />
+                    @if (Model.Image != "")
+                    {
+                        <span id="tdLoGo"><img src="@Model.Image" style="display: block; clear: both;height:150px;width:300px;" /></span>
+                    }
+                    else
+                    {
+                        <span id="tdLoGo"></span>
+                    }
+
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="padding-left:17%;padding-top:13px">
+                    <a href="javascript:void(0)" id="btnAdd" onclick="submitForm()">提交</a>&nbsp;&nbsp;
+                    <a href="javascript:;" onclick="history.go(-1)" class="btn-back">返回</a>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+</body>
+</html>

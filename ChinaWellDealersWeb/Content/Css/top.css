@@ -1,0 +1,51 @@
+﻿#totop{
+	width: auto;
+	border-radius:0px;
+	background-color: transparent;
+}
+#totop>div{width: auto;margin: auto;}
+#totop #gotop{
+	position: relative; 
+	display:block; 
+	width:50px; 
+	height:50px; 
+	background:url('../img/totop1.png') no-repeat; 
+	cursor: pointer;
+}
+#totop #gotop:hover{background:url('../img/totop2.png') no-repeat;}
+.fixed-top{
+	width: 100px;
+	border-radius: 4px;
+	background-color: #000;
+}
+.fixed-top aside{
+	margin:3px auto 0px;
+	width: 94px;
+}
+.fixed-top aside a:hover{
+	color: #90c41f;
+}
+.fixed-top div{
+	margin:0px auto 3px;
+	width: 94px;
+}
+.fixed-top aside a,.fixed-top div a{
+	width: 100%;
+	margin: 0px auto 1px;
+	text-align: center;
+	height: 32px;
+	line-height: 32px;
+	background-color: #333;
+	font-size: 12px;
+	color: #b2b2b2;
+}
+.fixed-top #gotop{
+	width: 100%;
+	height: 32px;
+	line-height: 32px;
+	background: #90c41f url(../img/top.png) no-repeat 10px 10px;
+	font-size: 12px;
+	text-align: center;
+	text-indent: 2em;
+	color: #fff;
+}

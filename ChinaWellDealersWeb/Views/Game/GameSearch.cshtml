@@ -1,0 +1,329 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新开服网页游戏_最新网页游戏_页游开服表_爽赞网</title>
+    <meta name="keywords" content="网页游戏大全,网页游戏排行榜,新开服网页游戏,页游开服表,好玩的网页游戏,网页游戏开服表,最新网页游戏,爽赞网">
+    <meta name="description" content="爽赞网找游戏频道搜集最新最全网页游戏，包含海量的好玩的网页游戏、新开服网页游戏、最新网页游戏以及页游开服表等内容"> 
+    <link href="~/Content/Css/index.css" rel="stylesheet" />
+    <link href="~/Content/Css/reset.css" rel="stylesheet" />
+    <link href="~/Content/Css/amoywel.css" rel="stylesheet" />
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="~/Content/Css/lunbo.css" rel="stylesheet" />
+    <link href="~/Content/Css/skill.css" rel="stylesheet" />
+    <link href="~/Content/Css/commercial.css" rel="stylesheet" />
+    <link href="~/Content/Css/usename.css" rel="stylesheet" />
+    <link href="~/Content/Css/findgame.css" rel="stylesheet" />
+    <link href="~/Content/style/NavPager.css" rel="stylesheet" />
+    <link href="/Content/Img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+</head>
+<body>
+    <!-- 顶部导航 -->
+    @Html.Action("ShuangzanHeader", "NewsInfo")
+    <!-- 面包屑导航 -->
+    <div class="wide details">当前位置：<a href="index.html">爽赞网</a> > <a href="">页游大全</a></div>
+    <div>
+        <div class="carousel wide">
+            <div class="carousel-left">
+                <div class="bd">
+                    <ul class="picList">
+                        <!-- 滚动图 -->
+                        <li>
+                            <div class="pic"><a href="/news/ry/10959.html" target="_blank"><img src="/Content/Img/banner03.jpg" /></a></div>
+                        </li>
+                        <li>
+                            <div class="pic"><a href="/news/ry/10974.html" target="_blank"><img src="/Content/Img/banner03.jpg" /></a></div>
+                        </li>
+                        <li>
+                            <div class="pic"><a href="/news/xy/10989.html" target="_blank"><img src="/Content/Img/banner03.jpg" /></a></div>
+                        </li>
+                        <li>
+                            <div class="pic"><a href="/news/xy/11012.html" target="_blank"><img src="/Content/Img/banner03.jpg" /></a></div>
+                        </li>
+                        <li>
+                            <div class="pic"><a href="/news/cy/10963.html" target="_blank"><img src="/Content/Img/banner03.jpg" /></a></div>
+                        </li>
+                        <li>
+                            <div class="pic"><a href="/news/xy/10989.html" target="_blank"><img src="/Content/Img/banner03.jpg" /></a></div>
+                        </li>
+                        <li>
+                            <div class="pic"><a href="/news/xy/11012.html" target="_blank"><img src="/Content/Img/banner03.jpg" /></a></div>
+                        </li>
+                        <li>
+                            <div class="pic"><a href="/news/cy/10963.html" target="_blank"><img src="/Content/Img/banner03.jpg" /></a></div>
+                        </li>
+                    </ul>
+                    <div class="mask"></div>
+                    <div class="mask"></div>
+                </div>
+                <div class="hd">
+                    <a class="next"></a>
+                    <a class="prev"></a>
+                    <ul></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="findgame wide">
+        <div class="search">
+            <form>
+                <span>
+                    <input type="text" class="searchgame-text" name="key" id="key" placeholder="输入关键词" value=""/><button class="searchgame-btn">搜游戏</button>
+                </span>
+            </form>
+
+        </div>
+        <p>
+            <a href="">蓝月传奇</a>
+            <a href="">蓝月传奇</a>
+            <a href="">蓝月传奇</a>
+            <a href="">蓝月传奇</a>
+        </p>
+        <div class="gametype">
+            <div>
+                <ul><li>类型：</li></ul>
+                <ul id="yxlx">
+                    <li class="active1" value=""><span class="a-1">全部</span></li>
+                    <li>|</li>
+                    <li value="1"><span class="a1">角色扮演</span></li>
+                    <li value="2"><span class="a2">战争策略</span></li>
+                    <li value="3"><span class="a3">模拟经营</span></li>
+                    <li value="4"><span class="a4">休闲竞技</span></li>
+                    <li value="5"><span class="a5">社区养成</span></li>
+                    <li value="6"><span class="a6">儿童游戏</span></li>
+                </ul>
+            </div>
+            <div>
+                <ul><li>题材：</li></ul>
+                <ul id="yxtc">
+                    <li class="active2" value=""><span class="a-1">全部</span></li>
+                    <li>|</li>
+                    <li value="1"><span class="a1">三国</span></li>
+                    <li value="2"><span class="a2">西游</span></li>
+                    <li value="3"><span class="a3">仙侠</span></li>
+                    <li value="4"><span class="a4">武侠</span></li>
+                    <li value="5"><span class="a5">奇幻</span></li>
+                    <li value="6"><span class="a6">动漫</span></li>
+                    <li value="7"><span class="a7">军事</span></li>
+                    <li value="8"><span class="a8">体育</span></li>
+                    <li value="9"><span class="a9">航海</span></li>
+                    <li value="10"><span class="a10">其他</span></li>
+                </ul>
+            </div>
+            <div>
+                <ul><li>玩法：</li></ul>
+                <ul id="yxwf">
+                    <li class="active3" value=""><span class="a-1">全部</span></li>
+                    <li>|</li>
+                    <li value="1"><span class="a1">即时</span></li>
+                    <li value="2"><span class="a2">回合</span></li>
+                    <li value="3"><span class="a3">其他</span></li>
+                </ul>
+            </div>
+            <div>
+                <ul><li>字母：</li></ul>
+                <ul id="yxabc">
+                    <!-- 首字符搜索按钮 -->
+                    <li class="active4"><span class="a-1">全部</span></li>
+                    <li>|</li>
+                    <li><span class="a1">A</span></li>
+                    <li><span class="a2">B</span></li>
+                    <li><span class="a3">C</span></li>
+                    <li><span class="a4">D</span></li>
+                    <li><span class="a5">E</span></li>
+                    <li><span class="a6">F</span></li>
+                    <li><span class="a7">G</span></li>
+                    <li><span class="a8">H</span></li>
+                    <li><span class="a9">I</span></li>
+                    <li><span class="a10">J</span></li>
+                    <li><span class="a11">K</span></li>
+                    <li><span class="a12">L</span></li>
+                    <li><span class="a13">M</span></li>
+                    <li><span class="a14">N</span></li>
+                    <li><span class="a15">O</span></li>
+                    <li><span class="a16">P</span></li>
+                    <li><span class="a17">Q</span></li>
+                    <li><span class="a18">R</span></li>
+                    <li><span class="a19">S</span></li>
+                    <li><span class="a20">T</span></li>
+                    <li><span class="a21">U</span></li>
+                    <li><span class="a22">V</span></li>
+                    <li><span class="a23">W</span></li>
+                    <li><span class="a24">X</span></li>
+                    <li><span class="a25">Y</span></li>
+                    <li><span class="a26">Z</span></li>
+                </ul>
+            </div>
+        </div>
+        <h6>
+            <ul>
+                <li><a class="active"><img src="/Content/Img/time_active.png" alt="">最新页游</a></li>
+                <li><a><img src="/Content/Img/hot.png" alt="">热门页游</a></li>
+            </ul>
+        </h6>
+        <!-- 最新页游列表 -->
+        <section>
+            <img src="/Content/Img/nogame.png">
+            <ul class="Storage">
+                             
+            </ul>
+            <!-- 分页按钮 -->
+            <div class="page">
+                <ul id="findgamepage">
+                  
+                </ul>
+            </div>
+        </section>      
+    </div>
+    <!-- 底部 -->
+    @Html.Partial("_ShuangZanFooter")
+    <script src="~/Content/js/jquery-1.11.1.min.js"></script>
+    <script src="~/Content/js/jquery.SuperSlide.2.1.1.js"></script>
+    <script src="~/Content/js/personal_use.js"></script>
+    <script src="~/Content/js/Public.js"></script>
+    <script src="~/Content/js/amoywel.js"></script>
+    <script type="text/javascript">   
+        $(function () {
+            var games = 'news';
+            var type = '',
+                theme = '',
+                play = '',
+                letter = '',
+                key = $('.searchgame-text').val();    
+            postajax(games, type, theme, play, letter, key);
+            $(".findgame h6 ul li").each(function () {            
+                $(this).on("click", "a", function () {                
+                    $(this).addClass("active").parent("li").siblings("li").find("a").removeClass("active");
+                    if ($(this).text() == "最新页游") {
+                        changeSrc(this, "time", "hot");
+                    } else if ($(this).text() == "热门页游") {
+                        changeSrc(this, "hot", "time");
+                    }
+                    if ($('.news-pagegames').css('display') === 'none') {
+                        games = 'hot';
+                    } else {
+                        games = 'news';
+                    }
+                    postajax(games, type, theme, play, letter, key);
+                })
+            })
+            $('#yxlx li').each(function () {             
+                var _this = this;
+                $(this).click(function () {
+                    if ($(_this).children().length) {
+                        type = $(_this).attr('value');
+                        postajax(games, type, theme, play, letter, key);
+                    }
+                })
+            })
+            $('#yxtc li').each(function () {             
+                var _this = this;
+                $(this).click(function () {
+                    if ($(_this).children().length) {
+                        theme = $(_this).attr('value');
+                        postajax(games, type, theme, play, letter, key);
+                    }
+                })
+            })
+            $('#yxwf li').each(function () {              
+                var _this = this;
+                $(this).click(function () {
+                    if ($(_this).children().length) {
+                        play = $(_this).attr('value');
+                        postajax(games, type, theme, play, letter, key);
+                    }
+                })
+            })
+
+            $('#yxabc li').each(function () {               
+                var _this = this;
+                $(this).click(function () {
+                    if ($(_this).children().length) {
+                        letter = $(_this).text();
+                        postajax(games, type, theme, play, letter, key);
+                    }
+                })
+            })
+
+            $(".searchgame-btn").click(function () {              
+                key = $('.searchgame-text').val();
+                postajax(games, type, theme, play, letter, key);
+                return false;
+            })
+        })
+
+        function postajax(games, type, theme, play, letter, key) {
+            //alert(games);
+            //alert(type);
+            //alert(theme);
+            //alert(play);
+            //alert(letter);
+            //alert(key);
+            $.getJSON("/Game/GameAllData", {
+             
+                games: games,
+                type: type,
+                theme: theme,
+                play: play,
+                letter: letter,
+                key: key
+            }, function (data) {
+
+                $(".Storage").html("");
+                for (var i in data.Data) {
+                    var strLi = "<li> ";
+                    strLi += " <a href='/Game/GameDetail?id=" + data.Data[i].Id + "' target='_blank'><p class='img-sca'><img src='" + data.Data[i].DescImg + "' alt=''></p><p><b>" + data.Data[i].Name + "</b></p></a>";
+                    strLi += " </li>";
+                    $(".Storage").append(strLi);
+                }
+                //把分页的标签放到页面里面去
+                $("#navDiv").html(data.NavStr);
+                //给分页的超级链接绑定点击事件
+                $(".pageLink").click(function () {
+                    var href = $(this).attr("href");
+                    var queryString = href.substr(href.lastIndexOf('?') + 1);
+                    initTable(queryString);
+                    return false;
+                });
+            });
+            
+            //$.ajax({
+            //    dataType: 'json',
+            //    type: 'POST',
+            //    contentType: "application/json;charset=utf-8",
+            //    url: '/Game/GameAllData',
+            //    data: {
+            //        key: key,
+            //        games: games,
+            //        type: type,
+            //        theme: theme,
+            //        play: play,
+            //        letter: letter
+            //    },              
+            //    success: function (data) {
+                   
+            //        $(".Storage").html("");
+            //        for (var i in data.Data) {
+            //            var strLi = "<li> ";
+            //            strLi += " <a href='/Game/GameDetail?id=" + data.Data[i].Id + "' target='_blank'><p class='img-sca'><img src='" + data.Data[i].DescImg + "' alt=''></p><p><b>" + data.Data[i].Name + "</b></p></a>";
+            //            strLi += " </li>";
+            //            $(".Storage").append(strLi);
+            //        }
+            //        //把分页的标签放到页面里面去
+            //        $("#navDiv").html(data.NavStr);
+            //        //给分页的超级链接绑定点击事件
+            //        $(".pageLink").click(function () {
+            //            var href = $(this).attr("href");
+            //            var queryString = href.substr(href.lastIndexOf('?') + 1);
+            //            initTable(queryString);
+            //            return false;
+            //        });
+            //    }
+            //})
+        };
+    </script>
+</body>
+</html>

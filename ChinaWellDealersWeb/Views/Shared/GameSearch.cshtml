@@ -1,0 +1,16 @@
+﻿
+<section>
+    <img src="/Content/Img/nogame.png">
+    <ul class="Storage">
+        @foreach (var item in (List<Models.Game>)ViewData["GameSearch"])
+        {
+            <li><a href="/Game/GameDetail/@item.Id" target="_blank"><p class="img-sca"><img src="/Content/GameImg/@item.DescImg" alt="@item.Name"></p><p><b>@item.Name</b></p></a></li>
+        }
+    </ul>
+    <!-- 分页按钮 -->
+    <div class="page">
+        <ul id="findgamepage">
+            @MvcHtmlString.Create(Common.LaomaPager.ShowPageNavigate((int)ViewData["pageSize"], (int)ViewData["pageIndex"], (int)ViewData["Total"]))
+        </ul>
+    </div>
+</section>

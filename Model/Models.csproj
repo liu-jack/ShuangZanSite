@@ -1,0 +1,315 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CA209487-FA56-413D-9FE8-BCE472B45B00}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Models</RootNamespace>
+    <AssemblyName>Models</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ActionInfo.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Advertisement.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AuditLog.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BeautifulGirls.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BlackListIP.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Company.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CompanyGame.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DemoUser.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Enum\ActionInfoTypeEnum.cs" />
+    <Compile Include="Enum\CheckState.cs" />
+    <Compile Include="Enum\DelFlagEnum.cs" />
+    <Compile Include="Enum\GamePlay.cs" />
+    <Compile Include="Enum\GameTheme.cs" />
+    <Compile Include="Enum\GameType.cs" />
+    <Compile Include="Enum\PaymentStatus.cs" />
+    <Compile Include="Feedback.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ForbiddenList.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Game.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GameDemo.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GameDemoAccounts.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GameDemoRecharge.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GameDemoRequires.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Gift.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HomePage.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="KeyWords.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LeaveMsg.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MapModel\CompanyViewModel.cs" />
+    <Compile Include="MapModel\DemoAccountModel.cs" />
+    <Compile Include="MapModel\DemoCutImgCheckViewModel.cs" />
+    <Compile Include="MapModel\DemoViewModel.cs" />
+    <Compile Include="MapModel\GameViewModel.cs" />
+    <Compile Include="Enum\HttpMethodEnum.cs" />
+    <Compile Include="Enum\NewsType.cs" />
+    <Compile Include="Enum\Reccommend.cs" />
+    <Compile Include="Enum\ServiceType.cs" />
+    <Compile Include="MapModel\GameDemoViewModel.cs" />
+    <Compile Include="MapModel\GiftViewModel.cs" />
+    <Compile Include="MapModel\GirlsViewModel.cs" />
+    <Compile Include="MapModel\HomePageViewModel.cs" />
+    <Compile Include="MapModel\LeaveMsgViewModel.cs" />
+    <Compile Include="MapModel\MyCoolCoins.cs" />
+    <Compile Include="MapModel\MyGameDemo.cs" />
+    <Compile Include="MapModel\NewsReply.cs" />
+    <Compile Include="MapModel\NewsViewModel.cs" />
+    <Compile Include="MapModel\PackageViewModel.cs" />
+    <Compile Include="MapModel\Publish.cs" />
+    <Compile Include="MapModel\RaidersViewModel.cs" />
+    <Compile Include="MapModel\RechargeViewModel.cs" />
+    <Compile Include="MapModel\Reply.cs" />
+    <Compile Include="MapModel\SeeNewsViewModel.cs" />
+    <Compile Include="MapModel\ServiceViewModel.cs" />
+    <Compile Include="MapModel\SignViewModel.cs" />
+    <Compile Include="MapModel\TestViewModel.cs" />
+    <Compile Include="MapModel\UserRaidersViewModel.cs" />
+    <Compile Include="News.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OpenService.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OpenService_Package.cs" />
+    <Compile Include="MapModel\Package_Card.cs" />
+    <Compile Include="Order.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Package.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PackageCard.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Params\QueryParam.cs" />
+    <Compile Include="PersonalUser.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PersonalUserSign.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PersonalUserSignDetail.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Recharge.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RechargedUsed.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Requires.cs" />
+    <Compile Include="RoleInfo.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="R_UserInfo_ActionInfo.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SeeNews.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Seo.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ShuangZanModelDB.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ShuangZanModelDB.Context.tt</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ShuangZanModelDB.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="ShuangZanModelDB.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ShuangZanModelDB.edmx</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Split_Id_String_Result.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Split_String_String_Result.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqlMapModel\SqlGameModel.cs" />
+    <Compile Include="SqlMapModel\Sql_CityModel.cs" />
+    <Compile Include="SqlMapModel\Sql_CpyModel.cs" />
+    <Compile Include="SqlMapModel\Sql_DemoCheckModel.cs" />
+    <Compile Include="SqlMapModel\Sql_DemoMaxRecharge.cs" />
+    <Compile Include="SqlMapModel\Sql_DemoModel.cs" />
+    <Compile Include="SqlMapModel\Sql_DemoRecharge.cs" />
+    <Compile Include="SqlMapModel\Sql_GameDemo.cs" />
+    <Compile Include="SqlMapModel\Sql_GameModel.cs" />
+    <Compile Include="SqlMapModel\Sql_NewsModel.cs" />
+    <Compile Include="SqlMapModel\Sql_PackageCode.cs" />
+    <Compile Include="SqlMapModel\Sql_PackageModel.cs" />
+    <Compile Include="SqlMapModel\Sql_RaidersModel.cs" />
+    <Compile Include="SqlMapModel\Sql_ServerModel.cs" />
+    <Compile Include="SqlMapModel\Sql_UserModel.cs" />
+    <Compile Include="SqlMapModel\Sql_UserSignInModel.cs" />
+    <Compile Include="SqlMapModel\Ssl_CpyGameModel.cs" />
+    <Compile Include="Tests.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserAdress.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserInfo.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserMessage.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserRaiders.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VerificationCode.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WonderfulTxtImg.cs">
+      <DependentUpon>ShuangZanModelDB.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <EntityDeploy Include="ShuangZanModelDB.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ShuangZanModelDB.Designer.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EntityDeploy>
+    <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <None Include="obj\Debug\edmxResourcesToEmbed\ShuangZanModelDB.csdl" />
+    <None Include="obj\Debug\edmxResourcesToEmbed\ShuangZanModelDB.msl" />
+    <None Include="obj\Debug\edmxResourcesToEmbed\ShuangZanModelDB.ssdl" />
+    <None Include="obj\Release\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <None Include="obj\Release\edmxResourcesToEmbed\ShuangZanModelDB.csdl" />
+    <None Include="obj\Release\edmxResourcesToEmbed\ShuangZanModelDB.msl" />
+    <None Include="obj\Release\edmxResourcesToEmbed\ShuangZanModelDB.ssdl" />
+    <None Include="packages.config" />
+    <None Include="ShuangZanModelDB.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ShuangZanModelDB.Context.cs</LastGenOutput>
+      <DependentUpon>ShuangZanModelDB.edmx</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ShuangZanModelDB.edmx.diagram">
+      <DependentUpon>ShuangZanModelDB.edmx</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ShuangZanModelDB.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ShuangZanModelDB.cs</LastGenOutput>
+      <DependentUpon>ShuangZanModelDB.edmx</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\Models.dll" />
+    <Content Include="bin\Debug\Models.pdb" />
+    <Content Include="obj\Debug\Models.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Debug\Models.dll" />
+    <Content Include="obj\Debug\Models.pdb" />
+    <Content Include="obj\Debug\TempPE\ShuangZanModelDB.cs.dll" />
+    <Content Include="obj\Debug\TempPE\ShuangZanModelDB.Designer.cs.dll" />
+    <Content Include="obj\Release\Models.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Release\Models.dll" />
+    <Content Include="obj\Release\Models.pdb" />
+    <Content Include="obj\Release\TempPE\ShuangZanModelDB.cs.dll" />
+    <Content Include="obj\Release\TempPE\ShuangZanModelDB.Designer.cs.dll" />
+    <Content Include="ShuangZanModelDB.edmx.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

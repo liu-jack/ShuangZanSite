@@ -1,0 +1,190 @@
+﻿@model Models.Package
+
+@{
+    ViewBag.Title = "PackageEdit";
+    Layout = "~/Views/Shared/_LayoutAdminData.cshtml";
+}
+
+<script src="~/Scripts/MyAjaxForm.js"></script>
+<link href="~/Content/layui-v1.0.9_rls/layui/css/modules/layer/default/layer.css" rel="stylesheet" />
+<script src="~/Content/layui-v1.0.9_rls/layui/lay/modules/layer.js"></script>
+<script type="text/javascript">
+
+  
+    $(function () {
+        $('#btnEdit').click(function () {
+            var game = $("#game"),
+                serversname = $("#serversname"),
+                publicserver = $("#publicserver"),
+                  giftName = $("#giftName"),
+                  url = $("#url"),
+                  msg = $("#msg"),
+                  memo = $("#memo");
+
+            if ($.trim(game.val()) == "") {
+                layer.msg("提示：请输入游戏名称!");
+                gamename.focus();
+                return;
+            }
+            if ($.trim(giftName.val()) == "") {
+                layer.msg("提示：请输入礼包名称!");
+                giftName.focus();
+                return;
+            }
+            if ($.trim(url.val()) == "") {
+                layer.msg("提示：请输入游戏网址!");
+
+                cards.focus();
+                return;
+            }
+            if ($.trim(msg.val()) == "") {
+                layer.msg("提示：请输入礼包内容!");
+                msg.focus();
+                return;
+            }
+            if ($.trim(memo.val()) == "") {
+                layer.msg("提示：请输入礼包说明!");
+                memo.focus();
+                return;
+            }
+            layer.confirm('提示：您是否已确认编辑完毕？', {
+                skin: 'layui-layer-lan',
+                btn: ['是的', '没有呀'] //按钮
+            }, function () {
+                $.ajax({
+                    url: '/AdminData/PackageEdit',
+                    type: 'post',
+                    data: {
+                        // companyId: $('#companyId').val(),
+                        Id:$('#Id').val(),
+                        game: game.val().trim(),
+                        serversname: publicserver.is(":checked") ? "通服" : serversname.val().trim(),
+                        type: $("#type").val(),
+                        giftName: giftName.val().trim(),
+                        url: url.val().trim(),
+                        msg: msg.val(),
+                        memo: memo.val(),
+
+                    },
+                    success: function (data) {
+                        if (data == "ok") {
+                            layer.msg("恭喜：修改成功!");
+                            window.setTimeout(function () {
+                                window.location.href = "/AdminData/Package";
+                            }, 2000);
+                        }
+                        else if (data == "no") {
+                            layer.msg("提示：修改失败！");
+
+                        } else if (data == "empty") {
+                            layer.msg("提示：系统异常请稍候再试！");
+                        }
+                    }
+                });
+            });
+        });
+    });
+</script>
+<style type="text/css">
+    .easyui-textbox {
+        height: 25px;
+        width: 370px;
+    }
+
+    .editor-label {
+        line-height: 27px;
+    }
+</style>
+<fieldset>
+    <legend style="color:#13629D">
+        礼包编辑
+    </legend>
+    <form id="ff" class="easyui-form" method="post" data-options="novalidate:true">
+        <div style="margin-left:48px;">
+            <input type="hidden" id="Id" name="Id" value="@Model.Id" />
+            <div class="editor-label" style="color:#13629D">
+                游戏名称
+            </div>
+            <div class="editor-field">
+                <input type="text" id="game" name="game" list="gamelist" style=" width:365px;height: 19px;" value="@Model.GameName" />
+            </div>
+            <div class="editor-label" style="color:#13629D">
+                服务器名
+            </div>
+            <div class="editor-field">
+                @if (Model.ServerName != "通服")
+                {
+                    <label>双线 </label>  <input class="easyui-textbox" maxlength="4" style="width: 30px;" id="serversname" name="serversname" value="@Model.ServerName" />
+                    <input type="checkbox" style="vertical-align: sub;" id="publicserver" name="publicserver" />    <label>通服</label>
+
+                }
+                else
+                {
+                    <label>
+                        双线
+                    </label><input class="easyui-textbox" maxlength="4" style="width: 30px;" id="serversname" name="serversname" />
+                    <label><input type="checkbox" checked="checked" style="vertical-align: sub;" id="publicserver" name="publicserver" />通服</label>
+                }
+
+
+            </div>
+            <div class="editor-label" style="color:#13629D">
+                礼包类型
+            </div>
+            <div class="editor-field">
+                <select name="type" id="type" style=" width:370px;height: 25px;">
+                    @if (Model.Type == "1")
+                    {
+                        <option value="1" selected="selected">开服礼包</option>
+                        <option value="2">激活码</option>
+                        <option value="3">独家礼包</option>
+                    }
+                    else if (Model.Type == "2")
+                    {
+                        <option value="1">开服礼包</option>
+                        <option value="2" selected="selected">激活码</option>
+                        <option value="3">独家礼包</option>
+                    }
+                    else if (Model.Type == "3")
+                    {
+                        <option value="1">开服礼包</option>
+                        <option value="2">激活码</option>
+                        <option value="3" selected="selected">独家礼包</option>
+                    }
+
+
+                </select>
+            </div>
+            <div class="editor-label" style="color:#13629D">
+                礼包名称
+            </div>
+            <div class="editor-field">
+                <input class="easyui-textbox" type="text" id="giftName" name="giftName" style=" width:370px;height: 25px;" value="@Model.GiftName" />
+            </div>
+            <div class="editor-label" style="color:#13629D">
+                游戏网址
+            </div>
+            <div class="editor-field">
+                <input class="easyui-textbox" id="url" name="url" value="@Html.Raw(Model.Url)" style=" width:370px;height: 25px;" />
+            </div>
+            <div class="editor-label" style="color:#13629D">
+                礼包内容
+            </div>
+            <div class="editor-field">
+                <textarea class="easyui-validatebox textbox" id="msg" name="msg" style="width:900px; height:150px;margin-bottom:10px;">@Html.Raw(Model.Msg)</textarea>
+            </div>
+
+            <div class="editor-label" style="color:#13629D">
+                使用说明
+            </div>
+            <div class="editor-field">
+                <textarea class="easyui-validatebox textbox" id="memo" name="memo" style="width:900px; height:150px;">@Html.Raw(Model.Memo)</textarea>
+            </div>
+            <p>
+                <a href="javascript:void(0)" id="btnEdit" class="easyui-linkbutton c6" style="width:80px;height:25px;" onclick="submitForm()">提交</a>&nbsp;&nbsp;<a href="/AdminData/Package" class="easyui-linkbutton c8" style="width:80px;height:25px;">返回</a>
+            </p>
+        </div>
+    </form>
+</fieldset>
+
+<datalist id="gamelist"><option value="三国杀" /><option value="大天使之剑" /><option value="我是大主宰" /><option value="决战武林" /><option value="传奇霸业" /><option value="仙侠道2" /><option value="热血三国3" /><option value="攻城掠地" /><option value="天将雄师" /><option value="大皇帝" /><option value="幻城" /><option value="武神赵子龙" /><option value="轩辕剑" /><option value="战国之怒" /><option value="雪鹰领主" /><option value="琅琊榜" /><option value="诸神黄昏" /><option value="热血江湖传" /><option value="铁血皇城" /><option value="传奇盛世" /><option value="风暴大陆" /><option value="花千骨" /><option value="莽荒纪" /><option value="女神联盟2" /><option value="龙城" /><option value="青云志" /><option value="通天西游" /><option value="大战神" /><option value="热血战歌" /><option value="武极天下" /><option value="唐门六道" /><option value="九阴绝学" /><option value="魔法天堂" /><option value="赤月传说2" /><option value="雷霆之怒" /><option value="魅影传说" /><option value="皇图" /><option value="天书世界" /><option value="四大名捕斗将军" /><option value="侠客行侠录" /><option value="帝王霸业" /><option value="斗破沙城" /><option value="烽火十三州" /><option value="开天战神" /><option value="锦衣夜行" /><option value="魔域世界" /><option value="天神战" /><option value="天问" /><option value="斩龙传奇 " /><option value="魔晶幻想" /><option value="剑雨江湖" /><option value="主宰西游" /><option value="书剑恩仇录" /><option value="欧冠足球2" /><option value="烈焰" /><option value="无上神兵" /><option value="奇迹重生" /><option value="烈火战神" /><option value="传奇皇朝" /><option value="魔龙诀" /><option value="武易" /><option value="红名传说" /><option value="七杀" /><option value="屠龙传说" /><option value="战天" /><option value="赤月传说" /><option value="魔龙之戒" /><option value="绝世秘籍" /><option value="神魔传说" /><option value="铁骑冲锋" /><option value="三国群侠传" /><option value="战无不胜" /><option value="生死簿" /><option value="五鼠闹东京" /><option value="西游猎人" /><option value="酒神" /><option value="斗罗大陆" /><option value="剑侠情缘贰网页版" /><option value="乐逗西游" /><option value="无尽之战" /><option value="少年群侠传" /><option value="天地诸神" /><option value="斗破苍穹2" /><option value="校花的贴身高手" /><option value="盛世三国2" /><option value="齐天大圣" /><option value="三国之志" /><option value="仙谕" /><option value="龙珠战纪" /><option value="人鱼传说" /><option value="丽华传奇" /><option value="大唐盛世" /><option value="永恒领主" /><option value="神谕之剑" /><option value="九州天空城" /><option value="热血三国2" /><option value="神道" /><option value="翼三国赤壁水战" /><option value="亚瑟神剑" /><option value="龙游三国" /><option value="主公争霸" /><option value="风起三国" /><option value="好多三国" /><option value="龙骑三国2" /><option value="NBA范特西" /><option value="生死狙击" /><option value="完美红颜" /><option value="战争使命" /><option value="傲视遮天" /><option value="赤月" /><option value="村长征战团" /><option value="君王之路" /><option value="龙之领主" /><option value="风色轨迹" /><option value="秀丽江山" /><option value="修天决" /><option value="热血虎卫" /><option value="烈斩" /><option value="乱舞江湖2" /><option value="我欲封天" /><option value="仙侠道" /><option value="剑客下山" /><option value="最佳阵容" /><option value="像素骑士团" /><option value="创世联盟" /><option value="暮影战神" /><option value="第一舰队" /><option value="欢喜密探" /><option value="长城OL" /><option value="霹雳江湖" /><option value="无双战纪" /><option value="冰火破坏神" /><option value="剑踪" /><option value="刺影传奇" /><option value="绝色唐门" /><option value="怒战" /><option value="傲视战神" /><option value="命运之塔" /><option value="大都督" /><option value="大大争霸" /><option value="逆天西游记" /><option value="仙境物语" /><option value="神魔三国" /><option value="神泽" /><option value="斗三国OL" /><option value="火影疾风坛" /><option value="深海美战姬" /><option value="死神狂潮" /><option value="足球全明星" /><option value="英雄令" /><option value="小小冒险村" /><option value="雄霸隋唐" /><option value="原始传奇" /><option value="醉西游" /><option value="游龙仙侠传" /><option value="神仙道" /><option value="剑侠伏魔录" /><option value="蜀山战纪" /><option value="魔神变" /><option value="传奇荣耀" /><option value="代号∞" /><option value="小小精灵" /><option value="街机三国" /><option value="莽荒纪2.0" /><option value="不良人" /><option value="国战魏蜀吴" /><option value="龙麟圣域" /><option value="三国令" /><option value="众神之箭" /><option value="热血三国" /><option value="圣剑神域" /><option value="大天子" /><option value="神鬼无双" /><option value="众神大陆" /><option value="战无止境" /><option value="火线精英" /><option value="一球成名3" /><option value="守卫雅典娜" /><option value="神魔诛天" /><option value="雄霸九州" /><option value="足球掌门" /><option value="大圣" /><option value="斗侠" /><option value="冰封侠" /><option value="战天堂" /><option value="独步天下" /><option value="凡人修真2" /><option value="大青云" /><option value="武道三国" /><option value="沙城霸主" /><option value="神仙劫" /><option value="烈火封神" /><option value="弹弹堂" /><option value="狂仙" /><option value="大海贼" /><option value="开天斩" /><option value="盛唐剑侠" /><option value="百战沙城" /><option value="梦幻飞仙" /><option value="战车少女" /><option value="万世" /><option value="少年三国" /><option value="胜利曙光" /><option value="新乱世隋唐" /><option value="战争少女" /><option value="中超足球" /><option value="球王争霸" /><option value="龙将" /><option value="兄弟篮球2" /><option value="三国仙侠传" /><option value="西游伏妖篇" /><option value="葵花宝典" /><option value="热血街机" /><option value="一统乱世" /><option value="木叶世界" /><option value="神仙道2" /><option value="主宰" /><option value="战甲" /><option value="武林神话" /><option value="卧龙吟" /><option value="萌将" /><option value="醉武侠" /><option value="新斗将魂" /><option value="皮卡堂" /><option value="龙回三国" /><option value="混沌西游" /><option value="武炼巅峰" /><option value="仙魔奇异录" /><option value="上古降魔" /><option value="侠义九州" /><option value="冒险世界OL" /><option value="破天" /><option value="蓝月传奇" /><option value="打天下" /><option value="魔法王座" /><option value="盗墓笔记" /><option value="三国群雄传" /><option value="梁山传奇" /><option value="完美漂移" /><option value="梦幻恋舞" /><option value="海贼战纪" /><option value="冒险大当家" /><option value="新焚天之怒" /><option value="勇者盟约" /><option value="乱舞无双" /><option value="乾坤战纪" /><option value="修魔世界" /><option value="极战联盟" /><option value="屠龙战记" /><option value="绝世仙王" /><option value="金装传奇" /><option value="神将赵子龙" /><option value="希望物语" /><option value="战国之野望" /><option value="战魔三国" /><option value="主宰传奇" /><option value="西游之路" /><option value="烈火西游" /><option value="弑神传说" /><option value="诸神世纪" /><option value="不朽传奇" /><option value="新热血江湖" /><option value="风云无双" /><option value="真武三国" /><option value="开心赛车" /><option value="寒刀" /><option value="将星诀" /><option value="刀枪剑传奇" /><option value="屠龙主宰者" /><option value="龙魂沙城" /><option value="烈焰传奇" /><option value="神印王座" /><option value="九天封神" /><option value="剑侠情缘兵器谱" /><option value="特种突击" /><option value="御天下OL" /><option value="魔法纹章" /><option value="封神霸业" /><option value="龙之炎黄魂" /><option value="怒战天下" /><option value="战国美人" /><option value="魔神战域" /><option value="一剑倾城" /><option value="醉龙图" /><option value="4399海盗联盟" /><option value="三国群英传" /><option value="代号PK" /><option value="九阴九阳" /><option value="神龙战士" /><option value="魔卡幻想Online" /><option value="思美人" /><option value="龙腾传世" /><option value="三国群将传" /><option value="绝世唐门" /><option value="沙城战歌" /><option value="楚留香新传" /><option value="秦时明月" /><option value="择天记" /><option value="楚乔传" /><option value="全民裁决" /><option value="武神三国志" /><option value="泰坦世界" /><option value="暴走装甲" /><option value="全职战神" /><option value="上古诸神" /><option value="怒斩千军" /><option value="蛮荒之怒" /><option value="破晓奇兵" /><option value="暗黑神话" /><option value="乐蜀三国" /><option value="无双" /><option value="至尊宝传奇" /><option value="新六界仙尊" /><option value="剑倚天下" /><option value="百将天下" /><option value="刺秦秘史" /><option value="灵域2" /><option value="魔域永恒" /><option value="龙之战神" /><option value="唐人名将" /><option value="众神之下" /><option value="传奇世界" /><option value="攻沙" /><option value="皓月屠龙" /><option value="魔战" /><option value="逐日战神" /><option value="天命三国" /><option value="猎魔传说" /><option value="成人三国志" /><option value="全民仙战" /><option value="女神之光" /><option value="霸王之心" /><option value="武道三国2" /><option value="英雄霸业" /><option value="一剑永恒" /><option value="仙唐录" /></datalist>

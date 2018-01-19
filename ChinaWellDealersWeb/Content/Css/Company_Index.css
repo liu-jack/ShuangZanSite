@@ -1,0 +1,123 @@
+﻿
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-family: "Microsoft YaHei";
+        }
+
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .time {
+            height: 60px;
+            background: url(/Content/img/welcome.jpg) no-repeat;
+            margin-bottom: 10px;
+        }
+
+            .time span {
+                font-weight: bold;
+                color: white;
+                line-height: 60px;
+            }
+
+        .xxtz p {
+            margin-top: 20px;
+            height: 30px;
+            background: #f9f9f9;
+        }
+
+            .xxtz p img {
+                float: left;
+            }
+
+            .xxtz p span {
+                margin-left: 10px;
+                line-height: 30px;
+                font-size: 18px;
+            }
+
+        .xxtzList {
+            margin-top: 10px;
+            color: #808080;
+        }
+
+            .xxtzList li {
+                height: 28px;
+                width: 938px;
+                line-height: 28px;
+            }
+
+                .xxtzList li:hover {
+                    background: #f9f9f9;
+                }
+
+                .xxtzList li a, .xxtzList li span {
+                    font-size: 14px;
+                }
+
+            .xxtzList img {
+                float: left;
+                margin-top: 11px;
+                margin-right: 10px;
+            }
+
+            .xxtzList .mes {
+                float: left;
+                display: inline-block;
+                width: 760px;
+                overflow: hidden;
+                font-size: 14px;
+            }
+
+            .xxtzList a {
+                color: #7bab14;
+            }
+
+        .wxts p {
+            margin-top: 20px;
+            height: 30px;
+            background: #f9f9f9;
+        }
+
+            .wxts p img {
+                float: left;
+            }
+
+            .wxts p span {
+                margin-left: 10px;
+                line-height: 30px;
+                font-size: 18px;
+            }
+
+        .wxtsList {
+            margin-top: 10px;
+            color: #808080;
+        }
+
+            .wxtsList li {
+                height: 28px;
+                width: 938px;
+                line-height: 28px;
+            }
+
+            .wxtsList img {
+                float: left;
+                margin-top: 8px;
+                margin-right: 10px;
+            }
+
+            .wxtsList .mes {
+                float: left;
+                display: inline-block;
+                overflow: hidden;
+                font-size: 14px;
+            }
+  

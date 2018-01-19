@@ -1,0 +1,278 @@
+﻿@model Models.News
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>爽赞</title>
+    <link href="~/Content/Css/default.css" rel="stylesheet" />
+    <link href="~/Content/Css/Form.css" rel="stylesheet" />
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="~/Content/Css/AddCpyNews.css" rel="stylesheet" />
+    <link href="~/Content/layui-v1.0.9_rls/layui/css/modules/layer/default/layer.css" rel="stylesheet" />
+    <script src="~/Content/KinderEditor/kindeditor-min.js"></script>
+    <link href="~/Content/KinderEditor/themes/default/default.css" rel="stylesheet" />
+    <link href="~/Content/KinderEditor/plugins/code/prettify.css" rel="stylesheet" />
+    <script src="~/Content/KinderEditor/kindeditor.js"></script>
+    <script src="~/Content/KinderEditor/lang/zh_CN.js"></script>
+    <script src="~/Content/KinderEditor/plugins/code/prettify.js"></script>
+    <style type="text/css">
+        .error {
+            color: red;
+            font-weight: normal;
+            font-size: 14px;
+            white-space: nowrap;
+            font-family: monospace;
+        }
+        label {
+            position: absolute;
+            margin-left: 60%;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">
+        <span style="font-weight: bold;">新闻编辑</span>
+    </div>
+    <div class="main">
+        <input type="hidden" id="newsId" name="newsId" value="@Model.Id">
+        <input type="hidden" id="companyId" name="companyId" value="@Model.CompanyId">
+        <div>
+            <span>文章标题：</span>
+            <input type="text" class="inputtext" id="title" style="width:420px;" maxlength="50" name="title" value="@Model.Title" />
+            <samp class="alt" style="left:580px;">26个字符以内</samp>
+        </div>
+        <div style="height:75px;">
+            <code id="key">
+                <font>游戏名：</font>
+                <input type="text" class="inputtext" maxlength="100" style="width: 200px; padding-left: 10px; margin-right:5px;" id="gameName" name="gameName" value="@Model.Game" />
+                <div id="gamenamelist"><span>用来标记</span><span>用来标记</span><span>用来标记</span></div>
+                <samp id="key1alt" class="alt" style="top: 10px;">输入游戏名根据下拉提示选择，新游戏入库QQ：<a href="tencent://message/?uin=2885630190&Site=爽赞游戏网&Menu=yes">2885630190</a></samp>
+                <h1></h1>
+                <font>关键字：</font>
+                <input type="text" class="inputtext" maxlength="300" style="width: 370px; padding-left: 10px; margin-right:5px;" id="key2" name="keyword" value="@Model.Kewords" />
+                <samp class="alt" style="top: 10px;">多个关键词用,隔开</samp>
+            </code>
+        </div>
+        <div>
+            <span style="top:12px;">栏目名称：</span>
+            <span class="inputtext" id="typediv">
+                <span>
+                    <select name="type" id="type">
+                        @if (Model.Type == "1")
+                            {
+                                <option value="1" selected="selected">新游在线</option>
+                                <option value="2">热游动态</option>
+                                <option value="3">产业资讯</option>
+                            }
+                            else if (Model.Type == "2")
+                            {
+                                <option value="1">新游在线</option>
+                                <option value="2" selected="selected">热游动态</option>
+                                <option value="3">产业资讯</option>
+                            }
+                            else if (Model.Type == "3")
+                            {
+                                <option value="1">新游在线</option>
+                                <option value="2">热游动态</option>
+                                <option value="3" selected="selected">产业资讯</option>
+                            }
+                    </select>
+                </span>
+            </span>
+            <samp class="alt"></samp>
+        </div>
+        <div style="height: 140px;">
+            <span>内容摘要：</span>
+            <textarea class="inputtext" id="memo" style="width:420px; height:120px;resize: none;" name="memo">@Model.Memo</textarea>
+            <samp class="alt" style="left: 580px; top: 0">简要说明，最低不得少于50个字（包括标点符号）</samp>
+        </div>
+        <div style="height: 450px; border-bottom: 1px solid #E3E3E3;">
+            <span>文章内容：</span>
+            <textarea class="inputtext" id="msg" style="width:700px; height:400px;resize: none;" name="msg">@MvcHtmlString.Create(Model.Msg)</textarea>
+            <samp class="alt" style="left: 130px; top: 416px;">上传图片要求：1、支持JPG/GIF格式；2、不要上传外链图，请上传本地图片,图片不能带水印。</samp>
+        </div>
+        <div>
+            <kbd class="btn" id="save">提交修改</kbd>
+        </div>
+    </div>
+</body>
+</html>
+<script src="~/Content/js/jquery-1.11.1.min.js"></script>
+<script src="~/Scripts/jquery-1.8.2.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Content/layui-v1.0.9_rls/layui/lay/modules/layer.js"></script>
+<script src="~/Content/js/myExtend.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var title = $("#title"), gameName = $("#gameName"), key2 = $("#key2"),
+            type = $("#type"), msg = $("#msg"), memo = $("#memo");
+        var names = [];
+        $.ajax({
+            type: "Post",
+            url: "/FrontCompany/GameName",
+            data: "",
+            success: function (data) {
+                names = data;
+            },
+        });
+
+        var editor;
+        KindEditor.ready(function (K) {
+            editor = K.create('#msg', {
+                cssPath: '/Content/KinderEditor/plugins/code/prettify.css',
+                uploadJson: '/Content/KinderEditor/asp.net/upload_json.ashx',
+                fileManagerJson: '/Content/KinderEditor/asp.net/file_manager_json.ashx',
+                allowFileManager: true,
+                afterBlur: function () { this.sync(); },//注意这里（异步提交时需要同步）
+                afterCreate: function () {
+                    var self = this;
+                    self.sync();//把富文本编辑器的内容放到  文本域里面去。
+                }
+            });
+            prettyPrint();//注意要调用该方法.
+        });
+
+
+        $("#title").blur(function () {
+            $.check({
+                el: $(this), nothing: "请填写文章标题"
+            });
+        });
+        $("#gameName").blur(function () {
+            if (type.val() != "3" && gameName.val().trim() == "") {
+                $("#key1alt").removeClass("errok").addClass("err").html("请输入游戏名称");
+                return;
+            }
+            //检测在不在可发布范围内
+            if (type.val() != "3") {
+                $.ajax({
+                    type: "Post",
+                    url: "/FrontCompany/AllGameName",
+                    data: { gameName: $('#gameName').val() },
+                    success: function (data) {
+                        if (data == "no") {
+                            // return;
+                            $("#key1alt").removeClass("errok").addClass("err").html('游戏名称不可以发布，新游戏入库联系QQ：<a href="tencent://message/?uin=2885630190&Site=爽赞游戏网&Menu=yes">2885630190</a>');
+                        } else {
+                            $("#key1alt").html("").addClass("err errok");
+                        }
+                    },
+                });
+
+            }
+            else
+                $("#key1alt").html("").addClass("err errok");
+
+        }).keyup(function () {
+            var p = [], v = $(this).val(), l = v.length;
+            if (v == "") {
+                $("#gamenamelist").hide();
+            }
+            else {
+                $.each(names, function (i, val) {
+                    if (val.Name.substr(0, l) == v)
+                        p.push(val.Name);
+                });
+                if (p.length > 0) {
+                    $("#gamenamelist").empty().show();
+                    $.each(p, function (i, val) {
+                        $("<span>").html(val).appendTo($("#gamenamelist"));
+                    });
+                }
+            }
+        });
+        $("#type").change(function () {
+            $("#key1").trigger("blur");
+        });
+        $("#gamenamelist").delegate("span", "click", function () {
+            gameName.val($(this).html());
+            $("#key1alt").html("").addClass("err errok");
+            $("#gamenamelist").empty().hide();
+        });
+        $("#memo").blur(function () {
+            if (!$.check({
+                el: $(this), nothing: "请填写内容摘要"
+            }))
+                return;
+            var alt = $(this).parents("div").eq(0).find(".alt");
+            if ($(this).val().trim().length < 50) {
+                alt.removeClass("errok").addClass("err").html("不能少于50个字");
+                return;
+            }
+            alt.html("").addClass("err errok");
+        });
+        $("#msg").blur(function () {
+            $.check({
+                el: $(this), nothing: "请填写文章内容"
+            });
+        });
+
+
+        $("#reset").click(function () { location.reload(); });
+        $("#save").click(function () {
+            if (!$.check({
+                el: title, nothing: "请填写文章标题", focus: true
+            })) return;
+            if (type.val() != "3" && gameName.val().trim() == "") {
+                $("#key1alt").removeClass("errok").addClass("err").html("请输入游戏名称");
+                gameName.focus();
+                return;
+            }
+            var v = gameName.val(), isok = false;
+            $.each(names, function (i, val) {
+                if (val.Name == v) {
+                    isok = true;
+                    return false;
+                }
+            });
+            if (type.val() != "3") {
+                if (!isok) {
+                    key1.focus();
+                    $("#key1alt").removeClass("errok").addClass("err").html('游戏名称不可以发布，新游戏入库联系QQ：<a href="tencent://message/?uin=2885630190&Site=爽赞游戏网&Menu=yes">2885630190</a>');
+                    return;
+                }
+            }
+            $("#key1alt").html("").addClass("err errok");
+            if (!$.check({
+                el: memo, nothing: "请填写内容摘要", focus: true
+            })) return;
+            var alt = memo.parents("div").eq(0).find(".alt");
+            if (memo.val().trim().length < 50) {
+                alt.removeClass("errok").addClass("err").html("不能少于50个字");
+                return;
+            }
+            alt.html("").addClass("err errok");
+            editor.sync();
+            if (!$.check({
+                el: msg, nothing: "请填写文章内容", focus: true
+            })) return;
+            $.ajax({
+                type: "Post",
+                url: "/FrontCompany/CpyNewsInfoEdit",
+                data: {
+                    title: $('#title').val(),
+                    gameName: $('#gameName').val(),
+                    keyword: $('#key2').val(),
+                    type: $('#type').val(),
+                    memo: $('#memo').val(),
+                    msg: editor.html(),
+                    companyId: $('#companyId').val(),
+                    newsId: $('#newsId').val()
+                },
+                success: function (data) {
+                    if (data == "ok") {
+                        $('#save').hide();
+                        $(".main").html('<div class="allalt">恭喜您！新闻修改成功！请等待审核！</div><a href="/FrontCompany/AddCpyNews" class="btn"  style="display: inline-block;width: 120px;margin-top: 20px;margin-left: 390px;height:40px;line-height:40px;text-decoration:none;">继续发布</a>');
+                    }
+                    else
+                        $(".main").html('<div class="allalt">恭新闻修改失败，请重试！</div><a href="/FrontCompany/AddCpyNews" class="btn"  style="display: inline-block;width: 120px;margin-top: 20px;margin-left: 390px;height:40px;line-height:40px;text-decoration:none;">继续发布</a>');
+                },
+            });
+        });
+
+    });
+</script>

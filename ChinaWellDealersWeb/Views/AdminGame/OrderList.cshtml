@@ -1,0 +1,210 @@
+﻿@{
+    ViewBag.Title = "OrderList";
+    Layout = "~/Views/Shared/_LayoutAdminData.cshtml";
+}
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+@*----------------搜索开始----------------*@
+<div id="searchDiv" style="margin:5px 0;">
+    <label for="searchName" style="font-size:14px;">兑换玩家：</label> <input class="easyui-textbox" id="uName" name="uName" />
+    <label for="searchName" style="font-size:14px;">礼品名称：</label> <input class="easyui-textbox" id="giftName" name="giftName" />
+    <label for="searchName" style="font-size:14px;">订单状态：</label>
+    <select class="easyui-combobox" id="state" name="state" style="width:120px; " panelheight="auto">
+        <option value="" selected="selected">不限</option>
+        <option value="0">已付款</option>
+        <option value="1">已发货</option>
+        <option value="2">已收货</option>
+    </select>
+    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-search'" id="btnSearch">查询</a>
+</div>
+@*----------------搜索结束----------------*@
+<table id="UsersInfo"></table>
+<!----------------------------添加用户的Div-------------------------->
+<div id="addDiv" style="display:none">
+ 
+    @*-------------------------修改的对话框的div-------------------------*@
+    <div id="editDiv" style="display:none">
+        <iframe id="frameEdit" src="javascript:void(0)" frameborder="0" width="100%" height="100%"></iframe>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        initTb();
+        //绑定搜索的点击事件
+        $("#btnSearch").click(function () {
+            //搜索后台的数据。
+            var queryData = {
+                uName: $("#uName").val(),
+                giftName: $("#giftName").val(),
+                state: $("#state").combobox('getValue'),
+            };
+            initTb(queryData);
+        });
+    });
+    //读取基本信息的表
+    function initTb(queryParam) {
+        $('#UsersInfo').datagrid({
+            title: '信息列表展示',
+            idField: 'Id',
+            fitColumns: true,//列自适应。
+            collapsible: false,
+            minimizable: false,
+            maximizable: false,
+            resizable: true,
+            fit: true,
+            loadMsg: '正在加载，请稍稍候...',
+            striped: true,
+            url: '/AdminGame/GetOrder',
+            nowrap: true,
+            singleSelect: true,//单行选中
+            rownumbers: true,  //显示行号
+            pagination: true,
+            pageSize: 20,
+            pageList: [20, 40, 60, 80, 100],
+            queryParams: queryParam,//请求的额外的参数。
+            toolbar: '#tb',
+            columns: [[
+                //{ field: 'ck', checkbox: true },
+                { field: 'UName', title: '兑换玩家', width: 150 },
+                 { field: 'Name', title: '礼品名称', width: 300 },
+                  { field: 'color', title: '规格', width: 150,
+                  formatter: function (value, row, Index) {
+                      if (value != null) {
+                          return decodeURIComponent(value);
+                      }                    
+                  }                
+                  },
+                  { field: 'Price', title: '价格', width: 80 },
+                   { field: 'Num', title: '数量', width: 80 },
+                    { field: 'Address_Name', title: '收货人姓名', width: 160 },
+                     { field: 'Address', title: '收货人地址', width: 350 },
+                        { field: 'Phone', title: '手机', width: 200 },                  
+                     {
+                         field: 'InTime', title: '兑换时间', width: 200,
+                         formatter: function (value, row, Index) {//  /Date(1377327062000)/
+                             if (value != null) {
+                                 return (eval(value.replace(/\/Date\((\d+)\)\//gi, "new Date($1)")))
+                                                                 .pattern("yyyy-MM-dd HH:mm:ss");
+                             } else {
+                                 return null;
+                             }                           
+                         }
+                     },
+                      {
+                          field: 'SendTime', title: '发货时间', width: 200,
+                          formatter: function (value, row, Index) {//  /Date(1377327062000)/
+                              if (value != null) {
+                                  return (eval(value.replace(/\/Date\((\d+)\)\//gi, "new Date($1)")))
+                                                                  .pattern("yyyy-MM-dd HH:mm:ss");
+                              } else {
+                                  return null;
+                              }
+                          }
+                      },
+                     {
+                         field: 'Order_Num', title: '订单号', width: 200
+                     },
+                      { field: 'Type', title: '快递类型', width: 200 },
+                {
+                    field: 'state', title: '操作', width: 120,
+                    formatter: function (value, row, Index) {
+                        if (value=="0") {
+                            return "<a class='sendLink' href='javascript:void(0)' id='" + row.Id + "' style='color:#13629D;font-size: 14px'>发货</a>";
+                        } else if (value == "1") {
+                            return "已发货";
+                        } else if (value=="2")  {
+                            return "已收货";
+                        }
+                    }
+                }
+            ]],           
+            onHeaderContextMenu: function (e, field) {
+            },
+            onLoadSuccess: onGridLoadSuccess//表格加载完成之后，调用此事件响应方法。
+        });
+        // 设置页脚
+        var p = $('#UsersInfo').datagrid('getPager')
+        $(p).pagination({
+            beforePageText: '第',
+            afterPageText: '页  共{pages} 页',
+            displayMsg: '当前显示 {from}-{to} 条记录   共 {total} 条记录'
+        });
+    }
+    //表格加载完成之后，调用此事件响应方法。
+    function onGridLoadSuccess(data) {
+        //绑定表格里面的所有的修改和删除按钮的点击事件
+        $(".delLink").click(function () {
+            var strId = $(this).attr("id");
+            $.messager.confirm("温馨提示", "您确定要删除该数据？", function (r) {
+                if (r) {
+                    postDeleteData(strId);
+                }
+            });
+        });
+        $(".sendLink").click(function () {
+            sendOrderEvent();
+        });
+    }
+    //处理删除的表单提交
+    function postDeleteData(strId) {
+        $.post("/AdminGame/DelBeautiful", { id: strId }, function (data) {
+            if (data == "ok") {
+                //清除之前的选中的行。
+                $('#UsersInfo').datagrid("clearSelections");
+                //刷新表格
+                $('#UsersInfo').datagrid("reload");//代用表格的重新加载的方法。
+            } else if (data == "no") {
+                $.messager.alert("提示", "删除失败！");
+            } else {
+                $.messager.alert("温馨提示", "系统异常请稍候再试！");
+            }
+        });
+    }
+    ///修改的事件响应方法
+    function sendOrderEvent() {
+        //弹出对话框之前先给iframe标签的src属性设置值
+        //拿到用户选择的要修改的数据
+        var allSelectedRows = $('#UsersInfo').datagrid("getSelections");
+        if (allSelectedRows.length != 1) {
+            $.messager.alert("提醒", "请选中一条数据进行发货");
+            return;
+        }
+        var id = allSelectedRows[0].Id;
+        $("#frameEdit").attr("src", "/AdminGame/SendOrder/" + id);
+        //弹出修改的对话框。
+        $("#editDiv").css("display", "block");
+        $("#editDiv").dialog({
+            width: 570,
+            height: 300,
+            modal: true,
+            title: "关于发货信息",
+            collapsible: true,
+            minimizable: true,
+            maximizable: true,
+            resizable: true,
+            buttons: [{
+                id: 'btnAddSbu',
+                text: '提交',
+                iconCls: 'icon-add',
+                handler: function () {                  
+                    //让子容器的表单提交
+                    $("#frameEdit")[0].contentWindow.submitFrm();
+                    // $("#editDiv").dialog("close");
+                }
+            }, {
+                id: 'btnCancelAdd',
+                text: '取消',
+                iconCls: 'icon-cancel',
+                handler: function () {
+                    $("#editDiv").dialog("close");
+                    $('#UsersInfo').datagrid("clearSelections");
+                }
+            }]
+        });
+    }
+    //当子容器修改成功之后调用此方法，关闭对话框，刷新表格
+    function afterEdit() {
+        $("#editDiv").dialog("close");
+        $('#UsersInfo').datagrid("reload");//代用表格的重新加载的方法。
+    }
+</script>
+

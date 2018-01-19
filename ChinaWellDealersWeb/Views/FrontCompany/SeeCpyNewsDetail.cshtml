@@ -1,0 +1,105 @@
+﻿@model Models.News
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>爽赞</title>
+    <link href="~/Content/Css/default.css" rel="stylesheet" />
+    <link href="~/Content/Css/Form.css" rel="stylesheet" />
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="~/Content/Css/AddCpyNews.css" rel="stylesheet" />
+    <script src="~/Content/KinderEditor/kindeditor-min.js"></script>
+    <link href="~/Content/KinderEditor/themes/default/default.css" rel="stylesheet" />
+    <link href="~/Content/KinderEditor/plugins/code/prettify.css" rel="stylesheet" />
+    <script src="~/Content/KinderEditor/kindeditor.js"></script>
+    <script src="~/Content/KinderEditor/lang/zh_CN.js"></script>
+    <script src="~/Content/KinderEditor/plugins/code/prettify.js"></script>
+    <script src="~/Content/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            KindEditor.ready(function (K) {
+                var editor1 = K.create('#msg', {
+                    cssPath: '/Content/KinderEditor/plugins/code/prettify.css',
+                    uploadJson: '/Content/KinderEditor/asp.net/upload_json.ashx',
+                    fileManagerJson: '/Content/KinderEditor/asp.net/file_manager_json.ashx',
+                    allowFileManager: true,
+                    afterBlur: function () { this.sync(); },//注意这里（异步提交时需要同步）
+                    afterCreate: function () {
+                        var self = this;
+                        self.sync();//把富文本编辑器的内容放到  文本域里面去。
+                    }
+                });
+                prettyPrint();//注意要调用该方法.
+            });
+        });
+    </script>
+
+</head>
+<body>
+    <div class="title">
+        <span style="font-weight: bold;">查看新闻</span>
+    </div>
+
+    <div class="main">
+
+        <div>
+            <span>文章标题：</span>
+            <input type="text" class="inputtext" id="title" name="title" disabled="disabled" style="width:420px;" maxlength="50" value="@Model.Title" />
+        </div>
+        <div style="height:75px;">
+            <span>游戏名：</span>
+            <input type="text" class="inputtext" maxlength="100" style="width: 200px; padding-left: 10px; margin-right:5px;" id="gameName" disabled="disabled" name="gameName" value="@Model.Game" onblur="CheckGameName()" />
+        </div>
+        <div style="height:50px;padding-top:-8px;">
+            <span>关键字：</span>
+            <input type="text" class="inputtext" maxlength="300" style="width: 420px; padding-left: 10px; margin-right:5px;" id="keyword" name="keyword" value="@Model.Kewords" disabled="disabled" />
+        </div>
+        <div>
+            <span style="top:12px;">栏目名称：</span>
+            <span class="inputtext" id="typediv">
+                <span>
+                    <select name="type" id="type" disabled="disabled">
+                        @if (Model.Type == "1")
+                        {
+                            <option value="1" selected="selected">新游在线</option>
+                            <option value="2">热游动态</option>
+                            <option value="3">产业资讯</option>
+                        }
+                        else if (Model.Type == "2")
+                        {
+                            <option value="2" selected="selected">热游动态</option>
+                            <option value="1">新游在线</option>
+
+                            <option value="3">产业资讯</option>
+                        }
+                        else if (Model.Type == "3")
+                        {
+                            <option value="3" selected="selected">产业资讯</option>
+                            <option value="1">新游在线</option>
+                            <option value="2">热游动态</option>
+                        }
+                    </select>
+                </span>
+            </span>
+            <samp class="alt"></samp>
+        </div>
+        <div style="height: 140px;">
+            <span>内容摘要：</span>
+            <textarea class="inputtext" disabled="disabled" id="memo" name="memo" style="width:420px; height:120px;resize: none; ">@Model.Memo</textarea>
+
+        </div>
+        <div style="height: 450px; border-bottom: 1px solid #E3E3E3;">
+            <span>文章内容：</span>
+            <textarea disabled="disabled" class="inputtext" id="msg" name="msg" style="width:700px; height:400px;resize: none;">@MvcHtmlString.Create(Model.Msg)</textarea>
+            <samp class="alt" style="left: 130px; top: 416px;">上传图片要求：1、支持JPG/GIF格式；2、不要上传外链图，请上传本地图片,图片不能带水印。</samp>
+        </div>
+        <div>
+            <input class="btn" type="button" onclick="history.go(-1)" value="返回" style="height:40px;  margin-top:10px;" />
+        </div>
+    </div>
+</body>
+</html>
+

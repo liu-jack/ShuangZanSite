@@ -1,0 +1,292 @@
+﻿@{
+    Layout = null;
+    if (Model.Path.Split('.')[1] == "swf")
+    {
+        string path = Model.Path.Split('.')[1]; 
+    }
+     
+}
+@model Models.Advertisement
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>广告编辑</title>
+    <script src="~/Content/My97DatePicker/WdatePicker.js"></script>
+    <link href="~/Content/style/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/style/fileinput.css" rel="stylesheet" />
+    <link href="~/Content/style/custom/fileupload.css" rel="stylesheet" />
+    <script src="~/Content/js/jquery-1.10.2.js"></script>
+    <script src="~/Content/js/bootstrap.js"></script>
+    <script src="~/Content/js/respond.js"></script>
+    <script src="~/Content/js/fileinput.js"></script>
+    <script src="~/Content/js/fileinput_locale_zh.js"></script>
+    <link href="~/Content/layui-v1.0.9_rls/layui/css/modules/layer/default/layer.css" rel="stylesheet" />
+    <script src="~/Content/layui-v1.0.9_rls/layui/lay/modules/layer.js"></script>
+    <link href="~/Content/style/tableStyle.css" rel="stylesheet" />
+    <style type="text/css">
+        #tdd select {
+            width: 200px;
+        }
+        input {
+            width: 350px;
+        }
+        tr td:nth-child(1) {
+            text-align: right;
+        }
+    </style>
+    <script type="text/javascript">
+    $(function () {
+        var time1 = '@Model.StartTime.ToString("HH")';
+        $('#time1 option').each(function () {
+            var name = $(this).attr('value');
+            if (name == time1) {
+                $(this).attr('selected', 'selected')
+            }
+        });
+        var time2 = '@Model.EndTime.ToString("HH")';
+            $('#time2 option').each(function () {
+                var name = $(this).attr('value');
+                if (name == time2) {
+                    $(this).attr('selected', 'selected')
+                }
+            });
+        })
+        function submitForm() {
+            var reg=/(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@@?^=%&:/~\+#]*[\w\-\@@?^=%&/~\+#])?/;
+         
+            var url = $('#url').val();
+            if (!reg.test(url)) {
+                layer.msg("提示：请输入正确的跳转链接!");
+                return;
+            }
+            layer.confirm('提示：您是否已确认编辑无误？', {
+                skin: 'layui-layer-lan',
+                btn: ['是的', '没有呀'] //按钮
+            }, function () {
+                $.ajax({
+                    url: '/AdminData/AdvertEdit',
+                    type: "post",
+                    data: {
+                        id:'@Model.Id',
+                        type: $('#type').val(),
+                        startTime: $("#startTime").val() + " " + $("#time1").val() + ":0:0",
+                        endTime: $("#endTime").val() + " " + $("#time2").val() + ":0:0",
+                        state: $('#state').val(),
+                        url: $('#url').val(),
+                        title: $('#title').val(),
+                        path: $('#path').val() != '' ? $('#path').val() : '@Model.Path'
+                    },
+                    success: function (data) {
+                        if (data == "ok") {
+                            layer.msg("恭喜：编辑成功!");
+                            window.setTimeout(function () {
+                                window.location.href = "/AdminData/AdvertList";
+                            }, 1500);
+                        } else if (data == "no") {
+                            layer.msg("提示：编辑失败！");
+                        } else {
+                            layer.msg("提示：系统异常请稍候再试！");
+                        }
+                    },
+                });
+            });
+        }
+
+    </script>
+</head>
+<body>
+    <div>
+       
+            <table width="70%">
+                <thead>
+                    <tr>
+                        <th colspan="2" style="text-align:center;font-size:large">广告详细信息编辑</th>
+                    </tr>
+                    <tr>
+                        <td>广告类型</td>
+                        <td id="tdd">
+                            <input type="hidden" id="id" name="id" value="@Model.Id" />
+                            <select id="type" name="type" class="form-control">
+                                @if (Model.Type == "1")
+                                {
+                                    <option value="1" selected>大背图</option>
+                                    <option value="2">小图标</option>
+                                    <option value="3">通栏广告</option>
+                                    <option value="4">撕页</option>
+                                    <option value="5">富媒体</option>
+                                }
+                                else if (Model.Type == "2")
+                                {
+                                    <option value="1">大背图</option>
+                                    <option value="2" selected>小图标</option>
+                                    <option value="3">通栏广告</option>
+                                    <option value="4">撕页</option>
+                                    <option value="5">富媒体</option>
+                                }
+                                else if (Model.Type == "3")
+                                {
+                                    <option value="1">大背图</option>
+                                    <option value="2">小图标</option>
+                                    <option value="3" selected>通栏广告</option>
+                                    <option value="4">撕页</option>
+                                    <option value="5">富媒体</option>
+                                }
+                                else if (Model.Type == "4")
+                                {
+                                    <option value="1">大背图</option>
+                                    <option value="2">小图标</option>
+                                    <option value="3">通栏广告</option>
+                                    <option value="4" selected>撕页</option>
+                                    <option value="5">富媒体</option>
+                                }
+                                else
+                                {
+                                    <option value="1">大背图</option>
+                                    <option value="2">小图标</option>
+                                    <option value="3">通栏广告</option>
+                                    <option value="4">撕页</option>
+                                    <option value="5" selected>富媒体</option>
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>素材状态</td>
+                        <td id="tdd">
+                            <select id="state" name="state" class="form-control">
+                                @if (Model.State == 0)
+                                {
+                                    <option value="0" selected>正常</option>
+                                    <option value="1">备用</option>
+                                }
+                                else
+                                {
+                                    <option value="0">正常</option>
+                                    <option value="1" selected>备用</option>
+                                }
+
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>标题</td>
+                        <td><input type="text" class="form-control" id="title" name="title" value="@Model.Title" /></td>
+                    </tr>
+                    <tr>
+                        <td>跳转链接</td>
+                        <td><input type="text" class="form-control" id="url" name="url" value="@Model.Url" /></td>
+                    </tr>
+                    <tr>
+                        <td>有效期</td>
+                        <td>
+                            <input type="text" style="width:100px;display:inline-block" name="startTime" id="startTime" onfocus="WdatePicker()" class="form-control" value="@Model.StartTime.ToString("yyyy-MM-dd")" />
+                            <select name="time1" id="time1" class="form-control" style="width:70px;display:inline-block">
+                                <option value="00">00</option>
+                                <option value="01">01</option>
+                                <option value="02">02</option>
+                                <option value="03">03</option>
+                                <option value="04">04</option>
+                                <option value="05">05</option>
+                                <option value="06">06</option>
+                                <option value="07">07</option>
+                                <option value="08">08</option>
+                                <option value="09">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                            </select>-
+                            <input type="text" style="width:100px;display:inline-block" id="endTime" name="endTime" class="form-control" onfocus="WdatePicker()" value="@Model.EndTime.ToString("yyyy-MM-dd")" />
+                            <select name="time2" class="form-control" id="time2" style="width:70px;display:inline-block">
+                                <option value="00">00</option>
+                                <option value="01">01</option>
+                                <option value="02">02</option>
+                                <option value="03">03</option>
+                                <option value="04">04</option>
+                                <option value="05">05</option>
+                                <option value="06">06</option>
+                                <option value="07">07</option>
+                                <option value="08">08</option>
+                                <option value="09">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>素材上传</td>
+                        <td>
+                            <input id="fileInput" name="fileInput" type="file" multiple="multiple">
+
+                            <input type="hidden" id="path" name="path" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align:center">
+                            <button style="height:25px;" class="btn btn-primary" onclick="submitForm()">提交</button>
+                            <button style="height:25px;" class="btn btn-primary" onclick="history.go(-1)">返回</button>
+                        </td>
+                    </tr>
+
+                </thead>
+            </table>
+       
+    </div>
+    <script type="text/javascript">
+    $('#fileInput').fileinput({
+        language: 'zh', //设置语言
+        uploadUrl: "/AdminData/ImgUpload", //上传的地址www.ggfenxiang8.com
+        autoReplace: true,
+        maxFileCount: 100,
+        enctype: 'multipart/form-data',
+        showUpload: true, //是否显示上传按钮
+        showCaption: true,//是否显示标题
+        allowedFileExtensions: ["jpg", "png", "gif", "docx", "video", "flash","swf"],
+        browseClass: "btn btn-primary", //按钮样式
+        initialPreview: [
+            @*'@ViewBag.Path'*@
+              "<img src='@Model.Path' class='file-preview-image' />"
+        ],
+
+        previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+        msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+    });
+    $("#fileInput").on("fileuploaded", function (event, data, previewId, MoreImgUpload) {
+        var res = data.response;
+        if (res.State == 1) {
+            $('#path').val(res.Path);
+            res.Path
+        }
+        else {
+            layer.msg('提示：图片上传失败')
+        }
+    })
+
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+﻿@{
+    Layout = null;
+}
+@using Models.MapModel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>淘福利_页游试玩赚钱_页游试玩换礼品_爽赞网</title>
+    <link href="~/Content/Css/index.css" rel="stylesheet" />
+    <link href="~/Content/Css/reset.css" rel="stylesheet" />
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="~/Content/Css/lunbo.css" rel="stylesheet" />
+    <link href="~/Content/Css/news.css" rel="stylesheet" />
+    <link href="~/Content/Css/commercial.css" rel="stylesheet" />
+    <link href="~/Content/Css/amoywel.css" rel="stylesheet" />
+    <link href="~/Content/Css/usename.css" rel="stylesheet" /> 
+    <link href="~/Content/style/NavPager.css" rel="stylesheet" />
+    <link href="/Content/Img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+</head>
+<body>
+    @Html.Action("_TwoShuangzanHeader", "Home")
+    @Html.Action("ShuangzanHeader", "NewsInfo")
+    <!-- 面包屑导航 -->
+    <div class="wide details">当前位置：<a href="/Home/Index">爽赞网</a> > <a href="/Home/AmoyWelFare">淘福利</a> > <span>游戏试玩</span></div>
+    <div class="gametrial wide">
+        <form action="/Home/DemoList">
+            <h6>
+                <em>全部试玩游戏</em>
+                <span>
+                    <input type="text" placeholder="输入关键词" id="gameName" name="gameName"><button class="gamedemobtn">搜游戏</button>
+                </span>
+            </h6>
+        </form>
+        @*<img src="/Content/Img/nogame.png">*@
+        <div class="gamedemo">
+            
+        </div>
+    </div>
+    
+    @Html.Partial("_ShuangZanFooter")
+    <script src="~/Content/js/jquery-1.11.1.min.js"></script>
+    <script src="~/Content/js/Public.js"></script>
+    <script src="~/Content/js/jquery.SuperSlide.2.1.1.js"></script>
+    <script src="~/Content/js/personal_use.js"></script>  
+    <script src="~/Content/js/amoywel.js"></script>
+    <script src="~/Scripts/datapattern.js"></script>
+    <script>
+    $(function () {
+        var pageIndex = 1;
+        var gameName = $('#gameName').val();
+        var ul = $('<ul id="gametrial"></ul>');
+        loadNews();
+        $('.gametrial').on('click', '.page ul a', function (event) {
+            event.preventDefault();
+            var href = $(this).attr("href").split('&');
+            href = href[0].split('=');
+            pageIndex = href[1];
+            loadNews();
+        });
+        $('.gamedemobtn').click(function () {
+            pageIndex = 1;
+            gameName = $('#gameName').val();
+            loadNews();
+            return false;
+        })
+        function loadNews() {
+            $.ajax({
+                datatype: 'json',
+                type: 'post',
+                data: {
+                    pageIndex: pageIndex,
+                    gameName: gameName
+                },
+                url: '/Home/GetDemoList',
+                success: function (data) {
+                    $('.gamedemo').html('');
+                    ul.html('');
+                    var newslist;
+                    for (var i = 0; i < data.Data.length; i++) {
+                        newslist = '<li><a href="/Home/DemoDetails/' + data.Data[i].Id + '" target="_blank"><img src="/Content/GameImg/' + data.Data[i].Img + '"><p class="p1">' + data.Data[i].GameName + '</p></a><p class="p2">奖励<b>' + data.Data[i].PaySum + '</b>爽币</p><p><a href="/Home/DemoDetails/' + data.Data[i].Id + '" target="_blank"><input type="button" value="立即试玩"></a></p></li>';
+                        ul.append(newslist);
+                    }
+                    $('.gamedemo').append(ul);
+                    $('.gamedemo').append('<div class="page"><ul id="paginator">' + data.NavStr + '</ul></div>');
+                }
+            })
+        }
+    })
+</script>
+</body>
+</html>

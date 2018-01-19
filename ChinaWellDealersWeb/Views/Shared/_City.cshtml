@@ -1,0 +1,8 @@
+﻿<select id="citylist" name="citylist" style=" border: solid 1px #95B8E7; border-radius: 5px; padding: 3px;">
+    <option value="">全部</option>
+    @foreach (var item in (List<Models.SqlMapModel.Sql_CityModel>)ViewBag.AllCity)
+    {
+        <option value="@item.City">@item.City</option>
+    }
+</select>
+

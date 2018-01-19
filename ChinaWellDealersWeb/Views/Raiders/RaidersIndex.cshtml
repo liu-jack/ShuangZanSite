@@ -1,0 +1,138 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>最新网页游戏攻略_原创游戏攻略_游戏攻略秘籍_爽赞网</title>
+    <meta name="keywords" content="网页游戏攻略,最新页游攻略,页游装备攻略,页游升级攻略,传奇页游攻略,仙侠页游攻略,国战页游攻略,爽赞网">
+    <meta name="description" content="查攻略频道是爽赞网发布各类游戏攻略的频道,包括网页游戏攻略,心得秘籍,原创攻略,升级攻略等,为游戏玩家提供丰富的攻略资源。">
+    <meta name="viewport" content="width=1124">
+    <link href="~/Content/Css/index.css" rel="stylesheet" />
+    <link href="~/Content/Css/reset.css" rel="stylesheet" />
+    <link href="~/Content/Css/amoywel.css" rel="stylesheet" />
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="~/Content/Css/lunbo.css" rel="stylesheet" />
+    <link href="~/Content/Css/skill.css" rel="stylesheet" />
+    <link href="~/Content/Css/commercial.css" rel="stylesheet" />
+    <link href="~/Content/Css/usename.css" rel="stylesheet" />
+    <link href="~/Content/style/NavPager.css" rel="stylesheet" />
+    <link href="/Content/Img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+</head>
+<body>
+    @Html.Action("_TwoShuangzanHeader", "Home")
+    @Html.Action("ShuangzanHeader", "NewsInfo")
+    <!-- 面包屑导航 -->
+    <div class="wide details">当前位置：<a href="/">爽赞网</a> > <span>页游攻略</span></div>
+    <div class="skills wide clearfix">
+        <!-- 热游攻略 -->
+        <div class="hotskills">
+            <h5><img src="/Content/Img/hot-icon.png" alt=""><span>热游攻略 <sub>HOT</sub></span></h5>          
+        </div>       
+        <div class="newestskills">
+            <form action="/Raiders/RaidersSearch" method="get">
+                <h6>
+                    <em>最新攻略</em>
+                    <span>
+                        <input type="text" name="key" id="key" placeholder="游戏名"><button>搜攻略</button>
+                    </span>
+                    <div class="newestskills_seo">
+                        @foreach (var item in (List<Models.Seo>)ViewBag.RecSeoGame)
+                        {
+                            <a href="@item.Url" target="_blank">@item.Name</a>@Html.Raw('|')
+                        }
+                    </div>
+                </h6>
+            </form>        
+            <div>
+                <div class="skilllist">                                                                        
+                </div>
+                @Html.Action("_RightRaiders", "Raiders")
+            </div>
+        </div>
+    </div>
+    <!-- 底部 -->
+    @Html.Partial("_ShuangZanFooter")
+  <script src="~/Content/js/jquery-1.11.1.min.js"></script>
+  <script src="~/Content/js/jquery.SuperSlide.2.1.1.js"></script>
+  <script src="~/Content/js/personal_use.js"></script>
+  <script src="~/Content/js/Public.js"></script>
+    <script src="~/Scripts/datapattern.js"></script>
+    <script>
+        $(function () {
+            GetHotRaiders();
+            var pageIndex = 1;
+            loadNews();
+            $('.skilllist').on('click', '.page ul a', function (event) {
+                event.preventDefault();
+                var href = $(this).attr("href").split('&');
+                href = href[0].split('=');
+                pageIndex = href[1];
+                loadNews();
+            });
+            function loadNews() {
+                $.ajax({
+                    datatype: 'JSON',
+                    type: 'POST',
+                    data: {
+                        pageIndex: pageIndex
+                    },
+                    url: '/Raiders/GetRaidersList',
+                    success: function (data) {
+                        $('.skilllist').empty();
+                        var newslist;
+                        var ul = $('<ul></ul>');
+                        for (var i = 0; i < data.Data.length; i++) {
+                            if (data.Data[i].EditTitle == null || data.Data[i].EditTitle == '') {
+                                data.Data[i].EditTitle = data.Data[i].Title;
+                            }
+                            var dateStr = (eval(data.Data[i].InTime.replace(/\/Date\((\d+)\)\//gi, "new Date($1)"))).pattern("yyyy-MM-dd");
+                            newslist = '<li><a href="/Raiders/RaidersDetail/' + data.Data[i].Id + '"><span>页游攻略</span><kbd>【<span>' + data.Data[i].GameName + '</span>】</kbd><nobr>' + data.Data[i].EditTitle + '</nobr><time>' + dateStr + '</time></a></li>';
+                            ul.append(newslist);
+                        }
+                        $('.skilllist').append(ul);
+                        $('.skilllist').append('<div class="page"><ul id="paginator">' + data.NavStr + '</ul></div>');
+                    }
+                })
+            }
+        })
+        //热游攻略
+        function GetHotRaiders()
+        {
+            $.ajax({
+                datatype: 'JSON',
+                type: 'POST',
+                data: {
+                },
+                url: '/Raiders/GetHotRaiders',
+                success: function (data) {
+                    var ul = $('<ul></ul>');
+                    var str1;
+                    for (var i in data) {
+                        var str = data[i].Data;
+                        var reg = new RegExp('{' + '(.*?)' + '}', 'g');
+                        var arr = str.match(reg);
+                        arr = arr.map(function (x) {
+                            return $.parseJSON(x);
+                        })
+                        str1 = '<ul><li><a href="/Raiders/RaidersSearch?key=' + data[i].GameName + '" target="_blank"><h5><i></i>' + data[i].GameName + '</h5></a></li>';
+                        for (var j in arr) {
+                            str1 = str1 + '<li><font></font><a href="/Raiders/RaidersDetail/' + arr[j].id + '" target="_blank">' + arr[j].title + '</a></li>';
+                        }
+                        if (arr.length == 2) {
+                            str1 = str1 + '<li><font></font><a href="##" target="_blank">...</a></li>';
+                        }
+                        if (arr.length == 1) {
+                            str1 = str1 + '<li><font></font><a href="##" target="_blank">...</a></li><li><font></font><a href="##" target="_blank">...</a></li>';
+                        }
+                        str1 = str1 + '</ul>'
+                        ul.append('<li><a href="/Raiders/RaidersSearch?key=' + data[i].GameName + '" target="_blank"><div><img src="/Content/GameImg/' + data[i].BigImg + '" alt=""></div></a>' + str1 + '</li>');
+                    }
+                    $('.hotskills').append(ul);
+                }
+            })
+        };
+    </script>
+</body>
+</html>

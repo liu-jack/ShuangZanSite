@@ -1,0 +1,167 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>User_EarnCoolDetails</title>
+    <link href="~/Content/style/tableStyle.css" rel="stylesheet" />
+    <link href="/Content/style/NavPager.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+    <link href="~/Content/layui-v1.0.9_rls/layui/css/modules/layer/default/layer.css" rel="stylesheet" />
+    <script src="~/Content/layui-v1.0.9_rls/layui/lay/modules/layer.js"></script>
+    <script src="~/Scripts/MyAjaxForm.js"></script>
+    <style type="text/css">
+        .font {
+            font-size: 14px;
+            line-height: 23px;
+            display: inline-block;
+            width: 78px;
+            height: 23px;
+            margin: 0 5px;
+            border-radius: 5px;
+            float: right;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div style="width:100%;height: 34px;background-color: #F2F2F2;">
+        <span class="font" style=" background-color: #ffb3b3;border: solid 1px #ff8080;" onclick="history.go(-1)">返回</span>
+        <span class="font" style=" background-color: #2984a4;border: solid 1px #1f637b;" id="btnAdd" >添加</span>
+     
+    </div>
+    <table style="width:100%;" class="table-cut">
+        <tr>
+            <th>充值时间</th>
+            <th>爽币</th>
+            <th>人民币</th>
+            <th>充值方式</th>
+            <th>备注</th>
+            <th>操作</th>
+        </tr>
+        @foreach (var item in (List<Models.UserMessage>)ViewData["data"])
+        {
+            <tr>
+                <td>@item.InTime.ToString("yyyy-MM-dd")</td>
+                <td>@item.Pay</td>
+                <td>@item.Memo1</td>                             
+                <td>@item.Memo2</td>               
+                @if (item.orderNo==null)
+                {
+                  <td></td>   
+                }
+                else { 
+                 <td>@item.orderNo</td>
+                }               
+                <td>
+                    <a class="DelEvent" href="javascript:;" id=@item.Id><span style="color:red;font-weight:700;">删除</span></a>
+                </td>
+            </tr>
+        }
+    </table>
+    <p id="paginator" style="padding-left:-10%;">
+        <input type="hidden" name="id" id="id" value="@ViewBag.CurrentUserId" />
+        @MvcHtmlString.Create(Common.LaomaPager.ShowPageNavigate((int)ViewData["pageSize"], (int)ViewData["pageIndex"], (int)ViewData["pageCount"], (int)ViewBag.CurrentUserId))
+    </p>
+    <div id="addDiv" style="display:none;height:270px;width:600px;padding-left:35%;">
+        <form id="ff" enctype="multipart/form-data" method="post" data-options="novalidate:true ">
+            <input type="hidden" id="currentUserId" name="currentUserId" value="@ViewBag.CurrentUserId" />
+            <table style="position: fixed; width:20%;top:30%;left:40%;background-color:#fff;">
+                <tr><th colspan="2" style="text-align:center">充值爽币</th></tr>
+                <tr>
+                    <td style="text-align:right">爽币</td>
+                    <td><input type="text" id="pay" name="pay" style="width:200px;" value="" /></td>
+                </tr>
+                <tr>
+                    <td style="text-align:right">人民币</td>
+                    <td><input type="text" id="memo1" name="memo1" style="width:200px;pointer-events:none ;" value="0"  /></td>
+                </tr>
+                <tr>
+                    <td style="text-align:right">方式</td>
+                    <td><input type="text" id="payType" name="payType" style="width:200px;pointer-events:none ;" value="系统充值" /></td>
+                </tr>
+                <tr>
+                    <td style="text-align:right">备注</td>
+                    <td><input class="easyui-textbox" id="remark" name="remark" style="width:200px;" /></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align:center">
+                        <a href="javascript:;" class="font" id="btnClose" style="float:none; background-color: #ffb3b3;border: solid 1px #ff8080;">关&nbsp;闭</a>
+                        <a href="javascript:;" class="font" style="float:none; background-color: #2984a4;border: solid 1px #1f637b;" onclick="submitForm()">添&nbsp;加</a>
+                       
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            window.location.href.split('=')[1];
+            $('.DelEvent').click(function (id, control) {
+                DelAccounts($(this).attr("id"), $(this));
+            });
+            $('#btnAdd').click(function () {
+                $('#addDiv').css("display", "block");
+            });
+            $('#btnClose').click(function () {
+                $('#addDiv').css("display", "none");
+            });
+        });
+        function DelAccounts(id, control) {
+            layer.confirm('您确认要删除这条数据？', {
+                btn: ['确认', '取消'] //按钮
+            }, function () {
+                $.post("/AdminData/DelUserMessage", { "id": id, "currentUserId": '@ViewBag.CurrentUserId' }, function (data) {
+                    if (data == "ok") {
+                        layer.msg('删除成功');
+                        $(control).parent().parent().remove();
+                    } else {
+                        layer.msg('删除失败');
+                    }
+                });
+            });
+        };
+
+
+        function submitForm() {
+            if ($('#pay').val() == "") {
+                layer.msg("提示：请输入爽币!");
+                return;
+            }
+            if ($('#memo1').val() == "") {
+                layer.msg("提示：请输入人民币!");
+                return;
+            }
+            if ($('#remark').val() == "") {
+                layer.msg("提示：请输入备注!");
+                return;
+            }
+            layer.confirm('提示：您是否已确认输入无误？', {
+                skin: 'layui-layer-lan',
+                btn: ['是的', '没有呀'] //按钮
+            }, function () {
+                $("#ff").ajaxSubmit({
+                    url: '/AdminData/AddUserMessage',
+                    type: "post",
+                    success: function (data) {
+                        if (data == "ok") {
+                            layer.msg("恭喜：充值成功!");
+                            window.setTimeout(function () {
+                                window.location.href = "/AdminData/User_EarnCoolDetails?id=@ViewBag.CurrentUserId";
+                            }, 700);
+                        } else if (data == "no") {
+                            layer.msg("提示：充值失败！");
+                        } else {
+                            layer.msg("提示：系统异常请稍候再试！");
+                        }
+                    },
+                });
+            });
+        }
+    </script>
+</body>
+</html>

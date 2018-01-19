@@ -1,0 +1,267 @@
+﻿@{
+    ViewBag.Title = "GameDemoList";
+    Layout = "~/Views/Shared/_LayoutAdminData.cshtml";
+}
+
+@model Models.UserInfo
+@*----------------搜索开始----------------*@
+<div id="searchDiv" style="margin:5px 0;">
+    <label for="searchName" style="font-size:14px;">游戏名称：</label> <input class="easyui-textbox" id="gameName" name="gameName" />   
+    <label for="searchName" style="font-size:14px;">试玩类型：</label>
+    <select class="easyui-combobox" id="type" name="type" style="width:120px; " panelheight="auto">
+        <option value="" selected="selected">全部</option>
+        <option value="0">最强王者</option>
+        <option value="1">超凡大师</option>
+        <option value="2">璀璨钻石</option>
+        <option value="3">华贵铂金</option>
+        <option value="4">荣耀黄金</option>
+        <option value="5">不屈白银</option>
+        <option value="6">英勇黄铜</option>
+    </select>
+    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-search'" id="btnSearch">查询</a>
+</div>
+@*----------------搜索结束----------------*@
+<table id="UsersInfo"></table>
+@*-------------------------单一审核框div-------------------------*@
+<div id="checkDiv" style="display:none;text-align:center;padding-top:45px;">
+    <input type="radio" id="checkPass" class="passRb" name="checkPass" value="" /><span style="color:blue;font-size:14px;">已通过</span>&nbsp;&nbsp;
+    <input type="radio" id="checkNoPass" class='nopassRb' name="checkNoPass" value="" /><span style="color:blue;font-size:14px;">未通过</span>
+</div>
+<script type="text/javascript">
+    jQuery.extend(
+{
+    Myalert: function (msg) {
+        var div = $('<div>' + msg + '</div>');
+        div.css({
+            "position": "fixed", "height": "40px", "background": "#333", "color": "#fff", "left": "40%", "top": "30%", "display": "none"
+         , "line-height": "40px", "font-size": "12px", "padding": "0 30px", "borderRadius": "5px"
+        });
+        $('html').append(div);
+        div.show();
+        setTimeout(function (
+         ) {
+            div.fadeOut(1000);
+        }, 500)
+    }
+})
+
+    $(function () {
+        initTb();
+        $("#btnSearch").click(function () {
+            //搜索后台的数据。
+            var queryData = {
+                gameName: $("#gameName").val().trim(),
+                type: $("#type").combobox('getValue')
+            };
+            initTb(queryData);
+        });
+    });
+    //读取基本信息的表
+    function initTb(queryParam) {
+        $('#UsersInfo').datagrid({
+            title: '信息列表展示',
+            idField: 'Id',
+            fitColumns: true,//列自适应。
+            collapsible: false,
+            minimizable: false,
+            maximizable: false,
+            resizable: true,
+            fit: true,
+            loadMsg: '正在加载，请稍稍候...',
+            striped: true,
+            url: '/AdminGame/GetGameDemo',
+            nowrap: true,
+            singleSelect: true,//单行选中
+            rownumbers: true,  //显示行号 
+            pagination: true,
+            pageSize: 20,
+            pageList: [20, 40, 60, 80, 100],
+            queryParams: queryParam,//请求的额外的参数。
+            toolbar: '#tb',
+            columns: [[
+                //{ field: 'ck', checkbox: true },
+                {
+                    field: 'GameName', title: '游戏名称', width: 250,
+                    formatter: function (value, row, Index) {
+                        {
+                            if (value != null) {
+                                return "<a  class='game_Id' href='/AdminGame/DemoAccounts_Requires?id=" + row.Id + "' style='color:#13629D;font-size: 14px' >" + row.GameName + "</a>";
+                            }
+                        }
+                    }
+                },
+                   {
+                       field: 'Type', title: '试玩类型', width: 350,
+                       formatter: function (value, row, Index) {
+                           if (value == 0) {
+                               return "最强王者";
+                           }
+                           if (value == 1) {
+                               return "超凡大师";
+                           } else if (value == 2) {
+                               return "璀璨钻石";
+                           } else if (value == 3) {
+                               return "华贵铂金";
+                           }
+                           else if (value == 4) {
+                               return "荣耀黄金";
+                           } else if (value == 5) {
+                               return "不屈白银";
+                           }
+                           else if (value == 6) {
+                               return "英勇黄铜";
+                           } else {
+                               return "暂无区分"
+                           }
+                       }
+                   },
+                  {
+                        field: 'Pay', title: '奖励爽币', width: 100
+                    },
+                     {
+                         field: 'InTime', title: '发布时间', width: 250,
+                         formatter: function (value, row, Index) {//  /Date(1377327062000)/
+                             return (eval(value.replace(/\/Date\((\d+)\)\//gi, "new Date($1)")))
+                                 .pattern("yyyy-MM-dd HH:mm:ss");
+                         }
+                },
+                    {
+                        field: 'AccountCount', title: '剩余账号个数', width: 150,
+                        formatter: function (value, row, Index) {
+                            if (value==null) {
+                                return "<a  class='AccountCount' href='javascript:void(0)' uId='" + row.Id + "' style='color:#13629D;font-size: 14px' >查看</a>";
+                            }
+                          
+                        }
+                    },                       
+                       {
+                                                field: 'state', title: '审核', width: 120,
+                                                formatter: function (value, row, Index) {
+                                                    if (value == "0") {
+                                                        return "<a  class='checkState' href='javascript:void(0)' uId='" + row.Id + "' style='color:#13629D;font-size: 14px' >未通过</a>";
+                                                    } else if (value == "1") {
+                                                        return "<a  href='javascript:void(0)' uId='" + row.Id + "' class='checkState' style='color:#13629D;font-size: 14px' >已通过</a>";
+                                                    }
+                                                }
+                                            },
+                      {
+                          field: 'CheckName', title: '审核人员', width: 200
+                      },
+                {
+                    field: 'Edit', title: '操作', width: 150,
+                    formatter: function (value, row, Index) {
+                        return "<a class='delLink' href='javascript:void(0)' uId='" + row.Id + "' style='color:red;font-weight:600;font-size: 14px'>删除</a>&nbsp;&nbsp;&nbsp;";
+                    }
+                }
+            ]],
+            toolbar: [
+
+                 {
+                     id: 'btnAdd',
+                     text: "<a href='/AdminGame/AddGameDemo'> <span style='color:#13629D;font-size:16px'>添加</span></a>",
+                     iconCls: 'icon-add',
+                 },
+            ],
+            onHeaderContextMenu: function (e, field) {
+            },
+            onLoadSuccess: onGridLoadSuccess//表格加载完成之后，调用此事件响应方法。
+        });
+        // 设置页脚
+        var p = $('#UsersInfo').datagrid('getPager')
+        $(p).pagination({
+            beforePageText: '第',
+            afterPageText: '页  共{pages} 页',
+            displayMsg: '当前显示 {from}-{to} 条记录   共 {total} 条记录'
+        });
+    }
+    //表格加载完成之后，调用此事件响应方法。
+    function onGridLoadSuccess(data) {
+        //绑定表格里面的所有的修改和删除按钮的点击事件
+        $(".delLink").click(function () {
+            var strID = $(this).attr("uId");
+            $.messager.confirm("温馨提示", "您确定要删除该数据？", function (r) {
+                if (r) {
+                    postDeleteData(strID);
+                }
+            });
+        });
+        //审核
+        $(".checkState").click(function () {
+            var strId = $(this).attr("uId");
+            $("#checkDiv").css("display", "block");
+            $("#checkDiv").dialog({
+                width: 270,
+                height: 170,
+                modal: true,
+                title: "审核列表",
+                collapsible: true,
+                minimizable: true,
+                resizable: true,
+            });
+        });
+        $('.AccountCount').click(function () {
+            var allSelectedRows = $('#UsersInfo').datagrid("getSelections");
+            var gameDemoId = allSelectedRows[0].Id;
+            $.post("/AdminGame/DemoAccountCountDetail", { gameDemoId: gameDemoId }, function (data) {
+                var num, alreadyNum=0, waitNum;
+                num = data.data.length;
+                for (var i = 0; i < num; i++) {
+                    if (data.data[i]!=null) {
+                        alreadyNum++;
+                    }
+                }
+                waitNum = num - alreadyNum;
+                $.Myalert('待领账号总数：'+waitNum);
+            });
+        });
+    }
+    //单一审核通过
+    $(".passRb").click(function () {
+        var allSelectedRows = $('#UsersInfo').datagrid("getSelections");
+        var strId = allSelectedRows[0].Id;
+        // var checkPass = $('#checkPass').val();
+        $.post("/AdminGame/GameDemoCheckState", { id: strId, checkIsPass: "1", currentAdmin: "@Model.UName" }, function (data) {
+                if (data == "ok") {
+                    $("#checkDiv").dialog("close");
+                    $('#UsersInfo').datagrid("reload");//代用表格的重新加载的方法。
+                    $('#UsersInfo').datagrid("clearSelections");
+                    $("#checkNoPass").attr("checked", false);
+                    $("#checkPass").attr("checked", false);
+                } else {
+                    $.messager.alert("提示", "审核失败！");
+                }
+            });
+        });
+    //单一审核未通过
+        $(".nopassRb").click(function () {
+            var allSelectedRows = $('#UsersInfo').datagrid("getSelections");
+           var strId = allSelectedRows[0].Id;
+           $.post("/AdminGame/GameDemoCheckState", { id: strId, checkIsPass: "0", currentAdmin: "@Model.UName" }, function (data) {
+                if (data == "ok") {
+                    $("#checkDiv").dialog("close");
+                    $('#UsersInfo').datagrid("reload");//代用表格的重新加载的方法。
+                    $('#UsersInfo').datagrid("clearSelections");
+                    $("#checkPass").attr("checked", false);
+                    $("#checkNoPass").attr("checked", false);
+                } else {
+                    $.messager.alert("提示", "审核失败！");
+                }
+            });
+        });
+        //处理删除的表单提交
+        function postDeleteData(strIds) {
+            $.post("/AdminGame/DelGameDemo", { id: strIds }, function (data) {
+                if (data == "ok") {
+                    //清除之前的选中的行。
+                    $('#UsersInfo').datagrid("clearSelections");
+                    //刷新表格
+                    $('#UsersInfo').datagrid("reload");//代用表格的重新加载的方法。
+                } else if (data == "empty") {
+                    $.messager.alert("提示", "请先选中一条数据");
+                } else {
+                    $.messager.alert("温馨提示", "系统异常请稍候再试！");
+                }
+            });
+        }
+
+</script>

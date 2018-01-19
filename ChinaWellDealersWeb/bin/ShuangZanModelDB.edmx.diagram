@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="24de8c207ba8479b8fbd4ef6c0490352" Name="Diagram1" >
+        <EntityTypeShape EntityType="ShuangZanModelDB.UserInfo" Width="2.125" PointX="0.5" PointY="0.5" />
+        <EntityTypeShape EntityType="ShuangZanModelDB.ActionInfo" Width="1.5" PointX="5.75" PointY="0.5" />
+        <EntityTypeShape EntityType="ShuangZanModelDB.RoleInfo" Width="1.5" PointX="3.125" PointY="3" />
+        <EntityTypeShape EntityType="ShuangZanModelDB.R_UserInfo_ActionInfo" Width="1.5" PointX="3.25" PointY="0.5" />
+        <AssociationConnector Association="ShuangZanModelDB.UserInfoRoleInfo" />
+        <AssociationConnector Association="ShuangZanModelDB.UserInfoR_UserInfo_ActionInfo" />
+        <AssociationConnector Association="ShuangZanModelDB.ActionInfoR_UserInfo_ActionInfo" />
+        <AssociationConnector Association="ShuangZanModelDB.RoleInfoActionInfo" />
+        <EntityTypeShape EntityType="ShuangZanModelDB.PackageCard" Width="1.5" PointX="0.75" PointY="4.75" />
+        <EntityTypeShape EntityType="ShuangZanModelDB.PersonalUser" Width="1.5" PointX="5.125" PointY="4.25" />
+        <EntityTypeShape EntityType="ShuangZanModelDB.UserMessage" Width="1.5" PointX="7.625" PointY="0.5" />
+        <EntityTypeShape EntityType="ShuangZanModelDB.OpenService" Width="1.5" PointX="8.75" PointY="5.125" />
+        <EntityTypeShape EntityType="ShuangZanModelDB.KeyWords" Width="1.5" PointX="3" PointY="5.75" />
+        <EntityTypeShape EntityType="ShuangZanModelDB.Tests" Width="1.5" PointX="11.625" PointY="0.625" />
+        <EntityTypeShape EntityType="ShuangZanModelDB.Order" Width="1.5" PointX="2.625" PointY="8.125" />
+        <EntityTypeShape EntityType="ShuangZanModelDB.Feedback" Width="1.5" PointX="6.625" PointY="8.875" />
+        <EntityTypeShape EntityType="ShuangZanModelDB.GameDemoRecharge" Width="1.5" PointX="4.5" PointY="9" />
+        <EntityTypeShape EntityType="ShuangZanModelDB.GameDemoAccounts" Width="1.5" PointX="6.875" PointY="4.5" />
+        <EntityTypeShape EntityType="ShuangZanModelDB.GameDemoRequires" Width="1.5" PointX="0.5" PointY="9.875" />
+        <EntityTypeShape EntityType="ShuangZanModelDB.Package" Width="1.5" PointX="0.625" PointY="12.25" />
+        <EntityTypeShape EntityType="ShuangZanModelDB.UserRaiders" Width="1.5" PointX="9.625" PointY="0.5" />
+        <EntityTypeShape EntityType="ShuangZanModelDB.GameDemo" Width="1.5" PointX="4.5" PointY="12.125" />
+        <EntityTypeShape EntityType="ShuangZanModelDB.CompanyGame" Width="1.5" PointX="0.75" PointY="7.125" />
+        <EntityTypeShape EntityType="ShuangZanModelDB.Recharge" Width="1.5" PointX="8.5" PointY="8.875" />
+        <EntityTypeShape EntityType="ShuangZanModelDB.Company" Width="1.5" PointX="6.375" PointY="11.25" />
+        <EntityTypeShape EntityType="ShuangZanModelDB.RechargedUsed" Width="1.5" PointX="8.125" PointY="11.875" />
+        <EntityTypeShape EntityType="ShuangZanModelDB.AuditLog" Width="1.5" PointX="10.5" PointY="7.25" />
+        <EntityTypeShape EntityType="ShuangZanModelDB.VerificationCode" Width="1.5" PointX="10.5" PointY="11.75" />
+        <EntityTypeShape EntityType="ShuangZanModelDB.DemoUser" Width="1.5" PointX="12.25" PointY="8.375" />
+        <EntityTypeShape EntityType="ShuangZanModelDB.PersonalUserSign" Width="1.5" PointX="2.625" PointY="13.375" />
+        <EntityTypeShape EntityType="ShuangZanModelDB.PersonalUserSignDetail" Width="1.75" PointX="11.5" PointY="3.625" />
+        <EntityTypeShape EntityType="ShuangZanModelDB.SeeNews" Width="1.5" PointX="8.125" PointY="13.875" />
+        <EntityTypeShape EntityType="ShuangZanModelDB.LeaveMsg" Width="1.5" PointX="10.75" PointY="13.75" />
+        <EntityTypeShape EntityType="ShuangZanModelDB.ForbiddenList" Width="1.5" PointX="12.375" PointY="11.5" />
+        <EntityTypeShape EntityType="ShuangZanModelDB.Game" Width="1.5" PointX="4.375" PointY="16.25" />
+        <EntityTypeShape EntityType="ShuangZanModelDB.HomePage" Width="1.5" PointX="12.5" PointY="14.375" />
+        <EntityTypeShape EntityType="ShuangZanModelDB.BlackListIP" Width="1.5" PointX="2.625" PointY="15.625" />
+        <EntityTypeShape EntityType="ShuangZanModelDB.WonderfulTxtImg" Width="1.5" PointX="14.625" PointY="6.75" />
+        <EntityTypeShape EntityType="ShuangZanModelDB.Seo" Width="1.5" PointX="13.875" PointY="0.75" />
+        <EntityTypeShape EntityType="ShuangZanModelDB.BeautifulGirls" Width="1.5" PointX="2.5" PointY="18.25" />
+        <EntityTypeShape EntityType="ShuangZanModelDB.Advertisement" Width="1.5" PointX="14.375" PointY="8.75" />
+        <EntityTypeShape EntityType="ShuangZanModelDB.Gift" Width="1.5" PointX="15.375" PointY="12.75" />
+        <EntityTypeShape EntityType="ShuangZanModelDB.UserAdress" Width="1.5" PointX="0.5" PointY="17.875" />
+        <EntityTypeShape EntityType="ShuangZanModelDB.News" Width="1.5" PointX="16.375" PointY="0.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

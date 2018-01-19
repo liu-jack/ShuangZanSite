@@ -1,0 +1,10 @@
+﻿@import url('/CSS/Form.css');
+html, body { margin: 0; padding: 0; font-size: 12px; font-family: SimSun; background-color: #EEEEEE; }
+img { border:0; }
+#reg_head { height: 100px; width: 1000px; margin: 0 auto; font-family: 'Microsoft YaHei'; font-size: 14px; color: #767676; }
+    #reg_head > div { float: left; display: block; margin-top: 19px; }
+        #reg_head > div > img { margin-top: 16px; margin-left:15px;}
+        #reg_head > div * { float: left; display: block; }
+    #reg_head > span { float: right; display: block; padding-top: 40px; }
+        #reg_head > span > font a { color: #8EBF02; text-decoration: none; }
+        #reg_head > span > a { color: #767676; text-decoration: none; background-image: url(/Img/103.jpg); background-repeat: no-repeat; background-position: left; height: 30px; line-height: 30px; padding-left: 30px; margin-left: 10px; }

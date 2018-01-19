@@ -1,0 +1,319 @@
+﻿@{
+    ViewBag.Title = "GamePutLibrary";
+    Layout = "~/Views/Shared/_LayoutAdminData.cshtml";
+}
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+@*----------------搜索开始----------------*@
+<div id="searchDiv" style="margin:5px 0;">
+    <label for="searchName" style="font-size:14px;">游戏名称：</label> <input class="easyui-textbox" id="gameName" name="gameName" />
+    <label for="searchName" style="font-size:14px;">别名：</label> <input class="easyui-textbox" id="alias" name="alias" />
+    <label for="searchName" style="font-size:14px;">类型：</label>
+    <select class="easyui-combobox" name="type" id="type" style="width:120px; " panelheight="auto">
+        <option value="">全部类型</option>
+        <option value="1">角色扮演</option>
+        <option value="2">战争策略</option>
+        <option value="3">模拟经营</option>
+        <option value="4">休闲竞技</option>
+        <option value="5">社区养成</option>
+        <option value="6">儿童游戏</option>
+    </select>
+    <label for="searchName" style="font-size:14px;">题材：</label>
+    <select class="easyui-combobox" name="theme" id="theme" style="width:120px; " panelheight="auto">
+        <option value="" selected="selected">全部题材</option>
+        <option value="1">三国</option>
+        <option value="2">西游</option>
+        <option value="3">仙侠</option>
+        <option value="4">武侠</option>
+        <option value="5">奇幻</option>
+        <option value="6">动漫</option>
+        <option value="7">军事</option>
+        <option value="8">体育</option>
+        <option value="9">航海</option>
+        <option value="10">其他</option>
+    </select>
+    <label for="searchName" style="font-size:14px;">玩法：</label>
+    <select class="easyui-combobox" name="play" id="play" style="width:120px; " panelheight="auto">
+        <option value="" selected="selected">全部玩法</option>
+        <option value="1">即时</option>
+        <option value="2">回合</option>
+        <option value="3">其他</option>
+    </select>
+    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-search'" id="btnSearch">查询</a>
+</div>
+@*----------------搜索结束----------------*@
+<table id="UsersInfo"></table>
+
+<!----------------------------修改当前游戏状态的Div-------------------------->
+<div id="addDiv" style="display:none">
+     <table style="margin-top:40px;padding-left:55px;"  >
+            <tr style="background-color:#1AA094;height:10px;color:white"><th colspan="2" style="text-align:center;">编辑游戏当前的状态</th></tr>        
+            <tr>              
+                <td>
+                    <input type="radio" class="raidoState" name="gameState"  value="1" /><label>正常</label>
+                    <input type="radio" class="raidoState" name="gameState" value="2" /><label>下架</label>
+                    <input type="radio" class="raidoState" name="gameState" value="3" /><label>停止运营</label>
+                </td>
+
+            </tr>
+        </table>  
+</div>
+@*-------------------------修改的对话框的div-------------------------*@
+<div id="editDiv" style="display:none">
+    <iframe id="frameEdit" src="javascript:void(0)" frameborder="0" width="100%" height="100%"></iframe>
+</div>
+<script type="text/javascript">
+    $(function () {
+        initTb();
+        //绑定搜索的点击事件
+        $("#btnSearch").click(function () {
+            //搜索后台的数据。
+            var queryData = {
+                gameName: $("#gameName").val(),
+                alias: $("#alias").val(),
+                type: $("#type").combobox('getValue'),
+                theme: $("#theme").combobox('getValue'),
+                play: $("#play").combobox('getValue'),
+            };
+            initTb(queryData);
+        });
+    });
+    //读取基本信息的表
+    function initTb(queryParam) {
+        $('#UsersInfo').datagrid({
+            title: '游戏入库信息列表展示',
+            idField: 'Id',
+            fitColumns: true,//列自适应。
+            collapsible: false,
+            minimizable: false,
+            maximizable: false,
+            resizable: true,
+            fit: true,
+            loadMsg: '正在加载，请稍稍候...',
+            striped: true,
+            url: '/AdminGame/GetGamePutLibrary',
+            nowrap: true,
+            singleSelect: true,//单行选中
+            rownumbers: true,  //显示行号
+            pagination: true,
+            pageSize: 20,
+            pageList: [20, 40, 60, 80, 100],
+            queryParams: queryParam,//请求的额外的参数。
+            toolbar: '#tb',
+            columns: [[
+                //{ field: 'ck', checkbox: true },
+
+                { field: 'Name', title: '游戏名称', width: 250 },
+                {
+                    field: 'Alias', title: '游戏别名', width: 250,
+
+                },
+                 {
+                     field: 'Type', title: '类型', width: 150,
+                     formatter: function (value, row, Index) {
+                         if (value == "1") {
+                             return "角色扮演"
+                         } else if (value == "2") {
+                             return "战争策略"
+                         }
+                         else if (value == "3") {
+                             return "模拟经营"
+                         }
+                         else if (value == "4") {
+                             return "休闲竞技"
+                         }
+                         else if (value == "5") {
+                             return "社区养成"
+                         } else if (value == "6") {
+                             return "儿童游戏"
+                         }
+                     }
+
+                 },
+                  {
+                      field: 'Theme', title: '题材', width: 150,
+                      formatter: function (value, row, Index) {
+                          if (value == "1") {
+                              return "三国"
+                          } else if (value == "2") {
+                              return "西游"
+                          }
+                          else if (value == "3") {
+                              return "仙侠"
+                          }
+                          else if (value == "4") {
+                              return "武侠"
+                          }
+                          else if (value == "5") {
+                              return "奇幻"
+                          } else if (value == "6") {
+                              return "动漫"
+                          }
+                          else if (value == "7") {
+                              return "军事"
+                          }
+                          else if (value == "8") {
+                              return "体育"
+                          }
+                          else if (value == "9") {
+                              return "航海"
+                          }
+                          else if (value == "10") {
+                              return "其他"
+                          }
+                      }
+
+                  },
+                   {
+                       field: 'Play', title: '玩法', width: 150,
+                       formatter: function (value, row, Index) {
+                           if (value == "1") {
+                               return "即时"
+                           } else if (value == "2") {
+                               return "回合"
+                           }
+                           else if (value == "3") {
+                               return "其他"
+                           }
+                       }
+
+                   },
+                     {
+                         field: 'InTime', title: '入库时间', width: 250,
+                         formatter: function (value, row, Index) {//  /Date(1377327062000)/
+                             return (eval(value.replace(/\/Date\((\d+)\)\//gi, "new Date($1)")))
+                                 .pattern("yyyy-M-d H:m:s");
+                         }
+                     },
+                      {
+                          field: 'State', title: '状态', width: 250,
+                          formatter: function (value, row, Index) {
+                              if (value == 1) {
+                                  return "<a href='javascript:void(0)' class='stateChange' id='" + row.Id + "' style='color:#13629D;font-size: 14px'>正常</a>"
+                              } else if (value == 2) {
+                                  return "<a href='javascript:void(0)' class='stateChange' id='" + row.Id + "' style='color:red;font-weight:600;font-size: 14px'>下架</a>"
+                              }
+                              else if (value == 3) {
+                                  return "<a href='javascript:void(0)' class='stateChange' id='" + row.Id + "'style='color:red;font-weight:600;font-size: 14px' >停止运营</a>"
+                              }
+                          }
+                      },
+                {
+                    field: 'Edit', title: '操作', width: 120,
+                    formatter: function (value, row, Index) {
+                        return "<a class='delLink' href='javascript:void(0)' id='" + row.Id + "' style='color:red;font-weight:600;font-size: 14px'>删除</a>&nbsp;&nbsp;&nbsp;<a href='/AdminGame/GameLibraryEdit?id=" + row.Id + "' class='editLink'  style='color:#13629D;font-size: 14px'>修改</a>";
+                    }
+                }
+            ]],
+            toolbar: [{
+                id: 'btnAdd',
+                text: " <a href='/AdminGame/AddGameLibrary'> <span style='color:#13629D;font-weight:500;font-size:16px'>添加</span></a>",
+                iconCls: 'icon-add',
+              //  handler: addEvent
+            }, ],
+            onHeaderContextMenu: function (e, field) {
+            },
+            onLoadSuccess: onGridLoadSuccess//表格加载完成之后，调用此事件响应方法。
+        });
+        // 设置页脚
+        var p = $('#UsersInfo').datagrid('getPager')
+        $(p).pagination({
+            beforePageText: '第',
+            afterPageText: '页  共{pages} 页',
+            displayMsg: '当前显示 {from}-{to} 条记录   共 {total} 条记录'
+        });
+    }
+
+    //表格加载完成之后，调用此事件响应方法。
+    function onGridLoadSuccess(data) {
+        //绑定表格里面的所有的修改和删除按钮的点击事件
+        $(".delLink").click(function () {
+            var strId = $(this).attr("id");
+            $.messager.confirm("温馨提示", "您确定要删除该数据？", function (r) {
+                if (r) {
+                    postDeleteData(strId);
+                }
+            });
+        });
+        $('.stateChange').click(function () {
+            
+            addEvent();
+        });
+    }
+    //添加被点击的时候执行的代码
+    function addEvent() {
+        //添加的表单出来。
+        $("#addDiv").css("display", "block");
+        $("#addDiv").dialog({
+            width: 340,
+            height: 300,
+            modal: true,           
+            collapsible: true,
+            minimizable: true,
+            maximizable: true,
+            resizable: true,
+            buttons: [{
+                id: 'btnAddSbu',
+                text: '提交',
+                iconCls: 'icon-add',
+                handler: function () {
+
+                    StateChangeEvent();
+                }
+            }, {
+                id: 'btnCancelAdd',
+                text: '取消',
+                iconCls: 'icon-cancel',
+                handler: function () {
+                    $("#addDiv").dialog("close");
+                }
+            }]
+        });
+    }
+   
+    function StateChangeEvent(gameState) {
+        var allSelectedRows = $('#UsersInfo').datagrid("getSelections");
+        var id = allSelectedRows[0].Id;
+        var gameState;
+        $('.raidoState').each(function () {
+            if ($(this).is(':checked')) {
+                gameState = $(this).val();
+                return;
+               // alert(gameState);
+            }        
+        });      
+        $.ajax({
+            url: "/AdminGame/GameStateChange",
+            type: "post",
+            data: {
+                id: id,
+                gameState: gameState,
+            },
+            success: function (data) {
+                if (data == "ok") {
+                    $("#addDiv").dialog("close");
+                    $('#UsersInfo').datagrid("reload");//代用表格的重新加载的方法。
+                    //关闭div
+                }  else {
+                    $.messager.alert("提示", "数据处理失败，稍候再试！");
+                }
+            }
+        });
+
+    };
+    //处理删除的表单提交
+    function postDeleteData(strId) {
+        $.post("/AdminGame/GameDel", { ids: strId }, function (data) {
+            if (data == "ok") {
+                //清除之前的选中的行。
+                $('#UsersInfo').datagrid("clearSelections");
+                //刷新表格
+                $('#UsersInfo').datagrid("reload");//代用表格的重新加载的方法。
+            } else if (data == "no") {
+                $.messager.alert("提示", "删除失败！");
+            } else {
+                $.messager.alert("温馨提示", "系统异常请稍候再试！");
+            }
+        });
+    }
+    
+</script>

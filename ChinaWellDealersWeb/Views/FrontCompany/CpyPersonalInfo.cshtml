@@ -1,0 +1,153 @@
+﻿@{
+    Layout = null;
+}
+@model Models.Company
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>爽赞</title>
+    <meta charset="UTF-8">
+    <link href="~/Content/Css/Form.css" rel="stylesheet" />
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="~/Content/layui-v1.0.9_rls/layui/css/modules/layer/default/layer.css" rel="stylesheet" />
+    <style>
+        #reset {
+            width: 60px !important;
+            left: 270px !important;
+        }
+
+        .main div .err {
+            color: red;
+            background-image: url(/Content/Img/109.gif);
+            background-repeat: no-repeat;
+            background-position: left center;
+            padding-left: 20px;
+        }
+
+        .main div .errok {
+            background-image: url(/Content/Img/111.gif);
+            height: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">
+        <span style="font-weight: bold;">个人信息</span>
+    </div>
+    <div class="main">
+        <div>
+            <span>联系人：</span>
+            <input name="contacts" type="text" id="contacts" class="inputtext" maxlength="10" value="@Model.Contacts" />
+            <samp class="alt"></samp>
+        </div>
+        <div>
+            <span>职务：</span>
+            <input name="office" type="text" id="office" class="inputtext" value="@Model.Office" />
+            <samp class="alt"></samp>
+        </div>
+        <div>
+            <span>联系电话：</span>
+            <input name="mobile" type="text" id="mobile" class="inputtext" maxlength="11" value="@Model.Moblie" />
+            <samp class="alt">填写手机号</samp>
+        </div>
+        <div>
+            <span>QQ：</span>
+            <input name="qq" type="text" id="qq" class="inputtext" value="@Model.QQ" />
+            <samp class="alt"></samp>
+        </div>
+        <div style="border-bottom:1px solid #E3E3E3;">
+            <span>性别：</span>
+            @if (Model.Sex == 1)
+            {
+                <p>
+                    <label><input value="1" checked="checked" name="sex" type="radio" id="sex" /><font>男</font></label>
+                    <label><input style="margin-left: 10px;" value="2" name="sex" type="radio" id="sex1"  /><font>女</font></label>
+                </p>
+            }
+            else if (Model.Sex == 2)
+            {
+                <p>
+                    <label><input value="1"  name="sex" type="radio" id="sex" /><font>男</font></label>
+                    <label><input style="margin-left: 10px;" checked="checked" value="2" name="sex" type="radio" id="sex1" /><font>女</font></label>
+                </p>
+            }
+
+           
+            <samp class="alt"></samp>
+        </div>
+        <div>
+            <kbd class="btn" id="save" style="line-height:40px">保存</kbd>
+        </div>
+    </div>
+</body>
+</html>
+<script src="~/Content/js/jquery-1.11.1.min.js"></script>
+<script src="~/Content/js/myExtend.js"></script>
+<script src="~/Content/js/jquery.SuperSlide.2.1.1.js"></script>
+<script src="~/Content/js/Public.js"></script>
+<script src="~/Content/layui-v1.0.9_rls/layui/lay/modules/layer.js"></script>
+<script>
+    $(document).ready(function () {
+        var contacts = $("#contacts"), office = $("#office"), mobile = $("#mobile"), qq = $("#qq"), sex = $("#sex");
+        $("#contacts").blur(function () {
+            $.check({
+                el: contacts, nothing: "请填写联系人"
+            });
+        });
+        $("#office").blur(function () {
+            $.check({
+                el: office, nothing: "请填写联系人职务"
+            });
+        });
+        $("#mobile").blur(function () {
+            $.check({
+                el: mobile, nothing: "请填写联系人电话",
+                min: { num: 11, alt: "联系人电话长度不正确" }
+            });
+        });
+        $("#qq").blur(function () {
+            $.check({
+                el: qq, nothing: "请填写联系人QQ"
+            });
+        });
+        $("#save").click(function () {
+            if (!$.check({
+                el: contacts, nothing: "请填写联系人", focus: true
+            })) return;
+            if (!$.check({
+                el: office, nothing: "请填写联系人职务", focus: true
+            })) return;
+            if (!$.check({
+                el: mobile, nothing: "请填写联系人电话", focus: true,
+                min: { num: 11, alt: "联系人电话长度不正确" }
+            })) return;
+            if (!$.check({
+                el: qq, nothing: "请填写联系人QQ", focus: true
+            })) return;
+
+            $.ajax({
+                type: "Post",
+                url: "/FrontCompany/UdateCpyPersonalInfo",
+                data: JSON.stringify({
+                    id: '@Model.Id',
+                    contacts: contacts.val().trim(), office: office.val().trim(), mobile: mobile.val().trim(), qq: qq.val().trim(), sex: sex.is(":checked")?1:2
+                }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                beforeSend: function () { }, //发送请求
+                success: function (data) {
+                    if (data != null) {
+                        $(".main").html('<div class="allalt">恭喜您！个人信息修改成功！</div>');
+                        setTimeout(function () { top.location.href = "/FrontCompany/Index"; }, 2000);
+                    }
+                    else { 
+                        $(".main").html('<div class="allalt">个人信息修改失败，请重试！</div>')
+                    }
+                },
+                error: function (err) {
+                    layer.msg("错误" + err.responseText);
+                }
+            });
+        });
+    });
+</script>

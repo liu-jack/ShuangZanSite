@@ -1,0 +1,155 @@
+﻿@model Models.Package_Card
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>爽赞</title>
+    <meta charset="UTF-8">
+    <link href="~/Content/Css/Form.css" rel="stylesheet" />
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="~/Content/Css/SendPackage.css" rel="stylesheet" />  
+</head>
+<body>
+    <div class="title">
+        <span style="font-weight: bold;">查看礼包</span>
+    </div>
+    <div class="main">
+        <div>
+            <span>游戏名称：</span>
+            <input type="text" class="inputtext" id="gamename" value="@Model.GameName" disabled="disabled" />
+            <div id="gamenamelist"></div>
+            <samp class="alt">输入游戏名根据下拉提示选择，新游戏入库联系QQ：<a href="tencent://message/?uin=2885630190&Site=爽赞游戏网&Menu=yes">2885630190</a></samp>
+        </div>       
+        <div>
+            <span>服务器名：</span>
+            <p id="servers">
+                @if (Model.ServerName == "通服")
+                {
+                     <font>双线</font>
+    <input type="text" disabled="disabled" class="inputtext" maxlength="4" style="width: 50px; padding-left: 10px; margin: 0 10px;" id="serversname" />
+                    <font>服</font>
+                    <label>
+                        <input type="checkbox" id="publicserver" checked="checked" disabled="disabled" /><font>通服</font>
+                    </label>
+                }
+                else
+                {
+                    <font>双线</font>
+    <input type="text" class="inputtext" maxlength="4" style="width: 50px; padding-left: 10px; margin: 0 10px;" id="serversname" value="@Model.ServerName" disabled="disabled" />
+                    <font>服</font>
+                     <label>
+                         <input type="checkbox" id="publicserver" disabled="disabled" /><font>通服</font>
+                    </label>
+                }                          
+            </p>
+            <samp class="alt" style="top: 10px;">填写阿拉伯数字，最多4个数字</samp>
+        </div>
+        <div>
+            <span>礼包类型：</span>
+            <p id="packge">
+                @if (Model.GiftType == "1")
+                {
+                    <label>
+                        <input type="radio" name="type" id="packgetype1" value="1" checked disabled="disabled" /><font>开服礼包</font>
+                    </label>
+                    <label>
+                        <input type="radio" name="type" id="packgetype2" value="2" disabled="disabled" /><font>激活码</font>
+                    </label>
+                    <label>
+                        <input type="radio" name="type" id="packgetype3" value="3" disabled="disabled" /><font>独家礼包</font>
+                    </label>
+                }
+                else if (Model.GiftType == "2")
+                {
+                    <label>
+                        <input type="radio" name="type" id="packgetype1" value="1" disabled="disabled" /><font>开服礼包</font>
+                    </label>
+                    <label>
+                        <input type="radio" name="type" id="packgetype2" value="2" checked disabled="disabled" /><font>激活码</font>
+                    </label>
+                    <label>
+                        <input type="radio" name="type" id="packgetype3" value="3" disabled="disabled" /><font>独家礼包</font>
+                    </label>
+                }
+                else
+                {
+
+                    <label>
+                        <input type="radio" name="type" id="packgetype1" value="1" disabled="disabled" /><font>开服礼包</font>
+                    </label>
+                    <label>
+                        <input type="radio" name="type" id="packgetype2" value="2" disabled="disabled" /><font>激活码</font>
+                    </label>
+                    <label>
+                        <input type="radio" name="type" id="packgetype3" value="3" checked disabled="disabled" /><font>独家礼包</font>
+                    </label>
+                }              
+            </p>
+            <samp class="alt"></samp>
+        </div>
+        <div>
+            <span>礼包名称：</span>
+            <input type="text" class="inputtext" maxlength="12" id="name" value="@Model.GiftName" disabled="disabled" />
+            <samp class="alt">12个字符以内</samp>
+        </div>
+        <div>
+            <span>有效期：</span>
+            <p id="day">
+                <input type="text" class="inputtext" id="startday" value="@Model.StartDate.Value.ToString("yyyy-MM-dd")" style="width: 120px;" disabled="disabled" />
+                <font>至</font>
+                <input type="text" class="inputtext" id="endday" value="@Model.EndDate.Value.ToString("yyyy-MM-dd")" style="width: 120px;" disabled="disabled" />
+            </p>
+            <samp class="alt" style="left: 440px;"></samp>
+        </div>
+        <div>
+            <span>游戏网址：</span>
+            <input type="text" class="inputtext" id="url" value="@Model.Url" style="width: 300px;" disabled="disabled" />
+            <samp class="alt" style="left: 450px;">游戏登录地址</samp>
+        </div>
+        <div style="height: 200px;">
+            <span>添加卡号：</span>
+            <textarea class="inputtext" id="cards" disabled="disabled" style="">
+                @foreach (var item in (List<Models.Package_Card>)ViewData["currentAllCode"])
+                {
+                  @Html.Raw(item.Card)@Html.Raw('\n')
+                }          
+            </textarea>
+            <samp class="alt" style="left: 650px; top: 0">
+                卡号前后都不要带空格，1条1行<br />
+                按回车键换行<br />
+                例如：<br />
+                7KIO4NQY23457id<br />
+                RO6BAGLS122334sddef<br />
+                HU7W5VMP234667
+            </samp>          
+            <samp id="cou">总数：
+                @ViewBag.allCountCode
+            </samp>
+        </div>
+        <div style="height: 140px;">
+            <span>礼包内容：</span>
+            <textarea class="inputtext" id="msg" disabled="disabled">@Html.Raw(Model.Msg)</textarea>
+            <samp class="alt" style="left: 650px; top: 0">
+                例如：<br />
+                合同1级*6，合同2级*4，合同3级*2，汽车1级*3，汽车2级*2，游艇1级*1，训练卡100*1,训练卡200*1，训练卡500*1
+            </samp>
+        </div>
+        <div style="height: 140px; border-bottom: 1px solid #E3E3E3;">
+            <span>使用说明：</span>
+            <textarea type="text" class="inputtext" id="memo" disabled="disabled">@Html.Raw(Model.Memo)</textarea>
+            <samp class="alt" style="left: 650px; top: 0;">
+                例如：<br />
+                1、领取礼包后，进入XXX游戏官网点击“进入游戏”选择任意服务器； 2、进入游戏后，点击右上角礼包领取图标，选择对应的礼包输入框，输入卡号，点击兑换
+            </samp>
+        </div>
+        <div>
+            <input class="btn" id="save" type="button" onclick="history.go(-1)" value="返回" style="height:40px;margin-top:10px;border:none;" />
+        </div>
+    </div>
+</body>
+</html>
+
+

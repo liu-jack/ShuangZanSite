@@ -1,0 +1,53 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <link href="~/Content/style/tableStyle.css" rel="stylesheet" />
+    <link href="~/Content/layui-v1.0.9_rls/layui/css/modules/layer/default/layer.css" rel="stylesheet" />
+    <script src="~/Content/layui-v1.0.9_rls/layui/lay/modules/layer.js"></script>
+    <script src="~/Content/js/jquery-1.11.1.min.js"></script>
+    <script src="~/Scripts/jquery-1.8.2.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    
+<script type="text/javascript">
+        //表单提交执行的方法
+        function afterMsg(data) {
+            if (data == "ok") {
+                layer.msg("恭喜：发布成功！");
+            } else {
+                layer.msg("提示：发布失败、请稍候再试！");
+            }
+        };
+</script>
+</head>
+<body>
+   
+        <div>
+    @using (Ajax.BeginForm("AddContent", new { }, new AjaxOptions() { HttpMethod = "post", OnSuccess = "afterMsg" }, new { id = "frm" }))
+    {
+        <table>
+            <thead>
+                <tr><th colspan="2">添加敏感词</th></tr>
+            </thead>
+            <tr>
+                <td>
+                    <textarea rows="30" cols="100" name="msg"></textarea>
+                </td>
+            </tr>
+         <tr>
+             <td>
+                 <input type="submit" value="添加" />
+             </td>
+         </tr>         
+        </table>
+    }
+        </div> 
+</body>
+</html>

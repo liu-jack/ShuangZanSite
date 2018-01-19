@@ -1,0 +1,149 @@
+﻿@{
+    Layout = null;
+}
+@model Models.Company
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>爽赞</title>
+    <meta charset="UTF-8">
+    <link href="~/Content/Css/Form.css" rel="stylesheet" />
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="~/Content/layui-v1.0.9_rls/layui/css/modules/layer/default/layer.css" rel="stylesheet" />
+    <style>
+        #reset {
+            width: 60px !important;
+            left: 270px !important;
+        }
+
+        .main div .err {
+            color: red;
+            background-image: url(/Content/Img/109.gif);
+            background-repeat: no-repeat;
+            background-position: left center;
+            padding-left: 20px;
+        }
+
+        .main div .errok {
+            background-image: url(/Content/Img/111.gif);
+            height: 20px;
+        }
+        /*.inputtext{}*/
+    </style>
+</head>
+<body>
+    <div class="title">
+        <span style="font-weight: bold;">平台基本信息</span>
+    </div>
+    <div class="main">
+        <div>
+            <span>平台名称：</span>
+            <input name="systemname" type="text" id="systemname" class="inputtext" maxlength="10" value="@Model.SystemName" />
+            <samp class="alt">运营平台简称，10个字符以内</samp>
+        </div>
+        <div>
+            <span>平台网址：</span>
+            <input name="website" type="text" id="website" class="inputtext" value="@Model.WebSite" />
+            <samp class="alt">运营平台官网地址</samp>
+        </div>
+        <div>
+            <span>公司名称：</span>
+            <input name="companyname" type="text" id="companyname" class="inputtext" value="@Model.CompanyName" />
+            <samp class="alt">平台所属公司的全称</samp>
+        </div>
+        <div>
+            <span>联系电话：</span>
+            <input name="phone" type="text" id="phone" class="inputtext" value="@Model.Phone" />
+            <samp class="alt">公司联系电话“区号-座机号”，例如0571-56712341</samp>
+        </div>
+        <div style="border-bottom:1px solid #E3E3E3;">
+            <span>公司地址：</span>
+            <input name="address" type="text" id="address" class="inputtext" value="@Model.Address" />
+            <samp class="alt">公司详细地址</samp>
+        </div>
+        <div>
+            <kbd class="btn" id="save" style="line-height:40px">提交审核</kbd>
+        </div>
+    </div>
+</body>
+</html>
+<script src="~/Content/js/jquery-1.11.1.min.js"></script>
+<script src="~/Content/js/myExtend.js"></script>
+<script src="~/Content/js/jquery.SuperSlide.2.1.1.js"></script>
+<script src="~/Content/js/Public.js"></script>
+
+<script src="~/Content/layui-v1.0.9_rls/layui/lay/modules/layer.js"></script>
+<script>
+    $(document).ready(function () {
+        var systemname = $("#systemname"), website = $("#website"), companyname = $("#companyname"), phone = $("#phone"), address = $("#address");
+        $("#systemname").blur(function () {
+            $.check({
+                el: systemname, nothing: "请填写运营平台简称",
+                max: { num: 11, alt: "10个字符以内" }
+            });
+        });
+        $("#website").blur(function () {
+            $.check({
+                el: website, nothing: "请填写平台网址"
+            });
+        });
+        $("#companyname").blur(function () {;
+            $.check({
+                el: companyname, nothing: "请填写平台所属公司全称"
+            });
+        });
+        $("#phone").blur(function () {
+            $.check({
+                el: phone, nothing: "请填写联系座机",
+                contain: { str: ["-"], alt: "格式错误，区号-座机号" }
+            });
+        });
+        $("#address").blur(function () {
+            $.check({
+                el: address, nothing: "请填写公司详细地址"
+            });
+        });
+        $("#save").click(function () {
+            if (!$.check({
+                el: systemname, nothing: "请填写运营平台简称", focus: true,
+                max: { num: 11, alt: "10个字符以内" }
+            })) return;
+            if (!$.check({
+                el: website, nothing: "请填写平台网址", focus: true
+            })) return;
+            if (!$.check({
+                el: companyname, nothing: "请填写平台所属公司全称", focus: true
+            })) return;
+            if (!$.check({
+                el: phone, nothing: "请填写联系座机", focus: true,
+                contain: { str: ["-"], alt: "格式错误，区号-座机号" }
+            })) return;
+            if (!$.check({
+                el: address, nothing: "请填写公司详细地址", focus: true
+            })) return;
+
+            $.ajax({
+                type: "Post",
+                url: "/FrontCompany/UpdateCpyInfo",
+                data: JSON.stringify({
+                    id:'@Model.Id',
+                    systemname: systemname.val().trim(), website: website.val().trim(), companyname: companyname.val().trim(), phone: phone.val().trim(), address: address.val().trim()
+                }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                beforeSend: function () { }, //发送请求
+                success: function (data) {
+                    if (data != null) {
+                        $(".main").html('<div class="allalt">提交成功，正在审核中！您将会暂时退出后台，请审核成功后再登录！</div>');
+                        setTimeout(function () { top.location.href = "/Command/CpyLogOut.ashx"; }, 5000);
+                    }
+                    else
+                        $(".main").html('<div class="allalt">平台基本信息修改失败，请重试！</div>');
+                },
+                error: function (err) {
+                    layer.msg("错误" + err.responseText);
+                }
+            });
+        });
+    });
+</script>

@@ -1,0 +1,109 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=1124">
+    <link href="~/Content/Css/index.css" rel="stylesheet" />
+    <link href="~/Content/Css/reset.css" rel="stylesheet" />
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="~/Content/Css/personal.css" rel="stylesheet" />
+    <link href="~/Content/Css/sign.css" rel="stylesheet" />
+    <link href="~/Content/Css/calendar.css" rel="stylesheet" />
+    <link href="~/Content/style/NavPager.css" rel="stylesheet" />
+    <link href="/Content/Img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+    <title>个人中心</title>
+</head>
+<body>
+    @Html.Action("UserTop", "PersonalUser")
+    <div>      
+        <!--我的试玩-->
+        <div class="mydemo">                         
+        </div>
+        </div>
+  <!--尾部开始-->
+ @Html.Action("_SignInDiv", "PersonalUser")
+ <!--尾部结束-->
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260848027&web_id=1260848027" language="JavaScript"></script>
+    <script src="~/Content/js/jquery-1.11.1.min.js"></script>
+    <script src="~/Content/js/Public.js"></script>
+    <script src="~/Content/js/calendar.js"></script>
+    <script src="~/Content/js/myExtend.js"></script>
+    <script src="~/Content/js/personal_use.js"></script>
+    <script src="~/Content/js/calendar1.js"></script>
+    <script>
+    $(function () {
+        var pageIndex = 1;
+        loadGift();
+        $('.mydemo').on('click', '.page ul a', function (event) {
+            event.preventDefault();
+            var href = $(this).attr("href").split('&');
+            href = href[0].split('=');
+            pageIndex = href[1];
+            loadGift();
+        });
+
+        function loadGift() {
+            $.ajax({
+                datatype: 'json',
+                type: 'post',
+                data: {
+                    pageIndex: pageIndex
+                },
+                url: '/PersonalUser/MyGameDemo',
+                success: function (data) {
+                    $('.mydemo').empty();
+                    var str;
+                    if (data.Data.length == 0) {
+                        var tr = $('<tr><th width="201">游戏名称</th><th width="104">试玩类型</th><th width="141">运营商</th><th width="85">奖励</th><th width="85">完成进度</th><th width="85">试玩状态</th><th width="85">查看</th><th width="201">账号信息</th><th width="114">操作</th></tr>');
+                        var table = $('<table border="0" cellspacing="0" cellpadding="0" id="mydemolist"></table>');
+                        var tbody = $('<tbody></tbody>');
+                        str = '<div class="nomsg"><p style="margin-top:80px;">试玩不停，奖励不止。赶紧去游戏吧~</p><p><a href="/Home/DemoList" target="_blank"><button class="btn">我要去试玩</button></a></p></div>';
+                        tbody.append(tr);
+                        table.append(tbody);
+                        $('.mydemo').append(table);
+                        $('.mydemo').append(str);
+                    } else {
+                        var tr = $('<tr><th width="201">游戏名称</th><th width="104">试玩类型</th><th width="141">运营商</th><th width="85">奖励</th><th width="85">完成进度</th><th width="85">试玩状态</th><th width="85">查看</th><th width="201">账号信息</th><th width="114">操作</th></tr>');
+                        var div = $('<div></div>');
+                        var table = $('<table border="0" cellspacing="0" cellpadding="0" id="mydemolist"></table>');
+                        var tbody = $('<tbody></tbody>');
+                        tbody.append(tr);
+                        for (var i in data.Data) {
+                            if (data.Data[i].Type == "0") {
+                                data.Data[i].Type = '最强王者';
+                            } else if (data.Data[i].Type == "1") {
+                                data.Data[i].Type = '超凡大师';
+                            } else if (data.Data[i].Type == "2") {
+                                data.Data[i].Type = '璀璨钻石';
+                            } else if (data.Data[i].Type == "3") {
+                                data.Data[i].Type = '华贵铂金';
+                            } else if (data.Data[i].Type == "4") {
+                                data.Data[i].Type = '荣耀黄金';
+                            } else if (data.Data[i].Type == "5") {
+                                data.Data[i].Type = '不屈白银';
+                            } else if (data.Data[i].Type == "6") {
+                                data.Data[i].Type = '英勇黄铜';
+                            }
+                            if (data.Data[i].PassCheck == data.Data[i].Progress) {
+                                state = '已完成';
+                            } else {
+                                state = '未完成';
+                            }
+                            str = '<tr><td>' + data.Data[i].GameName + '</td><td>' + data.Data[i].Type + '</td><td>' + data.Data[i].SystemName + '</td><td>' + data.Data[i].Coins + ' 爽币</td><td>' + data.Data[i].PassCheck + '/' + data.Data[i].Progress + '</td><td>' + state + '</td><td><a href="/Home/DemoDetails_personal?id=' + data.Data[i].GameDemoId + '&accountid=' + data.Data[i].AccountId + '&uname=' + data.Data[i].Account + '&systemname=' + data.Data[i].SystemName + '&url=' + data.Data[i].Url + '&pa=' + data.Data[i].Pwd + '" target="_blank" style="color: #7bab14;">查看</a></td><td>账号：' + data.Data[i].Account + '<br>密码：' + data.Data[i].Pwd + '</td><td><a href="' + data.Data[i].Url + '" target="_blank"><button class="btn">开始游戏</button></a></td></tr>';
+                            tbody.append(str);
+                        }
+                        table.append(tbody);
+                        div.append(table);
+                        div.append('<div class="page"><ul id="paginator">' + data.NavStr + '</ul></div>');
+                        $('.mydemo').append(div);
+                    }
+                }
+            })
+        }
+    })
+    </script>
+</body>
+</html>

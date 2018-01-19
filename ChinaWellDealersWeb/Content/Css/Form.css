@@ -1,0 +1,17 @@
+﻿
+.inputtext { outline: none; border: 1px solid #C6C6C6; color: #ABABAB; border-radius: 5px; background-color: #F9F9F9; }
+    .inputtext:focus { border: 1px solid #90C41F; background-color: #FFF; text-align:left}
+
+.btn { width: 362px; height: 40px; line-height: 40px; color: #FFF; text-align: center; font-size: 16px; border-radius: 5px; cursor: pointer; background-color: #90C41F; font-family: 'Microsoft YaHei'; }
+.btn:hover { background-color: #7BAB14; }
+.allalt {
+    width: 600px;
+    margin: 0 auto;
+    height: 100px !important;
+    text-align: center;
+    line-height: 100px;
+    border: 2px solid #91C41F;
+    border-radius: 3px;
+    font-size: 18px;
+    font-family: 'Microsoft YaHei';
+}

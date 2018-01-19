@@ -1,0 +1,367 @@
+﻿@{
+    Layout = null;
+    List<Models.Enum.GameViewModel> GameRelatedNews = (List<Models.Enum.GameViewModel>)ViewBag.GameRelatedNews;
+    List<Sql_CpyModel> cpyGame = (List<Sql_CpyModel>)ViewBag.CpyGame;
+}
+@model Models.Game
+@using Models.MapModel
+@using Models.SqlMapModel
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>@Model.Name 攻略_@Model.Name 礼包_@Model.Name 开服表_爽赞网</title>
+    <meta name="keywords" content="@Model.Name 资料，@Model.Name 攻略，@Model.Name 礼包，@Model.Name 开服表，@Model.Name 截图，爽赞网">
+    <meta name="description" content="爽赞网 @Model.Name 官网为玩家提供最全 @Model.Name 资料，@Model.Name 攻略，@Model.Name 礼包，@Model.Name 开服表，@Model.Name 截图"> 
+    <link href="~/Content/Css/index.css" rel="stylesheet" />
+    <link href="~/Content/Css/reset.css" rel="stylesheet" />
+    <link href="~/Content/Css/amoywel.css" rel="stylesheet" />
+    <link href="~/Content/Css/Public.css" rel="stylesheet" />
+    <link href="~/Content/Css/lunbo.css" rel="stylesheet" />
+    <link href="~/Content/Css/commercial.css" rel="stylesheet" />
+    <link href="~/Content/Css/usename.css" rel="stylesheet" />
+    <link href="~/Content/Css/findgame.css" rel="stylesheet" />
+    <link href="~/Content/style/NavPager.css" rel="stylesheet" />
+    <link href="~/Content/Css/jcarousel.connected-carousels.css" rel="stylesheet" />
+    <link href="/Content/Img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+</head>
+<body>
+    <!-- 顶部导航 -->
+    @Html.Action("_TwoShuangzanHeader", "Home")
+    @Html.Action("ShuangzanHeader", "NewsInfo")
+    <!-- 面包屑导航 -->
+    <div class="wide details">当前位置：<a href="/Home/Index">爽赞网</a> > <a href="/Game/GameIndex">页游大全</a> > <a href="/Game/GameDetail/@Model.Id">@Model.Name</a></div>
+    <div class="container wide" style="margin: 0 auto;">
+        <div class="gameArea">
+            <div class="gameArea1">
+                <!-- 游戏图 -->
+                <div class="lf">
+                    <img src="/Content/GameImg/@Model.BigImg" alt="九仙图" />
+                </div>
+                <!-- 游戏详情内容 -->
+                <div class="rf">
+                    <i class="stri"></i>
+                    <h1>@Model.Name<span>（@Model.Alias）</span></h1>
+                    <p>
+                        @if (Model.Type == "1")
+                        {
+                            <span>类型：<i>角色扮演</i></span>
+                        }
+                        else if (Model.Type == "2")
+                        {
+                            <span>类型：<i>战争策略</i></span>
+                        }
+                        else if (Model.Type == "3")
+                        {
+                            <span>类型：<i>模拟经营</i></span>
+                        }
+                        else if (Model.Type == "4")
+                        {
+                            <span>类型：<i>休闲竞技</i></span>
+                        }
+                        else if (Model.Type == "5")
+                        {
+                            <span>类型：<i>社区养成</i></span>
+                        }
+                        else if (Model.Type == "6")
+                        {
+                            <span>类型：<i>儿童游戏</i></span>
+                        }
+                        @if (Model.Theme == "1")
+                        {
+                            <span>题材：<i>三国</i></span>
+                        }
+                        else if (Model.Theme == "2")
+                        {
+                            <span>题材：<i>西游</i></span>
+                        }
+                        else if (Model.Theme == "3")
+                        {
+                            <span>题材：<i>仙侠</i></span>
+                        }
+                        else if (Model.Theme == "4")
+                        {
+                            <span>题材：<i>武侠</i></span>
+                        }
+                        else if (Model.Theme == "5")
+                        {
+                            <span>题材：<i>奇幻</i></span>
+                        }
+                        else if (Model.Theme == "6")
+                        {
+                            <span>题材：<i>仙侠</i></span>
+                        }
+                        else if (Model.Theme == "7")
+                        {
+                            <span>题材：<i>军事</i></span>
+                        }
+                        else if (Model.Theme == "8")
+                        {
+                            <span>题材：<i>体育</i></span>
+                        }
+                        else if (Model.Theme == "9")
+                        {
+                            <span>题材：<i>航海</i></span>
+                        }
+                        else if (Model.Theme == "10")
+                        {
+                            <span>题材：<i>其他</i></span>
+                        }
+                        @if (Model.Play == "1")
+                        {
+                            <span class="ga11">玩法：<i>即时</i></span>
+                        }
+                        else if (Model.Play == "2")
+                        {
+                            <span class="ga11">玩法：<i>回合</i></span>
+                        }
+                        else if (Model.Play == "3")
+                        {
+                            <span class="ga11">玩法：<i>其他</i></span>
+                        }
+                        <span>研发：<i>@Model.Company</i></span>
+                        <span>主运：<i>@Model.Operator</i></span>
+                    </p>
+                    <div class="intrco">
+                        <p class="intr">@Html.Raw(Model.Msg)</p>
+                    </div>
+                    <a class="sh display">展开&or;</a><a class="hi display">收起&and;</a>
+                    <a href="@Model.Url" class="stargame" target="_blank" rel="nofollow"><button><strong>开始游戏</strong>&emsp;<img src="/Content/Img/array.png" alt=""></button></a>
+                    <kbd class="praise rf">
+                        @if (Model.LikeNum == null)
+                        {
+                            <var name="@Model.Id">0</var>
+                        }
+                        else
+                        {
+                            <var name="@Model.Id">@Model.LikeNum</var>
+                        }                       
+                        <a><img src="/Content/Img/heart.png" alt="">&thinsp;我要点赞</a>
+                    </kbd>
+                </div>
+            </div>
+            <div class="gameArea2">
+                <div class="gameArea2-1 lf">
+                </div>
+                <div class="gameArea2-2 lf">
+                    <!-- 最新资讯列表 -->
+                    <ul id="ulzx">
+                        <a href="@Url.Action("NewsSearchResult", "NewsInfo", new {key=Model.Name })" class="sun-more more1" target="_blank">更多 + </a>
+                        <a href="@Url.Action("RaidersSearch", "Raiders", new { key = Model.Name })" class="sun-more more2" target="_blank">更多 + </a>                   
+                       
+                            @foreach (var item in GameRelatedNews)
+                            {
+                                if (item.EdItTitle != null && item.EdItTitle != "")
+                                {
+                                    <li><i></i><a href="@Url.Action("NewsDetail", "NewsInfo", new { id = item.Id })" target="_blank">@item.EdItTitle</a><span class="gameul_time">@item.InTime.Value.ToString("yyyy-MM-dd")</span></li>
+                                }
+                                else
+                                {
+                                    <li><i></i><a href="@Url.Action("NewsDetail", "NewsInfo", new { id = item.Id })" target="_blank">@item.Title</a><span class="gameul_time">@item.InTime.Value.ToString("yyyy-MM-dd")</span></li>
+                                }
+                            }
+                            <img src='/Content/Img/sun-zxts.png' style='margin-top: 42px;'>
+                        
+
+                    </ul>
+                    <!-- 热门攻略列表 -->
+                    <ul id="ulgl">
+                        @if (ViewBag.GameRelatedRaiders.Count!=0)
+                        {
+                            foreach (var item in (List<Models.MapModel.UserRaidersViewModel>)ViewBag.GameRelatedRaiders)
+                            {
+                                if (item.EditTitle!=""&&item.EditTitle!=null)
+                                {
+                                    <li><i></i><a href="/Raiders/RaidersDetail/@item.Id" target="_blank">@item.EditTitle</a><span class="gameul_time">@item.InTime.Value.ToString("yyyy-MM-dd")</span></li> 
+                                }
+                                else { 
+                                <li><i></i><a href="/Raiders/RaidersDetail/@item.Id" target="_blank">@item.Title</a><span class="gameul_time">@item.InTime.Value.ToString("yyyy-MM-dd")</span></li> 
+                                }                        
+                            }
+                        }
+                        else { 
+                         <img src="/Content/Img/sun-glts.png" style="margin-top: 42px;">
+                        }                                            
+                    </ul>
+                </div>
+                <!-- 开服 -->
+                <div class="gameArea2-3 lf">
+                    <!-- <p class="newkf"><a>开服</a></p> -->
+                    <a href="/OPenServices/ServiceSearch?key=@Model.Name" class="sun-more1" target="_blank"><img src="/Content/Img/sun-more1.png" alt=""></a>
+                    <ul id="newkf">
+                        <img src='/Content/Img/sun-kfts.png' style="margin-left: 60px;">
+                       @foreach (var item in (List<Models.MapModel.ServiceViewModel>)ViewBag.GameRelatedService)
+                       {
+                           if (item.Type=="2")
+                           {
+                             <li><span class="sun-time">@item.StartTime.Value.ToString("HH:mm")</span><span class="sun-name">@item.SystemName</span><a href="@item.Url" target="_blank" rel="nofollow">开始游戏</a></li>   
+                           }
+                           else if (item.Type=="1")
+                           {
+                              <li><span class="sun-time">@item.StartTime.Value.ToString("HH:mm")</span><span class="sun-name">@item.SystemName</span><a href="@item.Url" target="_blank" rel="nofollow">开始游戏</a></li>     
+                           }                         
+                       }                                           
+                    </ul>
+                </div>
+                <div class="gameArea3 lf">                 
+                    <div class="gate lf">                     
+                        <ul id="area3pack">                          
+                              <img src="/Content/Img/sun-lbts.png" alt="" style="margin-top: 0px; margin-left: 60px;">                           
+                                @foreach (var item in (List<Models.Package_Card>)ViewData["GameRelatedPackage"])
+                                {
+                                   <li><a href="/Package/PackageDetails/@item.Id" target="_blank" title="@item.SystemName @item.GameName @item.GiftName ">@item.SystemName @item.GameName @item.GiftName</a></li>  
+                                }                                                                                                         
+                        </ul>
+                        <a href="/Package/PackageSearch?packageName=@Model.Name" class="sun-more2"><img src="/Content/Img/sun-more1.png" alt=""></a>
+                    </div>
+                    <div class="rf">                    
+                    </div>
+                    <!-- 福利 -->
+                    <div class="szflco">
+                        @if (ViewBag.GameRelatedDemo.Count ==0)
+                        {
+                            <div>
+                                <img src="/Content/GameImg/@Model.DescImg" alt="" />
+                                <p>@Model.Name</p>
+                            </div>
+                                <p>奖励正在路上~</p>
+                            <a><input type="button" value="立即试玩"></a>
+                        }
+                        else { 
+                            foreach (var item in (List<Models.SqlMapModel.Sql_GameModel>)ViewBag.GameRelatedDemo)
+                        {
+                        <div>
+                        @if (item.Img != "" && item.Img != null)
+                        {
+                            <img src="/Content/GameImg/@item.Img" alt="" />
+                        }                     
+                        <p>@item.GameName</p>
+                        </div>
+                         if (item.PaySum != null)
+                          {
+                                <p>奖励 <span class="paysum">@item.PaySum</span> 爽币</p>
+                          }
+                        <a href="/Home/DemoDetails/@item.Id" target="_blank"><input class="hasbtn" type="button" value="立即试玩"></a>
+                        }
+                        }
+                                       
+                    </div>                  
+                    <div>
+                        <ul class="lyptco">
+                            <img src='/Content/Img/sun-lypt.png' style='margin-top: 0px; margin-left:60px;'>
+                            @for (int i = 0; i < cpyGame.Count; i++)
+                            {
+                           <li><a class="sun-aaa" href="@cpyGame[i].Url" target="_blank" rel="nofollow">@cpyGame[i].Systemname</a></li>
+                            }
+                            
+                           
+                        </ul>
+                        <div class="lyptcomore display">
+                            <ul class="ptmore">
+                                <p>全部联运平台<a class="ptcel"></a></p>
+                            </ul>
+                        </div>
+                        <a class="sun-more3 mora" target="_blank"><img src="/Content/Img/sun-more2.png" alt=""></a>
+                    </div>
+                </div>
+                <!-- 游戏截图 -->
+                <div class="gameArea4">
+                    <div class="lf">                       
+                    </div>
+                    <div class="yxjtco">
+                        <div class="screenShots">
+                            <div class="hd display">
+                                <a class="next"></a>
+                                <a class="prev"></a>
+                            </div>
+                            <div class="bd">
+                                <ul class="picList">
+                                    @foreach (var item in (List<Models.Game>)ViewBag.GameCutImg)
+                                    {
+                                        <li><div class="pic"><img src="/Content/GameImg/@item.CutImg" /></div></li>  
+                                    }                                                                   
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 相关推荐 -->
+                    <div class="xgtjsco">
+                        <ul id="xgtjsco">
+                            @foreach (var item in (List<Models.Game>)ViewBag.GameRelatedType)
+                            {
+                               <li><a href="/Game/GameDetail/@item.Id" ><img src="/Content/GameImg/@item.SmallImg" alt="@item.Name"><p>@item.Name</p></a></li>     
+                            }                                                   
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 游戏截图点击弹窗 -->
+    <div class="picbigsow display">
+        <div class="wrapper">
+            <p style="line-height:40px;border-bottom:2px solid #e5e5e5;font-size:16px;color:#fff;background:#808080;padding-left:10px;">游戏截图欣赏<a class="picshowcel"></a></p>
+            <div class="connected-carousels">
+                <div class="navigation">
+                    <a href="#" class="prev prev-navigation">&lsaquo;</a>
+                    <a href="#" class="next next-navigation">&rsaquo;</a>
+                    <div class="carousel carousel-navigation">
+                        <ul id="spicshow">
+                                @foreach (var item in (List<Models.Game>)ViewBag.GameCutImg)
+                                {
+                            <li><img src="/Content/GameImg/@item.CutImg" width="50" height="50" alt=""></li>
+                                }                          
+                        </ul>
+                    </div>
+                </div>
+                <div class="stage">
+                    <div class="carousel carousel-stage bigpic">
+                        <ul id="bpicshow">
+                            @foreach (var item in (List<Models.Game>)ViewBag.GameCutImg)
+                            {
+                                <li><img src="/Content/GameImg/@item.CutImg" alt=""></li>
+                            }                                                     
+                        </ul>
+                    </div>
+                    <a href="#" class="prev prev-stage"><span>&lsaquo;</span></a>
+                    <a href="#" class="next next-stage"><span>&rsaquo;</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--底部热门游戏及热门厂商-->
+    @Html.Partial("_HotGame")
+    <!-- 底部 -->
+    @Html.Partial("_ShuangZanFooter")
+    <script src="~/Content/js/jquery-1.11.1.min.js"></script>
+    <script src="~/Content/js/jquery.SuperSlide.2.1.1.js"></script>
+    <script src="~/Content/js/personal_use.js"></script>
+    <script src="~/Content/js/Public.js"></script>
+    <script src="~/Content/js/jquery.jcarousel.min.js"></script>
+    <script src="~/Content/js/SuperSlide.connected-slides.js"></script>
+    <script src="~/Content/js/findgame.js"></script>
+    <script type="text/javascript">
+        //点赞
+        $('.praise a').click(function () {
+            var num = parseInt($(this).parent().find('var').text()) || 0;
+            var id = $(this).parents('.rf').find('h1').attr('name');
+            var _this = this;
+            $.ajax({
+                type: 'post',
+                url: '/Game/GameLikePlusOne',
+                data: {
+                    id: '@Model.Id'
+                },
+                success: function (data) {
+                    if (data == 'ok') {
+                        $(_this).prev().text(parseInt(num + 1));
+                    } else if (data == "no") {
+                        alert("系统繁忙，请稍候再试！")
+                    } else {
+                        alert("该游戏库里不存在！")
+                    }
+                }
+            })
+        })
+    </script>
+</body>
+</html>
