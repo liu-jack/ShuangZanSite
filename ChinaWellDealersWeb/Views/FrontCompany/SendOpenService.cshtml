@@ -143,7 +143,8 @@
                     month = 1;
                     year = year + 1;
                 } else {
-                    month = month + 1;
+                    month = d.getMonth() + 2;
+                    month = month < 10 ? '0' + month : month;
                 }
             }
             $("#startday").val(year + '-' + month + '-' + date);

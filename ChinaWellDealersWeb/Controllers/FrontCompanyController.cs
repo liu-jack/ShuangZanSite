@@ -264,8 +264,7 @@ namespace ShuangZan.Web.Controllers
                        join s in service on ru.OpenServiceId equals s.Id
                        where r.CompanyId == s.CompanyId && r.CompanyId == currentCpy.Id
                        //intime  消费日期    buytime购买日期, BuyTime = r.InTime 
-                       select new { InTime = ru.InTime, Id = s.Id, GameName = s.GameName, ServerName = s.ServerName, StartTime = s.StartTime, BuyTime = r.InTime ,Rec_hot=s.Rec_Hot};
-            var total = data.Count();
+                       select new { InTime = ru.InTime, Id = s.Id, GameName = s.GameName, ServerName = s.ServerName, StartTime = s.StartTime, BuyTime = r.InTime ,Rec_hot=s.Rec_Hot};      
             if (!string.IsNullOrEmpty(gameName))
             {
                 data = data.Where(d => d.GameName.Contains(gameName));
@@ -278,7 +277,7 @@ namespace ShuangZan.Web.Controllers
             }
             var rows = data.OrderByDescending(d => d.InTime)            
                        .Skip(offset).Take(limit).ToList();
-            return Json(new { total = total, rows = rows }, JsonRequestBehavior.AllowGet);
+            return Json(new { total = data.Count(), rows = rows }, JsonRequestBehavior.AllowGet);
         }
         #endregion
         #region 厂商充值记录
