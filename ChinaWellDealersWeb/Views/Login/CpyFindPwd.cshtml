@@ -181,32 +181,148 @@
                     margin-right: 10px;
                 }
 
-            .zhmm02 div {
-                text-align: center;
-            }
-
-            .zhmm02 .emsg {
-                font-size: 18px;
-                color: #646464;
-                line-height: 30px;
-                margin-top: 20px;
-                margin-bottom: 106px;
-            }
-
-                .zhmm02 .emsg span {
-                    font-size: 18px;
-                    color: #646464;
-                    line-height: 30px;
-                    margin-top: 20px;
-                    margin-bottom: 106px;
-                }
-
-        .zhmm01 .emailerr {
-            font-family: "宋体";
-            font-size: 12px;
-            margin-left: 10px;
-            color: #f43838;
+        .zhmm02{
+            font-size:14px;
         }
+            .zhmm02 input {
+                background: #fafafa;
+                border: 1px solid #e5e5e5;
+                height:40px;
+                box-sizing:border-box;
+                padding-left:10px;
+            }
+            .zhmm02 input:focus {
+                background: #fff;
+                border: 1px solid #90C41F;
+            }
+            .zhmm02 > div {
+                margin-bottom:50px;
+            }
+             .zhmm02 > div > p {
+                width: 360px;
+                margin: 20px auto 0 auto;
+                position:relative;
+            } 
+            .zhmm02.step2 .now_pone_cont {
+                display: inline-block;
+                width: 360px;
+                height: 40px;
+                line-height: 40px;
+            }
+            .zhmm02.step2 .now_pone {
+                line-height: 40px;
+                font-style:normal;
+            }
+            .zhmm02.step2 .ponecode {
+                width:250px;
+                height:40px;
+            }
+            .zhmm02.step2 .qq_cont {
+                position: absolute;
+                display: inline-block;
+                width: 205px;
+                right: -210px;
+            }
+            .zhmm02.step2 .qq_cont>a {
+                text-decoration:none;
+                color:#f43838;
+            }
+            .zhmm02.step2 .ponecode_btn {
+                display: inline-block;
+                width: 100px;
+                height: 40px;
+                line-height: 40px;
+                margin-left:10px;
+                border-radius:4px;
+                background-color:#666;
+                color:#fff;
+                cursor:pointer;
+                text-align:center;
+                float:right;
+            }
+            .zhmm02.step2 #pwdnext2 {
+                width: 360px;
+                height: 40px;
+                background-color:#90C41F;
+                border:none;
+                color:#fff;
+                cursor:pointer;
+                font-size:16px;
+            }
+            .zhmm02.step3 #pwdnext3 {
+                width: 360px;
+                height: 40px;
+                background-color: #90C41F;
+                border: none;
+                margin-top: 20px;
+                color: #fff;
+                cursor: pointer;
+                font-size:16px;
+            }
+            .zhmm02.step3 .t1 {
+                display:inline-block;
+                width: 100px;
+                height: 40px;
+                line-height:40px;
+                position:absolute;
+                left:-110px;
+                text-align:right;
+            }
+            .zhmm02.step3 .emailerr {
+                display: inline-block;
+                position:absolute;
+                right:-210px;
+                color:#b3b3b3;
+                font-size:12px;
+                line-height:40px;
+                width:205px;
+                height:40px;
+            }
+            .zhmm02.step3 .emailerr.err {
+                color: red;
+                background-image: url(/Content/Img/109.gif);
+                background-repeat: no-repeat;
+                background-position: left center;
+                text-indent:20px;
+            }
+            .zhmm02.step3 .emailerr.ok {
+                background: url(/Content/Img/111.gif) left center no-repeat;
+            }
+            .zhmm02.step3 .new_pwd {
+                width:360px;
+            }
+            .zhmm02.step3 .new_pwd_check {
+                width: 360px;
+            }
+            .zhmm02.step4 .emsg {
+                text-align:center;
+                font-size:18px;
+                color:#999;
+                font-weight:bold;
+            }
+            .zhmm02.step4 .login {
+                display:block;
+                margin:20px auto 0 auto;
+                width:360px;
+                height:40px;
+                line-height:40px;
+                border-radius:4px;
+                background-color:#90C41F;
+                color:#fff;
+                text-decoration:none;
+                text-align:center;
+                font-size:16px;
+            }
+            .zhmm02.step4 .login:hover {
+                background-color: #90C41F;
+                color: #fff;
+            }
+             .zhmm01 .emailerr {
+                font-family: "宋体";
+                font-size: 12px;
+                margin-left: 10px;
+                color: #f43838;
+            }
 
             .zhmm01 .emailerr s {
                 display: inline-block;
@@ -216,6 +332,9 @@
                 vertical-align: middle;
                 margin-right: 4px;
             }
+        .zhmm02.step2, .zhmm02.step3, .zhmm02.step4{
+            display:none;
+        }
     </style>
 </head>
 <body>
@@ -223,18 +342,34 @@
         <div class="tittop"><img src="/Content/Img/Logo.png" alt="" />爽赞通行证<span><b>已有账号，<a href="/Login/LoginCompany">马上登录</a></b><a href="/Home/Index">爽赞首页</a></span></div>
         <div class="zhmm01">
             <p class="top01">
-                <b>找回密码</b>输入你的用户名/Email，服务器将把找回的密码发到你的邮箱。
+                <b>找回密码</b>输入你的用户名/Email。
             </p>
             <div>
                 <p><span class="t1"></span><input type="text" placeholder="请输入您注册时填写的用户名/Email" class="zcsj" /><i class="emailerr"></i></p>
                 <p><span class="t1"></span><input type="button" id="pwdnext" value="下一步，安全验证" /></p>
             </div>
         </div>
-        <div class="zhmm02" style="display: none;">
-            <p class="top02"><b>找回密码</b>输入你的用户名/Email，服务器将把找回的密码发到你的邮箱。</p>
+        <div class="zhmm02 step2">
+            <p class="top02"><b>找回密码</b></p>
             <div>
-                <p><img src="/Content/Img/Email.png" alt="" /></p>
-                <p class="emsg">我们已向您的注册邮箱<span></span>发送了<br />一封密码通知邮件，请您注意接收邮件</p>
+                <p><span class="now_pone_cont">您当前绑定的手机号码：<i class="now_pone"></i></span></p>
+                <p><input type="text" class="ponecode" /><span class="ponecode_btn">获取验证码</span><span class="qq_cont">如果无法正常接收短信，请联系客服QQ：<a class="qq" href="tencent://message/?uin=2885630190&amp;Site=爽赞游戏网&amp;Menu=yes">2885630190</a></span></p>
+                <p><input type="button" id="pwdnext2" value="下一步，重置密码" /></p>
+            </div>
+        </div>
+        <div class="zhmm02 step3">
+            <p class="top02"><b>找回密码</b></p>
+            <div>
+                <p><span class="t1">新密码：</span><input type="password"  class="new_pwd" /><i class="emailerr">6-16个字符，有数字+字母或字符组成</i></p>
+                <p><span class="t1">确认新密码：</span><input type="password"  class="new_pwd_check" /><i class="emailerr"></i></p>
+                <p><input type="button" id="pwdnext3" value="提交" /></p>
+            </div>
+        </div>
+        <div class="zhmm02 step4">
+            <p class="top02"><b>找回密码</b></p>
+            <div>
+                <p class="emsg">密码修改成功，请重新登录</p>
+                <a class="login" href="/Login/LoginCompany">立即登录</a>
             </div>
         </div>
     </div>
@@ -253,21 +388,92 @@
                         email: email
                     },
                     success: function (data) {
-                        //var p = data;
-                        //console.log(p)
-                        if (data== "no") {
+                      
+                        if (data.Success==false) {
                             $(".emailerr").html("<s></s>请输入正确的邮箱/用户名")
-                        } else {
-                            var t1 = email.slice(0, 3);
-                            var t2 = email.slice(-11);
+                        } else {                           
+                            var t1 = data.Tel.slice(0, 3);
+                            var t2 = data.Tel.slice(-4);
                             console.log(t1, t2);
-                            $(".emsg span").html(t1 + "****" + t2);
+                            $(".now_pone").html(t1 + "****" + t2);
+                            $(".now_pone").attr('currentId', data.Id);
+                            $(".now_pone").attr('phone', data.Tel);
                             $(".zhmm01").hide();
-                            $(".zhmm02").show();
+                            $(".zhmm02.step2").show();
                         }
                     },
                 });
             }
+        })
+        $(".ponecode_btn").click(function () {
+            $.ajax({
+                type: "Post",
+                url: "/Login/GetVCode",
+                data: {
+                    mobile: $(".now_pone").attr('phone')
+                },
+                success: function (data) {
+                    var msgData = data.split(',');
+                    if (msgData[0] == "ok") {
+                        $(".ponecode_btn").text('30分钟有效')
+                    } else {
+                        alert(msgData[1]);
+                    }
+                },
+            });
+        })
+        $("#pwdnext2").click(function () {
+            $.ajax({
+                type: "Post",
+                url: "/Login/CheckMobileCode",
+                data: {
+                    code: $(".ponecode").val(),
+                    mobile: $(".now_pone").attr('phone'),
+                },
+                success: function (data) {
+                    if (data == "ok") {
+                        $(".zhmm02.step2").hide();
+                        $(".zhmm02.step3").show();
+                    } else {
+                        alert('验证码错误');
+                    }
+                },
+            });
+        })
+        $('.new_pwd').blur(function () {
+            if ($('.new_pwd').val().length <6) {
+                $(this).next().removeClass('ok').addClass("err").html("密码长度小于6位数");
+            } else {
+                $(this).next().removeClass('err').addClass("ok").text('');
+            }
+        })
+        $('.new_pwd_check').blur(function () {
+            if ($('.new_pwd').val() != $('.new_pwd_check').val()) {
+                $(this).next().removeClass('ok').addClass("err").html("两次输入的密码不一致");
+            } else {
+                $(this).next().removeClass('err').addClass("ok").text('');
+            }
+        })
+        $("#pwdnext3").click(function () {
+            $.ajax({
+                type: "Post",
+                url: "/Login/ResetCpyPwd",
+                data: {
+                    newPwd: $(".new_pwd").val(),
+                    id: $(".now_pone").attr('currentId'),
+                },
+                success: function (data) {
+                    var msgData = data.split(',');
+                    if (msgData[0] == "ok") {
+                        $(".zhmm02.step3").hide();
+                        $(".zhmm02.step4").show();
+                    } else if (msgData[0] == "no") {
+                        alert(msgData[1])
+                    } else{
+                        alert(msgData[1]);
+                    }
+                },
+            });
         })
      });
     </script>

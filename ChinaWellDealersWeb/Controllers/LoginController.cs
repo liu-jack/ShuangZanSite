@@ -25,11 +25,11 @@ namespace ShuangZan.Web.Controllers
         public ICompanyBll CompanyBll { get; set; }
         public IUserInfoBll UserInfoBll { get; set; }
         public IPersonalUserBll PersonalUserBll { get; set; }
-        public IVerificationCodeBll VerificationCodeBll{ get; set; }
+        public IVerificationCodeBll VerificationCodeBll { get; set; }
         public ILeaveMsgBll LeaveMsgBll { get; set; }
         public IOrderBll OrderBll { get; set; }
-        public IFeedbackBll FeedbackBll{ get; set; }
-        #region 管理员后台登录    
+        public IFeedbackBll FeedbackBll { get; set; }
+        #region 管理员后台登录
         public ActionResult Index()
         {
             string returnUrl = Request.Params["returnurl"];
@@ -55,13 +55,13 @@ namespace ShuangZan.Web.Controllers
             string userName = Request["LoginCode"];
             string userPwd = Request["LoginPwd"];
             string pwd = Md5Helper.GetMd5(userPwd);
-            if (userName==""||userPwd=="")
+            if (userName == "" || userPwd == "")
             {
                 return Content("no:用户名或密码不能为空！");
             }
             else
-            {               
-                var users = UserInfoBll.LoadEntities(u => u.UName == userName && u.Pwd == pwd&&u.State=="1"&&u.DelFlag==0).FirstOrDefault();
+            {
+                var users = UserInfoBll.LoadEntities(u => u.UName == userName && u.Pwd == pwd && u.State == "1" && u.DelFlag == 0).FirstOrDefault();
                 if (users != null)
                 {
                     //  --------------------- 用户memcached模拟Session-----------------------------
@@ -72,10 +72,11 @@ namespace ShuangZan.Web.Controllers
                     Response.Cookies["mySessionId"].Value = guid.ToString();
                     users.Last_login_Time = DateTime.Now;
                     users.Login_Num = users.Login_Num + 1;
-                    UserInfoBll.Update(users);                  
+                    UserInfoBll.Update(users);
                     return Content("ok:登录成功！");
                 }
-                else {
+                else
+                {
                     return Content("fail:用户名或密码错误！");
                 }
             }
@@ -148,13 +149,13 @@ namespace ShuangZan.Web.Controllers
         #region 管理系统默认欢迎页面
         public ActionResult Welcome()
         {
-          ViewBag.todayAllLeaveMsg=LeaveMsgBll.LoadEntities(m => true).Where(m => DbFunctions.DiffDays(m.InTime, DateTime.Now) == 0).Count();
-          ViewBag.todayAllOrder = OrderBll.LoadEntities(r => true).Where(r => DbFunctions.DiffDays(r.InTime, DateTime.Now) == 0).Count();
-          ViewBag.todayYj = FeedbackBll.LoadEntities(f => true).Where(f => DbFunctions.DiffDays(f.InTime, DateTime.Now) == 0).Count();
-      
-         ViewBag.total=HttpContext.Application["total"];
-         ViewBag.onLine = HttpContext.Application["onLine"];
-            
+            ViewBag.todayAllLeaveMsg = LeaveMsgBll.LoadEntities(m => true).Where(m => DbFunctions.DiffDays(m.InTime, DateTime.Now) == 0).Count();
+            ViewBag.todayAllOrder = OrderBll.LoadEntities(r => true).Where(r => DbFunctions.DiffDays(r.InTime, DateTime.Now) == 0).Count();
+            ViewBag.todayYj = FeedbackBll.LoadEntities(f => true).Where(f => DbFunctions.DiffDays(f.InTime, DateTime.Now) == 0).Count();
+
+            ViewBag.total = HttpContext.Application["total"];
+            ViewBag.onLine = HttpContext.Application["onLine"];
+
             return View();
         }
         #endregion
@@ -185,18 +186,19 @@ namespace ShuangZan.Web.Controllers
                         //cookie.Expires = DateTime.Now.AddYears(1);
                         //cookie.Value = uName;
                         //System.Web.HttpContext.Current.Response.Cookies.Add(cookie); 
-                        #endregion                     
+                        #endregion
                         Common.CacheHelper.WriteCache(guid.ToString(), cpyUser, DateTime.Now.AddDays(365));
                         //把guid写到cookies里面去
                         Response.Cookies["cpyUserId"].Value = guid.ToString();
                         return Content("ok:登录成功！");
                     }
-                    else {
+                    else
+                    {
                         Common.CacheHelper.WriteCache(guid.ToString(), cpyUser, DateTime.Now.AddMinutes(50));
                         //把guid写到cookies里面去
                         Response.Cookies["cpyUserId"].Value = guid.ToString();
                         return Content("ok:登录成功！");
-                    }                              
+                    }
                 }
                 else
                 {
@@ -209,7 +211,7 @@ namespace ShuangZan.Web.Controllers
             }
 
             #region MyRegion
-                      
+
             //if (check == "true")
             //{
             //    var cpyUser = CompanyBll.LoadEntities(c => c.UName == uName && c.Pwd == pwd).FirstOrDefault();
@@ -279,7 +281,7 @@ namespace ShuangZan.Web.Controllers
             string check = Request["check"];
             if (check == "true")
             {
-                var user = PersonalUserBll.LoadEntities(c => c.UName == uName||c.Mobile==uName&&c.Password == pwd).FirstOrDefault();
+                var user = PersonalUserBll.LoadEntities(c => c.UName == uName || c.Mobile == uName && c.Password == pwd).FirstOrDefault();
                 if (user != null)
                 {
                     if (user.State == 1)
@@ -335,7 +337,7 @@ namespace ShuangZan.Web.Controllers
                 }
             }
         }
-        #endregion   
+        #endregion
         #region 厂商注册
         public ActionResult RegCompany()
         {
@@ -380,7 +382,7 @@ namespace ShuangZan.Web.Controllers
 
                 throw new Exception("注册出错了！！" + dbex.Message);
             }
-        } 
+        }
         #endregion
         #region 厂商用户名验证
         public ActionResult CheckUName()
@@ -396,13 +398,13 @@ namespace ShuangZan.Web.Controllers
             var cpyEmail = CompanyBll.LoadEntities(c => c.Email == email);
             return Json(cpyEmail, JsonRequestBehavior.AllowGet);
         }
-        #endregion  
+        #endregion
         #region 获取手机验证码进行匹配
-        public ActionResult GetMobileVerifyCode(string mobile,string vcode)
+        public ActionResult GetMobileVerifyCode(string mobile, string vcode)
         {
-          
+
             #region 1.0版本获取验证码
-            string realIp="";
+            string realIp = "";
             string validatecode = Session["validateCode"] == null ? string.Empty : Session["validateCode"].ToString();
             if (string.IsNullOrEmpty(validatecode))
             {
@@ -410,16 +412,16 @@ namespace ShuangZan.Web.Controllers
             }
             Session["validateCode"] = null;
             if (!validatecode.Equals(vcode, StringComparison.CurrentCultureIgnoreCase))
-                 return Json(new{success="false",str="验证码输入不正确"},JsonRequestBehavior.AllowGet);             
+                return Json(new { success = "false", str = "验证码输入不正确" }, JsonRequestBehavior.AllowGet);
             if (mobile.Length != 11)
-                 return Json(new{success="false",str="手机号码长度不正确"},JsonRequestBehavior.AllowGet);             
-            if (mobile.ToString()==null)               
-             return Json(new{success="false",str="手机号码不正确"},JsonRequestBehavior.AllowGet);
-            Random  r=  new Random();
+                return Json(new { success = "false", str = "手机号码长度不正确" }, JsonRequestBehavior.AllowGet);
+            if (mobile.ToString() == null)
+                return Json(new { success = "false", str = "手机号码不正确" }, JsonRequestBehavior.AllowGet);
+            Random r = new Random();
             string code2 = r.Next(100000, 999999).ToString();
             //往数据库发送验证码，手机号
-           var code = PersonalUserBll.SendVCode(mobile, code2, realIp);           
-            if (code.OutCode!=null)
+            var code = PersonalUserBll.SendVCode(mobile, code2, realIp);
+            if (code.OutCode != null)
             {
                 try
                 {
@@ -431,33 +433,33 @@ namespace ShuangZan.Web.Controllers
                     req.SmsParam = "{\"code\":\"" + code.OutCode + "\",\"product\":\"爽赞游戏网(www.shuangzan.com)\"}";
                     req.RecNum = mobile;
                     req.SmsTemplateCode = "SMS_14720884"; //短信模板
-                  //  CS.Config.SaveErr(req.SmsParam);
+
                     AlibabaAliqinFcSmsNumSendResponse rsp = client.Execute(req);
-                   // CS.Config.SaveErr(rsp.Body);
-                    if (rsp.Result.Success)                   
-                        return Json(new{success="true",str="验证码发送成功"},JsonRequestBehavior.AllowGet);
+
+                    if (rsp.Result.Success)
+                        return Json(new { success = "true", str = "验证码发送成功" }, JsonRequestBehavior.AllowGet);
                     else
                     {
-                        //CS.Config.SaveErr(rsp.Body);
-                          return Json(new{success="true",str="验证码发送失败"},JsonRequestBehavior.AllowGet);                      
+
+                        return Json(new { success = "true", str = "验证码发送失败" }, JsonRequestBehavior.AllowGet);
                     }
                 }
-                catch (Exception e) 
+                catch (Exception e)
                 {
-                      return Json(new{success="false",str="短信发送失败，原因未知"+e.Message},JsonRequestBehavior.AllowGet);                     
+                    return Json(new { success = "false", str = "短信发送失败，原因未知" + e.Message }, JsonRequestBehavior.AllowGet);
                 }
             }
             else
-                return Json(new { success = "false", str = "您的验证码短信仍在30分钟有效期内" }, JsonRequestBehavior.AllowGet);  
-            
+                return Json(new { success = "false", str = "您的验证码短信仍在30分钟有效期内" }, JsonRequestBehavior.AllowGet);
+
             #endregion
         }
         #endregion
         #region 修改绑定手机
         public ActionResult GetCode(string mobile)
         {
-           
-             string realIp="";
+
+            string realIp = "";
             if (mobile.Length != 11)
                 return Json(new { success = "false", str = "手机号码长度不正确" }, JsonRequestBehavior.AllowGet);
             if (mobile.ToString() == null)
@@ -495,7 +497,7 @@ namespace ShuangZan.Web.Controllers
                 }
             }
             else
-                return Json(new { success = "false", str = "您的验证码短信仍在30分钟有效期内" }, JsonRequestBehavior.AllowGet);           
+                return Json(new { success = "false", str = "您的验证码短信仍在30分钟有效期内" }, JsonRequestBehavior.AllowGet);
         }
         #endregion
         #region 个人玩家注册
@@ -505,9 +507,9 @@ namespace ShuangZan.Web.Controllers
         }
         public ActionResult SignInPersonalUser(string uname, string pass, string mobile, string code)
         {
-            int tjid =int.Parse(Request["tjid"]);
-             var  data= PersonalUserBll.SignIn(uname, pass, mobile, code, tjid);
-             return Json(data, JsonRequestBehavior.AllowGet);                 
+            int tjid = int.Parse(Request["tjid"]);
+            var data = PersonalUserBll.SignIn(uname, pass, mobile, code, tjid);
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
         #endregion
         #region 验证码与手机号是否匹配
@@ -523,7 +525,7 @@ namespace ShuangZan.Web.Controllers
             {
                 return Content("no");
             }
-        } 
+        }
         #endregion
         #region 个人玩家找回密码
         public ActionResult FindUserPwd()
@@ -555,8 +557,8 @@ namespace ShuangZan.Web.Controllers
                 }
             }
             catch (Exception e) { return Json(new { success = "false", str = "短信发送失败，原因未知" + e.Message }, JsonRequestBehavior.AllowGet); }
-        } 
-        #endregion     
+        }
+        #endregion
         #region 厂商找回密码
         public ActionResult CpyFindPwd()
         {
@@ -564,48 +566,102 @@ namespace ShuangZan.Web.Controllers
         }
         public ActionResult FindPwd(string email)
         {
+           
             var cpy = CompanyBll.LoadEntities(c => email.Equals(c.Email) || email.Equals(c.UName)).FirstOrDefault();
-
-            if (CompanyGetPass(cpy))
+            if (cpy != null)
             {
-                return Content("ok");
+                return Json(new { Success = true, Tel = cpy.Moblie, Id = cpy.Id },JsonRequestBehavior.AllowGet);                         
             }
             else
             {
-                return Content("no");
+                return Json(new { Success =false, Msg="用户名或邮箱输入有误！" }, JsonRequestBehavior.AllowGet); 
+               
             }
         }
-        public bool CompanyGetPass(Company cpy)
-        {          
-                if (cpy == null)
-                    return false;
-                MailMessage mailMsg = new MailMessage();
-                mailMsg.From = new MailAddress("kf@shuangzan.com", "爽赞游戏网", Encoding.UTF8);//源邮件地址 
-                mailMsg.To.Add(new MailAddress(cpy.Email, cpy.UName, Encoding.UTF8));//目的邮件地址。可以有多个收件人
-                mailMsg.Subject = "【爽赞网】—会员找回密码通知 请注意查收！";//发送邮件的标题 
-                mailMsg.Body = "亲爱的爽赞会员您好：您的爽赞厂商自助系统登录密码为：" + cpy.Pwd + "。请点击以下链接，进行登录：http://www.shuangzan.com/Login/LoginCompany <br /> 如果以上链接不能点击，你可以复制网址URL, 然后粘贴到浏览器地址栏打开，完成登录。（这是一封自动发送的邮件，请不要直接回复）";
-                //指定Smtp服务地址。
-                SmtpClient client = new SmtpClient();
-                client.Host = "smtp.exmail.qq.com";
-                client.Port = 25;
-                client.EnableSsl = true;
-                client.UseDefaultCredentials = false;             
-                client.Credentials = new NetworkCredential("kf@shuangzan.com", "Nancy123456");              
+        public ActionResult GetVCode(string mobile)
+        {
+            Random r = new Random();
+            string code2 = r.Next(100000, 999999).ToString();         
+            var code = PersonalUserBll.SendVCode(mobile, code2, "");
+            if (code.OutCode != null)
+            {
                 try
-                {   
-                    client.Send(mailMsg);
-                }
-                catch (Exception ex)
                 {
-                  
-                    throw ex;
-                  
+                    ITopClient client = new DefaultTopClient("http://gw.api.taobao.com/router/rest", "23450194", "52b5a70bc10ba56ccfe6e50bdb9fa8d4");
+                    AlibabaAliqinFcSmsNumSendRequest req = new AlibabaAliqinFcSmsNumSendRequest();
+                    req.Extend = "";
+                    req.SmsType = "normal";
+                    req.SmsFreeSignName = "爽赞游戏网"; //签名,将来要改
+                    req.SmsParam = "{\"code\":\"" + code.OutCode + "\",\"product\":\"爽赞游戏网(www.shuangzan.com)\"}";
+                    req.RecNum = mobile;
+                    req.SmsTemplateCode = "SMS_14720884"; //短信模板
+                    AlibabaAliqinFcSmsNumSendResponse rsp = client.Execute(req);
+                    if (rsp.Result.Success)
+                        return Content("ok,验证码发送成功");
+                    else
+                    {
+                        return Content("no,验证码发送失败");
+                    }
                 }
-                finally { client.Dispose(); }
-                return true;             
-          
-           
-        }  
+                catch (Exception e)
+                {
+                    return Content("no,短信发送失败，原因为" + e.Message);
+                }
+            }
+            else
+            {
+                return Content("no,您的验证码短信仍在30分钟有效期内");
+            }                            
+        }
+        public ActionResult ResetCpyPwd(int id,string newPwd)
+        {
+
+           var cpy= CompanyBll.LoadEntities(c => c.Id == id).FirstOrDefault();
+           if (cpy != null)
+           {
+               cpy.Pwd = newPwd;
+               if (CompanyBll.Update(cpy))
+               {
+                   return Content("ok,密码重置成功！");
+               }
+               else {
+                   return Content("no,密码重置失败！");
+               }
+           }
+           else {
+               return Content("no,没有该用户相应的信息");
+           }
+        
+        }
+        #region 发送邮箱
+        //public bool CompanyGetPass(Company cpy)
+        //{          
+        //        if (cpy == null)
+        //            return false;
+        //        MailMessage mailMsg = new MailMessage();
+        //        mailMsg.From = new MailAddress("kf@shuangzan.com", "爽赞游戏网", Encoding.UTF8);//源邮件地址 
+        //        mailMsg.To.Add(new MailAddress(cpy.Email, cpy.UName, Encoding.UTF8));//目的邮件地址。可以有多个收件人
+        //        mailMsg.Subject = "【爽赞网】—会员找回密码通知 请注意查收！";//发送邮件的标题 
+        //        mailMsg.Body = "亲爱的爽赞会员您好：您的爽赞厂商自助系统登录密码为：" + cpy.Pwd + "。请点击以下链接，进行登录：http://www.shuangzan.com/Login/LoginCompany <br /> 如果以上链接不能点击，你可以复制网址URL, 然后粘贴到浏览器地址栏打开，完成登录。（这是一封自动发送的邮件，请不要直接回复）";
+        //        //指定Smtp服务地址。
+        //        SmtpClient client = new SmtpClient();
+        //        client.Host = "smtp.exmail.qq.com";
+        //        client.Port = 25;
+        //        client.EnableSsl = true;
+        //        client.UseDefaultCredentials = false;             
+        //        client.Credentials = new NetworkCredential("kf@shuangzan.com", "Nancy123456");              
+        //        try
+        //        {   
+        //            client.Send(mailMsg);
+        //        }
+        //        catch (Exception ex)
+        //        {                 
+        //            throw ex;                 
+        //        }
+        //        finally { client.Dispose(); }
+        //        return true;                        
+        //}   
+        #endregion
         #endregion
         #region 服务条款
         public ActionResult TermsService()
@@ -613,6 +669,6 @@ namespace ShuangZan.Web.Controllers
             return View();
         }
         #endregion
-      
+
     }
 }
