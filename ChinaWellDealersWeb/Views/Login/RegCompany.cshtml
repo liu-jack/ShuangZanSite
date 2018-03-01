@@ -100,7 +100,7 @@
                     <samp class="alt"></samp>
                 </div>
                 <div>
-                    <span>联系电话</span>
+                    <span>联系手机</span>
                     <input type="text" id="mobile" maxlength="11" class="inputtext" />
                     <samp class="alt">填写手机号</samp>
                 </div>
@@ -250,10 +250,19 @@
             });
         });
         $("#mobile").blur(function () {
-            $.check({
-                el: mobile, nothing: "请填写联系人电话",
-                min: { num: 11, alt: "联系人电话长度不正确" }
-            });
+            if ($("#mobile").val().trim() == "") {
+                $("#mobile").next().removeClass("errok").addClass("err").html('请输入手机号');
+                return;
+            } else if (!/(^1[3|4|5|7|8]\d{9}$)|(^09\d{8}$)/.test($("#mobile").val().trim())) {
+                $("#mobile").next().removeClass("errok").addClass("err").html('请输入正确的手机号码');
+                return;
+            } else {
+                $("#mobile").next().addClass("errok").html('');
+            }
+            //$.check({
+            //    el: mobile, nothing: "请填写联系人电话",
+            //    min: { num: 11, alt: "联系人电话长度不正确" }
+            //});
         });
         $("#qq").blur(function () {
             $.check({
