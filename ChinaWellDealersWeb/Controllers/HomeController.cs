@@ -86,8 +86,7 @@ namespace ShuangZan.Web.Controllers
             ViewData["recGame"] = HomePageBll.GetAllTypeHomePage("11", 11);
             ViewData["joinCpy"] = HomePageBll.GetAllTypeHomePage("12", 13);
             ViewData["SlideShow"] = HomePageBll.GetAllTypeHomePage("7", 10);
-            ViewData["FiveTopArea"] = HomePageBll.GetAllTypeHomePage("10", 5);
-
+            ViewData["TenTopArea"] = HomePageBll.GetAllTypeHomePage("10", 10);
             //网站首页所有新闻类型
             ViewData["allTypeNews"] = NewsBll.GetAllNewsIndex();
             //开测

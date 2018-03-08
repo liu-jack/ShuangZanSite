@@ -421,10 +421,23 @@
 .multipleLine{
 	margin-top: 10px;
 }
+.jdnewco .multipleLine ul li{
+	float:left;
+	display: block;
+	height: 30px;
+	line-height: 30px;
+    width:315px;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+}
 .multipleLine ul li{
 	display: block;
 	height: 30px;
-	line-height: 30px;;
+	line-height: 30px;
+}
+.jdnewco .multipleLine ul li:nth-child(2n+2){
+    margin-left:10px;
 }
 .multipleLine ul li:hover a{
 	color: #7bab14;

@@ -141,12 +141,11 @@
                         <div class="bd">
                             <div class="ulWrap">
                                 <ul>
-                                    @foreach (var item in (List<Models.HomePage>)ViewData["FiveTopArea"])
+                                    @foreach (var item in (List<Models.HomePage>)ViewData["TenTopArea"])
                                     {
                                         <li>
                                             <img src="/Content/Img/jx.png" alt="">
-                                            <a href="@item.Url" target="_blank">@item.Name</a>
-                                            <span>@item.InTime.ToString("yyyy-MM-dd")</span>
+                                            <a href="@item.Url" target="_blank">@item.Name</a>                                           
                                         </li>
                                     }
                                 </ul>
